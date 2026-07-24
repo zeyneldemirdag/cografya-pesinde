@@ -66,6 +66,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /nemrut: \[42\.23, 38\.65\]/);
   assert.match(page, /"nemrut-tour": \[38\.74, 37\.98\]/);
   assert.match(page, /const LABEL_OFFSETS/);
+  assert.match(page, /f\("nemrut", "Nemrut Dağı".*"volcano"\)/);
+  assert.match(page, /f\("cilo", "Cilo Dağları".*"mountain"/);
   assert.match(page, /geo-shape--distribution/);
   assert.match(page, /fp\("tea", "Çay · Rize".*\[53\]\)/);
   assert.match(page, /fp\("cattle", "Büyükbaş · Erzurum-Kars".*\[25, 36, 75\]\)/);

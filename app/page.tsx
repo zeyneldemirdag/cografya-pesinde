@@ -108,8 +108,20 @@ const QUIZZES: Quiz[] = [
       f("bozdag", "Bozdağlar", 19, 55, 7, 5, "mountain", 13),
       f("aydin-d", "Aydın Dağları", 23, 61, 7, 5, "mountain", 8),
       f("mentese", "Menteşe Dağları", 18, 67, 7, 6, "mountain", -15),
+      f("kaz", "Kaz Dağı", 13, 39, 9, 5, "mountain", 15),
+      f("uludag", "Uludağ", 22, 34, 7, 5, "mountain"),
+      f("cilo", "Cilo Dağları", 88, 69, 8, 6, "mountain", -8),
       f("agri", "Ağrı Dağı", 88, 40, 5, 8, "volcano"),
+      f("tendurek", "Tendürek Dağı", 84, 46, 5, 8, "volcano"),
+      f("suphan", "Süphan Dağı", 78, 50, 5, 8, "volcano"),
+      f("nemrut", "Nemrut Dağı", 74, 53, 5, 8, "volcano"),
       f("erciyes", "Erciyes Dağı", 57, 51, 5, 8, "volcano"),
+      f("hasan", "Hasan Dağı", 50, 58, 5, 8, "volcano"),
+      f("karadag", "Karadağ", 46, 64, 5, 7, "volcano"),
+      f("melendiz", "Melendiz Dağı", 53, 57, 5, 7, "volcano"),
+      f("karacadag-ic", "Karacadağ (İç Anadolu)", 42, 49, 5, 7, "volcano"),
+      f("karacadag-gd", "Karacadağ (Güneydoğu)", 73, 61, 5, 7, "volcano"),
+      f("kula", "Kula Volkanları", 22, 52, 5, 7, "volcano"),
     ],
   },
   {
@@ -1388,8 +1400,11 @@ function featureCenter(feature: Feature): Coordinate {
   return [50 + feature.x * 9, 20 + feature.y * 3.75];
 }
 
-function featureLabelCenter(feature: Feature, center: Coordinate): Coordinate {
-  const [offsetX, offsetY] = LABEL_OFFSETS[feature.id] ?? [0, -18];
+function featureLabelCenter(feature: Feature, center: Coordinate, featureIndex = 0): Coordinate {
+  const defaultOffset: Coordinate = feature.kind === "mountain"
+    ? [featureIndex % 2 === 0 ? -26 : 26, -28 - (featureIndex % 3) * 20]
+    : [0, -18];
+  const [offsetX, offsetY] = LABEL_OFFSETS[feature.id] ?? defaultOffset;
   return [center[0] + offsetX, center[1] + offsetY];
 }
 
@@ -1488,13 +1503,7 @@ function featureGraphic(
     const points = realLine.map(project);
     const path = points.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
     if (feature.kind === "mountain") {
-      const ridgePoints = points.flatMap((point, index) => {
-        if (index === points.length - 1) return [point];
-        return [
-          point,
-          [(point[0] + points[index + 1][0]) / 2, (point[1] + points[index + 1][1]) / 2] as Coordinate,
-        ];
-      });
+      const ridgePoints = points;
       return (
         <g>
           <path d={path} className="geo-shape geo-shape--mountain-line" vectorEffect="non-scaling-stroke" />
@@ -1658,7 +1667,7 @@ function TurkeyMap({
           </g>
         )}
         {quiz.id !== "provinces" && <g className="feature-layer">
-          {quiz.features.map((feature) => {
+          {quiz.features.map((feature, featureIndex) => {
             const status = correctIds.includes(feature.id)
               ? "correct"
               : wrongIds.includes(feature.id)
@@ -1667,7 +1676,7 @@ function TurkeyMap({
             const [cx, cy] = feature.plates?.length
               ? provinceSetCenter(feature.plates, provinces)
               : featureCenter(feature);
-            const [labelX, labelY] = featureLabelCenter(feature, [cx, cy]);
+            const [labelX, labelY] = featureLabelCenter(feature, [cx, cy], featureIndex);
             return (
               <g
                 key={feature.id}
