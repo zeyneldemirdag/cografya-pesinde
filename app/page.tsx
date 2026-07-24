@@ -14,7 +14,8 @@ type FeatureKind =
   | "gate"
   | "pass"
   | "mine"
-  | "energy";
+  | "energy"
+  | "province";
 
 type Feature = {
   id: string;
@@ -25,6 +26,7 @@ type Feature = {
   h: number;
   r?: number;
   kind: FeatureKind;
+  plate?: number;
 };
 
 type Quiz = {
@@ -49,6 +51,17 @@ const f = (
   r = 0,
 ): Feature => ({ id, name, x, y, w, h, kind, r });
 
+const p = (plate: number, name: string): Feature => ({
+  id: `province-${plate}`,
+  name,
+  x: 0,
+  y: 0,
+  w: 0,
+  h: 0,
+  kind: "province",
+  plate,
+});
+
 const QUIZZES: Quiz[] = [
   {
     id: "mountains-all",
@@ -64,10 +77,20 @@ const QUIZZES: Quiz[] = [
       f("canik", "Canik Dağları", 58, 19, 9, 5, "mountain", 5),
       f("kackar", "Kaçkar Dağları", 78, 18, 9, 5, "mountain", -6),
       f("bolu-d", "Bolu Dağları", 29, 23, 8, 5, "mountain", -4),
+      f("ilgaz", "Ilgaz Dağları", 42, 25, 8, 5, "mountain"),
+      f("koroglu", "Köroğlu Dağları", 35, 29, 8, 5, "mountain"),
+      f("giresun", "Giresun Dağları", 66, 22, 8, 5, "mountain"),
+      f("mescit", "Mescit Dağları", 76, 29, 7, 5, "mountain"),
+      f("kop-dagi", "Kop Dağları", 73, 34, 7, 5, "mountain"),
       f("bey", "Bey Dağları", 32, 71, 8, 5, "mountain", -4),
+      f("sultan", "Sultan Dağları", 38, 62, 8, 5, "mountain"),
       f("bolkar", "Bolkar Dağları", 49, 71, 8, 5, "mountain", 2),
       f("aladag", "Aladağlar", 58, 66, 7, 5, "mountain", -6),
+      f("nur", "Nur Dağları", 62, 70, 6, 7, "mountain"),
+      f("sundiken", "Sündiken Dağları", 31, 38, 8, 5, "mountain"),
+      f("elmadag", "Elmadağ", 45, 42, 7, 5, "mountain"),
       f("munzur", "Munzur Dağları", 69, 46, 8, 5, "mountain", -4),
+      f("mercan", "Mercan Dağları", 71, 41, 8, 5, "mountain"),
       f("hakkari", "Hakkâri Dağları", 84, 69, 8, 6, "mountain", -8),
       f("madra", "Madra Dağları", 14, 43, 6, 5, "mountain", 18),
       f("yunt", "Yunt Dağları", 19, 49, 6, 5, "mountain", 18),
@@ -90,8 +113,18 @@ const QUIZZES: Quiz[] = [
       f("kure-f", "Küre Dağları", 35, 17, 15, 5, "mountain", 2),
       f("canik-f", "Canik Dağları", 56, 19, 14, 5, "mountain", 5),
       f("kackar-f", "Kaçkar Dağları", 76, 18, 13, 5, "mountain", -6),
+      f("ilgaz-f", "Ilgaz Dağları", 42, 25, 9, 5, "mountain"),
+      f("koroglu-f", "Köroğlu Dağları", 35, 29, 9, 5, "mountain"),
+      f("giresun-f", "Giresun Dağları", 66, 22, 9, 5, "mountain"),
       f("bey", "Bey Dağları", 31, 70, 13, 5, "mountain", -4),
+      f("sultan-f", "Sultan Dağları", 38, 62, 9, 5, "mountain"),
       f("bolkar", "Bolkar Dağları", 51, 70, 13, 5, "mountain", 2),
+      f("aladag-f", "Aladağlar", 58, 66, 9, 5, "mountain"),
+      f("nur-f", "Nur Dağları", 62, 70, 7, 6, "mountain"),
+      f("sundiken-f", "Sündiken Dağları", 31, 38, 9, 5, "mountain"),
+      f("elmadag-f", "Elmadağ", 45, 42, 8, 5, "mountain"),
+      f("munzur-f", "Munzur Dağları", 69, 46, 9, 5, "mountain"),
+      f("mercan-f", "Mercan Dağları", 71, 41, 9, 5, "mountain"),
       f("hakkari", "Hakkâri Dağları", 82, 69, 13, 6, "mountain", -8),
     ],
   },
@@ -149,7 +182,15 @@ const QUIZZES: Quiz[] = [
       f("egirdir", "Eğirdir Gölü", 36, 64, 4, 9, "lake", -8),
       f("iznik", "İznik Gölü", 21, 32, 6, 4, "lake"),
       f("manyas", "Manyas Gölü", 17, 31, 5, 4, "lake"),
+      f("uluabat", "Uluabat Gölü", 19, 35, 5, 3, "lake"),
+      f("sapanca", "Sapanca Gölü", 25, 31, 5, 3, "lake"),
+      f("burdur", "Burdur Gölü", 33, 62, 5, 5, "lake"),
+      f("aksehir", "Akşehir Gölü", 39, 58, 5, 4, "lake"),
+      f("eber", "Eber Gölü", 37, 58, 5, 4, "lake"),
+      f("hazar", "Hazar Gölü", 71, 54, 6, 3, "lake", -10),
       f("cildir", "Çıldır Gölü", 87, 27, 5, 4, "lake"),
+      f("salda", "Salda Gölü", 31, 63, 4, 4, "lake"),
+      f("ercis", "Erçek Gölü", 86, 49, 4, 4, "lake"),
     ],
   },
   {
@@ -166,7 +207,14 @@ const QUIZZES: Quiz[] = [
       f("manyas-t", "Manyas Gölü", 17, 31, 5, 4, "lake"),
       f("ulubat", "Ulubat Gölü", 19, 35, 5, 3, "lake"),
       f("tuz-t", "Tuz Gölü", 49, 52, 7, 9, "lake", 8),
+      f("beysehir-t", "Beyşehir Gölü", 40, 65, 6, 8, "lake", 14),
+      f("egirdir-t", "Eğirdir Gölü", 36, 64, 4, 9, "lake", -8),
+      f("burdur-t", "Burdur Gölü", 33, 62, 5, 5, "lake"),
+      f("aksehir-t", "Akşehir Gölü", 39, 58, 5, 4, "lake"),
+      f("eber-t", "Eber Gölü", 37, 58, 5, 4, "lake"),
+      f("acigol-t", "Acıgöl", 29, 61, 5, 4, "lake"),
       f("hazar", "Hazar Gölü", 71, 54, 6, 3, "lake", -10),
+      f("seyfe-t", "Seyfe Gölü", 54, 46, 5, 4, "lake"),
     ],
   },
   {
@@ -598,6 +646,237 @@ const QUIZZES: Quiz[] = [
       f("diyarbakir-city", "Diyarbakır", 75, 61, 7, 6, "city"),
     ],
   },
+  {
+    id: "north-fold-mountains",
+    group: "Dağlar",
+    title: "Kuzey Anadolu Kıvrım Dağları",
+    eyebrow: "Dağlar · Kuzey kuşağı",
+    description: "Karadeniz kıyı kuşağındaki kıvrım dağlarını batıdan doğuya bul.",
+    color: "#6d4a78",
+    icon: "≋",
+    features: [
+      f("kure-n", "Küre Dağları", 39, 17, 9, 5, "mountain"),
+      f("bolu-n", "Bolu Dağları", 29, 23, 8, 5, "mountain"),
+      f("ilgaz-n", "Ilgaz Dağları", 42, 25, 8, 5, "mountain"),
+      f("koroglu-n", "Köroğlu Dağları", 35, 29, 8, 5, "mountain"),
+      f("canik-n", "Canik Dağları", 58, 19, 9, 5, "mountain"),
+      f("giresun-n", "Giresun Dağları", 66, 22, 8, 5, "mountain"),
+      f("kackar-n", "Kaçkar Dağları", 78, 18, 9, 5, "mountain"),
+    ],
+  },
+  {
+    id: "south-fold-mountains",
+    group: "Dağlar",
+    title: "Güney Anadolu Kıvrım Dağları",
+    eyebrow: "Dağlar · Toros kuşağı",
+    description: "Toros sisteminin batı, orta ve güneydoğu uzantılarını bul.",
+    color: "#744768",
+    icon: "≋",
+    features: [
+      f("bey-s", "Bey Dağları", 32, 71, 8, 5, "mountain"),
+      f("sultan-s", "Sultan Dağları", 38, 62, 8, 5, "mountain"),
+      f("bolkar-s", "Bolkar Dağları", 49, 71, 8, 5, "mountain"),
+      f("aladag-s", "Aladağlar", 58, 66, 7, 5, "mountain"),
+      f("nur-s", "Nur Dağları", 62, 70, 6, 7, "mountain"),
+      f("malatya-s", "Malatya Dağları", 67, 54, 8, 5, "mountain"),
+      f("hakkari-s", "Hakkâri Dağları", 84, 69, 8, 6, "mountain"),
+    ],
+  },
+  {
+    id: "glacial-mountains",
+    group: "Dağlar",
+    title: "Buzul Şekilleri Görülen Dağlar",
+    eyebrow: "Dağlar · Buzullaşma",
+    description: "Güncel veya Kuvaterner buzullaşma izleri taşıyan yüksek dağları bul.",
+    color: "#4f78a8",
+    icon: "❄",
+    features: [
+      f("agri-gl", "Ağrı Dağı", 88, 40, 5, 8, "volcano"),
+      f("cilo-gl", "Cilo-Sat Dağları", 86, 68, 9, 5, "mountain"),
+      f("kackar-gl", "Kaçkar Dağları", 78, 18, 9, 5, "mountain"),
+      f("suphan-gl", "Süphan Dağı", 78, 50, 5, 8, "volcano"),
+      f("erciyes-gl", "Erciyes Dağı", 57, 52, 5, 8, "volcano"),
+      f("aladag-gl", "Aladağlar", 58, 66, 7, 5, "mountain"),
+      f("bolkar-gl", "Bolkar Dağları", 49, 71, 8, 5, "mountain"),
+      f("munzur-gl", "Munzur Dağları", 69, 46, 8, 5, "mountain"),
+      f("uludag-gl", "Uludağ", 23, 35, 7, 5, "mountain"),
+    ],
+  },
+  {
+    id: "karstic-lakes",
+    group: "Göller",
+    title: "Karstik Göller",
+    eyebrow: "Göller · Alt konu",
+    description: "Kalkerli arazilerde çözünme çanaklarında oluşan gölleri bul.",
+    color: "#2d9bbd",
+    icon: "◌",
+    features: [
+      f("salda", "Salda Gölü", 31, 63, 4, 4, "lake"),
+      f("sugla", "Suğla Gölü", 41, 67, 4, 4, "lake"),
+      f("avlan", "Avlan Gölü", 32, 72, 4, 4, "lake"),
+      f("kestel-l", "Kestel Gölü", 31, 66, 4, 4, "lake"),
+      f("kovada-l", "Kovada Gölü", 35, 66, 4, 4, "lake"),
+      f("kiziloren-l", "Kızılören Obruk Gölü", 48, 59, 4, 4, "lake"),
+    ],
+  },
+  {
+    id: "volcanic-lakes",
+    group: "Göller",
+    title: "Volkanik Göller",
+    eyebrow: "Göller · Krater, kaldera ve maar",
+    description: "Volkanik çanakları dolduran krater, kaldera ve maar göllerini bul.",
+    color: "#367fa7",
+    icon: "◉",
+    features: [
+      f("nemrut-vl", "Nemrut Kaldera Gölü", 75, 51, 5, 4, "lake"),
+      f("meke-vl", "Meke Maarı", 49, 62, 4, 4, "lake"),
+      f("golcuk-vl", "Gölcük Krater Gölü", 34, 62, 4, 4, "lake"),
+      f("acigol-vl", "Acıgöl", 29, 61, 5, 4, "lake"),
+    ],
+  },
+  {
+    id: "delta-plains",
+    group: "Yer şekilleri",
+    title: "Delta Ovaları",
+    eyebrow: "Yer şekilleri · Alt konu",
+    description: "Akarsuların denize taşıdığı alüvyonlarla oluşan delta ovalarını bul.",
+    color: "#6d9e4b",
+    icon: "▽",
+    features: [
+      f("bafra-d", "Bafra Deltası · Kızılırmak", 54, 18, 8, 4, "plain"),
+      f("carsamba-d", "Çarşamba Deltası · Yeşilırmak", 61, 20, 8, 4, "plain"),
+      f("cukur-d", "Çukurova · Seyhan-Ceyhan", 57, 71, 13, 6, "plain"),
+      f("silifke-d", "Silifke Deltası · Göksu", 47, 75, 8, 4, "plain"),
+      f("menemen-d", "Menemen Deltası · Gediz", 15, 51, 7, 4, "plain"),
+      f("selcuk-d", "Selçuk Deltası · Küçük Menderes", 18, 57, 7, 4, "plain"),
+      f("balat-d", "Balat Deltası · Büyük Menderes", 20, 61, 7, 4, "plain"),
+      f("meric-d", "Meriç Deltası", 7, 34, 7, 4, "plain"),
+    ],
+  },
+  {
+    id: "gulfs",
+    group: "Ulaşım",
+    title: "Körfezler",
+    eyebrow: "Ulaşım · Kıyılar",
+    description: "Türkiye kıyılarındaki başlıca körfezleri gerçek kıyı konumlarında bul.",
+    color: "#327f9f",
+    icon: "◡",
+    features: [
+      f("saros", "Saros Körfezi", 8, 34, 7, 4, "lake"),
+      f("edremit-g", "Edremit Körfezi", 13, 43, 7, 4, "lake"),
+      f("candarli-g", "Çandarlı Körfezi", 15, 49, 6, 4, "lake"),
+      f("izmir-g", "İzmir Körfezi", 14, 54, 6, 4, "lake"),
+      f("kusadasi-g", "Kuşadası Körfezi", 17, 59, 6, 4, "lake"),
+      f("gokova-g", "Gökova Körfezi", 21, 68, 8, 4, "lake"),
+      f("antalya-g", "Antalya Körfezi", 35, 74, 11, 4, "lake"),
+      f("mersin-g", "Mersin Körfezi", 51, 76, 11, 4, "lake"),
+      f("iskenderun-g", "İskenderun Körfezi", 62, 74, 8, 4, "lake"),
+    ],
+  },
+  {
+    id: "coast-types",
+    group: "Yer şekilleri",
+    title: "Kıyı Tipleri",
+    eyebrow: "Yer şekilleri · Kıyılar",
+    description: "Dağların uzanışı ve deniz basmasına göre oluşan kıyı tiplerini örnek alanlarında bul.",
+    color: "#2f8196",
+    icon: "≋",
+    features: [
+      f("boyuna-black", "Boyuna Kıyı · Karadeniz", 58, 18, 55, 4, "river"),
+      f("boyuna-med", "Boyuna Kıyı · Akdeniz", 46, 76, 45, 4, "river"),
+      f("enine-aegean", "Enine Kıyı · Ege", 15, 53, 8, 25, "river"),
+      f("ria-straits", "Ria Kıyı · İstanbul ve Çanakkale", 14, 29, 8, 13, "river"),
+      f("ria-mentese", "Ria Kıyı · Menteşe", 22, 68, 10, 5, "river"),
+      f("dalmacya-teke", "Dalmaçya Kıyı · Teke", 31, 73, 10, 4, "river"),
+      f("limanli-marmara", "Limanlı Kıyı · İstanbul çevresi", 16, 25, 8, 4, "river"),
+    ],
+  },
+  {
+    id: "border-rivers",
+    group: "Sular",
+    title: "Sınır Oluşturan Akarsular",
+    eyebrow: "Sular · Siyasi sınırlar",
+    description: "Türkiye sınırının bir bölümünü oluşturan akarsuları bul.",
+    color: "#356fc1",
+    icon: "↝",
+    features: [
+      f("meric-br", "Meriç", 6, 28, 4, 10, "river"),
+      f("mutludere-br", "Mutludere (Rezve)", 8, 20, 5, 4, "river"),
+      f("aras-br", "Aras", 88, 37, 12, 3, "river"),
+      f("asi-br", "Asi", 61, 78, 4, 7, "river"),
+      f("hezil-br", "Hezil Çayı", 84, 72, 5, 4, "river"),
+    ],
+  },
+  {
+    id: "closed-basins",
+    group: "Sular",
+    title: "Kapalı Havzalar",
+    eyebrow: "Sular · Havzalar",
+    description: "Sularını denize ulaştıramayan başlıca kapalı havzaları alanlarıyla bul.",
+    color: "#3c78a8",
+    icon: "◎",
+    features: [
+      f("van-basin", "Van Gölü Kapalı Havzası", 81, 51, 15, 13, "region"),
+      f("tuz-basin", "Tuz Gölü Kapalı Havzası", 49, 52, 17, 16, "region"),
+      f("konya-basin", "Konya Kapalı Havzası", 47, 62, 21, 16, "region"),
+      f("lakes-basin", "Göller Yöresi Kapalı Havzası", 36, 64, 16, 15, "region"),
+      f("aksehir-eber-basin", "Akşehir-Eber Kapalı Havzası", 38, 58, 12, 9, "region"),
+      f("aras-kura-basin", "Aras-Kura (Hazar) Havzası", 86, 34, 18, 13, "region"),
+    ],
+  },
+  {
+    id: "bridges-tunnels",
+    group: "Ulaşım",
+    title: "Köprüler ve Tüneller",
+    eyebrow: "Ulaşım · Büyük projeler",
+    description: "Önemli boğaz geçişlerini, köprüleri ve dağ tünellerini bul.",
+    color: "#7861bf",
+    icon: "⌒",
+    features: [
+      f("bogazici-b", "15 Temmuz Şehitler Köprüsü", 16, 24, 5, 4, "pass"),
+      f("fsm-b", "Fatih Sultan Mehmet Köprüsü", 16, 23, 5, 4, "pass"),
+      f("yss-b", "Yavuz Sultan Selim Köprüsü", 17, 22, 5, 4, "pass"),
+      f("osmangazi-b", "Osmangazi Köprüsü", 20, 31, 5, 4, "pass"),
+      f("canakkale-b", "1915 Çanakkale Köprüsü", 9, 35, 5, 4, "pass"),
+      f("avrasya-t", "Avrasya Tüneli", 16, 25, 5, 4, "pass"),
+      f("marmaray-t", "Marmaray", 16, 24, 5, 4, "pass"),
+      f("bolu-t", "Bolu Dağı Tüneli", 32, 28, 5, 4, "pass"),
+      f("ovit-t", "Ovit Tüneli", 77, 26, 5, 4, "pass"),
+      f("zigana-t", "Yeni Zigana Tüneli", 70, 27, 5, 4, "pass"),
+    ],
+  },
+  {
+    id: "provinces",
+    group: "Türkiye",
+    title: "81 İl",
+    eyebrow: "Türkiye · İl sınırları",
+    description: "İlleri noktayla değil, gerçek idari sınır poligonuna tıklayarak bul.",
+    color: "#6847bd",
+    icon: "81",
+    features: [
+      p(1, "Adana"), p(2, "Adıyaman"), p(3, "Afyonkarahisar"), p(4, "Ağrı"),
+      p(5, "Amasya"), p(6, "Ankara"), p(7, "Antalya"), p(8, "Artvin"),
+      p(9, "Aydın"), p(10, "Balıkesir"), p(11, "Bilecik"), p(12, "Bingöl"),
+      p(13, "Bitlis"), p(14, "Bolu"), p(15, "Burdur"), p(16, "Bursa"),
+      p(17, "Çanakkale"), p(18, "Çankırı"), p(19, "Çorum"), p(20, "Denizli"),
+      p(21, "Diyarbakır"), p(22, "Edirne"), p(23, "Elazığ"), p(24, "Erzincan"),
+      p(25, "Erzurum"), p(26, "Eskişehir"), p(27, "Gaziantep"), p(28, "Giresun"),
+      p(29, "Gümüşhane"), p(30, "Hakkâri"), p(31, "Hatay"), p(32, "Isparta"),
+      p(33, "Mersin"), p(34, "İstanbul"), p(35, "İzmir"), p(36, "Kars"),
+      p(37, "Kastamonu"), p(38, "Kayseri"), p(39, "Kırklareli"), p(40, "Kırşehir"),
+      p(41, "Kocaeli"), p(42, "Konya"), p(43, "Kütahya"), p(44, "Malatya"),
+      p(45, "Manisa"), p(46, "Kahramanmaraş"), p(47, "Mardin"), p(48, "Muğla"),
+      p(49, "Muş"), p(50, "Nevşehir"), p(51, "Niğde"), p(52, "Ordu"),
+      p(53, "Rize"), p(54, "Sakarya"), p(55, "Samsun"), p(56, "Siirt"),
+      p(57, "Sinop"), p(58, "Sivas"), p(59, "Tekirdağ"), p(60, "Tokat"),
+      p(61, "Trabzon"), p(62, "Tunceli"), p(63, "Şanlıurfa"), p(64, "Uşak"),
+      p(65, "Van"), p(66, "Yozgat"), p(67, "Zonguldak"), p(68, "Aksaray"),
+      p(69, "Bayburt"), p(70, "Karaman"), p(71, "Kırıkkale"), p(72, "Batman"),
+      p(73, "Şırnak"), p(74, "Bartın"), p(75, "Ardahan"), p(76, "Iğdır"),
+      p(77, "Yalova"), p(78, "Karabük"), p(79, "Kilis"), p(80, "Osmaniye"),
+      p(81, "Düzce"),
+    ],
+  },
 ];
 
 const GROUPS = ["Tümü", ...Array.from(new Set(QUIZZES.map((quiz) => quiz.group)))];
@@ -612,6 +891,11 @@ type ProvinceFeature = {
   properties: { name: string; plate: number };
 };
 
+type LakeFeature = {
+  geometry: ProvinceFeature["geometry"];
+  properties: { id: string; name: string };
+};
+
 const MAP_BOUNDS = { west: 25.55, east: 44.85, north: 42.15, south: 35.75 };
 const MAP_COLORS = ["#ead9a2", "#c4d89b", "#e9bd7b", "#c7d8ca", "#d4c1dc", "#f1cf9f", "#b8d6c7"];
 
@@ -621,11 +905,26 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   canik: [[35.3, 41.1], [36.6, 40.9], [38.0, 40.8]],
   kackar: [[39.2, 40.9], [40.4, 40.8], [41.7, 40.8]],
   "bolu-d": [[30.5, 40.7], [31.4, 40.7], [32.2, 40.8]],
+  bolu: [[30.5, 40.7], [31.4, 40.7], [32.2, 40.8]],
+  ilgaz: [[32.8, 40.7], [33.4, 40.8], [34.1, 40.7]],
+  koroglu: [[30.8, 40.4], [31.5, 40.5], [32.2, 40.4]],
+  giresun: [[37.6, 40.5], [38.4, 40.5], [39.0, 40.4]],
+  mescit: [[40.2, 40.4], [40.8, 40.3], [41.3, 40.2]],
+  "kop-dagi": [[39.7, 40.0], [40.3, 39.9], [40.8, 39.8]],
   bey: [[29.4, 36.8], [30.3, 36.9], [31.1, 37.0]],
+  sultan: [[30.5, 38.2], [31.2, 38.1], [31.8, 38.0]],
   bolkar: [[32.8, 37.0], [33.8, 37.1], [34.8, 37.2]],
   aladag: [[34.7, 37.8], [35.4, 37.9], [36.0, 38.1]],
+  nur: [[36.0, 37.1], [36.3, 36.7], [36.2, 36.3]],
+  malatya: [[37.5, 38.5], [38.2, 38.4], [38.8, 38.3]],
+  sundiken: [[30.8, 39.6], [31.4, 39.7], [32.0, 39.6]],
+  elmadag: [[32.9, 39.8], [33.4, 39.8], [33.9, 39.7]],
   munzur: [[38.5, 39.6], [39.4, 39.7], [40.4, 39.6]],
+  mercan: [[39.6, 39.9], [40.2, 39.8], [40.8, 39.7]],
   hakkari: [[43.0, 37.5], [43.8, 37.6], [44.6, 37.4]],
+  cilo: [[43.3, 37.5], [44.0, 37.5], [44.5, 37.4]],
+  uludag: [[28.8, 40.1], [29.1, 40.0], [29.4, 39.9]],
+  kaz: [[26.6, 39.8], [26.9, 39.7], [27.3, 39.6]],
   madra: [[26.8, 39.3], [27.2, 39.0], [27.5, 38.7]],
   yunt: [[27.0, 38.9], [27.3, 38.6], [27.6, 38.3]],
   bozdag: [[27.2, 38.1], [28.0, 38.0], [28.7, 38.0]],
@@ -638,6 +937,18 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   dicle: [[40.2, 38.2], [40.8, 37.7], [41.4, 37.2], [42.4, 37.0]],
   seyhan: [[35.5, 38.4], [35.4, 37.8], [35.3, 37.1], [35.3, 36.8]],
   buyukmenderes: [[29.2, 38.1], [28.7, 37.8], [28.0, 37.7], [27.3, 37.6]],
+  "meric-br": [[26.5, 41.7], [26.3, 41.1], [26.1, 40.7]],
+  "mutludere-br": [[27.4, 42.0], [28.0, 41.9], [28.1, 41.8]],
+  "aras-br": [[42.5, 39.9], [43.3, 39.9], [44.5, 39.8]],
+  "asi-br": [[36.3, 36.8], [36.2, 36.4], [36.0, 36.0]],
+  "hezil-br": [[42.4, 37.3], [42.8, 37.2], [43.1, 37.1]],
+  "boyuna-black": [[28.8, 41.1], [32.0, 41.7], [36.0, 41.6], [40.0, 41.1], [41.8, 41.4]],
+  "boyuna-med": [[29.0, 36.2], [31.5, 36.0], [34.0, 36.1], [36.0, 36.0]],
+  "enine-aegean": [[26.4, 39.6], [27.2, 39.0], [26.8, 38.5], [27.4, 37.9], [27.1, 37.2]],
+  "ria-straits": [[26.4, 40.3], [26.7, 40.1], [28.9, 41.2], [29.1, 41.0]],
+  "ria-mentese": [[27.4, 37.1], [28.0, 36.8], [28.7, 36.7]],
+  "dalmacya-teke": [[29.3, 36.3], [29.8, 36.2], [30.5, 36.2]],
+  "limanli-marmara": [[28.2, 41.0], [28.6, 41.0], [29.0, 41.1]],
 };
 
 function project([longitude, latitude]: Coordinate): Coordinate {
@@ -663,8 +974,44 @@ function provincePath(feature: ProvinceFeature) {
     .join(" ");
 }
 
+function lakePath(feature: LakeFeature) {
+  if (feature.geometry.type === "Polygon") {
+    return (feature.geometry.coordinates as Coordinate[][]).map(ringPath).join(" ");
+  }
+  return (feature.geometry.coordinates as Coordinate[][][])
+    .flatMap((polygon) => polygon.map(ringPath))
+    .join(" ");
+}
+
+function provinceCenter(feature: ProvinceFeature): Coordinate {
+  const coordinates = feature.geometry.type === "Polygon"
+    ? (feature.geometry.coordinates as Coordinate[][]).flat()
+    : (feature.geometry.coordinates as Coordinate[][][]).flat(2);
+  const projected = coordinates.map(project);
+  const xs = projected.map(([x]) => x);
+  const ys = projected.map(([, y]) => y);
+  return [
+    (Math.min(...xs) + Math.max(...xs)) / 2,
+    (Math.min(...ys) + Math.max(...ys)) / 2,
+  ];
+}
+
+function lakeShapeId(feature: Feature) {
+  const aliases: Record<string, string> = {
+    "van-vs": "van",
+    "iznik-t": "iznik",
+    "manyas-t": "manyas",
+    "tuz-t": "tuz",
+    "ercis": "ercek",
+    "burdur-r": "burdur",
+    "uluabat-r": "uluabat",
+    "ulubat": "uluabat",
+  };
+  return (aliases[feature.id] ?? feature.id).replace(/-(t|vl|l)$/, "");
+}
+
 function realLineFor(feature: Feature) {
-  const canonicalId = feature.id.replace(/-(f|t|vs)$/, "");
+  const canonicalId = feature.id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
   return REAL_LINES[feature.id] ?? REAL_LINES[canonicalId];
 }
 
@@ -693,11 +1040,21 @@ function featureHitArea(feature: Feature) {
   return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
 }
 
-function featureGraphic(feature: Feature) {
+function featureGraphic(feature: Feature, lakeShape?: LakeFeature) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
   const width = Math.max(feature.w * 7.2, 20);
   const height = Math.max(feature.h * 3.1, 12);
+
+  if (feature.kind === "lake" && lakeShape) {
+    return (
+      <path
+        d={lakePath(lakeShape)}
+        className="geo-shape geo-shape--lake geo-shape--exact"
+        fillRule="evenodd"
+      />
+    );
+  }
 
   if (realLine) {
     const points = realLine.map(project);
@@ -758,6 +1115,7 @@ function TurkeyMap({
   onSelect: (feature: Feature) => void;
 }) {
   const [provinces, setProvinces] = useState<ProvinceFeature[]>([]);
+  const [lakes, setLakes] = useState<LakeFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
 
   useEffect(() => {
@@ -765,6 +1123,10 @@ function TurkeyMap({
       .then((response) => response.json())
       .then((data) => setProvinces(data.features as ProvinceFeature[]))
       .catch(() => setProvinces([]));
+    fetch("/data/turkey-lakes.geojson")
+      .then((response) => response.json())
+      .then((data) => setLakes(data.features as LakeFeature[]))
+      .catch(() => setLakes([]));
   }, []);
 
   return (
@@ -776,15 +1138,30 @@ function TurkeyMap({
               <path key={`clip-${province.properties.plate}`} d={provincePath(province)} />
             ))}
           </clipPath>
+          <linearGradient id="terrain-atlas-tint" x1="0" y1="0" x2="1" y2=".2">
+            <stop offset="0%" stopColor="#73b467" />
+            <stop offset="38%" stopColor="#eadc88" />
+            <stop offset="68%" stopColor="#e9b95d" />
+            <stop offset="100%" stopColor="#dc8538" />
+          </linearGradient>
         </defs>
         <image
           className="relief-layer"
-          href="/data/turkey-relief.png"
+          href="/data/turkey-terrain.png"
           x="0"
           y="0"
           width="1000"
           height="430"
           preserveAspectRatio="none"
+          clipPath="url(#turkey-country-clip)"
+        />
+        <rect
+          className="terrain-tint"
+          x="0"
+          y="0"
+          width="1000"
+          height="430"
+          fill="url(#terrain-atlas-tint)"
           clipPath="url(#turkey-country-clip)"
         />
         <g className="province-layer">
@@ -801,7 +1178,44 @@ function TurkeyMap({
             </path>
           ))}
         </g>
-        <g className="feature-layer">
+        {quiz.id === "provinces" && (
+          <g className="province-quiz-layer">
+            {provinces.map((province) => {
+              const feature = quiz.features.find((item) => item.plate === province.properties.plate);
+              if (!feature) return null;
+              const status = correctIds.includes(feature.id)
+                ? "correct"
+                : wrongIds.includes(feature.id)
+                  ? "wrong"
+                  : "idle";
+              const [cx, cy] = provinceCenter(province);
+              return (
+                <g
+                  key={`quiz-${province.properties.plate}`}
+                  role="button"
+                  tabIndex={0}
+                  data-feature-id={feature.id}
+                  data-status={status}
+                  aria-label={status === "correct" ? `${feature.name}, doğru bilindi` : "İl seçeneği"}
+                  className={`province-option province-option--${status}`}
+                  onClick={() => onSelect(feature)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") onSelect(feature);
+                  }}
+                >
+                  <path d={provincePath(province)} fillRule="evenodd" />
+                  {status === "correct" && (
+                    <g className="geo-label" transform={`translate(${cx} ${cy})`}>
+                      <rect x="-48" y="-18" width="96" height="22" rx="5" />
+                      <text textAnchor="middle" y="-3">{feature.name}</text>
+                    </g>
+                  )}
+                </g>
+              );
+            })}
+          </g>
+        )}
+        {quiz.id !== "provinces" && <g className="feature-layer">
           {quiz.features.map((feature) => {
             const status = correctIds.includes(feature.id)
               ? "correct"
@@ -824,7 +1238,10 @@ function TurkeyMap({
                 }}
               >
                 {featureHitArea(feature)}
-                {featureGraphic(feature)}
+                {featureGraphic(
+                  feature,
+                  lakes.find((lake) => lake.properties.id === lakeShapeId(feature)),
+                )}
                 {status === "correct" && (
                   <g className="geo-label" transform={`translate(${cx} ${cy - 18})`}>
                     <rect x="-62" y="-19" width="124" height="22" rx="5" />
@@ -834,13 +1251,13 @@ function TurkeyMap({
               </g>
             );
           })}
-        </g>
+        </g>}
       </svg>
       <div className="map-province-readout">
         <span>81 İL SINIRI</span>
         <strong>{hoveredProvince || "İlin üzerine gel"}</strong>
       </div>
-      <div className="map-attribution">Rölyef: Esri · Sınırlar: açık coğrafi veri</div>
+      <div className="map-attribution">Rölyef: Esri · İl/göl geometrileri: açık coğrafi veri &amp; OSM</div>
       {provinces.length === 0 && <div className="map-loading">Gerçek Türkiye haritası yükleniyor…</div>}
     </div>
   );
@@ -937,7 +1354,7 @@ export default function Home() {
           <h1>Haritada bul.<br />Tıklayarak öğren.</h1>
           <p>{quiz.description}</p>
           <div className="coverage-stamp">
-            <span>✓ MEB kaynaklarıyla denetlendi</span>
+            <span>✓ MEB + HGM ile çapraz kontrollü</span>
             <b>{QUIZZES.length} harita · {TOTAL_LOCATIONS} konum</b>
           </div>
 
@@ -1059,10 +1476,10 @@ export default function Home() {
           <h2>Ezber değil, kaynak kontrollü harita.</h2>
         </div>
         <p>
-          Konu kapsamı ve sınıflandırmalar MEB coğrafya programı ile ders
-          materyallerine; güncel koruma alanları ilgili kamu kurumlarına göre
-          denetlendi. Konumlar sınav haritasında seçilebilir kalacak biçimde
-          şematikleştirildi.
+          İl sınırları gerçek poligonlardan, başlıca göller gerçek kıyı
+          geometrilerinden çizilir; dağ ve akarsu hatları coğrafi koordinatlara
+          oturur. İklim, bitki ve tarım gibi kesin bir çizgisi olmayan yayılış
+          alanları ise sınavda okunabilir kalması için genelleştirilir.
         </p>
         <div className="source-links">
           <a href="https://orgm.meb.gov.tr/ekpssmebozel/cografyakonular.html" target="_blank" rel="noreferrer">
@@ -1073,6 +1490,9 @@ export default function Home() {
           </a>
           <a href="https://www.tarimorman.gov.tr/DKMP/Menu/18/Korunan-Alan-Istatistikleri" target="_blank" rel="noreferrer">
             DKMP korunan alanlar <span>↗</span>
+          </a>
+          <a href="https://www.harita.gov.tr/urun/turkiye-fiziki-haritasi-dilsiz/273" target="_blank" rel="noreferrer">
+            HGM fiziki harita <span>↗</span>
           </a>
         </div>
       </section>
