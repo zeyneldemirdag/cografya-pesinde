@@ -62,6 +62,10 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /id: "black-sea-rivers"/);
   assert.match(page, /id: "inbound-rivers"/);
   assert.match(page, /const AREA_POLYGONS/);
+  assert.match(page, /const DISTRIBUTION_POLYGONS/);
+  assert.match(page, /geo-shape--distribution/);
+  assert.match(page, /fp\("tea", "Çay · Rize".*\[53\]\)/);
+  assert.match(page, /fp\("cattle", "Büyükbaş · Erzurum-Kars".*\[25, 36, 75\]\)/);
   assert.match(
     page,
     /fp\("gap", "GAP · 9 il", 76, 65, 20, 14, \[2, 21, 27, 47, 56, 63, 72, 73, 79\]\)/,

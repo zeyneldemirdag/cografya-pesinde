@@ -567,11 +567,11 @@ const QUIZZES: Quiz[] = [
     color: "#8eaa46",
     icon: "●",
     features: [
-      f("marmara-pop", "Çatalca-Kocaeli", 19, 27, 18, 11, "region"),
-      f("ege-pop", "Kıyı Ege", 17, 53, 11, 24, "region"),
-      f("cukur-pop", "Çukurova", 57, 68, 17, 10, "region"),
-      f("ankara-pop", "Ankara Çevresi", 43, 42, 12, 11, "region"),
-      f("samsun-pop", "Samsun Çevresi", 58, 21, 11, 8, "region"),
+      fp("marmara-pop", "Çatalca-Kocaeli", 19, 27, 18, 11, [34, 41, 59]),
+      fp("ege-pop", "Kıyı Ege", 17, 53, 11, 24, [9, 35, 45]),
+      fp("cukur-pop", "Çukurova", 57, 68, 17, 10, [1, 33, 80]),
+      fp("ankara-pop", "Ankara Çevresi", 43, 42, 12, 11, [6]),
+      fp("samsun-pop", "Samsun Çevresi", 58, 21, 11, 8, [55]),
     ],
   },
   {
@@ -631,15 +631,15 @@ const QUIZZES: Quiz[] = [
     color: "#79a43e",
     icon: "✳",
     features: [
-      f("tea", "Çay · Rize", 79, 21, 7, 6, "region"),
-      f("hazelnut", "Fındık · Ordu-Giresun", 66, 21, 10, 6, "region"),
-      f("olive", "Zeytin · Kıyı Ege", 17, 50, 8, 19, "region"),
-      f("cotton", "Pamuk · Şanlıurfa", 75, 68, 10, 8, "region"),
-      f("banana", "Muz · Anamur-Alanya", 40, 74, 13, 6, "region"),
-      f("apricot", "Kayısı · Malatya", 68, 51, 7, 6, "region"),
-      f("grape", "Üzüm · Manisa", 20, 52, 7, 6, "region"),
-      f("sunflower", "Ayçiçeği · Trakya", 9, 26, 11, 10, "region"),
-      f("sugarbeet", "Şeker Pancarı · İç Anadolu", 49, 49, 20, 14, "region"),
+      fp("tea", "Çay · Rize", 79, 21, 7, 6, [53]),
+      fp("hazelnut", "Fındık · Ordu-Giresun", 66, 21, 10, 6, [28, 52]),
+      fp("olive", "Zeytin · Kıyı Ege", 17, 50, 8, 19, [9, 10, 35, 45]),
+      fp("cotton", "Pamuk · Şanlıurfa", 75, 68, 10, 8, [63]),
+      fp("banana", "Muz · Anamur-Alanya", 40, 74, 13, 6, [7, 33]),
+      fp("apricot", "Kayısı · Malatya", 68, 51, 7, 6, [44]),
+      fp("grape", "Üzüm · Manisa", 20, 52, 7, 6, [45]),
+      fp("sunflower", "Ayçiçeği · Trakya", 9, 26, 11, 10, [22, 39, 59]),
+      fp("sugarbeet", "Şeker Pancarı · İç Anadolu", 49, 49, 20, 14, [6, 26, 38, 40, 42, 66]),
     ],
   },
   {
@@ -651,11 +651,11 @@ const QUIZZES: Quiz[] = [
     color: "#aa7748",
     icon: "♜",
     features: [
-      f("cattle", "Büyükbaş · Erzurum-Kars", 83, 32, 19, 13, "region"),
-      f("sheep", "Koyun · İç Anadolu", 51, 49, 35, 22, "region"),
+      fp("cattle", "Büyükbaş · Erzurum-Kars", 83, 32, 19, 13, [25, 36, 75]),
+      fp("sheep", "Koyun · İç Anadolu", 51, 49, 35, 22, [6, 18, 38, 40, 42, 50, 51, 66, 68, 70, 71]),
       f("goat", "Kıl Keçisi · Toroslar", 46, 70, 42, 9, "region"),
-      f("silkworm", "İpek Böcekçiliği · Bursa", 22, 34, 8, 7, "region"),
-      f("beekeeping", "Arıcılık · Ordu", 65, 23, 10, 7, "region"),
+      fp("silkworm", "İpek Böcekçiliği · Bursa", 22, 34, 8, 7, [16]),
+      fp("beekeeping", "Arıcılık · Ordu", 65, 23, 10, 7, [52]),
     ],
   },
   {
@@ -1041,6 +1041,56 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   "persembe-p": [[36.8, 41.1], [37.2, 40.7], [38.1, 40.6], [38.5, 40.9], [38.1, 41.3], [37.3, 41.4]],
 };
 
+const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "karadeniz-cl": [
+    [[26.6, 41.9], [29.2, 41.8], [32.4, 41.8], [35.7, 41.8], [38.8, 41.4], [41.8, 41.4], [41.5, 40.5], [38.8, 40.4], [35.5, 40.7], [32.0, 40.7], [29.0, 40.8], [27.0, 41.1]],
+  ],
+  "akdeniz-cl": [
+    [[26.0, 39.5], [26.5, 38.5], [27.0, 37.4], [28.0, 36.8], [29.0, 36.3], [29.8, 36.4], [29.5, 37.3], [28.7, 37.8], [28.2, 38.8], [27.3, 39.7]],
+    [[29.0, 36.3], [31.0, 35.9], [33.7, 36.0], [35.6, 36.5], [36.8, 36.0], [36.9, 36.9], [35.9, 37.3], [34.4, 37.2], [32.4, 37.2], [30.5, 37.4], [29.5, 37.2]],
+  ],
+  "karasal-cl": [
+    [[29.7, 40.0], [31.7, 40.7], [34.5, 40.7], [37.0, 40.5], [39.8, 40.3], [42.7, 40.5], [44.4, 39.6], [44.5, 37.4], [42.7, 37.0], [40.3, 37.1], [38.4, 37.6], [36.4, 37.4], [34.0, 37.6], [31.5, 37.8], [29.6, 38.8]],
+  ],
+  "marmara-cl": [
+    [[26.0, 42.0], [29.7, 42.0], [30.8, 40.9], [30.2, 39.8], [28.7, 39.4], [26.2, 40.0]],
+  ],
+  "forest-black": [
+    [[27.0, 41.8], [30.0, 41.8], [33.0, 41.8], [36.0, 41.7], [39.0, 41.4], [42.0, 41.4], [41.5, 40.4], [39.0, 40.3], [36.0, 40.6], [33.0, 40.5], [30.0, 40.6], [27.2, 40.9]],
+  ],
+  maquis: [
+    [[26.0, 39.5], [26.7, 38.0], [28.2, 36.8], [29.5, 36.2], [29.8, 37.2], [28.8, 37.9], [27.8, 39.5]],
+    [[29.2, 36.2], [31.5, 35.9], [34.0, 36.0], [36.7, 36.0], [36.8, 36.8], [35.2, 37.1], [33.2, 37.0], [31.0, 37.3], [29.6, 37.1]],
+  ],
+  step: [
+    [[29.8, 40.0], [32.0, 40.4], [35.2, 40.2], [38.2, 39.7], [41.3, 39.2], [42.0, 37.6], [39.5, 37.2], [36.5, 37.5], [33.8, 37.6], [31.2, 38.0], [29.5, 38.8]],
+  ],
+  meadow: [
+    [[39.5, 41.2], [42.8, 41.7], [44.5, 40.8], [44.7, 39.1], [42.4, 39.1], [40.4, 39.8]],
+  ],
+  "anthro-step": [
+    [[27.8, 40.2], [29.3, 40.6], [31.3, 40.2], [32.0, 39.0], [30.9, 38.5], [28.9, 38.7], [27.5, 39.4]],
+  ],
+  "terra-rossa": [
+    [[27.6, 37.2], [29.3, 36.2], [31.6, 35.9], [34.1, 36.0], [36.7, 36.0], [36.8, 36.8], [34.8, 37.2], [32.5, 37.1], [30.2, 37.5], [28.6, 38.0]],
+  ],
+  "brown-forest": [
+    [[27.0, 41.8], [30.3, 41.8], [33.5, 41.8], [36.7, 41.7], [39.8, 41.4], [42.0, 41.2], [41.4, 40.3], [38.6, 40.3], [35.6, 40.5], [32.5, 40.5], [29.5, 40.5], [27.1, 40.8]],
+  ],
+  cherno: [
+    [[40.5, 41.5], [42.5, 41.8], [44.3, 41.2], [44.2, 39.8], [42.4, 39.5], [40.7, 40.0]],
+  ],
+  chestnut: [
+    [[29.7, 40.0], [32.0, 40.6], [35.2, 40.4], [37.3, 39.9], [37.5, 38.5], [35.5, 37.7], [32.4, 37.8], [30.2, 38.6]],
+  ],
+  "brown-step": [
+    [[31.0, 39.0], [33.3, 39.7], [36.8, 39.5], [40.0, 38.8], [42.6, 38.0], [42.5, 36.9], [39.5, 36.8], [36.3, 37.1], [33.2, 37.3], [31.0, 38.0]],
+  ],
+  goat: [
+    [[29.1, 36.5], [31.0, 36.1], [33.2, 36.2], [35.0, 36.6], [36.5, 36.4], [36.7, 37.1], [35.0, 37.5], [33.0, 37.3], [31.0, 37.5], [29.4, 37.2]],
+  ],
+};
+
 const REAL_LINES: Record<string, Coordinate[]> = {
   yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
   kure: [[32.0, 41.4], [33.1, 41.5], [34.3, 41.3]],
@@ -1206,10 +1256,24 @@ function areaPolygonFor(feature: Feature) {
     : undefined;
 }
 
+function distributionPolygonsFor(feature: Feature) {
+  return DISTRIBUTION_POLYGONS[feature.id];
+}
+
 function featureCenter(feature: Feature): Coordinate {
   const areaPolygon = areaPolygonFor(feature);
   if (areaPolygon) {
     const projected = areaPolygon.map(project);
+    const xs = projected.map(([x]) => x);
+    const ys = projected.map(([, y]) => y);
+    return [
+      (Math.min(...xs) + Math.max(...xs)) / 2,
+      (Math.min(...ys) + Math.max(...ys)) / 2,
+    ];
+  }
+  const distributionPolygons = distributionPolygonsFor(feature);
+  if (distributionPolygons) {
+    const projected = distributionPolygons.flat().map(project);
     const xs = projected.map(([x]) => x);
     const ys = projected.map(([, y]) => y);
     return [
@@ -1276,6 +1340,21 @@ function featureGraphic(
         d={ringPath(areaPolygon)}
         className={`geo-shape geo-shape--${feature.kind} geo-shape--area`}
       />
+    );
+  }
+
+  const distributionPolygons = distributionPolygonsFor(feature);
+  if (distributionPolygons) {
+    return (
+      <g className="geo-distribution" clipPath="url(#turkey-country-clip)">
+        {distributionPolygons.map((polygon, index) => (
+          <path
+            key={`${feature.id}-distribution-${index}`}
+            d={ringPath(polygon)}
+            className="geo-shape geo-shape--region geo-shape--distribution"
+          />
+        ))}
+      </g>
     );
   }
 
