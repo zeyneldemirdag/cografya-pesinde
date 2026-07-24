@@ -384,6 +384,18 @@ button { color: inherit; }
 }
 
 .geo-shape--volcano { fill: #c45139; stroke: #7b2e20; }
+.volcano-shadow {
+  fill: rgba(4, 18, 23, .34);
+  pointer-events: none;
+}
+.volcano-crater {
+  fill: none;
+  stroke: #ffd48b;
+  stroke-width: 3;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
 .geo-shape--lake { fill: #39a5cc; stroke: #176d91; }
 .geo-shape--exact { stroke-width: 2.6; }
 .geo-shape--plain { fill: #93b95e; stroke: #587234; }
@@ -435,6 +447,14 @@ button { color: inherit; }
 .geo-feature--correct .geo-shape--mountain-line {
   fill: none;
   stroke: var(--green);
+}
+
+.geo-label-leader {
+  stroke: rgba(255,255,255,.9);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
 }
 
 @keyframes mapPulse {

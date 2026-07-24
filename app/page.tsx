@@ -443,12 +443,12 @@ const QUIZZES: Quiz[] = [
     color: "#d98b38",
     icon: "⌃",
     features: [
-      f("bolu", "Bolu Geçidi", 34, 27, 6, 5, "pass"),
-      f("zigana", "Zigana Geçidi", 70, 28, 6, 5, "pass"),
-      f("gulek", "Gülek Geçidi", 54, 69, 6, 5, "pass"),
-      f("sertavul", "Sertavul Geçidi", 48, 71, 6, 5, "pass"),
-      f("belen", "Belen Geçidi", 62, 73, 6, 5, "pass"),
-      f("kop", "Kop Geçidi", 73, 36, 6, 5, "pass"),
+      f("bolu-pass", "Bolu Geçidi", 34, 27, 6, 5, "pass"),
+      f("zigana-pass", "Zigana Geçidi", 70, 28, 6, 5, "pass"),
+      f("gulek-pass", "Gülek Geçidi", 54, 69, 6, 5, "pass"),
+      f("sertavul-pass", "Sertavul Geçidi", 48, 71, 6, 5, "pass"),
+      f("belen-pass", "Belen Geçidi", 62, 73, 6, 5, "pass"),
+      f("kop-pass", "Kop Geçidi", 73, 36, 6, 5, "pass"),
     ],
   },
   {
@@ -1091,6 +1091,101 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   ],
 };
 
+const POINT_COORDINATES: Record<string, Coordinate> = {
+  agri: [44.288, 39.702],
+  "agri-v": [44.288, 39.702],
+  "agri-gl": [44.288, 39.702],
+  tendurek: [43.83, 39.33],
+  suphan: [42.82, 38.92],
+  "suphan-gl": [42.82, 38.92],
+  nemrut: [42.23, 38.65],
+  erciyes: [35.45, 38.53],
+  "erciyes-v": [35.45, 38.53],
+  "erciyes-gl": [35.45, 38.53],
+  hasan: [34.17, 38.13],
+  karadag: [33.08, 37.25],
+  melendiz: [34.63, 38.2],
+  "karacadag-ic": [33.65, 38.16],
+  "karacadag-gd": [39.83, 37.67],
+  kula: [28.52, 38.58],
+  kapikule: [26.36, 41.72],
+  ipsala: [26.38, 40.92],
+  sarp: [41.55, 41.52],
+  gurbu: [44.48, 39.42],
+  habur: [42.57, 37.15],
+  cilvegozu: [36.19, 36.24],
+  "bolu-pass": [31.68, 40.63],
+  "zigana-pass": [39.4, 40.65],
+  "gulek-pass": [34.8, 37.3],
+  "sertavul-pass": [33.1, 36.88],
+  "belen-pass": [36.23, 36.48],
+  "kop-pass": [40.55, 40.03],
+  zonguldak: [31.79, 41.45],
+  divrigi: [38.12, 39.37],
+  seyitomer: [29.58, 39.49],
+  murgul: [41.56, 41.28],
+  bigadic: [28.13, 39.39],
+  mazidagi: [40.49, 37.48],
+  cesme: [26.3, 38.32],
+  germencik: [27.6, 37.87],
+  akkuyu: [33.54, 36.14],
+  ataturk: [38.32, 37.48],
+  karapinar: [33.55, 37.72],
+  afsin: [36.92, 38.25],
+  "istanbul-san": [28.98, 41.01],
+  "izmir-san": [27.14, 38.42],
+  "bursa-san": [29.06, 40.19],
+  "ankara-san": [32.85, 39.93],
+  "adana-san": [35.32, 37.0],
+  "gaziantep-san": [37.38, 37.07],
+  "istanbul-port": [28.97, 41.02],
+  "izmir-port": [27.14, 38.43],
+  "mersin-port": [34.64, 36.8],
+  "iskenderun-port": [36.17, 36.59],
+  "samsun-port": [36.33, 41.29],
+  "trabzon-port": [39.73, 41.0],
+  "zonguldak-port": [31.79, 41.45],
+  pamukkale: [29.12, 37.92],
+  kapadokya: [34.83, 38.64],
+  safranbolu: [32.69, 41.25],
+  "nemrut-tour": [38.74, 37.98],
+  sumela: [39.66, 40.69],
+  efes: [27.34, 37.94],
+  "istanbul-city": [28.98, 41.01],
+  "ankara-city": [32.85, 39.93],
+  "izmir-city": [27.14, 38.42],
+  "antalya-city": [30.71, 36.89],
+  "samsun-city": [36.33, 41.29],
+  "erzurum-city": [41.27, 39.9],
+  "diyarbakir-city": [40.23, 37.91],
+  "bogazici-b": [29.03, 41.05],
+  "fsm-b": [29.06, 41.09],
+  "yss-b": [29.11, 41.2],
+  "osmangazi-b": [29.51, 40.75],
+  "canakkale-b": [26.63, 40.34],
+  "avrasya-t": [29.02, 41.0],
+  "marmaray-t": [29.02, 41.0],
+  "bolu-t": [31.69, 40.65],
+  "ovit-t": [40.78, 40.62],
+  "zigana-t": [39.47, 40.64],
+};
+
+const LABEL_OFFSETS: Record<string, Coordinate> = {
+  agri: [0, -22],
+  "agri-v": [24, -20],
+  tendurek: [24, 34],
+  suphan: [-44, -24],
+  nemrut: [-36, 20],
+  erciyes: [0, -22],
+  "erciyes-v": [0, -22],
+  hasan: [-34, 22],
+  karadag: [-26, 24],
+  melendiz: [36, -4],
+  "karacadag-ic": [-45, -2],
+  "karacadag-gd": [28, 22],
+  kula: [0, -20],
+};
+
 const REAL_LINES: Record<string, Coordinate[]> = {
   yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
   kure: [[32.0, 41.4], [33.1, 41.5], [34.3, 41.3]],
@@ -1261,6 +1356,8 @@ function distributionPolygonsFor(feature: Feature) {
 }
 
 function featureCenter(feature: Feature): Coordinate {
+  const point = POINT_COORDINATES[feature.id];
+  if (point) return project(point);
   const areaPolygon = areaPolygonFor(feature);
   if (areaPolygon) {
     const projected = areaPolygon.map(project);
@@ -1289,6 +1386,11 @@ function featureCenter(feature: Feature): Coordinate {
     return [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2];
   }
   return [50 + feature.x * 9, 20 + feature.y * 3.75];
+}
+
+function featureLabelCenter(feature: Feature, center: Coordinate): Coordinate {
+  const [offsetX, offsetY] = LABEL_OFFSETS[feature.id] ?? [0, -18];
+  return [center[0] + offsetX, center[1] + offsetY];
 }
 
 function featureHitArea(feature: Feature) {
@@ -1421,6 +1523,15 @@ function featureGraphic(
     return <path d={`M${cx - width / 2},${cy + height / 2} L${cx - width / 4},${cy - height / 3} L${cx},${cy + height / 4} L${cx + width / 4},${cy - height / 2} L${cx + width / 2},${cy + height / 2}`} className="geo-shape geo-shape--mountain" />;
   }
   if (feature.kind === "volcano" || feature.kind === "pass") {
+    if (feature.kind === "volcano") {
+      return (
+        <g className="volcano-glyph">
+          <ellipse cx={cx} cy={cy + height * .54} rx={width * .58} ry={height * .22} className="volcano-shadow" />
+          <path d={`M${cx},${cy - height} L${cx + width / 2},${cy + height / 2} L${cx - width / 2},${cy + height / 2} Z`} className="geo-shape geo-shape--volcano" />
+          <path d={`M${cx - width * .13},${cy - height * .42} Q${cx},${cy - height * .58} ${cx + width * .13},${cy - height * .42}`} className="volcano-crater" />
+        </g>
+      );
+    }
     return <path d={`M${cx},${cy - height} L${cx + width / 2},${cy + height / 2} L${cx - width / 2},${cy + height / 2} Z`} className="geo-shape geo-shape--volcano" />;
   }
   if (feature.kind === "city" || feature.kind === "gate" || feature.kind === "mine" || feature.kind === "energy") {
@@ -1556,6 +1667,7 @@ function TurkeyMap({
             const [cx, cy] = feature.plates?.length
               ? provinceSetCenter(feature.plates, provinces)
               : featureCenter(feature);
+            const [labelX, labelY] = featureLabelCenter(feature, [cx, cy]);
             return (
               <g
                 key={feature.id}
@@ -1578,10 +1690,15 @@ function TurkeyMap({
                   provinces,
                 )}
                 {status === "correct" && (
-                  <g className="geo-label" transform={`translate(${cx} ${cy - 18})`}>
-                    <rect x="-62" y="-19" width="124" height="22" rx="5" />
-                    <text textAnchor="middle" y="-4">{feature.name}</text>
-                  </g>
+                  <>
+                    {(labelX !== cx || labelY !== cy - 18) && (
+                      <line className="geo-label-leader" x1={cx} y1={cy} x2={labelX} y2={labelY - 10} />
+                    )}
+                    <g className="geo-label" transform={`translate(${labelX} ${labelY})`}>
+                      <rect x="-62" y="-19" width="124" height="22" rx="5" />
+                      <text textAnchor="middle" y="-4">{feature.name}</text>
+                    </g>
+                  </>
                 )}
               </g>
             );
