@@ -25,3 +25,13 @@ test("genel konu haritaları alt konulardaki öğelerin tamamını kapsar", () =
     );
   }
 });
+
+test("resmî MEB, DSİ ve Ticaret Bakanlığı çekirdek listeleri eksiksizdir", () => {
+  for (const coverage of report.sourceCoverage) {
+    assert.deepEqual(
+      coverage.missing,
+      [],
+      `${coverage.quiz} resmî kaynak karşılaştırmasında eksik öğeler içeriyor`,
+    );
+  }
+});

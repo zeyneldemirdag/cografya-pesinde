@@ -133,7 +133,13 @@ button { color: inherit; }
   text-transform: uppercase;
   letter-spacing: .06em;
 }
-.coverage-stamp span { color: var(--green); font-weight: 900; }
+.coverage-stamp a {
+  color: var(--green);
+  font-weight: 900;
+  text-decoration: none;
+}
+.coverage-stamp a:hover { text-decoration: underline; }
+.coverage-stamp a span { display: inline-block; margin-left: 3px; }
 .coverage-stamp b { color: var(--muted); white-space: nowrap; }
 
 .question-card {

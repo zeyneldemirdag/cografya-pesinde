@@ -319,6 +319,7 @@ const QUIZZES: Quiz[] = [
       f("bakircay", "Bakırçay", 17, 46, 12, 3, "river", -4),
       f("meric", "Meriç", 7, 29, 5, 12, "river", 82),
       f("aras", "Aras", 87, 38, 13, 3, "river", -2),
+      f("kura", "Kura", 88, 29, 11, 3, "river", 8),
       f("coruh", "Çoruh", 84, 24, 12, 3, "river", -18),
       f("goksu", "Göksu", 48, 69, 12, 3, "river", 72),
       f("manavgat", "Manavgat", 36, 71, 9, 3, "river", 80),
@@ -389,6 +390,7 @@ const QUIZZES: Quiz[] = [
     features: [
       f("coruh", "Çoruh · Karadeniz", 84, 24, 12, 3, "river"),
       f("aras", "Aras · Hazar Denizi", 87, 38, 13, 3, "river"),
+      f("kura", "Kura · Hazar Denizi", 88, 29, 11, 3, "river"),
       f("firat", "Fırat · Basra Körfezi", 70, 48, 22, 3, "river"),
       f("dicle", "Dicle · Basra Körfezi", 79, 58, 18, 3, "river"),
     ],
@@ -434,6 +436,18 @@ const QUIZZES: Quiz[] = [
       f("selcuk-d", "Selçuk Deltası", 18, 58, 8, 4, "plain"),
       f("balat-d", "Balat Deltası", 20, 62, 8, 4, "plain"),
       f("meric-d", "Meriç Deltası", 7, 36, 8, 4, "plain"),
+      f("bursa-o", "Bursa Ovası", 22, 35, 8, 4, "plain"),
+      f("yuksekova-o", "Yüksekova", 89, 68, 8, 4, "plain"),
+      f("adapazari-o", "Adapazarı Ovası", 29, 29, 8, 4, "plain"),
+      f("bolu-o", "Bolu Ovası", 34, 28, 7, 4, "plain"),
+      f("duzce-o", "Düzce Ovası", 31, 27, 7, 4, "plain"),
+      f("bergama-o", "Bergama Ovası", 16, 46, 7, 4, "plain"),
+      f("soma-o", "Soma Ovası", 18, 44, 7, 4, "plain"),
+      f("akhisar-o", "Akhisar Ovası", 20, 48, 7, 4, "plain"),
+      f("maras-o", "Kahramanmaraş Ovası", 64, 59, 9, 4, "plain"),
+      f("malatya-o", "Malatya Ovası", 68, 52, 9, 4, "plain"),
+      f("suruc-o", "Suruç Ovası", 71, 69, 8, 4, "plain"),
+      f("ceylanpinar-o", "Ceylanpınar Ovası", 78, 71, 10, 4, "plain"),
     ],
   },
   {
@@ -490,6 +504,19 @@ const QUIZZES: Quiz[] = [
       f("gurbu", "Gürbulak", 92, 42, 5, 5, "gate"),
       f("habur", "Habur", 83, 72, 5, 5, "gate"),
       f("cilvegozu", "Cilvegözü", 63, 76, 5, 5, "gate"),
+      f("pazarkule", "Pazarkule", 6, 23, 5, 5, "gate"),
+      f("hamzabeyli", "Hamzabeyli", 7, 17, 5, 5, "gate"),
+      f("derekoy", "Dereköy", 12, 16, 5, 5, "gate"),
+      f("turkgozu", "Türkgözü", 86, 18, 5, 5, "gate"),
+      f("aktas", "Çıldır-Aktaş", 87, 23, 5, 5, "gate"),
+      f("dilucu", "Dilucu", 94, 39, 5, 5, "gate"),
+      f("kapikoy", "Kapıköy", 91, 56, 5, 5, "gate"),
+      f("esendere", "Esendere", 94, 67, 5, 5, "gate"),
+      f("uzumlu", "Üzümlü", 86, 74, 5, 5, "gate"),
+      f("oncupinar", "Öncüpınar", 64, 72, 5, 5, "gate"),
+      f("karkamis", "Karkamış", 70, 74, 5, 5, "gate"),
+      f("cobanbey", "Çobanbey", 67, 73, 5, 5, "gate"),
+      f("zeytidali", "Zeytindalı", 65, 75, 5, 5, "gate"),
     ],
   },
   {
@@ -565,6 +592,22 @@ const QUIZZES: Quiz[] = [
       f("murgul", "Murgul · Bakır", 86, 24, 7, 6, "mine"),
       f("bigadic", "Bigadiç · Bor", 17, 40, 7, 6, "mine"),
       f("mazidagi", "Mazıdağı · Fosfat", 78, 65, 7, 6, "mine"),
+      f("cayeli-mine", "Çayeli · Bakır", 78, 21, 7, 6, "mine"),
+      f("kure-mine", "Küre · Bakır", 39, 17, 7, 6, "mine"),
+      f("maden-mine", "Maden · Bakır", 70, 54, 7, 6, "mine"),
+      f("guleman-mine", "Guleman · Krom", 71, 53, 7, 6, "mine"),
+      f("kop-mine", "Kop Dağı · Krom", 73, 35, 7, 6, "mine"),
+      f("fethiye-koycegiz-mine", "Fethiye-Köyceğiz · Krom", 24, 70, 9, 6, "mine"),
+      f("seydisehir-mine", "Seydişehir · Boksit", 41, 64, 7, 6, "mine"),
+      f("emet-mine", "Emet · Bor", 26, 41, 7, 6, "mine"),
+      f("kirka-mine", "Kırka · Bor", 31, 42, 7, 6, "mine"),
+      f("hekimhan-mine", "Hekimhan · Demir", 67, 48, 7, 6, "mine"),
+      f("hasancelebi-mine", "Hasançelebi · Demir", 67, 47, 7, 6, "mine"),
+      f("tuzgolu-mine", "Tuz Gölü · Tuz", 50, 51, 7, 6, "mine"),
+      f("camalti-mine", "Çamaltı · Tuz", 14, 52, 7, 6, "mine"),
+      f("afsin-mine", "Afşin-Elbistan · Linyit", 65, 52, 8, 6, "mine"),
+      f("soma-mine", "Soma · Linyit", 18, 44, 7, 6, "mine"),
+      f("afyon-mermer", "Afyonkarahisar · Mermer", 33, 52, 8, 6, "mine"),
     ],
   },
   {
@@ -683,7 +726,7 @@ const QUIZZES: Quiz[] = [
   {
     id: "agriculture",
     group: "Ekonomi",
-    title: "Tarım Ürünleri",
+    title: "Başlıca Tarım Ürünleri",
     eyebrow: "Ekonomi · Tarım",
     description: "Ürünleri öne çıkan yetişme alanlarıyla eşleştir.",
     color: "#79a43e",
@@ -698,12 +741,21 @@ const QUIZZES: Quiz[] = [
       fp("grape", "Üzüm · Manisa", 20, 52, 7, 6, [45]),
       fp("sunflower", "Ayçiçeği · Trakya", 9, 26, 11, 10, [22, 39, 59]),
       fp("sugarbeet", "Şeker Pancarı · İç Anadolu", 49, 49, 20, 14, [6, 26, 38, 40, 42, 66]),
+      fp("fig", "İncir · Aydın", 18, 59, 7, 6, [9]),
+      fp("pistachio", "Antep Fıstığı · Gaziantep-Şanlıurfa", 72, 67, 13, 8, [27, 63]),
+      fp("citrus", "Turunçgiller · Akdeniz kıyıları", 50, 72, 32, 8, [1, 7, 31, 33, 80]),
+      fp("tobacco", "Tütün · Manisa", 20, 52, 7, 6, [45]),
+      fp("rice", "Çeltik · Edirne", 7, 27, 7, 6, [22]),
+      fp("apple", "Elma · Isparta", 35, 63, 7, 6, [32]),
+      fp("lentil", "Kırmızı Mercimek · Güneydoğu", 76, 65, 20, 10, [21, 47, 63]),
+      fp("wheat", "Buğday · İç Anadolu", 50, 48, 28, 18, [6, 18, 26, 40, 42, 66, 68, 70, 71]),
+      fp("corn", "Mısır · Adana-Samsun", 57, 47, 18, 26, [1, 55]),
     ],
   },
   {
     id: "livestock",
     group: "Ekonomi",
-    title: "Hayvancılık",
+    title: "Başlıca Hayvancılık Alanları",
     eyebrow: "Ekonomi · Hayvancılık",
     description: "Hayvancılık türlerinin yoğunlaştığı alanları bul.",
     color: "#aa7748",
@@ -714,6 +766,9 @@ const QUIZZES: Quiz[] = [
       f("goat", "Kıl Keçisi · Toroslar", 46, 70, 42, 9, "region"),
       fp("silkworm", "İpek Böcekçiliği · Bursa", 22, 34, 8, 7, [16]),
       fp("beekeeping", "Arıcılık · Ordu", 65, 23, 10, 7, [52]),
+      fp("angora-goat", "Tiftik Keçisi · Ankara", 43, 42, 10, 8, [6]),
+      fp("poultry", "Kümes Hayvancılığı · Bolu", 34, 27, 10, 8, [14]),
+      fp("fishing", "Balıkçılık · Karadeniz", 69, 21, 32, 9, [8, 28, 52, 53, 55, 61]),
     ],
   },
   {
@@ -750,6 +805,7 @@ const QUIZZES: Quiz[] = [
       f("altinkaya", "Altınkaya Barajı", 56, 25, 7, 6, "lake"),
       f("deriner", "Deriner Barajı", 84, 25, 7, 6, "lake"),
       f("borcka", "Borçka Barajı", 86, 23, 7, 6, "lake"),
+      f("ilisu", "Ilısu Barajı", 82, 63, 7, 6, "lake"),
     ],
   },
   {
@@ -790,7 +846,7 @@ const QUIZZES: Quiz[] = [
   {
     id: "cities",
     group: "Türkiye",
-    title: "Türkiye Şehirleri",
+    title: "Başlıca Türkiye Şehirleri",
     eyebrow: "Türkiye · Şehirler",
     description: "Temel şehir konumlarını haritada pekiştir.",
     color: "#6847bd",
@@ -981,6 +1037,7 @@ const QUIZZES: Quiz[] = [
       f("lakes-basin", "Göller Yöresi Kapalı Havzası", 36, 64, 16, 15, "region"),
       f("aksehir-eber-basin", "Akşehir-Eber Kapalı Havzası", 38, 58, 12, 9, "region"),
       f("aras-kura-basin", "Aras-Kura (Hazar) Havzası", 86, 34, 18, 13, "region"),
+      f("hazar-lake-basin", "Hazar Gölü Kapalı Havzası", 68, 51, 9, 8, "region"),
     ],
   },
   {
@@ -1041,6 +1098,100 @@ const QUIZZES: Quiz[] = [
 const GROUPS = ["Tümü", ...Array.from(new Set(QUIZZES.map((quiz) => quiz.group)))];
 const TOTAL_LOCATIONS = QUIZZES.reduce((sum, quiz) => sum + quiz.features.length, 0);
 
+type SourceRef = { label: string; url: string };
+
+const SOURCE_BY_GROUP: Record<string, SourceRef> = {
+  "Dağlar": {
+    label: "MEB yer şekilleri + HGM",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page76.html",
+  },
+  "Göller": {
+    label: "DSİ su kaynakları + MEB",
+    url: "https://dsi.gov.tr/Sayfa/Detay/754",
+  },
+  "Sular": {
+    label: "DSİ su kaynakları + MEB",
+    url: "https://dsi.gov.tr/Sayfa/Detay/754",
+  },
+  "Yer şekilleri": {
+    label: "MEB yer şekilleri + HGM",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page76.html",
+  },
+  "Ulaşım": {
+    label: "HGM + KGM resmî haritaları",
+    url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Root/Haritalarr.aspx",
+  },
+  "Çevre": {
+    label: "DKMP korunan alan verileri",
+    url: "https://www.tarimorman.gov.tr/DKMP/Menu/18/Korunan-Alan-Istatistikleri",
+  },
+  "Jeoloji": {
+    label: "MTA jeoloji verileri + MEB",
+    url: "https://www.mta.gov.tr/v3.0/",
+  },
+  "Ekonomi": {
+    label: "MEB + ilgili bakanlık verileri",
+    url: "https://www.tarimorman.gov.tr/Konular/Bitkisel-Uretim",
+  },
+  "Beşerî": {
+    label: "TÜİK nüfus verileri",
+    url: "https://data.tuik.gov.tr/",
+  },
+  "Doğal": {
+    label: "MGM iklim verileri + MEB",
+    url: "https://www.mgm.gov.tr/iklim/iklim-siniflandirmalari.aspx",
+  },
+  "Türkiye": {
+    label: "HGM idari ve fiziki haritaları",
+    url: "https://www.harita.gov.tr/urunler/indirilebilir-urunler/14",
+  },
+};
+
+const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
+  gates: {
+    label: "Ticaret Bakanlığı sınır kapıları",
+    url: "https://ticaret.gov.tr/gumruk-islemleri/sikca-sorulan-sorular/english/customs-offices",
+  },
+  mines: {
+    label: "MTA maden verileri + MEB",
+    url: "https://www.mta.gov.tr/v3.0/",
+  },
+  climate: {
+    label: "MGM 1991–2020 iklim verileri",
+    url: "https://www.mgm.gov.tr/iklim/iklim-siniflandirmalari.aspx",
+  },
+  tourism: {
+    label: "Kültür ve Turizm Bakanlığı",
+    url: "https://www.kulturportali.gov.tr/portal/dunyamirasindaturkiye-1",
+  },
+  agriculture: {
+    label: "Tarım ve Orman Bakanlığı + TÜİK",
+    url: "https://www.tarimorman.gov.tr/BUGEM/kumelenme/Link/12/Tuik-Istatistikleri",
+  },
+  livestock: {
+    label: "Tarım ve Orman Bakanlığı + TÜİK",
+    url: "https://arastirma.tarimorman.gov.tr/tepge/Sayfalar/Detay.aspx?TermId=7f477a6a-a8ea-4497-9ddb-173030b5be42&UrlSuffix=27",
+  },
+};
+
+const ACTIVE_QUIZ_STORAGE_KEY = "cografya-pesinde:active-quiz";
+
+function shuffledFeatureIds(features: Feature[], previousOrder: string[] = []) {
+  const ids = features.map((feature) => feature.id);
+  for (let index = ids.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [ids[index], ids[swapIndex]] = [ids[swapIndex], ids[index]];
+  }
+  if (
+    ids.length > 1 &&
+    previousOrder.length === ids.length &&
+    ids.every((id, index) => id === previousOrder[index])
+  ) {
+    [ids[0], ids[1]] = [ids[1], ids[0]];
+  }
+  return ids;
+}
+
 type Coordinate = [number, number];
 type ProvinceFeature = {
   geometry: {
@@ -1085,6 +1236,18 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   "mus-o": [[40.9, 38.8], [41.3, 38.5], [42.1, 38.5], [42.4, 38.8], [42.0, 39.0], [41.3, 39.0]],
   "igdir-o": [[43.5, 39.9], [43.8, 39.7], [44.6, 39.7], [44.8, 39.9], [44.5, 40.1], [43.8, 40.1]],
   amik: [[36.0, 36.5], [36.2, 36.2], [36.7, 36.2], [36.9, 36.5], [36.6, 36.8], [36.2, 36.8]],
+  "bursa-o": [[28.72, 40.28], [28.82, 40.08], [29.34, 40.08], [29.47, 40.22], [29.31, 40.36], [28.9, 40.38]],
+  "yuksekova-o": [[43.98, 37.72], [44.08, 37.48], [44.55, 37.43], [44.7, 37.6], [44.52, 37.78], [44.15, 37.82]],
+  "adapazari-o": [[30.12, 40.88], [30.28, 40.65], [30.78, 40.61], [30.91, 40.79], [30.72, 40.95], [30.3, 40.99]],
+  "bolu-o": [[31.42, 40.78], [31.53, 40.57], [31.91, 40.56], [32.02, 40.72], [31.87, 40.85], [31.57, 40.86]],
+  "duzce-o": [[30.98, 40.95], [31.08, 40.75], [31.43, 40.72], [31.53, 40.88], [31.39, 41.0], [31.12, 41.02]],
+  "bergama-o": [[26.98, 39.2], [27.08, 39.0], [27.42, 38.98], [27.52, 39.14], [27.37, 39.27], [27.1, 39.28]],
+  "soma-o": [[27.43, 39.28], [27.5, 39.08], [27.83, 39.02], [27.91, 39.18], [27.76, 39.32], [27.53, 39.35]],
+  "akhisar-o": [[27.62, 39.06], [27.72, 38.82], [28.08, 38.78], [28.2, 38.96], [28.03, 39.12], [27.76, 39.15]],
+  "maras-o": [[36.72, 37.75], [36.82, 37.48], [37.24, 37.4], [37.39, 37.59], [37.22, 37.79], [36.91, 37.85]],
+  "malatya-o": [[37.93, 38.52], [38.05, 38.25], [38.55, 38.2], [38.69, 38.4], [38.52, 38.57], [38.13, 38.61]],
+  "suruc-o": [[37.91, 37.15], [38.03, 36.88], [38.53, 36.84], [38.66, 37.03], [38.48, 37.2], [38.09, 37.23]],
+  "ceylanpinar-o": [[39.71, 37.04], [39.85, 36.76], [40.43, 36.72], [40.57, 36.91], [40.35, 37.08], [39.92, 37.12]],
   catalca: [[27.4, 41.5], [28.0, 40.9], [29.3, 40.7], [30.6, 40.9], [30.3, 41.4], [29.2, 41.6], [28.1, 41.7]],
   bozok: [[34.3, 40.0], [34.7, 39.3], [35.6, 39.1], [36.3, 39.5], [36.0, 40.1], [35.2, 40.3]],
   obruk: [[32.2, 38.6], [32.6, 37.8], [33.5, 37.6], [34.3, 38.0], [34.0, 38.8], [33.0, 39.0]],
@@ -1119,6 +1282,7 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   altinkaya: [[35.93, 41.25], [36.0, 41.12], [36.18, 41.08], [36.28, 41.18], [36.17, 41.3], [36.02, 41.34]],
   deriner: [[41.78, 41.23], [41.84, 41.13], [42.0, 41.11], [42.08, 41.2], [41.99, 41.3], [41.84, 41.31]],
   borcka: [[41.64, 41.4], [41.7, 41.32], [41.82, 41.33], [41.86, 41.41], [41.79, 41.48], [41.68, 41.48]],
+  ilisu: [[41.73, 37.66], [41.77, 37.49], [42.03, 37.43], [42.16, 37.55], [42.05, 37.7], [41.85, 37.75]],
   avlan: [[29.93, 36.59], [29.96, 36.52], [30.07, 36.52], [30.1, 36.59], [30.04, 36.65], [29.96, 36.64]],
   "kestel-l": [[29.33, 37.3], [29.38, 37.23], [29.5, 37.23], [29.54, 37.3], [29.48, 37.36], [29.38, 37.36]],
   "kovada-l": [[30.82, 37.66], [30.84, 37.59], [30.94, 37.58], [30.98, 37.65], [30.92, 37.71], [30.85, 37.71]],
@@ -1205,6 +1369,7 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   "lakes-basin": [[[29.0, 38.5], [32.5, 38.6], [32.3, 36.5], [29.3, 36.2], [28.5, 37.2]]],
   "aksehir-eber-basin": [[[30.2, 39.1], [32.4, 39.0], [32.5, 37.8], [30.5, 37.6]]],
   "aras-kura-basin": [[[39.5, 41.8], [44.8, 42.0], [44.8, 39.0], [42.0, 39.1], [40.0, 40.0]]],
+  "hazar-lake-basin": [[[38.45, 39.05], [39.25, 39.04], [39.55, 38.65], [39.34, 38.3], [38.63, 38.28], [38.34, 38.62]]],
 };
 
 const POINT_COORDINATES: Record<string, Coordinate> = {
@@ -1230,6 +1395,19 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   gurbu: [44.48, 39.42],
   habur: [42.57, 37.15],
   cilvegozu: [36.19, 36.24],
+  pazarkule: [26.56, 41.66],
+  hamzabeyli: [26.58, 41.95],
+  derekoy: [27.37, 41.97],
+  turkgozu: [43.13, 41.47],
+  aktas: [43.2, 41.21],
+  dilucu: [44.8, 39.65],
+  kapikoy: [44.13, 38.49],
+  esendere: [44.57, 37.72],
+  uzumlu: [43.08, 37.08],
+  oncupinar: [36.67, 36.82],
+  karkamis: [38.01, 36.87],
+  cobanbey: [37.56, 36.85],
+  zeytidali: [36.66, 36.76],
   "bolu-pass": [31.68, 40.63],
   "zigana-pass": [39.4, 40.65],
   "gulek-pass": [34.8, 37.3],
@@ -1242,6 +1420,22 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   murgul: [41.56, 41.28],
   bigadic: [28.13, 39.39],
   mazidagi: [40.49, 37.48],
+  "cayeli-mine": [40.73, 41.09],
+  "kure-mine": [33.71, 41.8],
+  "maden-mine": [39.67, 38.39],
+  "guleman-mine": [39.85, 38.45],
+  "kop-mine": [40.55, 40.03],
+  "fethiye-koycegiz-mine": [29.0, 36.75],
+  "seydisehir-mine": [31.85, 37.42],
+  "emet-mine": [29.26, 39.34],
+  "kirka-mine": [30.53, 39.28],
+  "hekimhan-mine": [37.93, 38.82],
+  "hasancelebi-mine": [37.88, 38.95],
+  "tuzgolu-mine": [33.4, 38.75],
+  "camalti-mine": [26.85, 38.48],
+  "afsin-mine": [36.92, 38.25],
+  "soma-mine": [27.61, 39.19],
+  "afyon-mermer": [30.54, 38.75],
   cesme: [26.3, 38.32],
   germencik: [27.6, 37.87],
   akkuyu: [33.54, 36.14],
@@ -1344,6 +1538,7 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   "mutludere-br": [[27.4, 42.0], [28.0, 41.9], [28.1, 41.8]],
   "aras-br": [[42.5, 39.9], [43.3, 39.9], [44.5, 39.8]],
   aras: [[40.45, 39.72], [41.2, 39.72], [42.0, 39.92], [43.0, 40.08], [44.0, 40.0], [44.7, 39.78]],
+  kura: [[42.32, 40.53], [42.68, 40.76], [43.06, 40.92], [43.45, 41.02], [43.78, 41.12]],
   coruh: [[39.75, 40.25], [40.25, 40.4], [40.75, 40.65], [41.2, 40.85], [41.65, 41.2], [41.55, 41.5]],
   "asi-br": [[36.3, 36.8], [36.2, 36.4], [36.0, 36.0]],
   "hezil-br": [[42.4, 37.3], [42.8, 37.2], [43.1, 37.1]],
@@ -1684,11 +1879,13 @@ function featureGraphic(
 
 function TurkeyMap({
   quiz,
+  currentFeatureId,
   correctIds,
   wrongIds,
   onSelect,
 }: {
   quiz: Quiz;
+  currentFeatureId: string;
   correctIds: string[];
   wrongIds: string[];
   onSelect: (feature: Feature) => void;
@@ -1697,6 +1894,11 @@ function TurkeyMap({
   const [lakes, setLakes] = useState<LakeFeature[]>([]);
   const [rivers, setRivers] = useState<RiverFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
+  const orderedFeatures = [...quiz.features].sort((left, right) => {
+    if (left.id === currentFeatureId) return 1;
+    if (right.id === currentFeatureId) return -1;
+    return 0;
+  });
 
   useEffect(() => {
     fetch("/data/turkey-provinces.geojson")
@@ -1800,7 +2002,7 @@ function TurkeyMap({
           </g>
         )}
         {quiz.id !== "provinces" && <g className="feature-layer">
-          {quiz.features.map((feature, featureIndex) => {
+          {orderedFeatures.map((feature, featureIndex) => {
             const status = correctIds.includes(feature.id)
               ? "correct"
               : wrongIds.includes(feature.id)
@@ -1864,6 +2066,9 @@ function TurkeyMap({
 
 export default function Home() {
   const [activeQuizId, setActiveQuizId] = useState(QUIZZES[0].id);
+  const [questionOrder, setQuestionOrder] = useState(
+    QUIZZES[0].features.map((feature) => feature.id),
+  );
   const [activeGroup, setActiveGroup] = useState("Tümü");
   const [questionIndex, setQuestionIndex] = useState(0);
   const [correctIds, setCorrectIds] = useState<string[]>([]);
@@ -1874,7 +2079,9 @@ export default function Home() {
   const [soundOn, setSoundOn] = useState(true);
 
   const quiz = QUIZZES.find((item) => item.id === activeQuizId) ?? QUIZZES[0];
-  const current = quiz.features[questionIndex];
+  const sourceRef = SOURCE_BY_QUIZ[quiz.id] ?? SOURCE_BY_GROUP[quiz.group];
+  const currentId = questionOrder[questionIndex] ?? quiz.features[0].id;
+  const current = quiz.features.find((feature) => feature.id === currentId) ?? quiz.features[0];
   const visibleQuizzes = useMemo(
     () =>
       activeGroup === "Tümü"
@@ -1887,13 +2094,16 @@ export default function Home() {
     attempts === 0 ? 100 : Math.round((correctIds.length / attempts) * 100);
 
   const resetQuiz = (nextQuizId = activeQuizId) => {
+    const nextQuiz = QUIZZES.find((item) => item.id === nextQuizId) ?? QUIZZES[0];
     setActiveQuizId(nextQuizId);
+    setQuestionOrder((previousOrder) => shuffledFeatureIds(nextQuiz.features, previousOrder));
     setQuestionIndex(0);
     setCorrectIds([]);
     setWrongIds([]);
     setAttempts(0);
     setFinished(false);
     setMenuOpen(false);
+    window.localStorage.setItem(ACTIVE_QUIZ_STORAGE_KEY, nextQuiz.id);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -1926,6 +2136,20 @@ export default function Home() {
 
     window.setTimeout(() => setQuestionIndex((index) => index + 1), 360);
   };
+
+  useEffect(() => {
+    const savedQuizId = window.localStorage.getItem(ACTIVE_QUIZ_STORAGE_KEY);
+    const savedQuiz = QUIZZES.find((item) => item.id === savedQuizId);
+    const restoreTimer = window.setTimeout(() => {
+      if (savedQuiz) {
+        setActiveQuizId(savedQuiz.id);
+        setQuestionOrder((previousOrder) => shuffledFeatureIds(savedQuiz.features, previousOrder));
+      } else {
+        setQuestionOrder((previousOrder) => shuffledFeatureIds(QUIZZES[0].features, previousOrder));
+      }
+    }, 0);
+    return () => window.clearTimeout(restoreTimer);
+  }, []);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -1969,7 +2193,9 @@ export default function Home() {
           <h1>Haritada bul.<br />Tıklayarak öğren.</h1>
           <p>{quiz.description}</p>
           <div className="coverage-stamp">
-            <span>✓ MEB + HGM ile çapraz kontrollü</span>
+            <a href={sourceRef.url} target="_blank" rel="noreferrer" title="Bu oyunun ana kaynağını aç">
+              ✓ {sourceRef.label} <span aria-hidden="true">↗</span>
+            </a>
             <b>{QUIZZES.length} harita · {TOTAL_LOCATIONS} konum</b>
           </div>
 
@@ -2012,6 +2238,7 @@ export default function Home() {
             <div className="sea-label sea-label--med">AKDENİZ</div>
             <TurkeyMap
               quiz={quiz}
+              currentFeatureId={finished ? "" : current.id}
               correctIds={correctIds}
               wrongIds={wrongIds}
               onSelect={handleSelect}

@@ -68,6 +68,10 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /const LABEL_OFFSETS/);
   assert.match(page, /flushSync/);
   assert.match(page, /playMapSound/);
+  assert.match(page, /function shuffledFeatureIds/);
+  assert.match(page, /ACTIVE_QUIZ_STORAGE_KEY/);
+  assert.match(page, /window\.localStorage\.setItem/);
+  assert.match(page, /window\.localStorage\.getItem/);
   assert.match(page, /Ses.*açık/);
   assert.match(page, /className="geo-line-hit"/);
   assert.match(page, /const usesRiverOverride/);

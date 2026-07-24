@@ -115,6 +115,69 @@ const coverageComparisons = [
   };
 });
 
+const officialExpectations = {
+  plateaus: [
+    "Yazılıkaya Platosu", "Uşak-Eşme Platosu", "Gaziantep Platosu",
+    "Şanlıurfa Platosu", "Erzurum-Kars Platosu", "Ardahan Platosu",
+    "Teke Platosu", "Taşeli Platosu", "Haymana Platosu",
+    "Cihanbeyli Platosu", "Obruk Platosu", "Uzunyayla Platosu",
+    "Çatalca-Kocaeli Platosu", "Perşembe Platosu",
+  ],
+  plains: [
+    "Çukurova", "Gediz Ovası", "Bursa Ovası", "Çarşamba Deltası",
+    "Konya Ovası", "Iğdır Ovası", "Yüksekova", "Erzincan Ovası",
+    "Muş Ovası", "Bafra Deltası", "Silifke Deltası", "Adapazarı Ovası",
+    "Bolu Ovası", "Düzce Ovası", "Bergama Ovası", "Soma Ovası",
+    "Akhisar Ovası", "Amik Ovası", "Kahramanmaraş Ovası",
+    "Malatya Ovası", "Suruç Ovası", "Ceylanpınar Ovası",
+  ],
+  "outbound-rivers": ["Fırat", "Dicle", "Çoruh", "Kura", "Aras"],
+  "inbound-rivers": ["Asi", "Meriç"],
+  dams: ["Atatürk Barajı", "Keban Barajı", "Ilısu Barajı", "Karakaya Barajı", "Hirfanlı Barajı"],
+  gates: [
+    "Pazarkule", "İpsala", "Kapıkule", "Hamzabeyli", "Dereköy",
+    "Sarp", "Türkgözü", "Çıldır-Aktaş", "Dilucu", "Gürbulak",
+    "Kapıköy", "Esendere", "Habur", "Üzümlü", "Cilvegözü",
+    "Öncüpınar", "Karkamış", "Çobanbey", "Zeytindalı",
+  ],
+  ramsar: [
+    "Sultan Sazlığı", "Kuş Gölü", "Kızılırmak Deltası", "Göksu Deltası",
+    "Kuyucuk Gölü", "Nemrut Kalderası", "Burdur Gölü", "Seyfe Gölü",
+    "Uluabat Gölü", "Gediz Deltası", "Akyatan Lagünü",
+    "Yumurtalık Lagünleri", "Meke Maarı", "Kızören Obruğu",
+  ],
+  mines: [
+    "Zonguldak", "Divriği", "Murgul", "Çayeli", "Küre", "Maden",
+    "Guleman", "Kop Dağı", "Fethiye-Köyceğiz", "Seydişehir",
+    "Bigadiç", "Emet", "Kırka", "Mazıdağı", "Hekimhan",
+    "Hasançelebi", "Tuz Gölü", "Çamaltı", "Seyitömer",
+    "Afşin-Elbistan", "Soma", "Afyonkarahisar",
+  ],
+  agriculture: [
+    "Çay", "Fındık", "Zeytin", "Pamuk", "Muz", "Kayısı", "Üzüm",
+    "Ayçiçeği", "Şeker Pancarı", "İncir", "Antep Fıstığı",
+    "Turunçgiller", "Tütün", "Çeltik", "Elma", "Kırmızı Mercimek",
+    "Buğday", "Mısır",
+  ],
+  livestock: [
+    "Büyükbaş", "Koyun", "Kıl Keçisi", "İpek Böcekçiliği",
+    "Arıcılık", "Tiftik Keçisi", "Kümes Hayvancılığı", "Balıkçılık",
+  ],
+  "closed-basins": [
+    "Van Gölü Kapalı Havzası", "Tuz Gölü Kapalı Havzası",
+    "Göller Yöresi Kapalı Havzası", "Hazar Gölü Kapalı Havzası",
+  ],
+};
+
+const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected]) => {
+  const present = new Set(quizFeatureNames(quiz));
+  return {
+    quiz,
+    expectedCount: expected.length,
+    missing: expected.filter((name) => !present.has(name)),
+  };
+});
+
 console.log(JSON.stringify({
   featureCalls: features.length,
   uniqueFeatures: unique.size,
@@ -122,4 +185,5 @@ console.log(JSON.stringify({
   fallback: (byGeometry.fallback ?? []).map(({ id, name, kind }) => ({ id, name, kind })),
   conflicts,
   coverageComparisons,
+  sourceCoverage,
 }, null, 2));
