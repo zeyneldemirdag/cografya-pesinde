@@ -136,7 +136,8 @@ const QUIZZES: Quiz[] = [
       f("mentese", "Menteşe Dağları", 18, 67, 7, 6, "mountain", -15),
       f("kaz", "Kaz Dağı", 13, 39, 9, 5, "mountain", 15),
       f("uludag", "Uludağ", 22, 34, 7, 5, "mountain"),
-      f("cilo", "Cilo Dağları", 88, 69, 8, 6, "mountain", -8),
+      f("malatya", "Malatya Dağları", 69, 54, 8, 5, "mountain"),
+      f("cilo", "Cilo-Sat Dağları", 88, 69, 8, 6, "mountain", -8),
       f("agri", "Ağrı Dağı", 88, 40, 5, 8, "volcano"),
       f("tendurek", "Tendürek Dağı", 84, 46, 5, 8, "volcano"),
       f("suphan", "Süphan Dağı", 78, 50, 5, 8, "volcano"),
@@ -240,6 +241,19 @@ const QUIZZES: Quiz[] = [
       f("cildir", "Çıldır Gölü", 87, 27, 5, 4, "lake"),
       f("salda", "Salda Gölü", 31, 63, 4, 4, "lake"),
       f("ercis", "Erçek Gölü", 86, 49, 4, 4, "lake"),
+      f("acigol-t", "Acıgöl", 29, 61, 5, 4, "lake"),
+      f("seyfe-t", "Seyfe Gölü", 54, 46, 5, 4, "lake"),
+      f("nazik", "Nazik Gölü", 78, 46, 5, 4, "lake"),
+      f("balik", "Balık Gölü", 88, 40, 4, 3, "lake"),
+      f("haçli", "Haçlı Gölü", 76, 49, 4, 3, "lake"),
+      f("sugla", "Suğla Gölü", 42, 68, 5, 4, "lake"),
+      f("avlan", "Avlan Gölü", 31, 69, 5, 4, "lake"),
+      f("kestel-l", "Kestel Gölü", 28, 64, 5, 4, "lake"),
+      f("kovada-l", "Kovada Gölü", 35, 62, 5, 4, "lake"),
+      f("kiziloren-l", "Kızılören Obruk Gölü", 51, 52, 5, 4, "lake"),
+      f("nemrut-vl", "Nemrut Kaldera Gölü", 75, 51, 5, 4, "lake"),
+      f("meke-vl", "Meke Maarı", 48, 61, 5, 4, "lake"),
+      f("golcuk-vl", "Gölcük Krater Gölü", 34, 61, 5, 4, "lake"),
     ],
   },
   {
@@ -254,7 +268,7 @@ const QUIZZES: Quiz[] = [
       f("iznik-t", "İznik Gölü", 21, 32, 6, 4, "lake"),
       f("sapanca", "Sapanca Gölü", 25, 31, 5, 3, "lake"),
       f("manyas-t", "Manyas Gölü", 17, 31, 5, 4, "lake"),
-      f("ulubat", "Ulubat Gölü", 19, 35, 5, 3, "lake"),
+      f("ulubat", "Uluabat Gölü", 19, 35, 5, 3, "lake"),
       f("tuz-t", "Tuz Gölü", 49, 52, 7, 9, "lake", 8),
       f("beysehir-t", "Beyşehir Gölü", 40, 65, 6, 8, "lake", 14),
       f("egirdir-t", "Eğirdir Gölü", 36, 64, 4, 9, "lake", -8),
@@ -311,6 +325,8 @@ const QUIZZES: Quiz[] = [
       f("aksu", "Aksu", 34, 71, 9, 3, "river", 80),
       f("dalaman", "Dalaman Çayı", 25, 68, 10, 3, "river", 70),
       f("susurluk", "Susurluk (Simav) Çayı", 20, 38, 14, 3, "river", 35),
+      f("mutludere-br", "Mutludere (Rezve)", 9, 15, 8, 5, "river"),
+      f("hezil-br", "Hezil Çayı", 85, 68, 8, 5, "river"),
     ],
   },
   {
@@ -403,17 +419,21 @@ const QUIZZES: Quiz[] = [
       f("konya", "Konya Ovası", 47, 59, 15, 9, "plain"),
       f("erzurum", "Erzurum Ovası", 77, 37, 12, 6, "plain"),
       f("harran", "Harran Ovası", 72, 71, 12, 7, "plain"),
-      f("bafra", "Bafra Ovası", 54, 19, 8, 4, "plain"),
-      f("carsamba", "Çarşamba Ovası", 61, 20, 8, 4, "plain"),
-      f("gediz", "Gediz Ovası", 20, 52, 12, 5, "plain", -4),
-      f("bakircay", "Bakırçay Ovası", 16, 46, 10, 4, "plain", -4),
-      f("kucukmenderes", "Küçük Menderes Ovası", 19, 56, 11, 4, "plain", 3),
+      f("bafra-d", "Bafra Deltası", 54, 19, 8, 4, "plain"),
+      f("carsamba-d", "Çarşamba Deltası", 61, 20, 8, 4, "plain"),
+      f("gediz-o", "Gediz Ovası", 20, 52, 12, 5, "plain", -4),
+      f("bakircay-o", "Bakırçay Ovası", 16, 46, 10, 4, "plain", -4),
+      f("kucukmenderes-o", "Küçük Menderes Ovası", 19, 56, 11, 4, "plain", 3),
       f("buyukmenderes-o", "Büyük Menderes Ovası", 22, 61, 13, 4, "plain", 5),
-      f("silifke", "Silifke Ovası", 46, 75, 9, 4, "plain"),
+      f("silifke-d", "Silifke Deltası", 46, 75, 9, 4, "plain"),
       f("erzincan-o", "Erzincan Ovası", 70, 42, 10, 5, "plain"),
       f("mus-o", "Muş Ovası", 78, 54, 10, 5, "plain"),
       f("igdir-o", "Iğdır Ovası", 91, 41, 7, 5, "plain"),
       f("amik", "Amik Ovası", 62, 75, 9, 5, "plain"),
+      f("menemen-d", "Menemen Deltası", 16, 51, 8, 4, "plain"),
+      f("selcuk-d", "Selçuk Deltası", 18, 58, 8, 4, "plain"),
+      f("balat-d", "Balat Deltası", 20, 62, 8, 4, "plain"),
+      f("meric-d", "Meriç Deltası", 7, 36, 8, 4, "plain"),
     ],
   },
   {
@@ -498,10 +518,10 @@ const QUIZZES: Quiz[] = [
     color: "#278e82",
     icon: "◉",
     features: [
-      f("sultan", "Sultan Sazlığı", 58, 53, 7, 6, "region"),
+      f("sultan-sazligi", "Sultan Sazlığı", 58, 53, 7, 6, "region"),
       f("kus", "Kuş Gölü", 17, 31, 6, 5, "region"),
       f("kizilirmak-delta", "Kızılırmak Deltası", 54, 18, 8, 5, "region"),
-      f("goksu", "Göksu Deltası", 49, 74, 8, 5, "region"),
+      f("goksu-delta", "Göksu Deltası", 49, 74, 8, 5, "region"),
       f("kuyucuk", "Kuyucuk Gölü", 86, 31, 5, 4, "region"),
       f("nemrut-kaldera", "Nemrut Kalderası", 75, 51, 6, 5, "region"),
       f("burdur-r", "Burdur Gölü", 33, 62, 5, 4, "region"),
@@ -1054,8 +1074,11 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   bafra: [[35.6, 41.5], [35.9, 41.3], [36.3, 41.4], [36.4, 41.7], [36.0, 41.8], [35.7, 41.7]],
   carsamba: [[36.2, 41.2], [36.5, 41.0], [37.0, 41.1], [37.3, 41.4], [36.8, 41.6], [36.3, 41.5]],
   gediz: [[27.0, 38.7], [27.3, 38.4], [28.2, 38.4], [28.7, 38.6], [28.3, 38.9], [27.5, 38.9]],
+  "gediz-o": [[27.0, 38.7], [27.3, 38.4], [28.2, 38.4], [28.7, 38.6], [28.3, 38.9], [27.5, 38.9]],
   bakircay: [[26.7, 39.2], [27.0, 38.9], [27.8, 38.9], [28.1, 39.1], [27.7, 39.4], [27.0, 39.4]],
+  "bakircay-o": [[26.7, 39.2], [27.0, 38.9], [27.8, 38.9], [28.1, 39.1], [27.7, 39.4], [27.0, 39.4]],
   kucukmenderes: [[27.0, 38.2], [27.4, 37.9], [28.2, 38.0], [28.6, 38.2], [28.1, 38.4], [27.4, 38.4]],
+  "kucukmenderes-o": [[27.0, 38.2], [27.4, 37.9], [28.2, 38.0], [28.6, 38.2], [28.1, 38.4], [27.4, 38.4]],
   "buyukmenderes-o": [[27.1, 37.8], [27.7, 37.5], [28.8, 37.5], [29.5, 37.7], [29.0, 38.0], [27.8, 38.0]],
   silifke: [[33.6, 36.4], [33.8, 36.2], [34.2, 36.2], [34.4, 36.4], [34.1, 36.6], [33.7, 36.6]],
   "erzincan-o": [[38.7, 39.7], [39.0, 39.5], [39.7, 39.5], [40.0, 39.7], [39.7, 39.9], [39.0, 39.9]],
@@ -1077,6 +1100,43 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   "sanliurfa-p": [[37.0, 37.5], [37.5, 36.8], [38.8, 36.5], [40.2, 36.8], [40.5, 37.5], [39.4, 37.9], [38.0, 37.9]],
   "ardahan-p": [[42.2, 41.5], [42.5, 40.8], [43.4, 40.6], [43.8, 41.1], [43.4, 41.7], [42.7, 41.8]],
   "persembe-p": [[36.8, 41.1], [37.2, 40.7], [38.1, 40.6], [38.5, 40.9], [38.1, 41.3], [37.3, 41.4]],
+  "seyfe-t": [[34.34, 39.24], [34.38, 39.15], [34.52, 39.13], [34.57, 39.2], [34.51, 39.28], [34.39, 39.3]],
+  balik: [[43.49, 39.82], [43.55, 39.74], [43.66, 39.75], [43.69, 39.84], [43.6, 39.91], [43.51, 39.89]],
+  "haçli": [[41.43, 39.12], [41.47, 39.03], [41.61, 39.02], [41.66, 39.1], [41.58, 39.18], [41.47, 39.19]],
+  kuyucuk: [[43.42, 40.78], [43.44, 40.72], [43.53, 40.71], [43.56, 40.76], [43.51, 40.82], [43.44, 40.83]],
+  "nemrut-kaldera": [[42.15, 38.69], [42.18, 38.6], [42.28, 38.58], [42.34, 38.64], [42.3, 38.73], [42.21, 38.75]],
+  "seyfe-r": [[34.34, 39.24], [34.38, 39.15], [34.52, 39.13], [34.57, 39.2], [34.51, 39.28], [34.39, 39.3]],
+  "gediz-r": [[26.72, 38.62], [26.82, 38.48], [27.0, 38.42], [27.16, 38.5], [27.06, 38.64], [26.88, 38.69]],
+  "akyatan-r": [[35.16, 36.67], [35.24, 36.55], [35.47, 36.54], [35.55, 36.62], [35.43, 36.7], [35.25, 36.72]],
+  "yumurtalik-r": [[35.58, 36.81], [35.65, 36.7], [35.82, 36.68], [35.9, 36.77], [35.8, 36.86], [35.65, 36.87]],
+  "meke-r": [[33.61, 37.7], [33.62, 37.66], [33.68, 37.65], [33.7, 37.69], [33.67, 37.73], [33.63, 37.73]],
+  "kizoren-r": [[33.28, 38.24], [33.29, 38.2], [33.35, 38.19], [33.37, 38.23], [33.34, 38.27], [33.3, 38.27]],
+  alluvial: [[34.3, 37.0], [34.8, 36.8], [35.6, 36.7], [36.3, 36.8], [36.1, 37.1], [35.4, 37.3], [34.7, 37.2]],
+  "ataturk-dam": [[38.25, 37.53], [38.3, 37.42], [38.42, 37.39], [38.48, 37.49], [38.4, 37.57], [38.3, 37.59]],
+  keban: [[38.72, 38.88], [38.78, 38.72], [38.95, 38.66], [39.03, 38.78], [38.95, 38.93], [38.82, 38.98]],
+  karakaya: [[38.42, 38.57], [38.52, 38.43], [38.72, 38.38], [38.82, 38.5], [38.72, 38.63], [38.53, 38.68]],
+  hirfanli: [[33.45, 39.23], [33.5, 39.08], [33.7, 39.02], [33.82, 39.14], [33.72, 39.28], [33.55, 39.32]],
+  altinkaya: [[35.93, 41.25], [36.0, 41.12], [36.18, 41.08], [36.28, 41.18], [36.17, 41.3], [36.02, 41.34]],
+  deriner: [[41.78, 41.23], [41.84, 41.13], [42.0, 41.11], [42.08, 41.2], [41.99, 41.3], [41.84, 41.31]],
+  borcka: [[41.64, 41.4], [41.7, 41.32], [41.82, 41.33], [41.86, 41.41], [41.79, 41.48], [41.68, 41.48]],
+  avlan: [[29.93, 36.59], [29.96, 36.52], [30.07, 36.52], [30.1, 36.59], [30.04, 36.65], [29.96, 36.64]],
+  "kestel-l": [[29.33, 37.3], [29.38, 37.23], [29.5, 37.23], [29.54, 37.3], [29.48, 37.36], [29.38, 37.36]],
+  "kovada-l": [[30.82, 37.66], [30.84, 37.59], [30.94, 37.58], [30.98, 37.65], [30.92, 37.71], [30.85, 37.71]],
+  "kiziloren-l": [[33.28, 38.24], [33.29, 38.2], [33.35, 38.19], [33.37, 38.23], [33.34, 38.27], [33.3, 38.27]],
+  "nemrut-vl": [[42.15, 38.69], [42.18, 38.6], [42.28, 38.58], [42.34, 38.64], [42.3, 38.73], [42.21, 38.75]],
+  "meke-vl": [[33.61, 37.7], [33.62, 37.66], [33.68, 37.65], [33.7, 37.69], [33.67, 37.73], [33.63, 37.73]],
+  "golcuk-vl": [[30.46, 37.75], [30.47, 37.7], [30.54, 37.69], [30.56, 37.74], [30.52, 37.78], [30.48, 37.78]],
+  "bafra-d": [[35.6, 41.5], [35.9, 41.3], [36.3, 41.4], [36.4, 41.7], [36.0, 41.8], [35.7, 41.7]],
+  "carsamba-d": [[36.2, 41.2], [36.5, 41.0], [37.0, 41.1], [37.3, 41.4], [36.8, 41.6], [36.3, 41.5]],
+  "cukur-d": [[34.3, 37.0], [34.8, 36.8], [35.6, 36.7], [36.3, 36.8], [36.1, 37.1], [35.4, 37.3], [34.7, 37.2]],
+  "silifke-d": [[33.6, 36.4], [33.8, 36.2], [34.2, 36.2], [34.4, 36.4], [34.1, 36.6], [33.7, 36.6]],
+  "menemen-d": [[26.72, 38.62], [26.82, 38.48], [27.0, 38.42], [27.16, 38.5], [27.06, 38.64], [26.88, 38.69]],
+  "selcuk-d": [[27.18, 37.98], [27.25, 37.86], [27.45, 37.84], [27.55, 37.93], [27.46, 38.03], [27.28, 38.05]],
+  "balat-d": [[27.12, 37.64], [27.2, 37.48], [27.42, 37.44], [27.55, 37.54], [27.46, 37.67], [27.25, 37.72]],
+  "meric-d": [[26.02, 40.78], [26.08, 40.66], [26.25, 40.63], [26.35, 40.71], [26.28, 40.82], [26.1, 40.86]],
+  "sultan-sazligi": [[35.15, 38.3], [35.18, 38.15], [35.4, 38.12], [35.48, 38.25], [35.37, 38.36], [35.2, 38.38]],
+  "kizilirmak-delta": [[35.6, 41.5], [35.9, 41.3], [36.3, 41.4], [36.4, 41.7], [36.0, 41.8], [35.7, 41.7]],
+  "goksu-delta": [[33.6, 36.4], [33.8, 36.2], [34.2, 36.2], [34.4, 36.4], [34.1, 36.6], [33.7, 36.6]],
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
@@ -1127,6 +1187,24 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   goat: [
     [[29.1, 36.5], [31.0, 36.1], [33.2, 36.2], [35.0, 36.6], [36.5, 36.4], [36.7, 37.1], [35.0, 37.5], [33.0, 37.3], [31.0, 37.5], [29.4, 37.2]],
   ],
+  "yildiz-m": [[[26.3, 42.0], [28.9, 42.0], [29.3, 41.2], [28.4, 40.8], [26.4, 41.1]]],
+  "menderes-m": [[[26.5, 39.7], [28.0, 39.5], [29.6, 38.9], [29.8, 37.2], [28.7, 36.7], [27.0, 37.3]]],
+  "kirsehir-m": [[[32.5, 40.2], [35.0, 40.4], [36.7, 39.3], [36.0, 37.9], [33.4, 37.8], [32.0, 38.8]]],
+  "bitlis-m": [[[38.5, 39.5], [41.5, 39.7], [43.3, 38.6], [42.7, 37.0], [40.0, 37.0], [38.2, 38.1]]],
+  "kazdagi-m": [[[26.4, 40.2], [27.6, 40.3], [28.0, 39.4], [27.2, 39.0], [26.3, 39.4]]],
+  marmara: [[[25.7, 42.1], [30.8, 42.1], [31.0, 40.0], [29.4, 39.4], [26.0, 39.8]]],
+  aegean: [[[26.0, 40.6], [30.8, 40.3], [30.7, 36.3], [28.5, 35.8], [26.0, 37.0]]],
+  med: [[[28.5, 37.5], [31.0, 37.8], [34.0, 37.5], [36.8, 37.8], [37.1, 35.8], [29.0, 35.7]]],
+  black: [[[29.5, 42.1], [41.8, 42.1], [41.7, 39.7], [38.5, 39.9], [35.0, 40.0], [31.0, 39.9]]],
+  central: [[[29.5, 40.3], [33.0, 40.8], [37.5, 40.2], [39.0, 38.3], [36.0, 36.8], [31.0, 37.0]]],
+  east: [[[37.0, 41.8], [44.8, 42.0], [44.8, 37.2], [42.0, 36.7], [38.0, 37.4], [36.5, 39.5]]],
+  southeast: [[[36.0, 38.3], [44.5, 38.3], [44.7, 36.5], [36.2, 36.4]]],
+  "van-basin": [[[41.6, 39.7], [44.4, 40.0], [44.8, 37.8], [42.2, 37.4], [41.3, 38.4]]],
+  "tuz-basin": [[[32.0, 40.0], [34.8, 40.0], [35.2, 38.0], [33.7, 37.2], [31.8, 38.0]]],
+  "konya-basin": [[[30.5, 38.6], [34.5, 38.8], [35.0, 36.6], [31.0, 36.2], [29.8, 37.3]]],
+  "lakes-basin": [[[29.0, 38.5], [32.5, 38.6], [32.3, 36.5], [29.3, 36.2], [28.5, 37.2]]],
+  "aksehir-eber-basin": [[[30.2, 39.1], [32.4, 39.0], [32.5, 37.8], [30.5, 37.6]]],
+  "aras-kura-basin": [[[39.5, 41.8], [44.8, 42.0], [44.8, 39.0], [42.0, 39.1], [40.0, 40.0]]],
 };
 
 const POINT_COORDINATES: Record<string, Coordinate> = {
@@ -1265,6 +1343,8 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   "meric-br": [[26.5, 41.7], [26.3, 41.1], [26.1, 40.7]],
   "mutludere-br": [[27.4, 42.0], [28.0, 41.9], [28.1, 41.8]],
   "aras-br": [[42.5, 39.9], [43.3, 39.9], [44.5, 39.8]],
+  aras: [[40.45, 39.72], [41.2, 39.72], [42.0, 39.92], [43.0, 40.08], [44.0, 40.0], [44.7, 39.78]],
+  coruh: [[39.75, 40.25], [40.25, 40.4], [40.75, 40.65], [41.2, 40.85], [41.65, 41.2], [41.55, 41.5]],
   "asi-br": [[36.3, 36.8], [36.2, 36.4], [36.0, 36.0]],
   "hezil-br": [[42.4, 37.3], [42.8, 37.2], [43.1, 37.1]],
   "boyuna-black": [[28.8, 41.1], [32.0, 41.7], [36.0, 41.6], [40.0, 41.1], [41.8, 41.4]],
@@ -1274,6 +1354,18 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   "ria-mentese": [[27.4, 37.1], [28.0, 36.8], [28.7, 36.7]],
   "dalmacya-teke": [[29.3, 36.3], [29.8, 36.2], [30.5, 36.2]],
   "limanli-marmara": [[28.2, 41.0], [28.6, 41.0], [29.0, 41.1]],
+  "aydin-f": [[27.2, 37.8], [28.1, 37.7], [29.0, 37.7]],
+  istanbul: [[28.96, 41.22], [29.1, 41.12], [29.04, 41.03], [28.98, 40.98]],
+  canakkale: [[26.72, 40.45], [26.55, 40.25], [26.4, 40.05]],
+  saros: [[26.0, 40.64], [26.45, 40.55], [26.9, 40.62]],
+  "edremit-g": [[26.55, 39.48], [26.95, 39.35], [27.45, 39.43]],
+  "candarli-g": [[26.65, 38.95], [26.95, 38.78], [27.25, 38.9]],
+  "izmir-g": [[26.6, 38.55], [27.0, 38.35], [27.35, 38.5]],
+  "kusadasi-g": [[27.0, 37.98], [27.3, 37.75], [27.65, 37.85]],
+  "gokova-g": [[27.3, 37.05], [28.0, 36.8], [28.7, 36.95]],
+  "antalya-g": [[29.8, 36.75], [30.7, 36.45], [31.6, 36.75]],
+  "mersin-g": [[33.5, 36.5], [34.4, 36.35], [35.2, 36.55]],
+  "iskenderun-g": [[35.7, 36.75], [36.15, 36.45], [36.55, 36.75]],
 };
 
 function project([longitude, latitude]: Coordinate): Coordinate {
@@ -1365,6 +1457,7 @@ function lakeShapeId(feature: Feature) {
     "burdur-r": "burdur",
     "uluabat-r": "uluabat",
     "ulubat": "uluabat",
+    kus: "manyas",
   };
   return (aliases[feature.id] ?? feature.id).replace(/-(t|vl|l)$/, "");
 }
@@ -1384,7 +1477,7 @@ function realLineFor(feature: Feature) {
 }
 
 function areaPolygonFor(feature: Feature) {
-  return feature.kind === "plain" || feature.kind === "plateau"
+  return ["plain", "plateau", "region", "lake"].includes(feature.kind)
     ? AREA_POLYGONS[feature.id]
     : undefined;
 }
@@ -1435,15 +1528,7 @@ function featureLabelCenter(feature: Feature, center: Coordinate, featureIndex =
 }
 
 function featureHitArea(feature: Feature) {
-  const realLine = realLineFor(feature);
-  if (realLine) {
-    const projected = realLine.map(project);
-    const xs = projected.map(([x]) => x);
-    const ys = projected.map(([, y]) => y);
-    const x = Math.min(...xs) - 12;
-    const y = Math.min(...ys) - 12;
-    return <rect className="geo-hit" x={x} y={y} width={Math.max(...xs) - Math.min(...xs) + 24} height={Math.max(...ys) - Math.min(...ys) + 24} />;
-  }
+  if (!["volcano", "city", "gate", "pass", "mine", "energy"].includes(feature.kind)) return null;
   const [cx, cy] = featureCenter(feature);
   return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
 }
@@ -1458,6 +1543,9 @@ function featureGraphic(
   const [cx, cy] = featureCenter(feature);
   const width = Math.max(feature.w * 7.2, 20);
   const height = Math.max(feature.h * 3.1, 12);
+  const usesRiverOverride = feature.kind === "river"
+    && ["aras", "aras-br", "coruh"].includes(feature.id)
+    && realLine;
 
   if (feature.plates?.length) {
     return (
@@ -1501,7 +1589,22 @@ function featureGraphic(
     );
   }
 
-  if (feature.kind === "lake" && lakeShape) {
+  if (usesRiverOverride && realLine) {
+    const path = realLine
+      .map(([x, y], index) => {
+        const [px, py] = project([x, y]);
+        return `${index === 0 ? "M" : "L"}${px.toFixed(1)},${py.toFixed(1)}`;
+      })
+      .join(" ");
+    return (
+      <g>
+        <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
+        <path d={path} className="geo-shape geo-shape--line geo-shape--exact-river" vectorEffect="non-scaling-stroke" />
+      </g>
+    );
+  }
+
+  if (lakeShape) {
     return (
       <path
         d={lakePath(lakeShape)}
@@ -1532,6 +1635,7 @@ function featureGraphic(
       const ridgePoints = points;
       return (
         <g>
+          <path d={path} className="geo-line-hit" vectorEffect="non-scaling-stroke" />
           <path d={path} className="geo-shape geo-shape--mountain-line" vectorEffect="non-scaling-stroke" />
           {ridgePoints.map(([x, y], index) => (
             <path
@@ -1544,11 +1648,14 @@ function featureGraphic(
       );
     }
     return (
-      <path
-        d={path}
-        className="geo-shape geo-shape--line"
-        vectorEffect="non-scaling-stroke"
-      />
+      <g>
+        <path d={path} className="geo-line-hit" vectorEffect="non-scaling-stroke" />
+        <path
+          d={path}
+          className="geo-shape geo-shape--line"
+          vectorEffect="non-scaling-stroke"
+        />
+      </g>
     );
   }
   if (feature.kind === "river") {

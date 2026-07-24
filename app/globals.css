@@ -358,7 +358,14 @@ button { color: inherit; }
 .geo-river-hit {
   fill: none;
   stroke: transparent;
-  stroke-width: 24;
+  stroke-width: 14;
+  pointer-events: stroke;
+}
+
+.geo-line-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
   pointer-events: stroke;
 }
 
