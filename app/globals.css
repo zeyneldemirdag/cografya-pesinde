@@ -295,7 +295,7 @@ button { color: inherit; }
   stroke: rgba(255,255,255,.7);
   stroke-width: 1.2;
   vector-effect: non-scaling-stroke;
-  transition: fill .15s ease, stroke .15s ease, filter .15s ease;
+  transition: fill .06s linear, stroke .06s linear, filter .06s linear;
 }
 
 .province-option:hover > path,

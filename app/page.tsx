@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { flushSync } from "react-dom";
 
 type FeatureKind =
   | "mountain"
@@ -72,6 +73,31 @@ const fp = (
   h: number,
   plates: number[],
 ): Feature => ({ ...f(id, name, x, y, w, h, "region"), plates });
+
+let mapAudioContext: AudioContext | null = null;
+
+function playMapSound(kind: "correct" | "wrong") {
+  const AudioContextClass = window.AudioContext;
+  mapAudioContext ??= new AudioContextClass();
+  const context = mapAudioContext;
+  const now = context.currentTime;
+  const tones = kind === "correct"
+    ? [{ frequency: 620, start: 0, duration: .055 }, { frequency: 900, start: .065, duration: .075 }]
+    : [{ frequency: 190, start: 0, duration: .09 }];
+
+  tones.forEach(({ frequency, start, duration }) => {
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.type = kind === "correct" ? "sine" : "triangle";
+    oscillator.frequency.setValueAtTime(frequency, now + start);
+    gain.gain.setValueAtTime(.0001, now + start);
+    gain.gain.exponentialRampToValueAtTime(.075, now + start + .008);
+    gain.gain.exponentialRampToValueAtTime(.0001, now + start + duration);
+    oscillator.connect(gain).connect(context.destination);
+    oscillator.start(now + start);
+    oscillator.stop(now + start + duration + .01);
+  });
+}
 
 const QUIZZES: Quiz[] = [
   {
@@ -1738,6 +1764,7 @@ export default function Home() {
   const [attempts, setAttempts] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
 
   const quiz = QUIZZES.find((item) => item.id === activeQuizId) ?? QUIZZES[0];
   const current = quiz.features[questionIndex];
@@ -1765,25 +1792,32 @@ export default function Home() {
 
   const handleSelect = (feature: Feature) => {
     if (finished || correctIds.includes(feature.id)) return;
-    setAttempts((value) => value + 1);
 
     if (feature.id !== current.id) {
-      setWrongIds((ids) =>
-        ids.includes(feature.id) ? ids : [...ids, feature.id],
-      );
+      flushSync(() => {
+        setAttempts((value) => value + 1);
+        setWrongIds((ids) =>
+          ids.includes(feature.id) ? ids : [...ids, feature.id],
+        );
+      });
+      if (soundOn) playMapSound("wrong");
       return;
     }
 
     const nextCorrect = [...correctIds, feature.id];
-    setCorrectIds(nextCorrect);
-    setWrongIds([]);
+    flushSync(() => {
+      setAttempts((value) => value + 1);
+      setCorrectIds(nextCorrect);
+      setWrongIds([]);
+    });
+    if (soundOn) playMapSound("correct");
 
     if (nextCorrect.length === quiz.features.length) {
       window.setTimeout(() => setFinished(true), 380);
       return;
     }
 
-    window.setTimeout(() => setQuestionIndex((index) => index + 1), 520);
+    window.setTimeout(() => setQuestionIndex((index) => index + 1), 360);
   };
 
   useEffect(() => {
@@ -1805,6 +1839,14 @@ export default function Home() {
           </span>
         </a>
         <div className="top-actions">
+          <button
+            className="ghost-button"
+            type="button"
+            aria-pressed={soundOn}
+            onClick={() => setSoundOn((value) => !value)}
+          >
+            <span>{soundOn ? "♪" : "×"}</span> Ses {soundOn ? "açık" : "kapalı"}
+          </button>
           <button className="ghost-button" type="button" onClick={() => setMenuOpen(true)}>
             <span>⌘</span> Konu değiştir
           </button>
