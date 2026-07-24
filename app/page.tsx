@@ -27,6 +27,7 @@ type Feature = {
   r?: number;
   kind: FeatureKind;
   plate?: number;
+  plates?: number[];
 };
 
 type Quiz = {
@@ -61,6 +62,16 @@ const p = (plate: number, name: string): Feature => ({
   kind: "province",
   plate,
 });
+
+const fp = (
+  id: string,
+  name: string,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  plates: number[],
+): Feature => ({ ...f(id, name, x, y, w, h, "region"), plates });
 
 const QUIZZES: Quiz[] = [
   {
@@ -524,10 +535,10 @@ const QUIZZES: Quiz[] = [
     color: "#e06d2f",
     icon: "↗",
     features: [
-      f("gap", "GAP", 76, 65, 20, 14, "region"),
-      f("dap", "DAP", 79, 40, 22, 15, "region"),
-      f("dokap", "DOKAP", 69, 22, 25, 10, "region"),
-      f("kop", "KOP", 49, 57, 20, 16, "region"),
+      fp("gap", "GAP · 9 il", 76, 65, 20, 14, [2, 21, 27, 47, 56, 63, 72, 73, 79]),
+      fp("dap", "DAP · 15 il", 79, 40, 22, 15, [4, 12, 13, 23, 24, 25, 30, 36, 44, 49, 58, 62, 65, 75, 76]),
+      fp("dokap", "DOKAP · 11 il", 69, 22, 25, 10, [5, 8, 19, 28, 29, 52, 53, 55, 60, 61, 69]),
+      fp("kop", "KOP · 8 il", 49, 57, 20, 16, [40, 42, 50, 51, 66, 68, 70, 71]),
     ],
   },
   {
@@ -997,6 +1008,39 @@ type RiverFeature = {
 const MAP_BOUNDS = { west: 25.55, east: 44.85, north: 42.15, south: 35.75 };
 const MAP_COLORS = ["#ead9a2", "#c4d89b", "#e9bd7b", "#c7d8ca", "#d4c1dc", "#f1cf9f", "#b8d6c7"];
 
+const AREA_POLYGONS: Record<string, Coordinate[]> = {
+  cukur: [[34.3, 37.0], [34.8, 36.8], [35.6, 36.7], [36.3, 36.8], [36.1, 37.1], [35.4, 37.3], [34.7, 37.2]],
+  konya: [[31.5, 38.4], [32.0, 37.8], [32.8, 37.5], [33.8, 37.7], [34.1, 38.2], [33.5, 38.7], [32.4, 38.8]],
+  erzurum: [[40.6, 40.0], [41.0, 39.8], [41.8, 39.8], [42.2, 40.0], [41.8, 40.3], [41.0, 40.3]],
+  harran: [[38.4, 37.3], [38.7, 36.8], [39.4, 36.7], [39.8, 37.1], [39.5, 37.5], [38.8, 37.5]],
+  bafra: [[35.6, 41.5], [35.9, 41.3], [36.3, 41.4], [36.4, 41.7], [36.0, 41.8], [35.7, 41.7]],
+  carsamba: [[36.2, 41.2], [36.5, 41.0], [37.0, 41.1], [37.3, 41.4], [36.8, 41.6], [36.3, 41.5]],
+  gediz: [[27.0, 38.7], [27.3, 38.4], [28.2, 38.4], [28.7, 38.6], [28.3, 38.9], [27.5, 38.9]],
+  bakircay: [[26.7, 39.2], [27.0, 38.9], [27.8, 38.9], [28.1, 39.1], [27.7, 39.4], [27.0, 39.4]],
+  kucukmenderes: [[27.0, 38.2], [27.4, 37.9], [28.2, 38.0], [28.6, 38.2], [28.1, 38.4], [27.4, 38.4]],
+  "buyukmenderes-o": [[27.1, 37.8], [27.7, 37.5], [28.8, 37.5], [29.5, 37.7], [29.0, 38.0], [27.8, 38.0]],
+  silifke: [[33.6, 36.4], [33.8, 36.2], [34.2, 36.2], [34.4, 36.4], [34.1, 36.6], [33.7, 36.6]],
+  "erzincan-o": [[38.7, 39.7], [39.0, 39.5], [39.7, 39.5], [40.0, 39.7], [39.7, 39.9], [39.0, 39.9]],
+  "mus-o": [[40.9, 38.8], [41.3, 38.5], [42.1, 38.5], [42.4, 38.8], [42.0, 39.0], [41.3, 39.0]],
+  "igdir-o": [[43.5, 39.9], [43.8, 39.7], [44.6, 39.7], [44.8, 39.9], [44.5, 40.1], [43.8, 40.1]],
+  amik: [[36.0, 36.5], [36.2, 36.2], [36.7, 36.2], [36.9, 36.5], [36.6, 36.8], [36.2, 36.8]],
+  catalca: [[27.4, 41.5], [28.0, 40.9], [29.3, 40.7], [30.6, 40.9], [30.3, 41.4], [29.2, 41.6], [28.1, 41.7]],
+  bozok: [[34.3, 40.0], [34.7, 39.3], [35.6, 39.1], [36.3, 39.5], [36.0, 40.1], [35.2, 40.3]],
+  obruk: [[32.2, 38.6], [32.6, 37.8], [33.5, 37.6], [34.3, 38.0], [34.0, 38.8], [33.0, 39.0]],
+  taspinar: [[32.0, 37.3], [32.4, 36.6], [33.5, 36.3], [34.4, 36.7], [34.1, 37.3], [33.1, 37.6]],
+  gaziantep: [[36.5, 37.5], [36.9, 36.8], [37.8, 36.7], [38.5, 37.1], [38.1, 37.7], [37.2, 37.9]],
+  "erzurum-kars": [[40.5, 40.9], [40.8, 39.7], [42.0, 39.3], [43.4, 39.7], [43.7, 40.7], [42.8, 41.2], [41.5, 41.3]],
+  haymana: [[31.5, 39.7], [31.9, 39.0], [32.8, 38.9], [33.5, 39.3], [33.1, 39.9], [32.2, 40.0]],
+  cihanbeyli: [[31.4, 39.1], [31.7, 38.4], [32.6, 38.1], [33.4, 38.5], [33.1, 39.2], [32.2, 39.4]],
+  uzunyayla: [[35.3, 39.2], [35.8, 38.4], [36.7, 38.2], [37.4, 38.7], [37.1, 39.4], [36.1, 39.6]],
+  yazilikaya: [[29.1, 39.7], [29.5, 39.0], [30.4, 38.8], [31.2, 39.2], [30.9, 39.8], [30.0, 40.0]],
+  "usak-esme": [[28.3, 38.9], [28.7, 38.2], [29.5, 38.0], [30.2, 38.4], [29.9, 39.0], [29.0, 39.2]],
+  teke: [[28.8, 37.3], [29.2, 36.4], [30.2, 36.1], [31.2, 36.5], [30.9, 37.3], [29.9, 37.6]],
+  "sanliurfa-p": [[37.0, 37.5], [37.5, 36.8], [38.8, 36.5], [40.2, 36.8], [40.5, 37.5], [39.4, 37.9], [38.0, 37.9]],
+  "ardahan-p": [[42.2, 41.5], [42.5, 40.8], [43.4, 40.6], [43.8, 41.1], [43.4, 41.7], [42.7, 41.8]],
+  "persembe-p": [[36.8, 41.1], [37.2, 40.7], [38.1, 40.6], [38.5, 40.9], [38.1, 41.3], [37.3, 41.4]],
+};
+
 const REAL_LINES: Record<string, Coordinate[]> = {
   yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
   kure: [[32.0, 41.4], [33.1, 41.5], [34.3, 41.3]],
@@ -1111,6 +1155,23 @@ function provinceCenter(feature: ProvinceFeature): Coordinate {
   ];
 }
 
+function provinceSetCenter(plates: number[], provinces: ProvinceFeature[]): Coordinate {
+  const selected = provinces.filter((province) => plates.includes(province.properties.plate));
+  if (selected.length === 0) return [500, 215];
+  const projected = selected.flatMap((province) => {
+    const coordinates = province.geometry.type === "Polygon"
+      ? (province.geometry.coordinates as Coordinate[][]).flat()
+      : (province.geometry.coordinates as Coordinate[][][]).flat(2);
+    return coordinates.map(project);
+  });
+  const xs = projected.map(([x]) => x);
+  const ys = projected.map(([, y]) => y);
+  return [
+    (Math.min(...xs) + Math.max(...xs)) / 2,
+    (Math.min(...ys) + Math.max(...ys)) / 2,
+  ];
+}
+
 function lakeShapeId(feature: Feature) {
   const aliases: Record<string, string> = {
     "van-vs": "van",
@@ -1139,7 +1200,23 @@ function realLineFor(feature: Feature) {
   return REAL_LINES[feature.id] ?? REAL_LINES[canonicalId];
 }
 
+function areaPolygonFor(feature: Feature) {
+  return feature.kind === "plain" || feature.kind === "plateau"
+    ? AREA_POLYGONS[feature.id]
+    : undefined;
+}
+
 function featureCenter(feature: Feature): Coordinate {
+  const areaPolygon = areaPolygonFor(feature);
+  if (areaPolygon) {
+    const projected = areaPolygon.map(project);
+    const xs = projected.map(([x]) => x);
+    const ys = projected.map(([, y]) => y);
+    return [
+      (Math.min(...xs) + Math.max(...xs)) / 2,
+      (Math.min(...ys) + Math.max(...ys)) / 2,
+    ];
+  }
   const realLine = realLineFor(feature);
   if (realLine) {
     const projected = realLine.map(project);
@@ -1168,11 +1245,39 @@ function featureGraphic(
   feature: Feature,
   lakeShape?: LakeFeature,
   riverShape?: RiverFeature,
+  provinces: ProvinceFeature[] = [],
 ) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
   const width = Math.max(feature.w * 7.2, 20);
   const height = Math.max(feature.h * 3.1, 12);
+
+  if (feature.plates?.length) {
+    return (
+      <g className="geo-province-union">
+        {provinces
+          .filter((province) => feature.plates?.includes(province.properties.plate))
+          .map((province) => (
+            <path
+              key={`${feature.id}-${province.properties.plate}`}
+              d={provincePath(province)}
+              className="geo-shape geo-shape--region geo-shape--province-area"
+              fillRule="evenodd"
+            />
+          ))}
+      </g>
+    );
+  }
+
+  const areaPolygon = areaPolygonFor(feature);
+  if (areaPolygon) {
+    return (
+      <path
+        d={ringPath(areaPolygon)}
+        className={`geo-shape geo-shape--${feature.kind} geo-shape--area`}
+      />
+    );
+  }
 
   if (feature.kind === "lake" && lakeShape) {
     return (
@@ -1369,7 +1474,9 @@ function TurkeyMap({
               : wrongIds.includes(feature.id)
                 ? "wrong"
                 : "idle";
-            const [cx, cy] = featureCenter(feature);
+            const [cx, cy] = feature.plates?.length
+              ? provinceSetCenter(feature.plates, provinces)
+              : featureCenter(feature);
             return (
               <g
                 key={feature.id}
@@ -1389,6 +1496,7 @@ function TurkeyMap({
                   feature,
                   lakes.find((lake) => lake.properties.id === lakeShapeId(feature)),
                   rivers.find((river) => river.properties.id === riverShapeId(feature)),
+                  provinces,
                 )}
                 {status === "correct" && (
                   <g className="geo-label" transform={`translate(${cx} ${cy - 18})`}>

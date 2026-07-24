@@ -61,4 +61,21 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /id: "glacial-mountains"/);
   assert.match(page, /id: "black-sea-rivers"/);
   assert.match(page, /id: "inbound-rivers"/);
+  assert.match(page, /const AREA_POLYGONS/);
+  assert.match(
+    page,
+    /fp\("gap", "GAP · 9 il", 76, 65, 20, 14, \[2, 21, 27, 47, 56, 63, 72, 73, 79\]\)/,
+  );
+  assert.match(
+    page,
+    /fp\("dap", "DAP · 15 il", 79, 40, 22, 15, \[4, 12, 13, 23, 24, 25, 30, 36, 44, 49, 58, 62, 65, 75, 76\]\)/,
+  );
+  assert.match(
+    page,
+    /fp\("dokap", "DOKAP · 11 il", 69, 22, 25, 10, \[5, 8, 19, 28, 29, 52, 53, 55, 60, 61, 69\]\)/,
+  );
+  assert.match(
+    page,
+    /fp\("kop", "KOP · 8 il", 49, 57, 20, 16, \[40, 42, 50, 51, 66, 68, 70, 71\]\)/,
+  );
 });
