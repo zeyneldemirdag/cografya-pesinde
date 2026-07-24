@@ -702,10 +702,31 @@ function featureGraphic(feature: Feature) {
   if (realLine) {
     const points = realLine.map(project);
     const path = points.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+    if (feature.kind === "mountain") {
+      const ridgePoints = points.flatMap((point, index) => {
+        if (index === points.length - 1) return [point];
+        return [
+          point,
+          [(point[0] + points[index + 1][0]) / 2, (point[1] + points[index + 1][1]) / 2] as Coordinate,
+        ];
+      });
+      return (
+        <g>
+          <path d={path} className="geo-shape geo-shape--mountain-line" vectorEffect="non-scaling-stroke" />
+          {ridgePoints.map(([x, y], index) => (
+            <path
+              key={`${feature.id}-peak-${index}`}
+              d={`M${x - 9},${y + 5} L${x},${y - 9} L${x + 9},${y + 5} Z`}
+              className="geo-shape geo-shape--mountain-peak"
+            />
+          ))}
+        </g>
+      );
+    }
     return (
       <path
         d={path}
-        className={`geo-shape ${feature.kind === "mountain" ? "geo-shape--mountain" : "geo-shape--line"}`}
+        className="geo-shape geo-shape--line"
         vectorEffect="non-scaling-stroke"
       />
     );
@@ -749,12 +770,30 @@ function TurkeyMap({
   return (
     <div className="real-map-wrap">
       <svg className="real-map" viewBox="0 0 1000 430" role="img" aria-label={`81 il sınırları üzerinde ${quiz.title}`}>
+        <defs>
+          <clipPath id="turkey-country-clip">
+            {provinces.map((province) => (
+              <path key={`clip-${province.properties.plate}`} d={provincePath(province)} />
+            ))}
+          </clipPath>
+        </defs>
+        <image
+          className="relief-layer"
+          href="/data/turkey-relief.png"
+          x="0"
+          y="0"
+          width="1000"
+          height="430"
+          preserveAspectRatio="none"
+          clipPath="url(#turkey-country-clip)"
+        />
         <g className="province-layer">
           {provinces.map((province) => (
             <path
               key={province.properties.plate}
               d={provincePath(province)}
               fill={MAP_COLORS[province.properties.plate % MAP_COLORS.length]}
+              fillOpacity=".46"
               onPointerEnter={() => setHoveredProvince(province.properties.name)}
               onPointerLeave={() => setHoveredProvince("")}
             >
@@ -801,6 +840,7 @@ function TurkeyMap({
         <span>81 İL SINIRI</span>
         <strong>{hoveredProvince || "İlin üzerine gel"}</strong>
       </div>
+      <div className="map-attribution">Rölyef: Esri · Sınırlar: açık coğrafi veri</div>
       {provinces.length === 0 && <div className="map-loading">Gerçek Türkiye haritası yükleniyor…</div>}
     </div>
   );
