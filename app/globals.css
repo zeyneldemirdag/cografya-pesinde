@@ -225,6 +225,167 @@ button { color: inherit; }
   background-size: 12.5% 20%;
 }
 
+.real-map-wrap {
+  position: absolute;
+  inset: 48px 24px 30px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+}
+
+.real-map {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 12px 8px rgba(31, 58, 52, .24));
+}
+
+.province-layer path {
+  stroke: #fffdf7;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  transition: filter .12s ease, opacity .12s ease;
+}
+
+.province-layer path:hover {
+  filter: brightness(1.09) saturate(1.08);
+}
+
+.feature-layer {
+  isolation: isolate;
+}
+
+.geo-feature {
+  cursor: pointer;
+  outline: none;
+}
+
+.geo-hit {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.geo-feature:focus .geo-shape,
+.geo-feature:hover .geo-shape {
+  filter: brightness(1.12) drop-shadow(0 0 4px rgba(255,255,255,.95));
+  stroke-width: 10;
+}
+
+.geo-shape {
+  fill: #b89362;
+  stroke: #49382d;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  paint-order: stroke fill;
+  transition: fill .15s ease, stroke .15s ease, filter .15s ease;
+}
+
+.geo-shape--line {
+  fill: none;
+  stroke: #296fbe;
+  stroke-width: 8;
+}
+
+.geo-shape--mountain {
+  fill: none;
+  stroke: #6b4a70;
+  stroke-width: 8;
+}
+
+.geo-shape--volcano { fill: #c45139; stroke: #7b2e20; }
+.geo-shape--lake { fill: #39a5cc; stroke: #176d91; }
+.geo-shape--plain { fill: #93b95e; stroke: #587234; }
+.geo-shape--plateau { fill: #b98b59; stroke: #735436; }
+.geo-shape--region { fill: rgba(230, 137, 53, .58); stroke: #8d5926; stroke-dasharray: 7 4; }
+.geo-shape--city { fill: #6549aa; stroke: #39266f; }
+.geo-shape--gate { fill: #f2c94c; stroke: #7f6417; }
+.geo-shape--mine { fill: #876c55; stroke: #4d3a2a; }
+.geo-shape--energy { fill: #e7b82f; stroke: #8a6b0a; }
+
+.geo-feature--wrong .geo-shape {
+  fill: var(--red);
+  stroke: #8d1f1a;
+  animation: mapPulse .3s ease;
+}
+
+.geo-feature--wrong .geo-shape--line,
+.geo-feature--wrong .geo-shape--mountain {
+  fill: none;
+  stroke: var(--red);
+}
+
+.geo-feature--correct .geo-shape {
+  fill: var(--green);
+  stroke: #176743;
+  filter: drop-shadow(0 0 3px white);
+}
+
+.geo-feature--correct .geo-shape--line,
+.geo-feature--correct .geo-shape--mountain {
+  fill: none;
+  stroke: var(--green);
+}
+
+@keyframes mapPulse {
+  50% { filter: brightness(1.35); }
+}
+
+.geo-label {
+  pointer-events: none;
+}
+
+.geo-label rect {
+  fill: var(--ink);
+  stroke: white;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.geo-label text {
+  fill: white;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.map-province-readout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255,253,247,.88);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px rgba(22,41,37,.1);
+}
+
+.map-province-readout span {
+  color: var(--green);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .13em;
+}
+
+.map-province-readout strong {
+  min-width: 100px;
+  font-size: 11px;
+}
+
+.map-loading {
+  position: absolute;
+  inset: 42% auto auto 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 14px;
+  border-radius: 99px;
+  background: var(--card);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
 .sea-label {
   position: absolute;
   color: #5e817c;

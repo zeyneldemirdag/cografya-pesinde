@@ -603,37 +603,206 @@ const QUIZZES: Quiz[] = [
 const GROUPS = ["Tümü", ...Array.from(new Set(QUIZZES.map((quiz) => quiz.group)))];
 const TOTAL_LOCATIONS = QUIZZES.reduce((sum, quiz) => sum + quiz.features.length, 0);
 
-function FeatureButton({
-  feature,
-  status,
+type Coordinate = [number, number];
+type ProvinceFeature = {
+  geometry: {
+    type: "Polygon" | "MultiPolygon";
+    coordinates: Coordinate[][] | Coordinate[][][];
+  };
+  properties: { name: string; plate: number };
+};
+
+const MAP_BOUNDS = { west: 25.55, east: 44.85, north: 42.15, south: 35.75 };
+const MAP_COLORS = ["#ead9a2", "#c4d89b", "#e9bd7b", "#c7d8ca", "#d4c1dc", "#f1cf9f", "#b8d6c7"];
+
+const REAL_LINES: Record<string, Coordinate[]> = {
+  yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
+  kure: [[32.0, 41.4], [33.1, 41.5], [34.3, 41.3]],
+  canik: [[35.3, 41.1], [36.6, 40.9], [38.0, 40.8]],
+  kackar: [[39.2, 40.9], [40.4, 40.8], [41.7, 40.8]],
+  "bolu-d": [[30.5, 40.7], [31.4, 40.7], [32.2, 40.8]],
+  bey: [[29.4, 36.8], [30.3, 36.9], [31.1, 37.0]],
+  bolkar: [[32.8, 37.0], [33.8, 37.1], [34.8, 37.2]],
+  aladag: [[34.7, 37.8], [35.4, 37.9], [36.0, 38.1]],
+  munzur: [[38.5, 39.6], [39.4, 39.7], [40.4, 39.6]],
+  hakkari: [[43.0, 37.5], [43.8, 37.6], [44.6, 37.4]],
+  madra: [[26.8, 39.3], [27.2, 39.0], [27.5, 38.7]],
+  yunt: [[27.0, 38.9], [27.3, 38.6], [27.6, 38.3]],
+  bozdag: [[27.2, 38.1], [28.0, 38.0], [28.7, 38.0]],
+  "aydin-d": [[27.2, 37.8], [28.1, 37.7], [29.0, 37.7]],
+  mentese: [[28.0, 37.3], [28.5, 37.0], [29.1, 36.8]],
+  kizilirmak: [[37.1, 39.7], [35.6, 39.0], [33.7, 39.4], [32.9, 40.2], [34.2, 41.2], [35.9, 41.6]],
+  yesilirmak: [[36.6, 40.3], [35.8, 40.6], [36.3, 41.0], [36.8, 41.4]],
+  sakarya: [[30.1, 38.6], [31.3, 39.2], [31.0, 40.0], [30.4, 40.7]],
+  firat: [[38.5, 39.8], [39.1, 38.9], [38.4, 38.1], [39.2, 37.2], [40.5, 36.9]],
+  dicle: [[40.2, 38.2], [40.8, 37.7], [41.4, 37.2], [42.4, 37.0]],
+  seyhan: [[35.5, 38.4], [35.4, 37.8], [35.3, 37.1], [35.3, 36.8]],
+  buyukmenderes: [[29.2, 38.1], [28.7, 37.8], [28.0, 37.7], [27.3, 37.6]],
+};
+
+function project([longitude, latitude]: Coordinate): Coordinate {
+  return [
+    ((longitude - MAP_BOUNDS.west) / (MAP_BOUNDS.east - MAP_BOUNDS.west)) * 1000,
+    ((MAP_BOUNDS.north - latitude) / (MAP_BOUNDS.north - MAP_BOUNDS.south)) * 430,
+  ];
+}
+
+function ringPath(ring: Coordinate[]) {
+  return ring.map((coordinate, index) => {
+    const [x, y] = project(coordinate);
+    return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ") + " Z";
+}
+
+function provincePath(feature: ProvinceFeature) {
+  if (feature.geometry.type === "Polygon") {
+    return (feature.geometry.coordinates as Coordinate[][]).map(ringPath).join(" ");
+  }
+  return (feature.geometry.coordinates as Coordinate[][][])
+    .flatMap((polygon) => polygon.map(ringPath))
+    .join(" ");
+}
+
+function realLineFor(feature: Feature) {
+  const canonicalId = feature.id.replace(/-(f|t|vs)$/, "");
+  return REAL_LINES[feature.id] ?? REAL_LINES[canonicalId];
+}
+
+function featureCenter(feature: Feature): Coordinate {
+  const realLine = realLineFor(feature);
+  if (realLine) {
+    const projected = realLine.map(project);
+    const xs = projected.map(([x]) => x);
+    const ys = projected.map(([, y]) => y);
+    return [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2];
+  }
+  return [50 + feature.x * 9, 20 + feature.y * 3.75];
+}
+
+function featureHitArea(feature: Feature) {
+  const realLine = realLineFor(feature);
+  if (realLine) {
+    const projected = realLine.map(project);
+    const xs = projected.map(([x]) => x);
+    const ys = projected.map(([, y]) => y);
+    const x = Math.min(...xs) - 12;
+    const y = Math.min(...ys) - 12;
+    return <rect className="geo-hit" x={x} y={y} width={Math.max(...xs) - Math.min(...xs) + 24} height={Math.max(...ys) - Math.min(...ys) + 24} />;
+  }
+  const [cx, cy] = featureCenter(feature);
+  return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
+}
+
+function featureGraphic(feature: Feature) {
+  const realLine = realLineFor(feature);
+  const [cx, cy] = featureCenter(feature);
+  const width = Math.max(feature.w * 7.2, 20);
+  const height = Math.max(feature.h * 3.1, 12);
+
+  if (realLine) {
+    const points = realLine.map(project);
+    const path = points.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+    return (
+      <path
+        d={path}
+        className={`geo-shape ${feature.kind === "mountain" ? "geo-shape--mountain" : "geo-shape--line"}`}
+        vectorEffect="non-scaling-stroke"
+      />
+    );
+  }
+  if (feature.kind === "river") {
+    return <path d={`M${cx - width / 2},${cy + height / 3} Q${cx},${cy - height} ${cx + width / 2},${cy}`} className="geo-shape geo-shape--line" />;
+  }
+  if (feature.kind === "mountain") {
+    return <path d={`M${cx - width / 2},${cy + height / 2} L${cx - width / 4},${cy - height / 3} L${cx},${cy + height / 4} L${cx + width / 4},${cy - height / 2} L${cx + width / 2},${cy + height / 2}`} className="geo-shape geo-shape--mountain" />;
+  }
+  if (feature.kind === "volcano" || feature.kind === "pass") {
+    return <path d={`M${cx},${cy - height} L${cx + width / 2},${cy + height / 2} L${cx - width / 2},${cy + height / 2} Z`} className="geo-shape geo-shape--volcano" />;
+  }
+  if (feature.kind === "city" || feature.kind === "gate" || feature.kind === "mine" || feature.kind === "energy") {
+    return <path d={`M${cx},${cy - height} L${cx + width / 2},${cy} L${cx},${cy + height} L${cx - width / 2},${cy} Z`} className={`geo-shape geo-shape--${feature.kind}`} />;
+  }
+  return <ellipse cx={cx} cy={cy} rx={width / 2} ry={height / 2} className={`geo-shape geo-shape--${feature.kind}`} transform={`rotate(${feature.r ?? 0} ${cx} ${cy})`} />;
+}
+
+function TurkeyMap({
+  quiz,
+  correctIds,
+  wrongIds,
   onSelect,
 }: {
-  feature: Feature;
-  status: "idle" | "wrong" | "correct";
-  onSelect: () => void;
+  quiz: Quiz;
+  correctIds: string[];
+  wrongIds: string[];
+  onSelect: (feature: Feature) => void;
 }) {
+  const [provinces, setProvinces] = useState<ProvinceFeature[]>([]);
+  const [hoveredProvince, setHoveredProvince] = useState("");
+
+  useEffect(() => {
+    fetch("/data/turkey-provinces.geojson")
+      .then((response) => response.json())
+      .then((data) => setProvinces(data.features as ProvinceFeature[]))
+      .catch(() => setProvinces([]));
+  }, []);
+
   return (
-    <button
-      type="button"
-      className={`feature feature--${feature.kind} feature--${status}`}
-      data-feature-id={feature.id}
-      data-status={status}
-      aria-label={
-        status === "correct" ? `${feature.name}, doğru bilindi` : "Harita seçeneği"
-      }
-      onClick={onSelect}
-      style={
-        {
-          "--x": `${feature.x}%`,
-          "--y": `${feature.y}%`,
-          "--w": `${feature.w}%`,
-          "--h": `${feature.h}%`,
-          "--r": `${feature.r ?? 0}deg`,
-        } as React.CSSProperties
-      }
-    >
-      {status === "correct" && <span>{feature.name}</span>}
-    </button>
+    <div className="real-map-wrap">
+      <svg className="real-map" viewBox="0 0 1000 430" role="img" aria-label={`81 il sınırları üzerinde ${quiz.title}`}>
+        <g className="province-layer">
+          {provinces.map((province) => (
+            <path
+              key={province.properties.plate}
+              d={provincePath(province)}
+              fill={MAP_COLORS[province.properties.plate % MAP_COLORS.length]}
+              onPointerEnter={() => setHoveredProvince(province.properties.name)}
+              onPointerLeave={() => setHoveredProvince("")}
+            >
+              <title>{province.properties.name}</title>
+            </path>
+          ))}
+        </g>
+        <g className="feature-layer">
+          {quiz.features.map((feature) => {
+            const status = correctIds.includes(feature.id)
+              ? "correct"
+              : wrongIds.includes(feature.id)
+                ? "wrong"
+                : "idle";
+            const [cx, cy] = featureCenter(feature);
+            return (
+              <g
+                key={feature.id}
+                role="button"
+                tabIndex={0}
+                data-feature-id={feature.id}
+                data-status={status}
+                aria-label={status === "correct" ? `${feature.name}, doğru bilindi` : "Harita seçeneği"}
+                className={`geo-feature geo-feature--${status}`}
+                onClick={() => onSelect(feature)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") onSelect(feature);
+                }}
+              >
+                {featureHitArea(feature)}
+                {featureGraphic(feature)}
+                {status === "correct" && (
+                  <g className="geo-label" transform={`translate(${cx} ${cy - 18})`}>
+                    <rect x="-62" y="-19" width="124" height="22" rx="5" />
+                    <text textAnchor="middle" y="-4">{feature.name}</text>
+                  </g>
+                )}
+              </g>
+            );
+          })}
+        </g>
+      </svg>
+      <div className="map-province-readout">
+        <span>81 İL SINIRI</span>
+        <strong>{hoveredProvince || "İlin üzerine gel"}</strong>
+      </div>
+      {provinces.length === 0 && <div className="map-loading">Gerçek Türkiye haritası yükleniyor…</div>}
+    </div>
   );
 }
 
@@ -769,27 +938,13 @@ export default function Home() {
             <div className="sea-label sea-label--black">KARADENİZ</div>
             <div className="sea-label sea-label--aegean">EGE DENİZİ</div>
             <div className="sea-label sea-label--med">AKDENİZ</div>
-            <div className="turkey-shadow" />
-            <div className="turkey-map">
-              <div className="terrain terrain--one" />
-              <div className="terrain terrain--two" />
-              <div className="terrain terrain--three" />
-              {quiz.features.map((feature) => (
-                <FeatureButton
-                  key={feature.id}
-                  feature={feature}
-                  status={
-                    correctIds.includes(feature.id)
-                      ? "correct"
-                      : wrongIds.includes(feature.id)
-                        ? "wrong"
-                        : "idle"
-                  }
-                  onSelect={() => handleSelect(feature)}
-                />
-              ))}
-            </div>
-            <div className="map-note"><span>↖</span> Nokta değil, coğrafi şeklin kendisi tıklanır</div>
+            <TurkeyMap
+              quiz={quiz}
+              correctIds={correctIds}
+              wrongIds={wrongIds}
+              onSelect={handleSelect}
+            />
+            <div className="map-note"><span>↖</span> Gerçek il sınırları ve coğrafi koordinatlar</div>
 
             {finished && (
               <div className="finish-card" role="status">
