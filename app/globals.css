@@ -351,6 +351,18 @@ button { color: inherit; }
   stroke-width: 8;
 }
 
+.geo-river-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 24;
+  pointer-events: stroke;
+}
+
+.geo-shape--exact-river {
+  stroke-width: 5.5;
+  filter: drop-shadow(0 1px 1px rgba(255,255,255,.45));
+}
+
 .geo-shape--mountain {
   fill: none;
   stroke: #6b4a70;
@@ -459,6 +471,7 @@ button { color: inherit; }
   font-size: 7px;
   letter-spacing: .04em;
 }
+.map-attribution a { color: inherit; }
 
 .map-loading {
   position: absolute;

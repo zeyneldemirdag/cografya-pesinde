@@ -248,7 +248,97 @@ const QUIZZES: Quiz[] = [
       f("firat", "Fırat", 70, 48, 22, 3, "river", 55),
       f("dicle", "Dicle", 79, 58, 18, 3, "river", 25),
       f("seyhan", "Seyhan", 55, 64, 12, 3, "river", 75),
+      f("ceyhan", "Ceyhan", 60, 63, 12, 3, "river", 70),
+      f("asi", "Asi", 62, 72, 10, 3, "river", 78),
+      f("gediz", "Gediz", 20, 51, 16, 3, "river", -5),
       f("buyukmenderes", "Büyük Menderes", 23, 61, 18, 3, "river", 8),
+      f("kucukmenderes", "Küçük Menderes", 20, 56, 14, 3, "river", 3),
+      f("bakircay", "Bakırçay", 17, 46, 12, 3, "river", -4),
+      f("meric", "Meriç", 7, 29, 5, 12, "river", 82),
+      f("aras", "Aras", 87, 38, 13, 3, "river", -2),
+      f("coruh", "Çoruh", 84, 24, 12, 3, "river", -18),
+      f("goksu", "Göksu", 48, 69, 12, 3, "river", 72),
+      f("manavgat", "Manavgat", 36, 71, 9, 3, "river", 80),
+      f("aksu", "Aksu", 34, 71, 9, 3, "river", 80),
+      f("dalaman", "Dalaman Çayı", 25, 68, 10, 3, "river", 70),
+      f("susurluk", "Susurluk (Simav) Çayı", 20, 38, 14, 3, "river", 35),
+    ],
+  },
+  {
+    id: "black-sea-rivers",
+    group: "Sular",
+    title: "Karadeniz'e Dökülen Akarsular",
+    eyebrow: "Sular · Alt konu",
+    description: "Sularını Karadeniz'e ulaştıran başlıca akarsuları gerçek yataklarında bul.",
+    color: "#2c6fa8",
+    icon: "↟",
+    features: [
+      f("sakarya", "Sakarya", 33, 35, 18, 3, "river"),
+      f("kizilirmak", "Kızılırmak", 48, 34, 24, 3, "river"),
+      f("yesilirmak", "Yeşilırmak", 60, 27, 16, 3, "river"),
+      f("coruh", "Çoruh", 84, 24, 12, 3, "river"),
+    ],
+  },
+  {
+    id: "aegean-rivers",
+    group: "Sular",
+    title: "Ege Denizi'ne Dökülen Akarsular",
+    eyebrow: "Sular · Alt konu",
+    description: "Ege kıyısına ulaşan başlıca akarsuları kuzeyden güneye bul.",
+    color: "#367fbd",
+    icon: "↙",
+    features: [
+      f("meric", "Meriç", 7, 29, 5, 12, "river"),
+      f("bakircay", "Bakırçay", 17, 46, 12, 3, "river"),
+      f("gediz", "Gediz", 20, 51, 16, 3, "river"),
+      f("kucukmenderes", "Küçük Menderes", 20, 56, 14, 3, "river"),
+      f("buyukmenderes", "Büyük Menderes", 23, 61, 18, 3, "river"),
+    ],
+  },
+  {
+    id: "mediterranean-rivers",
+    group: "Sular",
+    title: "Akdeniz'e Dökülen Akarsular",
+    eyebrow: "Sular · Alt konu",
+    description: "Akdeniz'e ulaşan başlıca akarsuları batıdan doğuya bul.",
+    color: "#2f82c5",
+    icon: "↡",
+    features: [
+      f("dalaman", "Dalaman Çayı", 25, 68, 10, 3, "river"),
+      f("aksu", "Aksu", 34, 71, 9, 3, "river"),
+      f("manavgat", "Manavgat", 36, 71, 9, 3, "river"),
+      f("goksu", "Göksu", 48, 69, 12, 3, "river"),
+      f("seyhan", "Seyhan", 55, 64, 12, 3, "river"),
+      f("ceyhan", "Ceyhan", 60, 63, 12, 3, "river"),
+      f("asi", "Asi", 62, 72, 10, 3, "river"),
+    ],
+  },
+  {
+    id: "outbound-rivers",
+    group: "Sular",
+    title: "Türkiye'den Doğup Sınır Dışına Çıkan Akarsular",
+    eyebrow: "Sular · Sınır aşan sular",
+    description: "Türkiye'den doğup başka ülkelerde denize ulaşan akarsuları bul.",
+    color: "#4a6fb4",
+    icon: "↗",
+    features: [
+      f("coruh", "Çoruh · Karadeniz", 84, 24, 12, 3, "river"),
+      f("aras", "Aras · Hazar Denizi", 87, 38, 13, 3, "river"),
+      f("firat", "Fırat · Basra Körfezi", 70, 48, 22, 3, "river"),
+      f("dicle", "Dicle · Basra Körfezi", 79, 58, 18, 3, "river"),
+    ],
+  },
+  {
+    id: "inbound-rivers",
+    group: "Sular",
+    title: "Yurt Dışından Doğup Türkiye'de Denize Ulaşanlar",
+    eyebrow: "Sular · Sınır aşan sular",
+    description: "Kaynağı sınır dışında olup Türkiye kıyılarında denize dökülen akarsuları bul.",
+    color: "#5b6dc0",
+    icon: "↘",
+    features: [
+      f("meric", "Meriç · Bulgaristan'dan doğar", 7, 29, 5, 12, "river"),
+      f("asi", "Asi · Lübnan'dan doğar", 62, 72, 10, 3, "river"),
     ],
   },
   {
@@ -896,6 +986,14 @@ type LakeFeature = {
   properties: { id: string; name: string };
 };
 
+type RiverFeature = {
+  geometry: {
+    type: "LineString" | "MultiLineString";
+    coordinates: Coordinate[] | Coordinate[][];
+  };
+  properties: { id: string; name: string };
+};
+
 const MAP_BOUNDS = { west: 25.55, east: 44.85, north: 42.15, south: 35.75 };
 const MAP_COLORS = ["#ead9a2", "#c4d89b", "#e9bd7b", "#c7d8ca", "#d4c1dc", "#f1cf9f", "#b8d6c7"];
 
@@ -983,6 +1081,23 @@ function lakePath(feature: LakeFeature) {
     .join(" ");
 }
 
+function riverPath(feature: RiverFeature) {
+  const lines = feature.geometry.type === "LineString"
+    ? [feature.geometry.coordinates as Coordinate[]]
+    : (feature.geometry.coordinates as Coordinate[][]);
+  return lines
+    .filter((line) => line.length > 1)
+    .map((line) =>
+      line
+        .map((coordinate, index) => {
+          const [x, y] = project(coordinate);
+          return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+        })
+        .join(" "),
+    )
+    .join(" ");
+}
+
 function provinceCenter(feature: ProvinceFeature): Coordinate {
   const coordinates = feature.geometry.type === "Polygon"
     ? (feature.geometry.coordinates as Coordinate[][]).flat()
@@ -1008,6 +1123,15 @@ function lakeShapeId(feature: Feature) {
     "ulubat": "uluabat",
   };
   return (aliases[feature.id] ?? feature.id).replace(/-(t|vl|l)$/, "");
+}
+
+function riverShapeId(feature: Feature) {
+  const aliases: Record<string, string> = {
+    "meric-br": "meric",
+    "aras-br": "aras",
+    "asi-br": "asi",
+  };
+  return aliases[feature.id] ?? feature.id;
 }
 
 function realLineFor(feature: Feature) {
@@ -1040,7 +1164,11 @@ function featureHitArea(feature: Feature) {
   return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
 }
 
-function featureGraphic(feature: Feature, lakeShape?: LakeFeature) {
+function featureGraphic(
+  feature: Feature,
+  lakeShape?: LakeFeature,
+  riverShape?: RiverFeature,
+) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
   const width = Math.max(feature.w * 7.2, 20);
@@ -1053,6 +1181,20 @@ function featureGraphic(feature: Feature, lakeShape?: LakeFeature) {
         className="geo-shape geo-shape--lake geo-shape--exact"
         fillRule="evenodd"
       />
+    );
+  }
+
+  if (feature.kind === "river" && riverShape) {
+    const path = riverPath(riverShape);
+    return (
+      <g>
+        <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
+        <path
+          d={path}
+          className="geo-shape geo-shape--line geo-shape--exact-river"
+          vectorEffect="non-scaling-stroke"
+        />
+      </g>
     );
   }
 
@@ -1116,6 +1258,7 @@ function TurkeyMap({
 }) {
   const [provinces, setProvinces] = useState<ProvinceFeature[]>([]);
   const [lakes, setLakes] = useState<LakeFeature[]>([]);
+  const [rivers, setRivers] = useState<RiverFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
 
   useEffect(() => {
@@ -1127,6 +1270,10 @@ function TurkeyMap({
       .then((response) => response.json())
       .then((data) => setLakes(data.features as LakeFeature[]))
       .catch(() => setLakes([]));
+    fetch("/data/turkey-rivers.geojson")
+      .then((response) => response.json())
+      .then((data) => setRivers(data.features as RiverFeature[]))
+      .catch(() => setRivers([]));
   }, []);
 
   return (
@@ -1241,6 +1388,7 @@ function TurkeyMap({
                 {featureGraphic(
                   feature,
                   lakes.find((lake) => lake.properties.id === lakeShapeId(feature)),
+                  rivers.find((river) => river.properties.id === riverShapeId(feature)),
                 )}
                 {status === "correct" && (
                   <g className="geo-label" transform={`translate(${cx} ${cy - 18})`}>
@@ -1257,7 +1405,12 @@ function TurkeyMap({
         <span>81 İL SINIRI</span>
         <strong>{hoveredProvince || "İlin üzerine gel"}</strong>
       </div>
-      <div className="map-attribution">Rölyef: Esri · İl/göl geometrileri: açık coğrafi veri &amp; OSM</div>
+      <div className="map-attribution">
+        Rölyef: Esri · İl sınırları: açık coğrafi veri ·{" "}
+        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+          © OpenStreetMap katkıcıları
+        </a>
+      </div>
       {provinces.length === 0 && <div className="map-loading">Gerçek Türkiye haritası yükleniyor…</div>}
     </div>
   );

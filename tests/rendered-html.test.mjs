@@ -38,16 +38,27 @@ test("81 il verisi tam, benzersiz ve doğru plaka dizisindedir", async () => {
   );
 });
 
-test("gerçek göl şekilleri ve oyun davranışı kaynakta bulunur", async () => {
-  const [lakes, page] = await Promise.all([
+test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur", async () => {
+  const [lakes, rivers, page] = await Promise.all([
     readFile(new URL("../public/data/turkey-lakes.geojson", import.meta.url), "utf8").then(JSON.parse),
+    readFile(new URL("../public/data/turkey-rivers.geojson", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
   ]);
-  assert.ok(lakes.features.length >= 13);
+  assert.ok(lakes.features.length >= 18);
   assert.ok(lakes.features.every((feature) => /Polygon/.test(feature.geometry.type)));
+  assert.equal(rivers.features.length, 20);
+  assert.ok(
+    rivers.features.every(
+      (feature) =>
+        feature.geometry.type === "MultiLineString" &&
+        feature.geometry.coordinates.length > 0,
+    ),
+  );
   assert.match(page, /setWrongIds\(\[\]\)/);
   assert.match(page, /setCorrectIds\(nextCorrect\)/);
   assert.match(page, /id: "provinces"/);
   assert.match(page, /id: "delta-plains"/);
   assert.match(page, /id: "glacial-mountains"/);
+  assert.match(page, /id: "black-sea-rivers"/);
+  assert.match(page, /id: "inbound-rivers"/);
 });
