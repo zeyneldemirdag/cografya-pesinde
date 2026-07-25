@@ -329,6 +329,7 @@ const QUIZZES: Quiz[] = [
       f("meric", "Meriç", 7, 29, 5, 12, "river", 82),
       f("aras", "Aras", 87, 38, 13, 3, "river", -2),
       f("kura", "Kura", 88, 29, 11, 3, "river", 8),
+      f("arpacay", "Arpaçay", 88, 29, 8, 3, "river", 75),
       f("coruh", "Çoruh", 84, 24, 12, 3, "river", -18),
       f("goksu", "Göksu", 48, 69, 12, 3, "river", 72),
       f("manavgat", "Manavgat", 36, 71, 9, 3, "river", 80),
@@ -1017,6 +1018,9 @@ const QUIZZES: Quiz[] = [
       f("ria-mentese", "Ria Kıyı · Menteşe", 22, 68, 10, 5, "river"),
       f("dalmacya-teke", "Dalmaçya Kıyı · Teke", 31, 73, 10, 4, "river"),
       f("limanli-marmara", "Limanlı Kıyı · İstanbul çevresi", 16, 25, 8, 4, "river"),
+      f("kalankli-teke-taseli", "Kalanklı Kıyı · Teke-Taşeli", 39, 74, 26, 4, "region"),
+      f("tombolo-kapidag", "Tombolo · Kapıdağ", 18, 32, 5, 4, "region"),
+      f("tombolo-sinop", "Tombolo · Sinop", 51, 17, 5, 4, "region"),
     ],
   },
   {
@@ -1030,6 +1034,7 @@ const QUIZZES: Quiz[] = [
     features: [
       f("meric-br", "Meriç", 6, 28, 4, 10, "river"),
       f("mutludere-br", "Mutludere (Rezve)", 8, 20, 5, 4, "river"),
+      f("arpacay", "Arpaçay", 88, 29, 8, 3, "river", 75),
       f("aras-br", "Aras", 88, 37, 12, 3, "river"),
       f("asi-br", "Asi", 61, 78, 4, 7, "river"),
       f("hezil-br", "Hezil Çayı", 84, 72, 5, 4, "river"),
@@ -1161,6 +1166,10 @@ const SOURCE_BY_GROUP: Record<string, SourceRef> = {
 };
 
 const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
+  "glacial-mountains": {
+    label: "MEB Türkiye'de buzullaşma",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page75.html",
+  },
   straits: {
     label: "HGM + KGM ulaşım haritaları",
     url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Root/Haritalarr.aspx",
@@ -1224,6 +1233,10 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   gulfs: {
     label: "HGM fiziki harita + kıyı verileri",
     url: "https://www.harita.gov.tr/urun/turkiye-fiziki-haritasi-dilsiz/273",
+  },
+  "coast-types": {
+    label: "MEB Türkiye kıyı tipleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page75.html",
   },
   "bridges-tunnels": {
     label: "KGM köprü ve tünel bilgileri",
@@ -1358,9 +1371,15 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   "sultan-sazligi": [[35.15, 38.3], [35.18, 38.15], [35.4, 38.12], [35.48, 38.25], [35.37, 38.36], [35.2, 38.38]],
   "kizilirmak-delta": [[35.6, 41.5], [35.9, 41.3], [36.3, 41.4], [36.4, 41.7], [36.0, 41.8], [35.7, 41.7]],
   "goksu-delta": [[33.6, 36.4], [33.8, 36.2], [34.2, 36.2], [34.4, 36.4], [34.1, 36.6], [33.7, 36.6]],
+  "tombolo-kapidag": [[27.86, 40.43], [27.9, 40.38], [27.98, 40.39], [28.02, 40.44], [27.96, 40.49], [27.89, 40.48]],
+  "tombolo-sinop": [[35.12, 42.02], [35.14, 41.99], [35.2, 41.99], [35.22, 42.03], [35.18, 42.06], [35.13, 42.05]],
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "kalankli-teke-taseli": [
+    [[29.1, 36.35], [29.8, 36.05], [30.7, 36.0], [31.2, 36.2], [30.6, 36.45], [29.8, 36.55]],
+    [[31.8, 36.2], [32.8, 36.0], [34.4, 36.0], [34.7, 36.25], [33.4, 36.45], [32.3, 36.5]],
+  ],
   "karadeniz-cl": [
     [[26.6, 41.9], [29.2, 41.8], [32.4, 41.8], [35.7, 41.8], [38.8, 41.4], [41.8, 41.4], [41.5, 40.5], [38.8, 40.4], [35.5, 40.7], [32.0, 40.7], [29.0, 40.8], [27.0, 41.1]],
   ],
@@ -2057,9 +2076,13 @@ function TurkeyMap({
         collections.flatMap((data) => data.features as LakeFeature[]),
       ))
       .catch(() => setLakes([]));
-    fetch("/data/turkey-rivers.geojson")
-      .then((response) => response.json())
-      .then((data) => setRivers(data.features as RiverFeature[]))
+    Promise.all([
+      fetch("/data/turkey-rivers.geojson").then((response) => response.json()),
+      fetch("/data/turkey-rivers-extra.geojson").then((response) => response.json()),
+    ])
+      .then((collections) => setRivers(
+        collections.flatMap((data) => data.features as RiverFeature[]),
+      ))
       .catch(() => setRivers([]));
   }, []);
 

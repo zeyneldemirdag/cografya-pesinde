@@ -44,9 +44,14 @@ const lakeData = [
 ].flatMap((path) =>
   JSON.parse(fs.readFileSync(new URL(path, import.meta.url), "utf8")).features
 );
-const riverData = JSON.parse(fs.readFileSync(new URL("../public/data/turkey-rivers.geojson", import.meta.url), "utf8"));
+const riverData = [
+  "../public/data/turkey-rivers.geojson",
+  "../public/data/turkey-rivers-extra.geojson",
+].flatMap((path) =>
+  JSON.parse(fs.readFileSync(new URL(path, import.meta.url), "utf8")).features
+);
 const lakeIds = new Set(lakeData.map((feature) => feature.properties.id));
-const riverIds = new Set(riverData.features.map((feature) => feature.properties.id));
+const riverIds = new Set(riverData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const lakeCanonical = (id) => ({
@@ -125,6 +130,27 @@ const coverageComparisons = [
 });
 
 const officialExpectations = {
+  "fold-mountains": [
+    "Sündiken Dağları", "Elmadağ", "Munzur Dağları", "Mercan Dağları",
+  ],
+  "fault-mountains": [
+    "Madra Dağları", "Yunt Dağları", "Bozdağlar", "Aydın Dağları", "Menteşe Dağları",
+  ],
+  "volcanic-mountains": [
+    "Ağrı Dağı", "Süphan Dağı", "Tendürek Dağı", "Erciyes Dağı",
+    "Nemrut Dağı", "Karacadağ (Güneydoğu)", "Kula Volkanları",
+  ],
+  "glacial-mountains": [
+    "Ağrı Dağı", "Cilo-Sat Dağları", "Kaçkar Dağları", "Süphan Dağı",
+    "Erciyes Dağı", "Aladağlar", "Bolkar Dağları",
+  ],
+  "border-rivers": [
+    "Meriç", "Mutludere (Rezve)", "Arpaçay", "Aras", "Asi", "Hezil Çayı",
+  ],
+  "coast-types": [
+    "Boyuna Kıyı", "Enine Kıyı", "Ria Kıyı", "Dalmaçya Kıyı",
+    "Limanlı Kıyı", "Kalanklı Kıyı", "Tombolo",
+  ],
   "tectonic-lakes": [
     "Manyas Gölü", "Uluabat Gölü", "İznik Gölü", "Sapanca Gölü",
     "Burdur Gölü", "Acıgöl", "Tuz Gölü", "Eber Gölü", "Akşehir Gölü",
@@ -205,9 +231,9 @@ const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected
 
 const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
-  "straits", "gates", "passes", "mines", "energy", "development",
+  "glacial-mountains", "straits", "gates", "passes", "mines", "energy", "development",
   "industry", "population", "climate", "vegetation", "soils", "tourism",
-  "agriculture", "livestock", "ports", "gulfs", "bridges-tunnels",
+  "agriculture", "livestock", "ports", "gulfs", "coast-types", "bridges-tunnels",
 ];
 const missingSourceOverrides = sourceOverrideRequired.filter((id) => !sourceQuizKeys.has(id));
 
