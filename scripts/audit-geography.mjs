@@ -135,6 +135,7 @@ const coverageComparisons = [
   ["plains", ["delta-plains"]],
   ["tourism", ["natural-tourism", "cultural-tourism"]],
   ["industry", ["food-industry", "textile-industry", "chemical-industry", "machine-industry"]],
+  ["ports", ["marmara-ports", "black-sea-ports", "aegean-ports", "mediterranean-ports"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -286,6 +287,13 @@ const officialExpectations = {
     "Büyükbaş", "Koyun", "Kıl Keçisi", "İpek Böcekçiliği",
     "Arıcılık", "Tiftik Keçisi", "Kümes Hayvancılığı", "Balıkçılık",
   ],
+  ports: [
+    "İstanbul Limanı", "Bandırma Limanı", "İzmit Limanı", "Karadeniz Ereğli Limanı",
+    "Zonguldak Limanı", "Sinop Limanı", "Samsun Limanı", "Trabzon Limanı",
+    "İzmir Limanı", "Kuşadası Limanı", "Bodrum Limanı", "Marmaris Limanı",
+    "Fethiye Limanı", "Antalya Limanı", "Alanya Limanı", "Mersin Limanı",
+    "İskenderun Limanı",
+  ],
   "closed-basins": [
     "Van Gölü Kapalı Havzası", "Tuz Gölü Kapalı Havzası",
     "Göller Yöresi Kapalı Havzası", "Hazar Gölü Kapalı Havzası",
@@ -305,7 +313,8 @@ const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
   "glacial-mountains", "straits", "gates", "passes", "mines", "energy", "development",
   "industry", "population", "climate", "vegetation", "soils", "tourism",
-  "agriculture", "livestock", "ports", "gulfs", "coast-types", "bridges-tunnels",
+  "agriculture", "livestock", "ports", "marmara-ports", "black-sea-ports",
+  "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
 ];
 const missingSourceOverrides = sourceOverrideRequired.filter((id) => !sourceQuizKeys.has(id));
 

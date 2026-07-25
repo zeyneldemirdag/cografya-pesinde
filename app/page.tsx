@@ -17,6 +17,7 @@ type FeatureKind =
   | "mine"
   | "energy"
   | "dam"
+  | "port"
   | "province";
 
 type Feature = {
@@ -991,19 +992,90 @@ const QUIZZES: Quiz[] = [
   {
     id: "ports",
     group: "Ulaşım",
-    title: "Limanlar",
+    title: "Türkiye'nin Başlıca Limanları",
     eyebrow: "Ulaşım · Deniz yolu",
-    description: "Başlıca ticaret ve ulaşım limanlarını kıyıda bul.",
+    description: "MEB haritasındaki 17 başlıca limanı, gerçek liman noktasında bul.",
     color: "#357ca6",
     icon: "⚓",
     features: [
-      f("istanbul-port", "İstanbul Limanı", 17, 25, 6, 5, "city"),
-      f("izmir-port", "İzmir Limanı", 15, 54, 6, 5, "city"),
-      f("mersin-port", "Mersin Limanı", 49, 76, 6, 5, "city"),
-      f("iskenderun-port", "İskenderun Limanı", 62, 74, 6, 5, "city"),
-      f("samsun-port", "Samsun Limanı", 58, 20, 6, 5, "city"),
-      f("trabzon-port", "Trabzon Limanı", 72, 21, 6, 5, "city"),
-      f("zonguldak-port", "Zonguldak Limanı", 31, 19, 6, 5, "city"),
+      f("istanbul-port", "İstanbul Limanı", 50, 50, 5, 4, "port"),
+      f("bandirma-port", "Bandırma Limanı", 50, 50, 5, 4, "port"),
+      f("izmit-port", "İzmit Limanı", 50, 50, 5, 4, "port"),
+      f("eregli-port", "Karadeniz Ereğli Limanı", 50, 50, 5, 4, "port"),
+      f("zonguldak-port", "Zonguldak Limanı", 50, 50, 5, 4, "port"),
+      f("sinop-port", "Sinop Limanı", 50, 50, 5, 4, "port"),
+      f("samsun-port", "Samsun Limanı", 50, 50, 5, 4, "port"),
+      f("trabzon-port", "Trabzon Limanı", 50, 50, 5, 4, "port"),
+      f("izmir-port", "İzmir Limanı", 50, 50, 5, 4, "port"),
+      f("kusadasi-port", "Kuşadası Limanı", 50, 50, 5, 4, "port"),
+      f("bodrum-port", "Bodrum Limanı", 50, 50, 5, 4, "port"),
+      f("marmaris-port", "Marmaris Limanı", 50, 50, 5, 4, "port"),
+      f("fethiye-port", "Fethiye Limanı", 50, 50, 5, 4, "port"),
+      f("antalya-port", "Antalya Limanı", 50, 50, 5, 4, "port"),
+      f("alanya-port", "Alanya Limanı", 50, 50, 5, 4, "port"),
+      f("mersin-port", "Mersin Limanı", 50, 50, 5, 4, "port"),
+      f("iskenderun-port", "İskenderun Limanı", 50, 50, 5, 4, "port"),
+    ],
+  },
+  {
+    id: "marmara-ports",
+    group: "Ulaşım",
+    title: "Marmara Limanları",
+    eyebrow: "Ulaşım · Deniz yolu · Alt konu",
+    description: "MEB haritasındaki başlıca Marmara limanlarını bul.",
+    color: "#4e83a5",
+    icon: "⚓",
+    features: [
+      f("istanbul-port", "İstanbul Limanı", 50, 50, 5, 4, "port"),
+      f("bandirma-port", "Bandırma Limanı", 50, 50, 5, 4, "port"),
+      f("izmit-port", "İzmit Limanı", 50, 50, 5, 4, "port"),
+    ],
+  },
+  {
+    id: "black-sea-ports",
+    group: "Ulaşım",
+    title: "Karadeniz Limanları",
+    eyebrow: "Ulaşım · Deniz yolu · Alt konu",
+    description: "MEB haritasındaki başlıca Karadeniz limanlarını bul.",
+    color: "#287b8d",
+    icon: "⚓",
+    features: [
+      f("eregli-port", "Karadeniz Ereğli Limanı", 50, 50, 5, 4, "port"),
+      f("zonguldak-port", "Zonguldak Limanı", 50, 50, 5, 4, "port"),
+      f("sinop-port", "Sinop Limanı", 50, 50, 5, 4, "port"),
+      f("samsun-port", "Samsun Limanı", 50, 50, 5, 4, "port"),
+      f("trabzon-port", "Trabzon Limanı", 50, 50, 5, 4, "port"),
+    ],
+  },
+  {
+    id: "aegean-ports",
+    group: "Ulaşım",
+    title: "Ege Limanları",
+    eyebrow: "Ulaşım · Deniz yolu · Alt konu",
+    description: "MEB haritasındaki başlıca Ege limanlarını bul.",
+    color: "#397ba7",
+    icon: "⚓",
+    features: [
+      f("izmir-port", "İzmir Limanı", 50, 50, 5, 4, "port"),
+      f("kusadasi-port", "Kuşadası Limanı", 50, 50, 5, 4, "port"),
+      f("bodrum-port", "Bodrum Limanı", 50, 50, 5, 4, "port"),
+      f("marmaris-port", "Marmaris Limanı", 50, 50, 5, 4, "port"),
+    ],
+  },
+  {
+    id: "mediterranean-ports",
+    group: "Ulaşım",
+    title: "Akdeniz Limanları",
+    eyebrow: "Ulaşım · Deniz yolu · Alt konu",
+    description: "MEB haritasındaki başlıca Akdeniz limanlarını bul.",
+    color: "#377c9a",
+    icon: "⚓",
+    features: [
+      f("fethiye-port", "Fethiye Limanı", 50, 50, 5, 4, "port"),
+      f("antalya-port", "Antalya Limanı", 50, 50, 5, 4, "port"),
+      f("alanya-port", "Alanya Limanı", 50, 50, 5, 4, "port"),
+      f("mersin-port", "Mersin Limanı", 50, 50, 5, 4, "port"),
+      f("iskenderun-port", "İskenderun Limanı", 50, 50, 5, 4, "port"),
     ],
   },
   {
@@ -1510,8 +1582,24 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://arastirma.tarimorman.gov.tr/tepge/Sayfalar/Detay.aspx?TermId=7f477a6a-a8ea-4497-9ddb-173030b5be42&UrlSuffix=27",
   },
   ports: {
-    label: "Ulaştırma Bakanlığı liman başkanlıkları",
-    url: "https://www.uab.gov.tr/kurumsal/birimler/",
+    label: "MEB başlıca limanlar + Ulaştırma Bakanlığı liman kayıtları",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/kitap/4entwxnnnzr.pdf",
+  },
+  "marmara-ports": {
+    label: "MEB Türkiye'nin başlıca limanları",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/kitap/4entwxnnnzr.pdf",
+  },
+  "black-sea-ports": {
+    label: "MEB Türkiye'nin başlıca limanları",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/kitap/4entwxnnnzr.pdf",
+  },
+  "aegean-ports": {
+    label: "MEB Türkiye'nin başlıca limanları",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/kitap/4entwxnnnzr.pdf",
+  },
+  "mediterranean-ports": {
+    label: "MEB Türkiye'nin başlıca limanları",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/kitap/4entwxnnnzr.pdf",
   },
   gulfs: {
     label: "HGM fiziki harita + kıyı verileri",
@@ -1926,13 +2014,23 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "ankara-san": [32.85, 39.93],
   "adana-san": [35.32, 37.0],
   "gaziantep-san": [37.38, 37.07],
-  "istanbul-port": [28.97, 41.02],
-  "izmir-port": [27.14, 38.43],
-  "mersin-port": [34.64, 36.8],
-  "iskenderun-port": [36.17, 36.59],
-  "samsun-port": [36.33, 41.29],
-  "trabzon-port": [39.73, 41.0],
-  "zonguldak-port": [31.79, 41.45],
+  "istanbul-port": [28.9828657, 41.0257757],
+  "bandirma-port": [27.9558851, 40.3531441],
+  "izmit-port": [29.9146439, 40.7606042],
+  "eregli-port": [31.4205, 41.2623],
+  "zonguldak-port": [31.7817959, 41.4546504],
+  "sinop-port": [35.1488193, 42.023269],
+  "samsun-port": [36.339, 41.293],
+  "trabzon-port": [39.7353335, 41.0043843],
+  "izmir-port": [27.158914, 38.440432],
+  "kusadasi-port": [27.2554504, 37.8632963],
+  "bodrum-port": [27.4248877, 37.0321323],
+  "marmaris-port": [28.2805083, 36.8491221],
+  "fethiye-port": [29.1054613, 36.6219855],
+  "antalya-port": [30.6057929, 36.832888],
+  "alanya-port": [32.0014919, 36.5392159],
+  "mersin-port": [34.6444164, 36.8063225],
+  "iskenderun-port": [36.1837423, 36.5911349],
   pamukkale: [29.12, 37.92],
   kapadokya: [34.83, 38.64],
   safranbolu: [32.69, 41.25],
@@ -2320,7 +2418,7 @@ function collisionAwareLabelPlacements(
 }
 
 function featureHitArea(feature: Feature) {
-  if (!["volcano", "city", "gate", "pass", "mine", "energy", "dam"].includes(feature.kind)) return null;
+  if (!["volcano", "city", "gate", "pass", "mine", "energy", "dam", "port"].includes(feature.kind)) return null;
   const [cx, cy] = featureCenter(feature);
   return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
 }
@@ -2333,7 +2431,7 @@ function featureGraphic(
 ) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
-  const compactPoint = ["city", "gate", "mine", "energy", "dam"].includes(feature.kind);
+  const compactPoint = ["city", "gate", "mine", "energy", "dam", "port"].includes(feature.kind);
   const width = compactPoint ? Math.max(Math.min(feature.w * 4.2, 30), 18) : Math.max(feature.w * 7.2, 20);
   const height = compactPoint ? Math.max(Math.min(feature.h * 2.2, 18), 11) : Math.max(feature.h * 3.1, 12);
   const usesRiverOverride = feature.kind === "river"
@@ -2483,6 +2581,17 @@ function featureGraphic(
         <path
           d={`M${cx - width * .32},${cy - height * .14} H${cx + width * .32} M${cx - width * .25},${cy + height * .17} H${cx + width * .25}`}
           className="dam-detail"
+        />
+      </g>
+    );
+  }
+  if (feature.kind === "port") {
+    return (
+      <g className="port-glyph">
+        <circle cx={cx} cy={cy} r={Math.max(height * .62, 7)} className="geo-shape geo-shape--port" />
+        <path
+          d={`M${cx},${cy - height * .62} L${cx},${cy + height * .5} M${cx - width * .3},${cy - height * .25} L${cx + width * .3},${cy - height * .25} M${cx - width * .38},${cy + height * .08} Q${cx - width * .34},${cy + height * .55} ${cx},${cy + height * .58} Q${cx + width * .34},${cy + height * .55} ${cx + width * .38},${cy + height * .08}`}
+          className="port-detail"
         />
       </g>
     );
