@@ -505,14 +505,14 @@ const INDUSTRIAL_MINERAL_FEATURES: Feature[] = [
   f("tuzluca-salt", "Tuzluca · Tuz", 50, 50, 7, 6, "mine"),
   f("tuzgolu-mine", "Tuz Gölü · Tuz (Yavşan Tuzlası)", 50, 51, 7, 6, "mine"),
   f("camalti-mine", "Çamaltı · Deniz Tuzu", 14, 52, 7, 6, "mine"),
-  f("marmara-island-marble", "Marmara Adası · Mermer", 50, 50, 7, 6, "mine"),
-  f("balikesir-marble", "Balıkesir · Mermer", 50, 50, 7, 6, "mine"),
-  f("bursa-marble", "Bursa · Mermer", 50, 50, 7, 6, "mine"),
-  f("bilecik-marble", "Bilecik · Mermer", 50, 50, 7, 6, "mine"),
-  f("mugla-marble", "Muğla · Mermer", 50, 50, 7, 6, "mine"),
-  f("afyon-mermer", "Afyonkarahisar · Mermer", 33, 52, 8, 6, "mine"),
-  f("burdur-marble", "Burdur · Mermer", 50, 50, 7, 6, "mine"),
-  f("denizli-marble", "Denizli · Mermer", 50, 50, 7, 6, "mine"),
+  f("marmara-island-marble", "Marmara Adası · Mermer (Saraylar-Ocaklar)", 50, 50, 10, 7, "region"),
+  f("balikesir-marble", "Balıkesir · Mermer (Manyas)", 50, 50, 11, 8, "region"),
+  f("bursa-marble", "Bursa · Doğal Taş (Gemlik-Orhaneli)", 50, 50, 13, 9, "region"),
+  f("bilecik-marble", "Bilecik · Mermer (Söğüt-Bozüyük)", 50, 50, 13, 8, "region"),
+  f("mugla-marble", "Muğla · Mermer (Milas-Yatağan-Kavaklıdere)", 50, 50, 18, 10, "region"),
+  f("afyon-mermer", "Afyonkarahisar · Mermer (İscehisar)", 33, 52, 10, 7, "region"),
+  f("burdur-marble", "Burdur · Mermer (Bucak)", 50, 50, 10, 7, "region"),
+  f("denizli-marble", "Denizli · Traverten-Mermer (Honaz-Kaklık)", 50, 50, 13, 8, "region"),
   f("oltu-stone", "Oltu · Oltu Taşı (Dutlu Dağı)", 50, 50, 9, 7, "region"),
   f("eskisehir-meerschaum", "Eskişehir · Lüle Taşı Sahaları", 50, 50, 14, 9, "region"),
 ];
@@ -2646,6 +2646,33 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "marmara-island-marble": [
+    [[27.59, 40.625], [27.625, 40.605], [27.69, 40.615], [27.73, 40.65], [27.705, 40.682], [27.64, 40.692], [27.6, 40.67]],
+  ],
+  "balikesir-marble": [
+    [[27.82, 40.025], [27.865, 39.965], [27.96, 39.94], [28.06, 39.975], [28.1, 40.045], [28.045, 40.105], [27.94, 40.125], [27.85, 40.09]],
+  ],
+  "bursa-marble": [
+    [[29.04, 40.405], [29.09, 40.365], [29.18, 40.37], [29.235, 40.42], [29.205, 40.475], [29.115, 40.495], [29.055, 40.46]],
+    [[28.88, 39.9], [28.92, 39.84], [29.02, 39.815], [29.085, 39.86], [29.075, 39.93], [29.0, 39.985], [28.91, 39.965]],
+  ],
+  "bilecik-marble": [
+    [[29.94, 39.89], [29.99, 39.845], [30.105, 39.86], [30.225, 39.955], [30.255, 40.025], [30.19, 40.07], [30.075, 40.03], [29.98, 39.96]],
+  ],
+  "mugla-marble": [
+    [[27.68, 37.29], [27.735, 37.235], [27.84, 37.25], [27.9, 37.315], [27.865, 37.37], [27.76, 37.39], [27.695, 37.35]],
+    [[28.04, 37.325], [28.085, 37.285], [28.175, 37.3], [28.215, 37.36], [28.17, 37.41], [28.085, 37.4]],
+    [[28.275, 37.42], [28.32, 37.38], [28.41, 37.395], [28.455, 37.45], [28.42, 37.51], [28.33, 37.515], [28.285, 37.475]],
+  ],
+  "afyon-mermer": [
+    [[30.65, 38.845], [30.69, 38.79], [30.78, 38.795], [30.855, 38.84], [30.84, 38.9], [30.765, 38.94], [30.68, 38.915]],
+  ],
+  "burdur-marble": [
+    [[30.49, 37.445], [30.535, 37.39], [30.625, 37.385], [30.69, 37.435], [30.675, 37.5], [30.605, 37.54], [30.525, 37.515]],
+  ],
+  "denizli-marble": [
+    [[29.16, 37.765], [29.215, 37.7], [29.32, 37.69], [29.43, 37.745], [29.49, 37.82], [29.44, 37.88], [29.33, 37.9], [29.22, 37.86]],
+  ],
   "oltu-stone": [
     [[42.015, 40.605], [42.045, 40.575], [42.115, 40.585], [42.17, 40.625], [42.145, 40.685], [42.08, 40.705], [42.025, 40.67]],
   ],
@@ -3240,7 +3267,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "camalti-mine": [26.91528, 38.5049],
   "afsin-mine": [37.082979, 38.340685],
   "soma-mine": [27.55082, 39.11457],
-  "afyon-mermer": [30.54, 38.75],
   "avnik-mine": [40.33306, 38.65],
   "mansurlu-mine": [35.63806, 37.95417],
   "kesikkopru-iron": [33.38736, 39.34966],
@@ -3262,13 +3288,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "gulsehir-salt": [34.4855968, 38.7730603],
   "yerkoy-salt": [34.47, 39.64],
   "tuzluca-salt": [43.66, 40.04],
-  "marmara-island-marble": [27.62, 40.62],
-  "balikesir-marble": [27.88, 39.65],
-  "bursa-marble": [29.06, 40.2],
-  "bilecik-marble": [29.98, 40.14],
-  "mugla-marble": [28.36, 37.22],
-  "burdur-marble": [30.29, 37.72],
-  "denizli-marble": [29.1, 37.78],
   "tuncbilek-lignite": [29.455311, 39.634823],
   "tavsanli-lignite": [29.49, 39.54],
   "can-lignite": [27.038636, 40.023827],
@@ -3871,7 +3890,7 @@ function featureGraphic(
   const distributionPolygons = distributionPolygonsFor(feature);
   if (distributionPolygons) {
     return (
-      <g className="geo-distribution" clipPath="url(#turkey-country-clip)">
+      <g className="geo-distribution">
         {distributionPolygons.map((polygon, index) => (
           <path
             key={`${feature.id}-distribution-${index}`}

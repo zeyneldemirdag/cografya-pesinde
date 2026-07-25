@@ -183,6 +183,15 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"camalti-mine": \[26\.91528, 38\.5049\]/);
   assert.match(page, /"oltu-stone": \[\s*\[\[42\.015, 40\.605\]/);
   assert.match(page, /"eskisehir-meerschaum": \[\s*\[\[30\.205, 39\.722\]/);
+  assert.match(page, /"marmara-island-marble": \[\s*\[\[27\.59, 40\.625\]/);
+  assert.match(page, /"balikesir-marble": \[\s*\[\[27\.82, 40\.025\]/);
+  assert.match(page, /"bursa-marble": \[\s*\[\[29\.04, 40\.405\]/);
+  assert.match(page, /"bilecik-marble": \[\s*\[\[29\.94, 39\.89\]/);
+  assert.match(page, /"mugla-marble": \[\s*\[\[27\.68, 37\.29\]/);
+  assert.match(page, /"afyon-mermer": \[\s*\[\[30\.65, 38\.845\]/);
+  assert.match(page, /"burdur-marble": \[\s*\[\[30\.49, 37\.445\]/);
+  assert.match(page, /"denizli-marble": \[\s*\[\[29\.16, 37\.765\]/);
+  assert.match(page, /<g className="geo-distribution">/);
   assert.match(page, /const LABEL_OFFSETS/);
   assert.match(page, /data-quiz-id=\{item\.id\}/);
   assert.match(page, /geo-hit geo-hit--small-area/);
