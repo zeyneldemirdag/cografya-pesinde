@@ -4280,7 +4280,7 @@ export default function Home() {
     setShowAllLabels(false);
     setMenuOpen(false);
     window.localStorage.setItem(ACTIVE_QUIZ_STORAGE_KEY, nextQuiz.id);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   };
 
   const handleSelect = (feature: Feature) => {
