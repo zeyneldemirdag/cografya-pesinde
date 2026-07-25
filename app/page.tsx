@@ -309,6 +309,31 @@ const TOURISM_FUNCTION_CITIES: Feature[] = [
   f("tourism-city-istanbul", "İstanbul", 50, 50, 5, 4, "city"),
 ];
 
+const ZONAL_SOIL_FEATURES: Feature[] = [
+  f("terra-rossa", "Terra Rossa", 39, 71, 47, 10, "region"),
+  f("brown-forest", "Kahverengi Orman Toprağı", 55, 23, 55, 10, "region"),
+  f("podzol-soil", "Podzol", 58, 17, 45, 8, "region"),
+  f("cherno", "Çernezyom", 83, 30, 18, 11, "region"),
+  f("chestnut", "Kestane Renkli Bozkır Toprağı", 55, 45, 36, 17, "region"),
+  f("brown-step", "Kahverengi Bozkır Toprağı", 54, 56, 40, 18, "region"),
+];
+
+const INTRAZONAL_SOIL_FEATURES: Feature[] = [
+  f("hydromorphic-soil", "Hidromorfik Toprak", 40, 55, 18, 12, "region"),
+  f("halomorphic-soil", "Halomorfik Toprak", 58, 49, 24, 14, "region"),
+  f("rendzina-soil", "Rendzina · Kalsimorfik", 48, 48, 30, 17, "region"),
+  f("vertisol-soil", "Vertisol · Kalsimorfik", 35, 46, 30, 17, "region"),
+];
+
+const AZONAL_SOIL_FEATURES: Feature[] = [
+  f("alluvial-soil", "Alüvyal Toprak", 52, 56, 44, 17, "region"),
+  f("colluvial-soil", "Kolüvyal Toprak", 42, 64, 40, 12, "region"),
+  f("lithosol-soil", "Litosol", 56, 48, 44, 16, "region"),
+  f("regosol-soil", "Regosol", 58, 48, 36, 16, "region"),
+  f("loess-soil", "Lös", 76, 66, 18, 10, "region"),
+  f("moraine-soil", "Moren", 70, 30, 35, 12, "region"),
+];
+
 const NATURAL_TOURISM_FEATURES: Feature[] = [
   f("uludag-tour", "Uludağ · Bursa", 50, 50, 5, 4, "city"),
   f("kartalkaya-tour", "Kartalkaya · Bolu", 50, 50, 5, 4, "city"),
@@ -1011,7 +1036,7 @@ const QUIZZES: Quiz[] = [
       f("karadeniz-cl", "Karadeniz İklimi", 59, 20, 58, 10, "region"),
       f("akdeniz-cl", "Akdeniz İklimi", 45, 70, 55, 11, "region"),
       f("karasal-cl", "Karasal İklim", 58, 45, 50, 25, "region"),
-      f("marmara-cl", "Marmara Geçiş İklimi", 18, 31, 18, 15, "region"),
+      f("sert-karasal-cl", "Sert Karasal İklim", 84, 32, 22, 15, "region"),
     ],
   },
   {
@@ -1034,18 +1059,41 @@ const QUIZZES: Quiz[] = [
     id: "soils",
     group: "Doğal",
     title: "Türkiye Toprakları",
-    eyebrow: "Doğal coğrafya · Topraklar",
-    description: "Zonal ve azonal toprakların tipik yayılış alanlarını seç.",
+    eyebrow: "Doğal coğrafya · Topraklar · Tümü",
+    description: "MEB kapsamındaki zonal, intrazonal ve azonal toprakları gerçek örnek alanlarıyla bul.",
     color: "#986846",
     icon: "≋",
-    features: [
-      f("terra-rossa", "Terra Rossa", 39, 71, 47, 10, "region"),
-      f("brown-forest", "Kahverengi Orman Toprağı", 55, 23, 55, 10, "region"),
-      f("cherno", "Çernezyom", 83, 30, 18, 11, "region"),
-      f("chestnut", "Kestane Renkli Bozkır Toprağı", 55, 45, 36, 17, "region"),
-      f("brown-step", "Kahverengi Bozkır Toprağı", 54, 56, 40, 18, "region"),
-      f("alluvial", "Alüvyal Toprak · Çukurova", 57, 69, 15, 7, "plain"),
-    ],
+    features: [...ZONAL_SOIL_FEATURES, ...INTRAZONAL_SOIL_FEATURES, ...AZONAL_SOIL_FEATURES],
+  },
+  {
+    id: "zonal-soils",
+    group: "Doğal",
+    title: "Zonal Topraklar",
+    eyebrow: "Doğal coğrafya · Topraklar · Zonal",
+    description: "İklim ve bitki örtüsünün izini taşıyan yerli toprakların Türkiye'deki yayılışını bul.",
+    color: "#986846",
+    icon: "◫",
+    features: [...ZONAL_SOIL_FEATURES],
+  },
+  {
+    id: "intrazonal-soils",
+    group: "Doğal",
+    title: "İntrazonal Topraklar",
+    eyebrow: "Doğal coğrafya · Topraklar · İntrazonal",
+    description: "Ana materyal ve taban suyu etkisinin baskın olduğu toprakların MEB örneklerini bul.",
+    color: "#86654f",
+    icon: "◩",
+    features: [...INTRAZONAL_SOIL_FEATURES],
+  },
+  {
+    id: "azonal-soils",
+    group: "Doğal",
+    title: "Azonal Topraklar",
+    eyebrow: "Doğal coğrafya · Topraklar · Azonal",
+    description: "Akarsu, rüzgâr, buzul ve yamaç süreçleriyle taşınıp biriken veya genç kalan toprakları bul.",
+    color: "#a5784d",
+    icon: "◧",
+    features: [...AZONAL_SOIL_FEATURES],
   },
   {
     id: "agriculture",
@@ -1788,8 +1836,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://data.tuik.gov.tr/Kategori/GetKategori?p=nufus-ve-demografi-109",
   },
   climate: {
-    label: "MGM 1991–2020 iklim verileri",
-    url: "https://www.mgm.gov.tr/iklim/iklim-siniflandirmalari.aspx",
+    label: "MEB Türkiye iklim tipleri + MGM",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page48.html",
   },
   vegetation: {
     label: "MEB doğal sistemler + OGM",
@@ -1797,7 +1845,19 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   },
   soils: {
     label: "MEB Türkiye toprakları",
-    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page84.html",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page85.html",
+  },
+  "zonal-soils": {
+    label: "MEB Türkiye zonal toprakları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page85.html",
+  },
+  "intrazonal-soils": {
+    label: "MEB Türkiye intrazonal toprakları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page86.html",
+  },
+  "azonal-soils": {
+    label: "MEB Türkiye azonal toprakları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page86.html",
   },
   tourism: {
     label: "MEB Türkiye turizmi + Kültür Portalı",
@@ -2001,14 +2061,18 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
     [[26.6, 41.9], [29.2, 41.8], [32.4, 41.8], [35.7, 41.8], [38.8, 41.4], [41.8, 41.4], [41.5, 40.5], [38.8, 40.4], [35.5, 40.7], [32.0, 40.7], [29.0, 40.8], [27.0, 41.1]],
   ],
   "akdeniz-cl": [
-    [[26.0, 39.5], [26.5, 38.5], [27.0, 37.4], [28.0, 36.8], [29.0, 36.3], [29.8, 36.4], [29.5, 37.3], [28.7, 37.8], [28.2, 38.8], [27.3, 39.7]],
-    [[29.0, 36.3], [31.0, 35.9], [33.7, 36.0], [35.6, 36.5], [36.8, 36.0], [36.9, 36.9], [35.9, 37.3], [34.4, 37.2], [32.4, 37.2], [30.5, 37.4], [29.5, 37.2]],
+    [[26.05, 40.15], [26.25, 39.2], [26.55, 38.2], [27.25, 37.25], [28.35, 36.55], [29.25, 36.2], [29.85, 36.42], [29.48, 37.3], [28.88, 38.1], [28.2, 39.15], [27.25, 40.05]],
+    [[29.05, 36.35], [30.7, 35.95], [32.6, 35.85], [34.5, 36.0], [35.75, 36.55], [36.75, 36.02], [36.92, 36.88], [35.85, 37.18], [34.15, 37.08], [32.25, 37.18], [30.45, 37.45], [29.4, 37.15]],
+    [[26.05, 40.0], [27.4, 40.2], [28.7, 40.55], [30.15, 40.55], [30.25, 41.0], [28.8, 41.1], [27.25, 40.85], [26.15, 40.65]],
+    [[27.1, 39.3], [28.0, 39.25], [29.15, 38.95], [30.35, 38.2], [30.55, 37.25], [29.7, 37.1], [28.8, 37.55], [27.75, 38.25]],
+    [[36.05, 37.65], [36.65, 37.75], [37.45, 37.55], [38.15, 37.2], [38.05, 36.7], [37.35, 36.75], [36.55, 36.95]],
   ],
   "karasal-cl": [
-    [[29.7, 40.0], [31.7, 40.7], [34.5, 40.7], [37.0, 40.5], [39.8, 40.3], [42.7, 40.5], [44.4, 39.6], [44.5, 37.4], [42.7, 37.0], [40.3, 37.1], [38.4, 37.6], [36.4, 37.4], [34.0, 37.6], [31.5, 37.8], [29.6, 38.8]],
+    [[29.55, 40.0], [31.7, 40.65], [34.45, 40.65], [37.1, 40.35], [39.65, 39.75], [39.45, 37.65], [37.9, 37.25], [36.2, 37.45], [34.0, 37.55], [31.45, 37.75], [29.55, 38.75]],
+    [[38.7, 39.55], [40.0, 39.7], [41.1, 39.15], [42.7, 38.8], [44.4, 39.35], [44.55, 37.35], [42.75, 37.0], [40.35, 37.05], [38.55, 37.55]],
   ],
-  "marmara-cl": [
-    [[26.0, 42.0], [29.7, 42.0], [30.8, 40.9], [30.2, 39.8], [28.7, 39.4], [26.2, 40.0]],
+  "sert-karasal-cl": [
+    [[39.45, 41.45], [40.55, 41.78], [42.2, 41.8], [43.65, 41.42], [44.75, 40.55], [44.45, 39.15], [43.0, 39.0], [41.45, 39.28], [40.05, 39.75]],
   ],
   "forest-black": [
     [[27.0, 41.8], [30.0, 41.8], [33.0, 41.8], [36.0, 41.7], [39.0, 41.4], [42.0, 41.4], [41.5, 40.4], [39.0, 40.3], [36.0, 40.6], [33.0, 40.5], [30.0, 40.6], [27.2, 40.9]],
@@ -2040,6 +2104,66 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   ],
   "brown-step": [
     [[31.0, 39.0], [33.3, 39.7], [36.8, 39.5], [40.0, 38.8], [42.6, 38.0], [42.5, 36.9], [39.5, 36.8], [36.3, 37.1], [33.2, 37.3], [31.0, 38.0]],
+  ],
+  "podzol-soil": [
+    [[29.3, 41.35], [31.4, 41.6], [33.2, 41.65], [33.0, 41.2], [31.3, 41.05], [29.5, 41.05]],
+    [[38.2, 41.2], [39.7, 41.45], [41.3, 41.35], [41.0, 40.85], [39.5, 40.75], [38.3, 40.9]],
+  ],
+  "hydromorphic-soil": [
+    [[28.58, 36.86], [28.7, 36.82], [28.78, 36.9], [28.7, 36.99], [28.57, 36.96]],
+    [[29.82, 38.18], [30.02, 38.12], [30.16, 38.23], [30.03, 38.35], [29.82, 38.31]],
+    [[35.15, 38.12], [35.48, 38.12], [35.52, 38.36], [35.2, 38.4], [35.1, 38.27]],
+    [[31.22, 40.62], [31.36, 40.61], [31.42, 40.71], [31.31, 40.78], [31.2, 40.72]],
+  ],
+  "halomorphic-soil": [
+    [[30.0, 37.66], [30.35, 37.55], [30.53, 37.74], [30.35, 37.92], [30.05, 37.88]],
+    [[29.68, 37.76], [29.95, 37.7], [30.03, 37.9], [29.83, 38.02], [29.62, 37.94]],
+    [[40.8, 39.82], [41.35, 39.72], [41.55, 39.95], [41.22, 40.14], [40.84, 40.05]],
+    [[43.82, 39.74], [44.42, 39.72], [44.55, 40.05], [44.15, 40.22], [43.8, 40.08]],
+  ],
+  "rendzina-soil": [
+    [[27.0, 39.2], [28.3, 39.25], [29.2, 38.72], [28.75, 38.15], [27.35, 38.25]],
+    [[32.0, 39.9], [33.8, 40.05], [35.0, 39.4], [34.45, 38.65], [32.4, 38.75]],
+    [[39.0, 39.3], [40.6, 39.35], [41.5, 38.8], [40.8, 38.2], [39.2, 38.35]],
+  ],
+  "vertisol-soil": [
+    [[26.0, 42.0], [27.7, 42.0], [28.0, 41.35], [26.8, 40.95], [26.0, 41.25]],
+    [[41.0, 39.1], [42.0, 39.2], [42.4, 38.6], [41.6, 38.3], [40.9, 38.55]],
+    [[27.0, 38.6], [27.35, 38.45], [27.6, 38.55], [27.4, 38.78], [27.05, 38.78]],
+    [[31.8, 38.5], [33.2, 38.6], [34.2, 37.9], [33.5, 37.2], [32.0, 37.35]],
+  ],
+  "alluvial-soil": [
+    [[34.25, 37.05], [35.0, 36.68], [36.15, 36.68], [36.35, 37.1], [35.35, 37.35], [34.55, 37.28]],
+    [[35.58, 41.5], [36.0, 41.3], [36.4, 41.45], [36.25, 41.78], [35.7, 41.75]],
+    [[36.2, 41.22], [36.65, 41.0], [37.25, 41.2], [37.05, 41.58], [36.42, 41.55]],
+    [[26.72, 38.62], [27.0, 38.42], [27.18, 38.54], [27.05, 38.72], [26.82, 38.72]],
+    [[36.45, 40.55], [37.0, 40.5], [37.2, 40.8], [36.8, 40.95], [36.4, 40.82]],
+    [[41.05, 38.9], [42.05, 39.05], [42.25, 38.55], [41.5, 38.3], [40.95, 38.55]],
+    [[38.95, 39.9], [39.65, 39.9], [39.82, 39.55], [39.2, 39.35], [38.8, 39.58]],
+  ],
+  "colluvial-soil": [
+    [[27.2, 38.2], [28.0, 38.1], [28.3, 37.75], [27.65, 37.62], [27.1, 37.82]],
+    [[28.0, 38.75], [29.2, 38.65], [29.45, 38.25], [28.5, 38.18], [27.9, 38.42]],
+    [[29.0, 37.2], [31.3, 36.2], [33.5, 36.0], [35.8, 36.45], [35.5, 36.85], [33.2, 36.55], [31.0, 36.72], [29.3, 37.55]],
+  ],
+  "lithosol-soil": [
+    [[30.0, 40.7], [33.0, 41.2], [36.5, 40.9], [39.2, 40.5], [38.8, 40.0], [35.8, 40.15], [32.8, 40.2], [30.2, 40.25]],
+    [[29.2, 37.25], [31.2, 36.4], [34.0, 36.1], [36.8, 36.3], [36.2, 37.0], [33.5, 36.75], [31.0, 37.1]],
+    [[38.5, 39.0], [40.5, 38.6], [42.8, 37.5], [44.2, 37.4], [43.5, 38.2], [41.2, 39.0], [39.2, 39.5]],
+  ],
+  "regosol-soil": [
+    [[28.25, 38.8], [28.75, 38.75], [28.82, 38.4], [28.35, 38.35]],
+    [[34.2, 39.1], [35.2, 39.0], [35.5, 38.2], [34.5, 37.75], [33.8, 38.25]],
+    [[42.2, 40.0], [44.3, 40.15], [44.5, 39.1], [42.6, 38.75], [41.8, 39.3]],
+  ],
+  "loess-soil": [
+    [[37.1, 37.65], [38.3, 37.5], [39.6, 37.55], [40.7, 37.2], [40.4, 36.7], [38.9, 36.55], [37.4, 36.8]],
+  ],
+  "moraine-soil": [
+    [[43.9, 39.9], [44.45, 39.85], [44.55, 39.5], [44.1, 39.4]],
+    [[43.0, 37.75], [44.1, 37.75], [44.0, 37.25], [43.2, 37.2]],
+    [[40.2, 41.2], [41.2, 41.15], [41.05, 40.75], [40.3, 40.72]],
+    [[34.8, 37.9], [35.8, 37.85], [35.7, 37.35], [35.0, 37.28]],
   ],
   goat: [
     [[29.1, 36.5], [31.0, 36.1], [33.2, 36.2], [35.0, 36.6], [36.5, 36.4], [36.7, 37.1], [35.0, 37.5], [33.0, 37.3], [31.0, 37.5], [29.4, 37.2]],

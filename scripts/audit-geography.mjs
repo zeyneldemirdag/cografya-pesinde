@@ -144,6 +144,7 @@ const coverageComparisons = [
   ["industry", ["food-industry", "textile-industry", "chemical-industry", "machine-industry"]],
   ["ports", ["marmara-ports", "black-sea-ports", "aegean-ports", "mediterranean-ports"]],
   ["bridges-tunnels", ["bridges", "tunnels"]],
+  ["soils", ["zonal-soils", "intrazonal-soils", "azonal-soils"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -155,6 +156,21 @@ const coverageComparisons = [
 });
 
 const officialExpectations = {
+  "zonal-soils": [
+    "Terra Rossa", "Kahverengi Orman Toprağı", "Podzol", "Çernezyom",
+    "Kestane Renkli Bozkır Toprağı", "Kahverengi Bozkır Toprağı",
+  ],
+  "intrazonal-soils": [
+    "Hidromorfik Toprak", "Halomorfik Toprak",
+    "Rendzina", "Vertisol",
+  ],
+  "azonal-soils": [
+    "Alüvyal Toprak", "Kolüvyal Toprak", "Litosol",
+    "Regosol", "Lös", "Moren",
+  ],
+  climate: [
+    "Akdeniz İklimi", "Karadeniz İklimi", "Karasal İklim", "Sert Karasal İklim",
+  ],
   massifs: [
     "Yıldız Masifi", "Menderes Masifi", "Kırşehir Masifi",
     "Alanya-Anamur Masifi", "Bitlis Masifi", "Kazdağı Masifi",
@@ -357,6 +373,7 @@ const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
   "glacial-mountains", "massifs", "straits", "gates", "passes", "mines", "energy", "development",
   "industry", "population", "climate", "vegetation", "soils", "tourism",
+  "zonal-soils", "intrazonal-soils", "azonal-soils",
   "agriculture", "livestock", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
   "bridges", "tunnels", "cities", "agricultural-function-cities",

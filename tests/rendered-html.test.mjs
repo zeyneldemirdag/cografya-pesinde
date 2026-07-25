@@ -39,10 +39,11 @@ test("81 il verisi tam, benzersiz ve doğru plaka dizisindedir", async () => {
 });
 
 test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur", async () => {
-  const [lakes, rivers, page] = await Promise.all([
+  const [lakes, rivers, page, styles] = await Promise.all([
     readFile(new URL("../public/data/turkey-lakes.geojson", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../public/data/turkey-rivers.geojson", import.meta.url), "utf8").then(JSON.parse),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
   assert.ok(lakes.features.length >= 18);
   assert.ok(lakes.features.every((feature) => /Polygon/.test(feature.geometry.type)));
@@ -76,6 +77,10 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /ACTIVE_QUIZ_STORAGE_KEY/);
   assert.match(page, /id: "agricultural-function-cities"/);
   assert.match(page, /id: "tourism-function-cities"/);
+  assert.match(page, /id: "zonal-soils"/);
+  assert.match(page, /id: "intrazonal-soils"/);
+  assert.match(page, /id: "azonal-soils"/);
+  assert.match(styles, /\.geo-feature--correct\s*\{\s*pointer-events:\s*none;/);
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);
   assert.match(page, /Ses.*açık/);
