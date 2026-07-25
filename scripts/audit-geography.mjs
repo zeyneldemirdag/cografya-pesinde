@@ -150,6 +150,7 @@ const coverageComparisons = [
   ["agriculture", ["grain-legume-crops", "industrial-oil-crops", "fruit-special-crops"]],
   ["livestock", ["small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock"]],
   ["energy", ["wind-energy", "thermal-energy", "other-energy"]],
+  ["mines", ["metallic-mines", "industrial-minerals", "energy-raw-materials"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -365,11 +366,38 @@ const officialExpectations = {
     "Yumurtalık Lagünleri", "Meke Maarı", "Kızören Obruğu",
   ],
   mines: [
-    "Zonguldak", "Divriği", "Murgul", "Çayeli", "Küre", "Maden",
-    "Guleman", "Kop Dağı", "Fethiye-Köyceğiz", "Seydişehir",
-    "Bigadiç", "Emet", "Kırka", "Mazıdağı", "Hekimhan",
-    "Hasançelebi", "Tuz Gölü", "Çamaltı", "Seyitömer",
-    "Afşin-Elbistan", "Soma", "Afyonkarahisar",
+    "Divriği", "Hasançelebi", "Hekimhan", "Avnik", "Feke-Mansurlu", "Kesikköprü",
+    "Guleman", "Sivas-Erzincan-Kop Kuşağı", "Fethiye-Köyceğiz-Denizli Kuşağı",
+    "Mersin-Adana-Kayseri Kuşağı", "Bursa-Kütahya-Eskişehir Kuşağı",
+    "İskenderun-Gaziantep Kuşağı", "Murgul", "Çayeli", "Küre", "Maden",
+    "Seydişehir", "Kokaksu", "Payas", "Tavas", "Balya", "Yenice", "Keban",
+    "Bolkar Dağları", "Zamantı", "Akdağmadeni", "Doğu Karadeniz Kuşağı",
+    "Kırka", "Bigadiç", "Kestelek", "Emet", "Mazıdağı", "Adıyaman", "Bingöl",
+    "Şanlıurfa", "Bitlis", "Çankırı", "Gülşehir", "Yerköy", "Tuzluca",
+    "Tuz Gölü", "Çamaltı", "Marmara Adası", "Balıkesir", "Bursa", "Bilecik",
+    "Muğla", "Afyonkarahisar", "Burdur", "Denizli", "Oltu", "Eskişehir",
+    "Ereğli-Zonguldak-Amasra", "Afşin-Elbistan", "Soma", "Tunçbilek",
+    "Seyitömer", "Tavşanlı", "Çan", "Yatağan", "Çeltek", "Nallıhan",
+    "Çayırhan", "Dodurga", "Aşkale",
+  ],
+  "metallic-mines": [
+    "Divriği", "Hasançelebi", "Hekimhan", "Avnik", "Feke-Mansurlu", "Kesikköprü",
+    "Guleman", "Sivas-Erzincan-Kop Kuşağı", "Fethiye-Köyceğiz-Denizli Kuşağı",
+    "Mersin-Adana-Kayseri Kuşağı", "Bursa-Kütahya-Eskişehir Kuşağı",
+    "İskenderun-Gaziantep Kuşağı", "Murgul", "Çayeli", "Küre", "Maden",
+    "Seydişehir", "Kokaksu", "Payas", "Tavas", "Balya", "Yenice", "Keban",
+    "Bolkar Dağları", "Zamantı", "Akdağmadeni", "Doğu Karadeniz Kuşağı",
+  ],
+  "industrial-minerals": [
+    "Kırka", "Bigadiç", "Kestelek", "Emet", "Mazıdağı", "Adıyaman", "Bingöl",
+    "Şanlıurfa", "Bitlis", "Çankırı", "Gülşehir", "Yerköy", "Tuzluca",
+    "Tuz Gölü", "Çamaltı", "Marmara Adası", "Balıkesir", "Bursa", "Bilecik",
+    "Muğla", "Afyonkarahisar", "Burdur", "Denizli", "Oltu", "Eskişehir",
+  ],
+  "energy-raw-materials": [
+    "Ereğli-Zonguldak-Amasra", "Afşin-Elbistan", "Soma", "Tunçbilek",
+    "Seyitömer", "Tavşanlı", "Çan", "Yatağan", "Çeltek", "Nallıhan",
+    "Çayırhan", "Dodurga", "Aşkale",
   ],
   "grain-legume-crops": [
     "Buğday", "Arpa", "Mısır", "Çeltik", "Nohut", "Fasulye", "Mercimek",
@@ -431,7 +459,8 @@ const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected
 
 const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
-  "glacial-mountains", "massifs", "straits", "gates", "passes", "mines",
+  "glacial-mountains", "massifs", "straits", "gates", "passes",
+  "mines", "metallic-mines", "industrial-minerals", "energy-raw-materials",
   "energy", "wind-energy", "thermal-energy", "other-energy", "development",
   "industry", "population", "dense-population", "sparse-population", "regions",
   "climate", "vegetation", "soils", "tourism",
