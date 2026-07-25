@@ -145,6 +145,14 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"hamitabat-energy": \[27\.33877, 41\.48102\]/);
   assert.match(page, /"ambarli-energy": \[28\.6921, 40\.9834\]/);
   assert.match(page, /"ovaakca-energy": \[29\.0726225, 40\.2930382\]/);
+  assert.match(page, /seyitomer: \[29\.832337, 39\.574254\]/);
+  assert.match(page, /"tuncbilek-lignite": \[29\.455311, 39\.634823\]/);
+  assert.match(page, /"can-lignite": \[27\.038636, 40\.023827\]/);
+  assert.match(page, /"yatagan-lignite": \[28\.0529043, 37\.3416704\]/);
+  assert.match(page, /"cayirhan-lignite": \[31\.695, 40\.097\]/);
+  assert.match(page, /"dodurga-lignite": \[34\.758629, 40\.855953\]/);
+  assert.match(page, /"afsin-mine": \[37\.082979, 38\.340685\]/);
+  assert.match(page, /"soma-mine": \[27\.55082, 39\.11457\]/);
   assert.match(page, /const LABEL_OFFSETS/);
   assert.match(page, /data-quiz-id=\{item\.id\}/);
   assert.match(page, /geo-hit geo-hit--small-area/);
