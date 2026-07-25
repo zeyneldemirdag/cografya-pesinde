@@ -74,9 +74,10 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /playMapSound/);
   assert.match(page, /function shuffledFeatureIds/);
   assert.match(page, /const ids = \[\.\.\.new Set\(features\.map\(\(feature\) => feature\.id\)\)\]/);
-  assert.match(page, /!correctIds\.includes\(id\)/);
-  assert.match(page, /correctIds\.slice\(-4\)/);
-  assert.match(page, /İsimler: \{showAllLabels \? "tümü" : "son 4"\}/);
+  assert.match(page, /questionOrder\.find\(\(id\) => !correctIds\.includes\(id\)\)/);
+  assert.doesNotMatch(page, /questionIndex/);
+  assert.match(page, /correctIds\.slice\(-1\)/);
+  assert.match(page, /İsimler: \{showAllLabels \? "tümü" : "son bulunan"\}/);
   assert.match(page, /ACTIVE_QUIZ_STORAGE_KEY/);
   assert.match(page, /id: "agricultural-function-cities"/);
   assert.match(page, /id: "tourism-function-cities"/);

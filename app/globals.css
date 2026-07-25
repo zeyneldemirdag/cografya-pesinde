@@ -573,20 +573,16 @@ button { color: inherit; }
 }
 
 .geo-label rect {
-  fill: rgba(7, 24, 32, .38);
-  stroke: rgba(255, 255, 255, .52);
+  fill: rgba(249, 246, 232, .9);
+  stroke: rgba(21, 63, 57, .34);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
 
 .geo-label text {
-  fill: white;
+  fill: #143b36;
   font-size: 9px;
   font-weight: 900;
-  paint-order: stroke;
-  stroke: rgba(7, 24, 32, .92);
-  stroke-width: 2.4px;
-  stroke-linejoin: round;
 }
 
 .label-layer {

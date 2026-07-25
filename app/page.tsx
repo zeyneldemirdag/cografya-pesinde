@@ -3792,7 +3792,7 @@ function TurkeyMap({
     if (right.id === currentFeatureId) return -1;
     return 0;
   });
-  const visibleLabelIds = showAllLabels ? correctIds : correctIds.slice(-4);
+  const visibleLabelIds = showAllLabels ? correctIds : correctIds.slice(-1);
   const labelPlacements = collisionAwareLabelPlacements(orderedFeatures, visibleLabelIds, provinces);
 
   useEffect(() => {
@@ -3890,6 +3890,7 @@ function TurkeyMap({
                   role="button"
                   tabIndex={0}
                   data-feature-id={feature.id}
+                  data-feature-name={feature.name}
                   data-status={status}
                   aria-label={status === "correct" ? `${feature.name}, doğru bilindi` : "İl seçeneği"}
                   className={`province-option province-option--${status}`}
@@ -3929,6 +3930,7 @@ function TurkeyMap({
                 role="button"
                 tabIndex={0}
                 data-feature-id={feature.id}
+                data-feature-name={feature.name}
                 data-status={status}
                 aria-label={status === "correct" ? `${feature.name}, doğru bilindi` : "Harita seçeneği"}
                 className={`geo-feature geo-feature--${status}`}
@@ -4005,7 +4007,6 @@ export default function Home() {
     QUIZZES[0].features.map((feature) => feature.id),
   );
   const [activeGroup, setActiveGroup] = useState("Tümü");
-  const [questionIndex, setQuestionIndex] = useState(0);
   const [correctIds, setCorrectIds] = useState<string[]>([]);
   const [wrongIds, setWrongIds] = useState<string[]>([]);
   const [attempts, setAttempts] = useState(0);
@@ -4017,9 +4018,9 @@ export default function Home() {
   const quiz = QUIZZES.find((item) => item.id === activeQuizId) ?? QUIZZES[0];
   const quizFeatureCount = new Set(quiz.features.map((feature) => feature.id)).size;
   const sourceRef = SOURCE_BY_QUIZ[quiz.id] ?? SOURCE_BY_GROUP[quiz.group];
-  const currentId = questionOrder.find(
-    (id, index) => index >= questionIndex && !correctIds.includes(id),
-  ) ?? quiz.features.find((feature) => !correctIds.includes(feature.id))?.id ?? quiz.features[0].id;
+  const currentId = questionOrder.find((id) => !correctIds.includes(id))
+    ?? quiz.features.find((feature) => !correctIds.includes(feature.id))?.id
+    ?? quiz.features[0].id;
   const current = quiz.features.find((feature) => feature.id === currentId) ?? quiz.features[0];
   const visibleQuizzes = useMemo(
     () =>
@@ -4036,7 +4037,6 @@ export default function Home() {
     const nextQuiz = QUIZZES.find((item) => item.id === nextQuizId) ?? QUIZZES[0];
     setActiveQuizId(nextQuizId);
     setQuestionOrder((previousOrder) => shuffledFeatureIds(nextQuiz.features, previousOrder));
-    setQuestionIndex(0);
     setCorrectIds([]);
     setWrongIds([]);
     setAttempts(0);
@@ -4073,9 +4073,6 @@ export default function Home() {
     });
     if (soundOn) playMapSound("correct");
 
-    if (isLastQuestion) return;
-
-    window.setTimeout(() => setQuestionIndex((index) => index + 1), 360);
   };
 
   useEffect(() => {
@@ -4175,7 +4172,7 @@ export default function Home() {
                 aria-pressed={showAllLabels}
                 onClick={() => setShowAllLabels((value) => !value)}
               >
-                İsimler: {showAllLabels ? "tümü" : "son 4"}
+                İsimler: {showAllLabels ? "tümü" : "son bulunan"}
               </button>
               <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)}>
                 Konular <span>＋</span>
