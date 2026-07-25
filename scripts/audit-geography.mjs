@@ -53,6 +53,10 @@ const riverData = [
 );
 const lakeIds = new Set(lakeData.map((feature) => feature.properties.id));
 const riverIds = new Set(riverData.map((feature) => feature.properties.id));
+const basinData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-closed-basins.geojson", import.meta.url), "utf8"),
+).features;
+const basinIds = new Set(basinData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const lakeCanonical = (id) => ({
@@ -77,6 +81,7 @@ const riverCanonical = (id) => ({
 const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
+  else if (basinIds.has(feature.id)) geometry = "exact-basin";
   else if (pointKeys.has(feature.id)) geometry = "verified-point";
   else {
     const functionCityMatch = feature.id.match(
@@ -443,8 +448,9 @@ const officialExpectations = {
     "İskenderun Limanı",
   ],
   "closed-basins": [
-    "Van Gölü Kapalı Havzası", "Tuz Gölü Kapalı Havzası",
-    "Göller Yöresi Kapalı Havzası", "Hazar Gölü Kapalı Havzası",
+    "Van Gölü Kapalı Havzası", "Tuz Gölü-Konya Kapalı Havzası",
+    "Göller Yöresi-Burdur Kapalı Havzası", "Akşehir-Eber (Akarçay) Kapalı Havzası",
+    "Aras-Kura (Hazar Denizi) Havzası", "Hazar Gölü Kapalı Havzası",
   ],
 };
 
@@ -468,7 +474,7 @@ const sourceOverrideRequired = [
   "forest-vegetation", "shrub-vegetation", "grass-vegetation",
   "agriculture", "grain-legume-crops", "industrial-oil-crops", "fruit-special-crops",
   "livestock", "small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock",
-  "ports", "marmara-ports", "black-sea-ports",
+  "closed-basins", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
   "bridges", "tunnels", "cities", "agricultural-function-cities",
   "industrial-function-cities", "mining-function-cities", "port-function-cities",

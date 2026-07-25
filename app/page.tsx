@@ -1892,11 +1892,10 @@ const QUIZZES: Quiz[] = [
     icon: "◎",
     features: [
       f("van-basin", "Van Gölü Kapalı Havzası", 81, 51, 15, 13, "region"),
-      f("tuz-basin", "Tuz Gölü Kapalı Havzası", 49, 52, 17, 16, "region"),
-      f("konya-basin", "Konya Kapalı Havzası", 47, 62, 21, 16, "region"),
-      f("lakes-basin", "Göller Yöresi Kapalı Havzası", 36, 64, 16, 15, "region"),
-      f("aksehir-eber-basin", "Akşehir-Eber Kapalı Havzası", 38, 58, 12, 9, "region"),
-      f("aras-kura-basin", "Aras-Kura (Hazar) Havzası", 86, 34, 18, 13, "region"),
+      f("konya-closed-basin", "Tuz Gölü-Konya Kapalı Havzası", 49, 57, 23, 20, "region"),
+      f("burdur-basin", "Göller Yöresi-Burdur Kapalı Havzası", 34, 64, 16, 15, "region"),
+      f("akaracay-basin", "Akşehir-Eber (Akarçay) Kapalı Havzası", 37, 56, 12, 9, "region"),
+      f("aras-basin", "Aras-Kura (Hazar Denizi) Havzası", 86, 34, 18, 13, "region"),
       f("hazar-lake-basin", "Hazar Gölü Kapalı Havzası", 68, 51, 9, 8, "region"),
     ],
   },
@@ -2248,6 +2247,10 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     label: "MEB arıcılık, ipek böcekçiliği ve su ürünleri",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page32.html",
   },
+  "closed-basins": {
+    label: "Tarım ve Orman Bakanlığı resmî havza sınırları + MEB",
+    url: "https://cbs1.tarimorman.gov.tr/server/rest/services/TATUS_TEST/MapServer/11",
+  },
   ports: {
     label: "MEB başlıca limanlar + Ulaştırma Bakanlığı liman kayıtları",
     url: "https://ogmmateryal.eba.gov.tr/panel/upload/kitap/4entwxnnnzr.pdf",
@@ -2321,6 +2324,8 @@ type LakeFeature = {
   geometry: ProvinceFeature["geometry"];
   properties: { id: string; name: string };
 };
+
+type BasinFeature = LakeFeature;
 
 type RiverFeature = {
   geometry: {
@@ -2842,11 +2847,10 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
     [36.6, 36.8],
   ]],
   "van-basin": [[[41.6, 39.7], [44.4, 40.0], [44.8, 37.8], [42.2, 37.4], [41.3, 38.4]]],
-  "tuz-basin": [[[32.0, 40.0], [34.8, 40.0], [35.2, 38.0], [33.7, 37.2], [31.8, 38.0]]],
-  "konya-basin": [[[30.5, 38.6], [34.5, 38.8], [35.0, 36.6], [31.0, 36.2], [29.8, 37.3]]],
-  "lakes-basin": [[[29.0, 38.5], [32.5, 38.6], [32.3, 36.5], [29.3, 36.2], [28.5, 37.2]]],
-  "aksehir-eber-basin": [[[30.2, 39.1], [32.4, 39.0], [32.5, 37.8], [30.5, 37.6]]],
-  "aras-kura-basin": [[[39.5, 41.8], [44.8, 42.0], [44.8, 39.0], [42.0, 39.1], [40.0, 40.0]]],
+  "konya-closed-basin": [[[30.5, 39.6], [34.8, 40.0], [35.2, 36.6], [31.0, 36.2], [29.8, 37.3]]],
+  "burdur-basin": [[[28.5, 38.5], [31.0, 38.6], [31.0, 36.6], [29.3, 36.2], [28.3, 37.2]]],
+  "akaracay-basin": [[[29.8, 39.2], [32.4, 39.0], [32.5, 37.8], [30.3, 37.6]]],
+  "aras-basin": [[[39.5, 41.8], [44.8, 42.0], [44.8, 39.0], [42.0, 39.1], [40.0, 40.0]]],
   "hazar-lake-basin": [[[38.45, 39.05], [39.25, 39.04], [39.55, 38.65], [39.34, 38.3], [38.63, 38.28], [38.34, 38.62]]],
 };
 
@@ -3560,6 +3564,7 @@ function featureGraphic(
   feature: Feature,
   lakeShape?: LakeFeature,
   riverShape?: RiverFeature,
+  basinShape?: BasinFeature,
   provinces: ProvinceFeature[] = [],
 ) {
   const realLine = realLineFor(feature);
@@ -3599,6 +3604,16 @@ function featureGraphic(
           fillRule="evenodd"
         />
       </g>
+    );
+  }
+
+  if (basinShape) {
+    return (
+      <path
+        d={lakePath(basinShape)}
+        className="geo-shape geo-shape--region geo-shape--area geo-shape--exact-basin"
+        fillRule="evenodd"
+      />
     );
   }
 
@@ -3769,6 +3784,7 @@ function TurkeyMap({
   const [provinces, setProvinces] = useState<ProvinceFeature[]>([]);
   const [lakes, setLakes] = useState<LakeFeature[]>([]);
   const [rivers, setRivers] = useState<RiverFeature[]>([]);
+  const [basins, setBasins] = useState<BasinFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
   const uniqueFeatures = [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()];
   const orderedFeatures = [...uniqueFeatures].sort((left, right) => {
@@ -3802,6 +3818,10 @@ function TurkeyMap({
         collections.flatMap((data) => data.features as RiverFeature[]),
       ))
       .catch(() => setRivers([]));
+    fetch("/data/turkey-closed-basins.geojson")
+      .then((response) => response.json())
+      .then((data) => setBasins(data.features as BasinFeature[]))
+      .catch(() => setBasins([]));
   }, []);
 
   return (
@@ -3922,6 +3942,7 @@ function TurkeyMap({
                   feature,
                   lakes.find((lake) => lake.properties.id === lakeShapeId(feature)),
                   rivers.find((river) => river.properties.id === riverShapeId(feature)),
+                  basins.find((basin) => basin.properties.id === feature.id),
                   provinces,
                 )}
               </g>

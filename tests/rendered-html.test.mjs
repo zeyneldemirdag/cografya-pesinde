@@ -65,6 +65,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /id: "inbound-rivers"/);
   assert.match(page, /const AREA_POLYGONS/);
   assert.match(page, /const DISTRIBUTION_POLYGONS/);
+  assert.match(page, /turkey-closed-basins\.geojson/);
+  assert.match(page, /geo-shape--exact-basin/);
   assert.match(page, /nemrut: \[42\.23, 38\.65\]/);
   assert.match(page, /"nemrut-tour": \[38\.74, 37\.98\]/);
   assert.match(page, /const LABEL_OFFSETS/);

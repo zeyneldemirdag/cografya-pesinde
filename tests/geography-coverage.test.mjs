@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
+import fs from "node:fs";
 import test from "node:test";
 
 const report = JSON.parse(
@@ -38,4 +39,18 @@ test("resmî MEB, DSİ ve Ticaret Bakanlığı çekirdek listeleri eksiksizdir",
 
 test("grup kaynağının yetersiz kaldığı oyunların konuya özel resmî kaynağı vardır", () => {
   assert.deepEqual(report.missingSourceOverrides, []);
+});
+
+test("kapalı havza oyunu resmî CBS sınırlarını kullanır", () => {
+  const basinData = JSON.parse(
+    fs.readFileSync(
+      new URL("../public/data/turkey-closed-basins.geojson", import.meta.url),
+      "utf8",
+    ),
+  );
+  assert.deepEqual(
+    basinData.features.map((feature) => feature.properties.id).sort(),
+    ["akaracay-basin", "aras-basin", "burdur-basin", "konya-closed-basin", "van-basin"],
+  );
+  assert.equal(report.geometryCounts["exact-basin"], 5);
 });
