@@ -23,6 +23,7 @@ function constantKeys(name) {
 }
 
 const pointKeys = constantKeys("POINT_COORDINATES");
+const functionCityKeys = constantKeys("FUNCTION_CITY_COORDINATES");
 const areaKeys = constantKeys("AREA_POLYGONS");
 const distributionKeys = constantKeys("DISTRIBUTION_POLYGONS");
 const lineKeys = constantKeys("REAL_LINES");
@@ -77,10 +78,16 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (pointKeys.has(feature.id)) geometry = "verified-point";
-  else if (areaKeys.has(feature.id) && ["plain", "plateau", "region", "lake"].includes(feature.kind)) geometry = "area-polygon";
-  else if (distributionKeys.has(feature.id)) geometry = "distribution-polygon";
-  else if (lineKeys.has(feature.id) || lineKeys.has(canonical(feature.id))) geometry = "coordinate-line";
-  else if (feature.kind === "river" && riverIds.has(riverCanonical(feature.id))) geometry = "exact-river";
+  else {
+    const functionCityMatch = feature.id.match(
+      /^(?:function-city|farm-city|industrial-city|mining-city|port-city|transport-trade-city|culture-admin-city|tourism-city)-(.+)$/,
+    );
+    if (functionCityMatch && functionCityKeys.has(functionCityMatch[1])) geometry = "verified-point";
+  }
+  if (geometry === "fallback" && areaKeys.has(feature.id) && ["plain", "plateau", "region", "lake"].includes(feature.kind)) geometry = "area-polygon";
+  else if (geometry === "fallback" && distributionKeys.has(feature.id)) geometry = "distribution-polygon";
+  else if (geometry === "fallback" && (lineKeys.has(feature.id) || lineKeys.has(canonical(feature.id)))) geometry = "coordinate-line";
+  else if (geometry === "fallback" && feature.kind === "river" && riverIds.has(riverCanonical(feature.id))) geometry = "exact-river";
   return { ...feature, geometry };
 });
 
@@ -148,6 +155,27 @@ const coverageComparisons = [
 });
 
 const officialExpectations = {
+  "agricultural-function-cities": [
+    "Söke", "Osmaniye", "Akhisar", "Rize", "Bafra", "Malatya",
+  ],
+  "industrial-function-cities": [
+    "İstanbul", "Kocaeli", "Bursa", "İskenderun", "Karadeniz Ereğli",
+  ],
+  "mining-function-cities": [
+    "Soma", "Batman", "Zonguldak", "Elbistan", "Murgul",
+  ],
+  "port-function-cities": [
+    "İskenderun", "İstanbul", "İzmir", "Mersin", "Kocaeli", "Samsun", "Trabzon", "Sinop",
+  ],
+  "transport-trade-function-cities": [
+    "İzmir", "Kayseri", "Konya", "Erzurum", "İstanbul", "Ankara", "Gaziantep",
+  ],
+  "culture-admin-military-function-cities": [
+    "Ankara", "Eskişehir", "İstanbul", "İzmir", "Gölcük", "Polatlı", "Malatya", "Erzincan",
+  ],
+  "tourism-function-cities": [
+    "Antalya", "Marmaris", "Kuşadası", "Nevşehir", "İstanbul",
+  ],
   "fold-mountains": [
     "Sündiken Dağları", "Elmadağ", "Munzur Dağları", "Mercan Dağları",
   ],
@@ -327,7 +355,10 @@ const sourceOverrideRequired = [
   "industry", "population", "climate", "vegetation", "soils", "tourism",
   "agriculture", "livestock", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
-  "bridges", "tunnels",
+  "bridges", "tunnels", "cities", "agricultural-function-cities",
+  "industrial-function-cities", "mining-function-cities", "port-function-cities",
+  "transport-trade-function-cities", "culture-admin-military-function-cities",
+  "tourism-function-cities",
 ];
 const missingSourceOverrides = sourceOverrideRequired.filter((id) => !sourceQuizKeys.has(id));
 

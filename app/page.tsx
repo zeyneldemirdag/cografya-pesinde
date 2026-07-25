@@ -207,6 +207,108 @@ const INDUSTRY_MACHINE_FEATURES = industrySubset([
   "iskenderun-industry",
 ]);
 
+const FUNCTION_CITY_GENERAL_FEATURES: Feature[] = [
+  f("function-city-soke", "Söke · Tarım", 50, 50, 5, 4, "city"),
+  f("function-city-osmaniye", "Osmaniye · Tarım", 50, 50, 5, 4, "city"),
+  f("function-city-akhisar", "Akhisar · Tarım", 50, 50, 5, 4, "city"),
+  f("function-city-rize", "Rize · Tarım", 50, 50, 5, 4, "city"),
+  f("function-city-bafra", "Bafra · Tarım", 50, 50, 5, 4, "city"),
+  f("function-city-malatya", "Malatya · Tarım, askerî", 50, 50, 5, 4, "city"),
+  f("function-city-istanbul", "İstanbul · Sanayi, liman, ulaşım, ticaret, kültür, turizm", 50, 50, 5, 4, "city"),
+  f("function-city-kocaeli", "Kocaeli · Sanayi, liman", 50, 50, 5, 4, "city"),
+  f("function-city-bursa", "Bursa · Sanayi", 50, 50, 5, 4, "city"),
+  f("function-city-iskenderun", "İskenderun · Sanayi, liman", 50, 50, 5, 4, "city"),
+  f("function-city-eregli", "Karadeniz Ereğli · Sanayi", 50, 50, 5, 4, "city"),
+  f("function-city-soma", "Soma · Maden", 50, 50, 5, 4, "city"),
+  f("function-city-batman", "Batman · Maden", 50, 50, 5, 4, "city"),
+  f("function-city-zonguldak", "Zonguldak · Maden", 50, 50, 5, 4, "city"),
+  f("function-city-elbistan", "Elbistan · Maden", 50, 50, 5, 4, "city"),
+  f("function-city-murgul", "Murgul · Maden", 50, 50, 5, 4, "city"),
+  f("function-city-izmir", "İzmir · Liman, ulaşım, ticaret, kültür", 50, 50, 5, 4, "city"),
+  f("function-city-mersin", "Mersin · Liman", 50, 50, 5, 4, "city"),
+  f("function-city-samsun", "Samsun · Liman", 50, 50, 5, 4, "city"),
+  f("function-city-trabzon", "Trabzon · Liman", 50, 50, 5, 4, "city"),
+  f("function-city-sinop", "Sinop · Liman", 50, 50, 5, 4, "city"),
+  f("function-city-kayseri", "Kayseri · Ulaşım, ticaret", 50, 50, 5, 4, "city"),
+  f("function-city-konya", "Konya · Ulaşım, ticaret", 50, 50, 5, 4, "city"),
+  f("function-city-erzurum", "Erzurum · Ulaşım", 50, 50, 5, 4, "city"),
+  f("function-city-ankara", "Ankara · Ticaret, idari, kültür", 50, 50, 5, 4, "city"),
+  f("function-city-gaziantep", "Gaziantep · Ticaret", 50, 50, 5, 4, "city"),
+  f("function-city-eskisehir", "Eskişehir · Kültür", 50, 50, 5, 4, "city"),
+  f("function-city-golcuk", "Gölcük · Askerî", 50, 50, 5, 4, "city"),
+  f("function-city-polatli", "Polatlı · Askerî", 50, 50, 5, 4, "city"),
+  f("function-city-erzincan", "Erzincan · Askerî", 50, 50, 5, 4, "city"),
+  f("function-city-antalya", "Antalya · Turizm", 50, 50, 5, 4, "city"),
+  f("function-city-marmaris", "Marmaris · Turizm", 50, 50, 5, 4, "city"),
+  f("function-city-kusadasi", "Kuşadası · Turizm", 50, 50, 5, 4, "city"),
+  f("function-city-nevsehir", "Nevşehir · Turizm", 50, 50, 5, 4, "city"),
+];
+
+const AGRICULTURAL_FUNCTION_CITIES: Feature[] = [
+  f("farm-city-soke", "Söke", 50, 50, 5, 4, "city"),
+  f("farm-city-osmaniye", "Osmaniye", 50, 50, 5, 4, "city"),
+  f("farm-city-akhisar", "Akhisar", 50, 50, 5, 4, "city"),
+  f("farm-city-rize", "Rize", 50, 50, 5, 4, "city"),
+  f("farm-city-bafra", "Bafra", 50, 50, 5, 4, "city"),
+  f("farm-city-malatya", "Malatya", 50, 50, 5, 4, "city"),
+];
+
+const INDUSTRIAL_FUNCTION_CITIES: Feature[] = [
+  f("industrial-city-istanbul", "İstanbul", 50, 50, 5, 4, "city"),
+  f("industrial-city-kocaeli", "Kocaeli", 50, 50, 5, 4, "city"),
+  f("industrial-city-bursa", "Bursa", 50, 50, 5, 4, "city"),
+  f("industrial-city-iskenderun", "İskenderun", 50, 50, 5, 4, "city"),
+  f("industrial-city-eregli", "Karadeniz Ereğli", 50, 50, 5, 4, "city"),
+];
+
+const MINING_FUNCTION_CITIES: Feature[] = [
+  f("mining-city-soma", "Soma", 50, 50, 5, 4, "city"),
+  f("mining-city-batman", "Batman", 50, 50, 5, 4, "city"),
+  f("mining-city-zonguldak", "Zonguldak", 50, 50, 5, 4, "city"),
+  f("mining-city-elbistan", "Elbistan", 50, 50, 5, 4, "city"),
+  f("mining-city-murgul", "Murgul", 50, 50, 5, 4, "city"),
+];
+
+const PORT_FUNCTION_CITIES: Feature[] = [
+  f("port-city-iskenderun", "İskenderun", 50, 50, 5, 4, "city"),
+  f("port-city-istanbul", "İstanbul", 50, 50, 5, 4, "city"),
+  f("port-city-izmir", "İzmir", 50, 50, 5, 4, "city"),
+  f("port-city-mersin", "Mersin", 50, 50, 5, 4, "city"),
+  f("port-city-kocaeli", "Kocaeli", 50, 50, 5, 4, "city"),
+  f("port-city-samsun", "Samsun", 50, 50, 5, 4, "city"),
+  f("port-city-trabzon", "Trabzon", 50, 50, 5, 4, "city"),
+  f("port-city-sinop", "Sinop", 50, 50, 5, 4, "city"),
+];
+
+const TRANSPORT_TRADE_FUNCTION_CITIES: Feature[] = [
+  f("transport-trade-city-izmir", "İzmir", 50, 50, 5, 4, "city"),
+  f("transport-trade-city-kayseri", "Kayseri", 50, 50, 5, 4, "city"),
+  f("transport-trade-city-konya", "Konya", 50, 50, 5, 4, "city"),
+  f("transport-trade-city-erzurum", "Erzurum", 50, 50, 5, 4, "city"),
+  f("transport-trade-city-istanbul", "İstanbul", 50, 50, 5, 4, "city"),
+  f("transport-trade-city-ankara", "Ankara", 50, 50, 5, 4, "city"),
+  f("transport-trade-city-gaziantep", "Gaziantep", 50, 50, 5, 4, "city"),
+];
+
+const CULTURE_ADMIN_MILITARY_FUNCTION_CITIES: Feature[] = [
+  f("culture-admin-city-ankara", "Ankara", 50, 50, 5, 4, "city"),
+  f("culture-admin-city-eskisehir", "Eskişehir", 50, 50, 5, 4, "city"),
+  f("culture-admin-city-istanbul", "İstanbul", 50, 50, 5, 4, "city"),
+  f("culture-admin-city-izmir", "İzmir", 50, 50, 5, 4, "city"),
+  f("culture-admin-city-golcuk", "Gölcük", 50, 50, 5, 4, "city"),
+  f("culture-admin-city-polatli", "Polatlı", 50, 50, 5, 4, "city"),
+  f("culture-admin-city-malatya", "Malatya", 50, 50, 5, 4, "city"),
+  f("culture-admin-city-erzincan", "Erzincan", 50, 50, 5, 4, "city"),
+];
+
+const TOURISM_FUNCTION_CITIES: Feature[] = [
+  f("tourism-city-antalya", "Antalya", 50, 50, 5, 4, "city"),
+  f("tourism-city-marmaris", "Marmaris", 50, 50, 5, 4, "city"),
+  f("tourism-city-kusadasi", "Kuşadası", 50, 50, 5, 4, "city"),
+  f("tourism-city-nevsehir", "Nevşehir", 50, 50, 5, 4, "city"),
+  f("tourism-city-istanbul", "İstanbul", 50, 50, 5, 4, "city"),
+];
+
 const NATURAL_TOURISM_FEATURES: Feature[] = [
   f("uludag-tour", "Uludağ · Bursa", 50, 50, 5, 4, "city"),
   f("kartalkaya-tour", "Kartalkaya · Bolu", 50, 50, 5, 4, "city"),
@@ -1186,20 +1288,82 @@ const QUIZZES: Quiz[] = [
   {
     id: "cities",
     group: "Türkiye",
-    title: "Başlıca Türkiye Şehirleri",
-    eyebrow: "Türkiye · Şehirler",
-    description: "Temel şehir konumlarını haritada pekiştir.",
+    title: "Fonksiyonlarına Göre Şehirler",
+    eyebrow: "Türkiye · Şehir fonksiyonları · Tümü",
+    description: "MEB'in verdiği tarım, sanayi, maden, liman, ulaşım, ticaret, idari, kültür, askerî ve turizm şehirlerini bul.",
     color: "#6847bd",
     icon: "⌂",
-    features: [
-      f("istanbul-city", "İstanbul", 17, 26, 7, 6, "city"),
-      f("ankara-city", "Ankara", 43, 42, 7, 6, "city"),
-      f("izmir-city", "İzmir", 16, 55, 7, 6, "city"),
-      f("antalya-city", "Antalya", 34, 72, 7, 6, "city"),
-      f("samsun-city", "Samsun", 58, 22, 7, 6, "city"),
-      f("erzurum-city", "Erzurum", 78, 39, 7, 6, "city"),
-      f("diyarbakir-city", "Diyarbakır", 75, 61, 7, 6, "city"),
-    ],
+    features: [...FUNCTION_CITY_GENERAL_FEATURES],
+  },
+  {
+    id: "agricultural-function-cities",
+    group: "Türkiye",
+    title: "Tarım Şehirleri",
+    eyebrow: "Türkiye · Şehir fonksiyonları · Tarım",
+    description: "Tarım ürünlerinin üretimi, işlenmesi ve pazarlanmasıyla öne çıkan MEB örneklerini bul.",
+    color: "#4f8c55",
+    icon: "⌁",
+    features: [...AGRICULTURAL_FUNCTION_CITIES],
+  },
+  {
+    id: "industrial-function-cities",
+    group: "Türkiye",
+    title: "Sanayi Şehirleri",
+    eyebrow: "Türkiye · Şehir fonksiyonları · Sanayi",
+    description: "Sanayi faaliyetleriyle öne çıkan MEB şehir örneklerini bul.",
+    color: "#6d6578",
+    icon: "⚙",
+    features: [...INDUSTRIAL_FUNCTION_CITIES],
+  },
+  {
+    id: "mining-function-cities",
+    group: "Türkiye",
+    title: "Maden Şehirleri",
+    eyebrow: "Türkiye · Şehir fonksiyonları · Maden",
+    description: "Maden çıkarımı ve işlenmesiyle gelişen MEB şehir örneklerini bul.",
+    color: "#8c6546",
+    icon: "◆",
+    features: [...MINING_FUNCTION_CITIES],
+  },
+  {
+    id: "port-function-cities",
+    group: "Türkiye",
+    title: "Liman Şehirleri",
+    eyebrow: "Türkiye · Şehir fonksiyonları · Liman",
+    description: "Liman işleviyle öne çıkan MEB şehir örneklerini kıyıdaki gerçek merkezlerinde bul.",
+    color: "#327e96",
+    icon: "≋",
+    features: [...PORT_FUNCTION_CITIES],
+  },
+  {
+    id: "transport-trade-function-cities",
+    group: "Türkiye",
+    title: "Ulaşım ve Ticaret Şehirleri",
+    eyebrow: "Türkiye · Şehir fonksiyonları · Ulaşım ve ticaret",
+    description: "Ulaşım kavşağı veya ticaret merkezi olan MEB şehir örneklerini bul.",
+    color: "#a36a37",
+    icon: "↗",
+    features: [...TRANSPORT_TRADE_FUNCTION_CITIES],
+  },
+  {
+    id: "culture-admin-military-function-cities",
+    group: "Türkiye",
+    title: "Kültür, İdari ve Askerî Şehirler",
+    eyebrow: "Türkiye · Şehir fonksiyonları · Yönetim ve kültür",
+    description: "Kültür, idari ve askerî fonksiyonlarla öne çıkan MEB şehir örneklerini bul.",
+    color: "#7650a3",
+    icon: "◎",
+    features: [...CULTURE_ADMIN_MILITARY_FUNCTION_CITIES],
+  },
+  {
+    id: "tourism-function-cities",
+    group: "Türkiye",
+    title: "Turizm Şehirleri",
+    eyebrow: "Türkiye · Şehir fonksiyonları · Turizm",
+    description: "Turizm işleviyle öne çıkan MEB şehir örneklerini bul.",
+    color: "#b14784",
+    icon: "✦",
+    features: [...TOURISM_FUNCTION_CITIES],
   },
   {
     id: "north-fold-mountains",
@@ -1530,6 +1694,38 @@ const SOURCE_BY_GROUP: Record<string, SourceRef> = {
 };
 
 const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
+  cities: {
+    label: "MEB fonksiyonlarına göre şehirler",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
+  },
+  "agricultural-function-cities": {
+    label: "MEB tarım şehirleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
+  },
+  "industrial-function-cities": {
+    label: "MEB sanayi şehirleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
+  },
+  "mining-function-cities": {
+    label: "MEB maden şehirleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
+  },
+  "port-function-cities": {
+    label: "MEB liman şehirleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
+  },
+  "transport-trade-function-cities": {
+    label: "MEB ulaşım ve ticaret şehirleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
+  },
+  "culture-admin-military-function-cities": {
+    label: "MEB kültür, idari ve askerî şehirler",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
+  },
+  "tourism-function-cities": {
+    label: "MEB turizm şehirleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
+  },
   "glacial-mountains": {
     label: "MEB Türkiye'de buzullaşma",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page75.html",
@@ -1663,7 +1859,7 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
 const ACTIVE_QUIZ_STORAGE_KEY = "cografya-pesinde:active-quiz";
 
 function shuffledFeatureIds(features: Feature[], previousOrder: string[] = []) {
-  const ids = features.map((feature) => feature.id);
+  const ids = [...new Set(features.map((feature) => feature.id))];
   for (let index = ids.length - 1; index > 0; index -= 1) {
     const swapIndex = Math.floor(Math.random() * (index + 1));
     [ids[index], ids[swapIndex]] = [ids[swapIndex], ids[index]];
@@ -1863,6 +2059,50 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   "aras-kura-basin": [[[39.5, 41.8], [44.8, 42.0], [44.8, 39.0], [42.0, 39.1], [40.0, 40.0]]],
   "hazar-lake-basin": [[[38.45, 39.05], [39.25, 39.04], [39.55, 38.65], [39.34, 38.3], [38.63, 38.28], [38.34, 38.62]]],
 };
+
+const FUNCTION_CITY_COORDINATES: Record<string, Coordinate> = {
+  soke: [27.4061, 37.7482],
+  osmaniye: [36.2478, 37.0746],
+  akhisar: [27.8399, 38.9185],
+  rize: [40.5234, 41.0255],
+  bafra: [35.9064, 41.5678],
+  malatya: [38.3095, 38.3552],
+  istanbul: [28.9784, 41.0082],
+  kocaeli: [29.9408, 40.7669],
+  bursa: [29.0600, 40.1950],
+  iskenderun: [36.1725, 36.5872],
+  eregli: [31.4181, 41.2797],
+  soma: [27.6094, 39.1855],
+  batman: [41.1322, 37.8812],
+  zonguldak: [31.7894, 41.4535],
+  elbistan: [37.1983, 38.2059],
+  murgul: [41.5624, 41.2798],
+  izmir: [27.1428, 38.4237],
+  mersin: [34.6415, 36.8121],
+  samsun: [36.3361, 41.2867],
+  trabzon: [39.7168, 41.0027],
+  sinop: [35.1517, 42.0268],
+  kayseri: [35.4826, 38.7205],
+  konya: [32.4846, 37.8746],
+  erzurum: [41.2679, 39.9043],
+  ankara: [32.8597, 39.9334],
+  gaziantep: [37.3781, 37.0662],
+  eskisehir: [30.5206, 39.7767],
+  golcuk: [29.8289, 40.7160],
+  polatli: [32.1472, 39.5842],
+  erzincan: [39.4902, 39.7468],
+  antalya: [30.7133, 36.8969],
+  marmaris: [28.2742, 36.8550],
+  kusadasi: [27.2578, 37.8597],
+  nevsehir: [34.7194, 38.6244],
+};
+
+function functionalCityCoordinate(featureId: string) {
+  const match = featureId.match(
+    /^(?:function-city|farm-city|industrial-city|mining-city|port-city|transport-trade-city|culture-admin-city|tourism-city)-(.+)$/,
+  );
+  return match ? FUNCTION_CITY_COORDINATES[match[1]] : undefined;
+}
 
 const POINT_COORDINATES: Record<string, Coordinate> = {
   agri: [44.288, 39.702],
@@ -2363,7 +2603,7 @@ function distributionPolygonsFor(feature: Feature) {
 }
 
 function featureCenter(feature: Feature): Coordinate {
-  const point = POINT_COORDINATES[feature.id];
+  const point = POINT_COORDINATES[feature.id] ?? functionalCityCoordinate(feature.id);
   if (point) return project(point);
   const areaPolygon = areaPolygonFor(feature);
   if (areaPolygon) {
@@ -2675,24 +2915,28 @@ function TurkeyMap({
   currentFeatureId,
   correctIds,
   wrongIds,
+  showAllLabels,
   onSelect,
 }: {
   quiz: Quiz;
   currentFeatureId: string;
   correctIds: string[];
   wrongIds: string[];
+  showAllLabels: boolean;
   onSelect: (feature: Feature) => void;
 }) {
   const [provinces, setProvinces] = useState<ProvinceFeature[]>([]);
   const [lakes, setLakes] = useState<LakeFeature[]>([]);
   const [rivers, setRivers] = useState<RiverFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
-  const orderedFeatures = [...quiz.features].sort((left, right) => {
+  const uniqueFeatures = [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()];
+  const orderedFeatures = [...uniqueFeatures].sort((left, right) => {
     if (left.id === currentFeatureId) return 1;
     if (right.id === currentFeatureId) return -1;
     return 0;
   });
-  const labelPlacements = collisionAwareLabelPlacements(orderedFeatures, correctIds, provinces);
+  const visibleLabelIds = showAllLabels ? correctIds : correctIds.slice(-4);
+  const labelPlacements = collisionAwareLabelPlacements(orderedFeatures, visibleLabelIds, provinces);
 
   useEffect(() => {
     fetch("/data/turkey-provinces.geojson")
@@ -2846,7 +3090,7 @@ function TurkeyMap({
         {quiz.id !== "provinces" && (
           <g className="label-layer" aria-hidden="true">
             {orderedFeatures
-              .filter((feature) => correctIds.includes(feature.id))
+              .filter((feature) => visibleLabelIds.includes(feature.id))
               .map((feature) => {
                 const center = feature.plates?.length
                   ? provinceSetCenter(feature.plates, provinces)
@@ -2906,10 +3150,14 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [finished, setFinished] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
+  const [showAllLabels, setShowAllLabels] = useState(false);
 
   const quiz = QUIZZES.find((item) => item.id === activeQuizId) ?? QUIZZES[0];
+  const quizFeatureCount = new Set(quiz.features.map((feature) => feature.id)).size;
   const sourceRef = SOURCE_BY_QUIZ[quiz.id] ?? SOURCE_BY_GROUP[quiz.group];
-  const currentId = questionOrder[questionIndex] ?? quiz.features[0].id;
+  const currentId = questionOrder.find(
+    (id, index) => index >= questionIndex && !correctIds.includes(id),
+  ) ?? quiz.features.find((feature) => !correctIds.includes(feature.id))?.id ?? quiz.features[0].id;
   const current = quiz.features.find((feature) => feature.id === currentId) ?? quiz.features[0];
   const visibleQuizzes = useMemo(
     () =>
@@ -2931,6 +3179,7 @@ export default function Home() {
     setWrongIds([]);
     setAttempts(0);
     setFinished(false);
+    setShowAllLabels(false);
     setMenuOpen(false);
     window.localStorage.setItem(ACTIVE_QUIZ_STORAGE_KEY, nextQuiz.id);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2950,7 +3199,9 @@ export default function Home() {
       return;
     }
 
-    const nextCorrect = [...correctIds, feature.id];
+    const nextCorrect = correctIds.includes(feature.id)
+      ? correctIds
+      : [...correctIds, feature.id];
     flushSync(() => {
       setAttempts((value) => value + 1);
       setCorrectIds(nextCorrect);
@@ -2958,7 +3209,7 @@ export default function Home() {
     });
     if (soundOn) playMapSound("correct");
 
-    if (nextCorrect.length === quiz.features.length) {
+    if (nextCorrect.length === quizFeatureCount) {
       window.setTimeout(() => setFinished(true), 380);
       return;
     }
@@ -3030,7 +3281,7 @@ export default function Home() {
 
           <div className="question-card" style={{ "--accent": quiz.color } as React.CSSProperties}>
             <span className="question-count">
-              SORU {Math.min(questionIndex + 1, quiz.features.length)} / {quiz.features.length}
+              SORU {Math.min(correctIds.length + 1, quizFeatureCount)} / {quizFeatureCount}
             </span>
             <div className="question-icon">{quiz.icon}</div>
             <p>Haritada nerede?</p>
@@ -3056,9 +3307,19 @@ export default function Home() {
               <span className="map-kicker">AKTİF HARİTA</span>
               <h2>{quiz.title}</h2>
             </div>
-            <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)}>
-              Konular <span>＋</span>
-            </button>
+            <div className="map-actions">
+              <button
+                className="label-toggle"
+                type="button"
+                aria-pressed={showAllLabels}
+                onClick={() => setShowAllLabels((value) => !value)}
+              >
+                İsimler: {showAllLabels ? "tümü" : "son 4"}
+              </button>
+              <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)}>
+                Konular <span>＋</span>
+              </button>
+            </div>
           </div>
 
           <div className="map-stage">
@@ -3070,6 +3331,7 @@ export default function Home() {
               currentFeatureId={finished ? "" : current.id}
               correctIds={correctIds}
               wrongIds={wrongIds}
+              showAllLabels={showAllLabels}
               onSelect={handleSelect}
             />
             <div className="map-note"><span>↖</span> Gerçek il sınırları ve coğrafi koordinatlar</div>
@@ -3078,7 +3340,7 @@ export default function Home() {
               <div className="finish-card" role="status">
                 <span className="finish-confetti">✦</span>
                 <p>HARİTA TAMAMLANDI</p>
-                <h3>{quiz.features.length} / {quiz.features.length} doğru</h3>
+                <h3>{quizFeatureCount} / {quizFeatureCount} doğru</h3>
                 <span>%{accuracy} isabetle bitirdin.</span>
                 <div>
                   <button type="button" onClick={() => resetQuiz()}>Tekrar oyna</button>
