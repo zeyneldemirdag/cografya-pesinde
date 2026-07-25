@@ -226,6 +226,10 @@ const officialExpectations = {
     "İstiklal Yolu Tarihî Millî Parkı", "Malazgirt Meydan Muharebesi Tarihî Millî Parkı",
     "Sakarya Meydan Muharebesi Tarihî Millî Parkı",
   ],
+  energy: [
+    "Çeşme", "Dinar", "Germencik", "Buharkent", "Akkuyu", "Sinop-İnceburun",
+    "Atatürk Barajı", "Deriner", "Karapınar", "Afşin-Elbistan", "Çatalağzı", "Soma",
+  ],
   gates: [
     "Pazarkule", "İpsala", "Kapıkule", "Hamzabeyli", "Dereköy",
     "Sarp", "Türkgözü", "Çıldır-Aktaş", "Dilucu", "Gürbulak",
