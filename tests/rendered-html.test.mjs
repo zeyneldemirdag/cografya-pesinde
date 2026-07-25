@@ -96,8 +96,12 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /id: "small-ruminant-livestock"/);
   assert.match(page, /id: "cattle-poultry-livestock"/);
   assert.match(page, /id: "other-livestock"/);
+  assert.match(page, /id: "wind-energy"/);
+  assert.match(page, /id: "thermal-energy"/);
+  assert.match(page, /id: "other-energy"/);
   assert.match(page, /const GRAIN_LEGUME_FEATURES/);
   assert.match(page, /const SMALL_RUMINANT_LIVESTOCK_FEATURES/);
+  assert.match(page, /const WIND_ENERGY_FEATURES/);
   assert.match(styles, /\.geo-feature--correct\s*\{\s*pointer-events:\s*none;/);
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);

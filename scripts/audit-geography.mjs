@@ -149,6 +149,7 @@ const coverageComparisons = [
   ["population", ["dense-population", "sparse-population"]],
   ["agriculture", ["grain-legume-crops", "industrial-oil-crops", "fruit-special-crops"]],
   ["livestock", ["small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock"]],
+  ["energy", ["wind-energy", "thermal-energy", "other-energy"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -311,8 +312,12 @@ const officialExpectations = {
     "Sakarya Meydan Muharebesi Tarihî Millî Parkı",
   ],
   energy: [
-    "Çeşme", "Dinar", "Germencik", "Buharkent", "Akkuyu", "Sinop-İnceburun",
-    "Atatürk Barajı", "Deriner", "Karapınar", "Afşin-Elbistan", "Çatalağzı", "Soma",
+    "İzmir-Çeşme", "Balıkesir-Bandırma", "Manisa-Akhisar", "Hatay-Belen",
+    "Osmaniye-Bahçe", "İstanbul-Çatalca", "Çanakkale-Ezine", "Dinar",
+    "Çatalağzı", "Soma", "Seyitömer", "Tunçbilek", "Yatağan",
+    "Afşin-Elbistan", "Hamitabat", "Ambarlı", "Ovaakça",
+    "Germencik", "Buharkent", "Akkuyu", "Sinop-İnceburun",
+    "Atatürk Barajı", "Deriner", "Karapınar",
   ],
   "food-industry": [
     "Konya", "İzmir", "Erzurum", "Balıkesir", "Kars", "Çanakkale", "Trabzon",
@@ -390,6 +395,18 @@ const officialExpectations = {
   "other-livestock": [
     "İpek Böcekçiliği", "Arıcılık", "Deniz Balıkçılığı", "Tatlı Su Balıkçılığı",
   ],
+  "wind-energy": [
+    "İzmir-Çeşme", "Balıkesir-Bandırma", "Manisa-Akhisar", "Hatay-Belen",
+    "Osmaniye-Bahçe", "İstanbul-Çatalca", "Çanakkale-Ezine", "Dinar",
+  ],
+  "thermal-energy": [
+    "Çatalağzı", "Soma", "Seyitömer", "Tunçbilek", "Yatağan",
+    "Afşin-Elbistan", "Hamitabat", "Ambarlı", "Ovaakça",
+  ],
+  "other-energy": [
+    "Germencik", "Buharkent", "Akkuyu", "Sinop-İnceburun",
+    "Atatürk Barajı", "Deriner", "Karapınar",
+  ],
   ports: [
     "İstanbul Limanı", "Bandırma Limanı", "İzmit Limanı", "Karadeniz Ereğli Limanı",
     "Zonguldak Limanı", "Sinop Limanı", "Samsun Limanı", "Trabzon Limanı",
@@ -414,7 +431,8 @@ const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected
 
 const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
-  "glacial-mountains", "massifs", "straits", "gates", "passes", "mines", "energy", "development",
+  "glacial-mountains", "massifs", "straits", "gates", "passes", "mines",
+  "energy", "wind-energy", "thermal-energy", "other-energy", "development",
   "industry", "population", "dense-population", "sparse-population", "regions",
   "climate", "vegetation", "soils", "tourism",
   "zonal-soils", "intrazonal-soils", "azonal-soils",
