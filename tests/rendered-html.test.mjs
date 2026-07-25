@@ -139,6 +139,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /playMapSound/);
   assert.match(page, /function shuffledFeatureIds/);
   assert.match(page, /const ids = \[\.\.\.new Set\(features\.map\(\(feature\) => feature\.id\)\)\]/);
+  assert.match(page, /ids\[0\] === previousOrder\[0\]/);
+  assert.match(page, /1 \+ Math\.floor\(Math\.random\(\) \* \(ids\.length - 1\)\)/);
   assert.match(page, /questionOrder\.find\(\(id\) => !correctIds\.includes\(id\)\)/);
   assert.doesNotMatch(page, /questionIndex/);
   assert.match(page, /correctIds\.slice\(-1\)/);
@@ -181,6 +183,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /window\.scrollTo\(\{ top: 0, behavior: "auto" \}\)/);
   assert.match(page, /Ses.*açık/);
   assert.match(page, /className="geo-line-hit"/);
+  assert.match(page, /"volcano", "city", "gate", "pass"/);
   assert.match(page, /const usesRiverOverride/);
   assert.match(page, /f\("nemrut", "Nemrut Dağı".*"volcano"\)/);
   assert.match(page, /f\("cilo", "Cilo-Sat Dağları".*"mountain"/);

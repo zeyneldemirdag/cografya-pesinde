@@ -2464,12 +2464,9 @@ function shuffledFeatureIds(features: Feature[], previousOrder: string[] = []) {
     const swapIndex = Math.floor(Math.random() * (index + 1));
     [ids[index], ids[swapIndex]] = [ids[swapIndex], ids[index]];
   }
-  if (
-    ids.length > 1 &&
-    previousOrder.length === ids.length &&
-    ids.every((id, index) => id === previousOrder[index])
-  ) {
-    [ids[0], ids[1]] = [ids[1], ids[0]];
+  if (ids.length > 1 && ids[0] === previousOrder[0]) {
+    const swapIndex = 1 + Math.floor(Math.random() * (ids.length - 1));
+    [ids[0], ids[swapIndex]] = [ids[swapIndex], ids[0]];
   }
   return ids;
 }
@@ -3804,7 +3801,9 @@ function featureGraphic(
 ) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
-  const compactPoint = ["city", "gate", "mine", "energy", "dam", "port", "bridge", "tunnel"].includes(feature.kind);
+  const compactPoint = [
+    "volcano", "city", "gate", "pass", "mine", "energy", "dam", "port", "bridge", "tunnel",
+  ].includes(feature.kind);
   const width = compactPoint ? Math.max(Math.min(feature.w * 4.2, 30), 18) : Math.max(feature.w * 7.2, 20);
   const height = compactPoint ? Math.max(Math.min(feature.h * 2.2, 18), 11) : Math.max(feature.h * 3.1, 12);
   const usesRiverOverride = feature.kind === "river"
