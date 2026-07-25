@@ -181,6 +181,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"gulsehir-salt": \[34\.4855968, 38\.7730603\]/);
   assert.match(page, /"tuzgolu-mine": \[33\.11542, 38\.76029\]/);
   assert.match(page, /"camalti-mine": \[26\.91528, 38\.5049\]/);
+  assert.match(page, /"oltu-stone": \[\s*\[\[42\.015, 40\.605\]/);
+  assert.match(page, /"eskisehir-meerschaum": \[\s*\[\[30\.205, 39\.722\]/);
   assert.match(page, /const LABEL_OFFSETS/);
   assert.match(page, /data-quiz-id=\{item\.id\}/);
   assert.match(page, /geo-hit geo-hit--small-area/);

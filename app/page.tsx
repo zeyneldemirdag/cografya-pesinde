@@ -513,8 +513,8 @@ const INDUSTRIAL_MINERAL_FEATURES: Feature[] = [
   f("afyon-mermer", "Afyonkarahisar · Mermer", 33, 52, 8, 6, "mine"),
   f("burdur-marble", "Burdur · Mermer", 50, 50, 7, 6, "mine"),
   f("denizli-marble", "Denizli · Mermer", 50, 50, 7, 6, "mine"),
-  f("oltu-stone", "Oltu · Oltu Taşı", 50, 50, 7, 6, "mine"),
-  f("eskisehir-meerschaum", "Eskişehir · Lüle Taşı", 50, 50, 7, 6, "mine"),
+  f("oltu-stone", "Oltu · Oltu Taşı (Dutlu Dağı)", 50, 50, 9, 7, "region"),
+  f("eskisehir-meerschaum", "Eskişehir · Lüle Taşı Sahaları", 50, 50, 14, 9, "region"),
 ];
 
 const ENERGY_RAW_MATERIAL_FEATURES: Feature[] = [
@@ -2646,6 +2646,14 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "oltu-stone": [
+    [[42.015, 40.605], [42.045, 40.575], [42.115, 40.585], [42.17, 40.625], [42.145, 40.685], [42.08, 40.705], [42.025, 40.67]],
+  ],
+  "eskisehir-meerschaum": [
+    [[30.205, 39.722], [30.225, 39.705], [30.275, 39.716], [30.282, 39.755], [30.252, 39.782], [30.212, 39.765]],
+    [[30.81, 39.89], [30.84, 39.876], [30.885, 39.9], [30.878, 39.94], [30.842, 39.953], [30.812, 39.93]],
+    [[30.745, 39.65], [30.782, 39.64], [30.82, 39.67], [30.812, 39.71], [30.775, 39.722], [30.742, 39.692]],
+  ],
   "catalca-kocaeli-pop": [
     [[27.45, 41.55], [28.35, 41.38], [29.15, 41.18], [30.15, 41.18], [30.82, 40.92], [30.55, 40.55], [29.55, 40.62], [28.65, 40.78], [27.8, 40.92]],
   ],
@@ -3261,8 +3269,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "mugla-marble": [28.36, 37.22],
   "burdur-marble": [30.29, 37.72],
   "denizli-marble": [29.1, 37.78],
-  "oltu-stone": [41.99, 40.55],
-  "eskisehir-meerschaum": [30.52, 39.77],
   "tuncbilek-lignite": [29.455311, 39.634823],
   "tavsanli-lignite": [29.49, 39.54],
   "can-lignite": [27.038636, 40.023827],
