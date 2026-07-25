@@ -3216,7 +3216,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "karacadag-gd": [39.8290462, 37.7114291],
   kula: [28.52, 38.58],
   ilgin: [31.875, 38.35],
-  "aktas-lake": [43.21, 41.21],
   "nar-lake": [34.457, 38.34],
   "meyil-lake": [33.3535, 37.988],
   "cirali-lake": [33.413, 37.932],
@@ -3683,6 +3682,7 @@ function provinceSetCenter(plates: number[], provinces: ProvinceFeature[]): Coor
 
 function lakeShapeId(feature: Feature) {
   const aliases: Record<string, string> = {
+    "aktas-lake": "aktas",
     "manyas-bird-tour": "manyas",
     "golcuk-geotour": "golcuk",
     "meke-geotour": "meke",
@@ -4118,6 +4118,7 @@ function TurkeyMap({
       fetch("/data/turkey-lakes-extra.geojson").then((response) => response.json()),
       fetch("/data/turkey-lakes-karstic-extra.geojson").then((response) => response.json()),
       fetch("/data/turkey-lakes-eastern-extra.geojson").then((response) => response.json()),
+      fetch("/data/turkey-lakes-border-extra.geojson").then((response) => response.json()),
     ])
       .then((collections) => setLakes(
         collections.flatMap((data) => data.features as LakeFeature[]),

@@ -42,6 +42,7 @@ const lakeData = [
   "../public/data/turkey-lakes-extra.geojson",
   "../public/data/turkey-lakes-karstic-extra.geojson",
   "../public/data/turkey-lakes-eastern-extra.geojson",
+  "../public/data/turkey-lakes-border-extra.geojson",
 ].flatMap((path) =>
   JSON.parse(fs.readFileSync(new URL(path, import.meta.url), "utf8")).features
 );
@@ -60,6 +61,7 @@ const basinIds = new Set(basinData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const lakeCanonical = (id) => ({
+  "aktas-lake": "aktas",
   "manyas-bird-tour": "manyas",
   "golcuk-geotour": "golcuk",
   "meke-geotour": "meke",
