@@ -60,6 +60,16 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /if \(isLastQuestion\) setFinished\(true\)/);
   assert.match(page, /id: "provinces"/);
   assert.match(page, /id: "delta-plains"/);
+  assert.match(page, /id: "tectonic-plains"/);
+  assert.match(page, /id: "karstic-plains"/);
+  assert.match(page, /id: "tabular-plateaus"/);
+  assert.match(page, /id: "karstic-plateaus"/);
+  assert.match(page, /id: "volcanic-plateaus"/);
+  assert.match(page, /id: "erosion-plateaus"/);
+  assert.match(page, /const TECTONIC_PLAIN_FEATURES/);
+  assert.match(page, /const KARSTIC_PLAIN_FEATURES/);
+  assert.match(page, /f\("pasinler-o", "Pasinler Ovası"/);
+  assert.match(page, /f\("bozok", "Bozok Platosu"/);
   assert.match(page, /id: "glacial-mountains"/);
   assert.match(page, /id: "black-sea-rivers"/);
   assert.match(page, /id: "inbound-rivers"/);
@@ -110,6 +120,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /const WIND_ENERGY_FEATURES/);
   assert.match(page, /const METALLIC_MINE_FEATURES/);
   assert.match(styles, /\.geo-feature--correct\s*\{\s*pointer-events:\s*none;/);
+  assert.match(styles, /\.geo-feature--idle \.geo-shape--plain/);
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);
   assert.match(page, /Ses.*açık/);

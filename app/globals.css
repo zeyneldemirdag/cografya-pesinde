@@ -442,6 +442,22 @@ button { color: inherit; }
   stroke-width: 3.2;
   filter: drop-shadow(0 2px 2px rgba(8, 25, 28, .22));
 }
+.geo-feature--idle .geo-shape--plain,
+.geo-feature--idle .geo-shape--plateau {
+  fill: rgba(246, 249, 228, .13);
+  stroke: rgba(238, 247, 222, .72);
+  stroke-width: 1.45;
+  filter: none;
+}
+.geo-feature--idle:hover .geo-shape--plain,
+.geo-feature--idle:focus .geo-shape--plain,
+.geo-feature--idle:hover .geo-shape--plateau,
+.geo-feature--idle:focus .geo-shape--plateau {
+  fill: rgba(235, 247, 211, .34);
+  stroke: rgba(255, 255, 255, .95);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, .5));
+}
 .geo-shape--distribution {
   fill: rgba(225, 122, 45, .52);
   stroke: rgba(109, 55, 24, .95);

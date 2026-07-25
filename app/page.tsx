@@ -596,6 +596,130 @@ const CULTURAL_TOURISM_FEATURES: Feature[] = [
   f("nemrut-tour", "Nemrut Dağı Ören Yeri · Adıyaman", 50, 50, 5, 4, "city"),
 ];
 
+const TECTONIC_PLAIN_FEATURES: Feature[] = [
+  f("gonen-o", "Gönen Ovası", 50, 50, 7, 4, "plain"),
+  f("inegol-o", "İnegöl Ovası", 50, 50, 7, 4, "plain"),
+  f("bursa-o", "Bursa Ovası", 22, 35, 8, 4, "plain"),
+  f("yenisehir-o", "Yenişehir Ovası", 50, 50, 7, 4, "plain"),
+  f("orhangazi-o", "Orhangazi Ovası", 50, 50, 7, 4, "plain"),
+  f("pamukova-o", "Pamukova", 50, 50, 7, 4, "plain"),
+  f("gemlik-o", "Gemlik Ovası", 50, 50, 7, 4, "plain"),
+  f("adapazari-o", "Adapazarı Ovası", 29, 29, 8, 4, "plain"),
+  f("bolu-o", "Bolu Ovası", 34, 28, 7, 4, "plain"),
+  f("duzce-o", "Düzce Ovası", 31, 27, 7, 4, "plain"),
+  f("tosya-o", "Tosya Ovası", 50, 50, 7, 4, "plain"),
+  f("suluova-o", "Suluova", 50, 50, 7, 4, "plain"),
+  f("niksar-o", "Niksar Ovası", 50, 50, 7, 4, "plain"),
+  f("tasova-o", "Taşova", 50, 50, 7, 4, "plain"),
+  f("turhal-o", "Turhal Ovası", 50, 50, 7, 4, "plain"),
+  f("vezirkopru-o", "Vezirköprü Ovası", 50, 50, 7, 4, "plain"),
+  f("erbaa-o", "Erbaa Ovası", 50, 50, 7, 4, "plain"),
+  f("erzincan-o", "Erzincan Ovası", 70, 42, 10, 5, "plain"),
+  f("erzurum", "Erzurum Ovası", 77, 37, 12, 6, "plain"),
+  f("pasinler-o", "Pasinler Ovası", 50, 50, 8, 4, "plain"),
+  f("bakircay-o", "Bakırçay Ovası", 16, 46, 10, 4, "plain", -4),
+  f("gediz-o", "Gediz Ovası", 20, 52, 12, 5, "plain", -4),
+  f("kucukmenderes-o", "Küçük Menderes Ovası", 19, 56, 11, 4, "plain", 3),
+  f("buyukmenderes-o", "Büyük Menderes Ovası", 22, 61, 13, 4, "plain", 5),
+  f("ankara-o", "Ankara Ovası", 50, 50, 8, 5, "plain"),
+  f("kayseri-o", "Kayseri Ovası", 50, 50, 9, 5, "plain"),
+  f("aksaray-o", "Aksaray Ovası", 50, 50, 8, 5, "plain"),
+  f("cubuk-o", "Çubuk Ovası", 50, 50, 7, 4, "plain"),
+  f("eskisehir-o", "Eskişehir Ovası", 50, 50, 9, 4, "plain"),
+  f("develi-o", "Develi Ovası", 50, 50, 8, 5, "plain"),
+  f("konya", "Konya Ovası", 47, 59, 15, 9, "plain"),
+  f("amik", "Amik Ovası", 62, 75, 9, 5, "plain"),
+  f("afsin-o", "Afşin Ovası", 50, 50, 8, 4, "plain"),
+  f("elbistan-o", "Elbistan Ovası", 50, 50, 9, 5, "plain"),
+  f("maras-o", "Kahramanmaraş Ovası", 64, 59, 9, 4, "plain"),
+  f("malatya-o", "Malatya Ovası", 68, 52, 9, 4, "plain"),
+  f("elazig-o", "Elazığ Ovası", 50, 50, 8, 4, "plain"),
+  f("bingol-o", "Bingöl Ovası", 50, 50, 7, 4, "plain"),
+  f("mus-o", "Muş Ovası", 78, 54, 10, 5, "plain"),
+  f("karliova-o", "Karlıova", 50, 50, 7, 4, "plain"),
+  f("malazgirt-o", "Malazgirt Ovası", 50, 50, 8, 4, "plain"),
+  f("harran", "Harran (Altınbaşak) Ovası", 72, 71, 12, 7, "plain"),
+  f("suruc-o", "Suruç Ovası", 71, 69, 8, 4, "plain"),
+  f("ceylanpinar-o", "Ceylanpınar Ovası", 78, 71, 10, 4, "plain"),
+  f("igdir-o", "Iğdır Ovası", 91, 41, 7, 5, "plain"),
+  f("yuksekova-o", "Yüksekova", 89, 68, 8, 4, "plain"),
+  f("bergama-o", "Bergama Ovası", 16, 46, 7, 4, "plain"),
+  f("soma-o", "Soma Ovası", 18, 44, 7, 4, "plain"),
+  f("akhisar-o", "Akhisar Ovası", 20, 48, 7, 4, "plain"),
+];
+
+const DELTA_PLAIN_FEATURES: Feature[] = [
+  f("bafra-d", "Bafra Deltası · Kızılırmak", 54, 18, 8, 4, "plain"),
+  f("carsamba-d", "Çarşamba Deltası · Yeşilırmak", 61, 20, 8, 4, "plain"),
+  f("cukur-d", "Çukurova · Seyhan-Ceyhan", 57, 71, 13, 6, "plain"),
+  f("silifke-d", "Silifke Deltası · Göksu", 47, 75, 8, 4, "plain"),
+  f("menemen-d", "Menemen Deltası · Gediz", 15, 51, 7, 4, "plain"),
+  f("selcuk-d", "Selçuk Deltası · Küçük Menderes", 18, 57, 7, 4, "plain"),
+  f("balat-d", "Balat Deltası · Büyük Menderes", 20, 61, 7, 4, "plain"),
+  f("meric-d", "Meriç Deltası", 7, 34, 7, 4, "plain"),
+];
+
+const KARSTIC_PLAIN_FEATURES: Feature[] = [
+  f("elmali-o", "Elmalı Ovası", 50, 50, 7, 4, "plain"),
+  f("korkuteli-o", "Korkuteli Ovası", 50, 50, 7, 4, "plain"),
+  f("gembos-o", "Gembos Ovası", 50, 50, 7, 4, "plain"),
+  f("kestel-o", "Kestel Ovası", 50, 50, 7, 4, "plain"),
+  f("kocaova-o", "Kocaova", 50, 50, 7, 4, "plain"),
+  f("acipayam-o", "Acıpayam Ovası", 50, 50, 7, 4, "plain"),
+  f("mugla-o", "Muğla Ovası", 50, 50, 7, 4, "plain"),
+  f("tefenni-o", "Tefenni Ovası", 50, 50, 7, 4, "plain"),
+  f("golhisar-o", "Gölhisar Ovası", 50, 50, 7, 4, "plain"),
+  f("bozova-karst-o", "Bozova Ovası", 50, 50, 7, 4, "plain"),
+];
+
+const OTHER_PLAIN_FEATURES: Feature[] = [
+  f("antalya-o", "Antalya Ovası", 50, 50, 9, 5, "plain"),
+  f("ergene-o", "Ergene Ovası", 50, 50, 10, 6, "plain"),
+  f("merzifon-o", "Merzifon Ovası", 50, 50, 7, 4, "plain"),
+  f("ceyhan-o", "Ceyhan Ovası", 50, 50, 8, 4, "plain"),
+];
+
+const ALL_PLAIN_FEATURES: Feature[] = [
+  ...TECTONIC_PLAIN_FEATURES,
+  ...DELTA_PLAIN_FEATURES,
+  ...KARSTIC_PLAIN_FEATURES,
+  ...OTHER_PLAIN_FEATURES,
+];
+
+const TABULAR_PLATEAU_FEATURES: Feature[] = [
+  f("bozok", "Bozok Platosu", 57, 43, 14, 9, "plateau"),
+  f("obruk", "Obruk Platosu", 49, 59, 13, 8, "plateau"),
+  f("gaziantep", "Gaziantep Platosu", 68, 67, 12, 7, "plateau"),
+  f("haymana", "Haymana Platosu", 43, 46, 11, 7, "plateau"),
+  f("cihanbeyli", "Cihanbeyli Platosu", 45, 53, 12, 7, "plateau"),
+  f("uzunyayla", "Uzunyayla Platosu", 63, 48, 12, 8, "plateau"),
+  f("yazilikaya", "Yazılıkaya Platosu", 29, 44, 11, 8, "plateau"),
+  f("usak-esme", "Uşak-Eşme Platosu", 25, 52, 12, 8, "plateau"),
+  f("sanliurfa-p", "Şanlıurfa Platosu", 75, 69, 13, 7, "plateau"),
+];
+
+const KARSTIC_PLATEAU_FEATURES: Feature[] = [
+  f("teke", "Teke Platosu", 31, 69, 12, 8, "plateau"),
+  f("taspinar", "Taşeli Platosu", 44, 70, 14, 7, "plateau"),
+];
+
+const VOLCANIC_PLATEAU_FEATURES: Feature[] = [
+  f("erzurum-kars", "Erzurum-Kars Platosu", 82, 32, 16, 10, "plateau"),
+  f("ardahan-p", "Ardahan Platosu", 87, 26, 10, 7, "plateau"),
+];
+
+const EROSION_PLATEAU_FEATURES: Feature[] = [
+  f("catalca", "Çatalca-Kocaeli Platosu", 19, 25, 17, 8, "plateau"),
+  f("persembe-p", "Perşembe Platosu", 62, 23, 11, 7, "plateau"),
+];
+
+const ALL_PLATEAU_FEATURES: Feature[] = [
+  ...TABULAR_PLATEAU_FEATURES,
+  ...KARSTIC_PLATEAU_FEATURES,
+  ...VOLCANIC_PLATEAU_FEATURES,
+  ...EROSION_PLATEAU_FEATURES,
+];
+
 const QUIZZES: Quiz[] = [
   {
     id: "mountains-all",
@@ -923,39 +1047,7 @@ const QUIZZES: Quiz[] = [
     description: "Türkiye’nin önemli ova alanlarını seç.",
     color: "#90a947",
     icon: "▬",
-    features: [
-      f("cukur", "Çukurova", 56, 70, 13, 7, "plain", 4),
-      f("konya", "Konya Ovası", 47, 59, 15, 9, "plain"),
-      f("erzurum", "Erzurum Ovası", 77, 37, 12, 6, "plain"),
-      f("harran", "Harran Ovası", 72, 71, 12, 7, "plain"),
-      f("bafra-d", "Bafra Deltası", 54, 19, 8, 4, "plain"),
-      f("carsamba-d", "Çarşamba Deltası", 61, 20, 8, 4, "plain"),
-      f("gediz-o", "Gediz Ovası", 20, 52, 12, 5, "plain", -4),
-      f("bakircay-o", "Bakırçay Ovası", 16, 46, 10, 4, "plain", -4),
-      f("kucukmenderes-o", "Küçük Menderes Ovası", 19, 56, 11, 4, "plain", 3),
-      f("buyukmenderes-o", "Büyük Menderes Ovası", 22, 61, 13, 4, "plain", 5),
-      f("silifke-d", "Silifke Deltası", 46, 75, 9, 4, "plain"),
-      f("erzincan-o", "Erzincan Ovası", 70, 42, 10, 5, "plain"),
-      f("mus-o", "Muş Ovası", 78, 54, 10, 5, "plain"),
-      f("igdir-o", "Iğdır Ovası", 91, 41, 7, 5, "plain"),
-      f("amik", "Amik Ovası", 62, 75, 9, 5, "plain"),
-      f("menemen-d", "Menemen Deltası", 16, 51, 8, 4, "plain"),
-      f("selcuk-d", "Selçuk Deltası", 18, 58, 8, 4, "plain"),
-      f("balat-d", "Balat Deltası", 20, 62, 8, 4, "plain"),
-      f("meric-d", "Meriç Deltası", 7, 36, 8, 4, "plain"),
-      f("bursa-o", "Bursa Ovası", 22, 35, 8, 4, "plain"),
-      f("yuksekova-o", "Yüksekova", 89, 68, 8, 4, "plain"),
-      f("adapazari-o", "Adapazarı Ovası", 29, 29, 8, 4, "plain"),
-      f("bolu-o", "Bolu Ovası", 34, 28, 7, 4, "plain"),
-      f("duzce-o", "Düzce Ovası", 31, 27, 7, 4, "plain"),
-      f("bergama-o", "Bergama Ovası", 16, 46, 7, 4, "plain"),
-      f("soma-o", "Soma Ovası", 18, 44, 7, 4, "plain"),
-      f("akhisar-o", "Akhisar Ovası", 20, 48, 7, 4, "plain"),
-      f("maras-o", "Kahramanmaraş Ovası", 64, 59, 9, 4, "plain"),
-      f("malatya-o", "Malatya Ovası", 68, 52, 9, 4, "plain"),
-      f("suruc-o", "Suruç Ovası", 71, 69, 8, 4, "plain"),
-      f("ceylanpinar-o", "Ceylanpınar Ovası", 78, 71, 10, 4, "plain"),
-    ],
+    features: [...ALL_PLAIN_FEATURES],
   },
   {
     id: "plateaus",
@@ -965,23 +1057,7 @@ const QUIZZES: Quiz[] = [
     description: "Aşınım ve lav platolarını alanlarıyla tanı.",
     color: "#b58654",
     icon: "▱",
-    features: [
-      f("catalca", "Çatalca-Kocaeli Platosu", 19, 25, 17, 8, "plateau"),
-      f("bozok", "Bozok Platosu", 57, 43, 14, 9, "plateau"),
-      f("obruk", "Obruk Platosu", 49, 59, 13, 8, "plateau"),
-      f("taspinar", "Taşeli Platosu", 44, 70, 14, 7, "plateau"),
-      f("gaziantep", "Gaziantep Platosu", 68, 67, 12, 7, "plateau"),
-      f("erzurum-kars", "Erzurum-Kars Platosu", 82, 32, 16, 10, "plateau"),
-      f("haymana", "Haymana Platosu", 43, 46, 11, 7, "plateau"),
-      f("cihanbeyli", "Cihanbeyli Platosu", 45, 53, 12, 7, "plateau"),
-      f("uzunyayla", "Uzunyayla Platosu", 63, 48, 12, 8, "plateau"),
-      f("yazilikaya", "Yazılıkaya Platosu", 29, 44, 11, 8, "plateau"),
-      f("usak-esme", "Uşak-Eşme Platosu", 25, 52, 12, 8, "plateau"),
-      f("teke", "Teke Platosu", 31, 69, 12, 8, "plateau"),
-      f("sanliurfa-p", "Şanlıurfa Platosu", 75, 69, 13, 7, "plateau"),
-      f("ardahan-p", "Ardahan Platosu", 87, 26, 10, 7, "plateau"),
-      f("persembe-p", "Perşembe Platosu", 62, 23, 11, 7, "plateau"),
-    ],
+    features: [...ALL_PLATEAU_FEATURES],
   },
   {
     id: "straits",
@@ -1811,16 +1887,67 @@ const QUIZZES: Quiz[] = [
     description: "Akarsuların denize taşıdığı alüvyonlarla oluşan delta ovalarını bul.",
     color: "#6d9e4b",
     icon: "▽",
-    features: [
-      f("bafra-d", "Bafra Deltası · Kızılırmak", 54, 18, 8, 4, "plain"),
-      f("carsamba-d", "Çarşamba Deltası · Yeşilırmak", 61, 20, 8, 4, "plain"),
-      f("cukur-d", "Çukurova · Seyhan-Ceyhan", 57, 71, 13, 6, "plain"),
-      f("silifke-d", "Silifke Deltası · Göksu", 47, 75, 8, 4, "plain"),
-      f("menemen-d", "Menemen Deltası · Gediz", 15, 51, 7, 4, "plain"),
-      f("selcuk-d", "Selçuk Deltası · Küçük Menderes", 18, 57, 7, 4, "plain"),
-      f("balat-d", "Balat Deltası · Büyük Menderes", 20, 61, 7, 4, "plain"),
-      f("meric-d", "Meriç Deltası", 7, 34, 7, 4, "plain"),
-    ],
+    features: [...DELTA_PLAIN_FEATURES],
+  },
+  {
+    id: "tectonic-plains",
+    group: "Yer şekilleri",
+    title: "Tektonik Ovalar",
+    eyebrow: "Yer şekilleri · Ovalar · Oluşum",
+    description: "Fay kuşaklarındaki çöküntü alanlarında oluşan başlıca tektonik ovaları bul.",
+    color: "#7d9b47",
+    icon: "⌁",
+    features: [...TECTONIC_PLAIN_FEATURES],
+  },
+  {
+    id: "karstic-plains",
+    group: "Yer şekilleri",
+    title: "Karstik (Polye) Ovaları",
+    eyebrow: "Yer şekilleri · Ovalar · Oluşum",
+    description: "Batı Akdeniz ve Göller Yöresi’ndeki karstik polye tabanlarını bul.",
+    color: "#82a55a",
+    icon: "◌",
+    features: [...KARSTIC_PLAIN_FEATURES],
+  },
+  {
+    id: "tabular-plateaus",
+    group: "Yer şekilleri",
+    title: "Tabaka Düzlüğü Platoları",
+    eyebrow: "Yer şekilleri · Platolar · Oluşum",
+    description: "Yatay ya da az eğimli sert tabakaların akarsularca parçalandığı platoları bul.",
+    color: "#aa7c50",
+    icon: "▰",
+    features: [...TABULAR_PLATEAU_FEATURES],
+  },
+  {
+    id: "karstic-plateaus",
+    group: "Yer şekilleri",
+    title: "Karstik Platolar",
+    eyebrow: "Yer şekilleri · Platolar · Oluşum",
+    description: "Kalkerli Toros arazilerindeki Teke ve Taşeli platolarını ayırt et.",
+    color: "#9d7858",
+    icon: "◫",
+    features: [...KARSTIC_PLATEAU_FEATURES],
+  },
+  {
+    id: "volcanic-plateaus",
+    group: "Yer şekilleri",
+    title: "Volkanik (Lav) Platolar",
+    eyebrow: "Yer şekilleri · Platolar · Oluşum",
+    description: "Doğu Anadolu’daki lav örtülerinin akarsularla yarıldığı yüksek platoları bul.",
+    color: "#9a654f",
+    icon: "◆",
+    features: [...VOLCANIC_PLATEAU_FEATURES],
+  },
+  {
+    id: "erosion-plateaus",
+    group: "Yer şekilleri",
+    title: "Aşınım Düzlüğü Platoları",
+    eyebrow: "Yer şekilleri · Platolar · Oluşum",
+    description: "Eski aşınım yüzeylerinin yükselip akarsularla yarıldığı platoları bul.",
+    color: "#8b765d",
+    icon: "≋",
+    features: [...EROSION_PLATEAU_FEATURES],
   },
   {
     id: "gulfs",
@@ -2074,6 +2201,42 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   "glacial-mountains": {
     label: "MEB Türkiye'de buzullaşma",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page75.html",
+  },
+  plains: {
+    label: "MEB tektonik, delta ve karstik ova listeleri",
+    url: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya2.pdf",
+  },
+  "tectonic-plains": {
+    label: "MEB fay kuşaklarına göre tektonik ovalar",
+    url: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya2.pdf",
+  },
+  "delta-plains": {
+    label: "MEB akarsu-delta eşleştirmeleri",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/defterim/10/cografya/files/basic-html/page37.html",
+  },
+  "karstic-plains": {
+    label: "MEB Türkiye'nin başlıca polye ovaları",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/cografya/10/unite1/files/basic-html/page46.html",
+  },
+  plateaus: {
+    label: "MEB Türkiye'nin platoları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page76.html",
+  },
+  "tabular-plateaus": {
+    label: "MEB sert tabakalı plato örnekleri",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/calisma_defteri/f2/10/cografya/files/basic-html/page18.html",
+  },
+  "karstic-plateaus": {
+    label: "MEB karstik platolar",
+    url: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya2.pdf",
+  },
+  "volcanic-plateaus": {
+    label: "MEB volkanik platolar",
+    url: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya2.pdf",
+  },
+  "erosion-plateaus": {
+    label: "MEB aşınım düzlüğü platoları",
+    url: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya2.pdf",
   },
   massifs: {
     label: "MEB Türkiye'nin masif arazileri",
@@ -2338,6 +2501,25 @@ type RiverFeature = {
 const MAP_BOUNDS = { west: 25.55, east: 44.85, north: 42.15, south: 35.75 };
 const MAP_COLORS = ["#ead9a2", "#c4d89b", "#e9bd7b", "#c7d8ca", "#d4c1dc", "#f1cf9f", "#b8d6c7"];
 
+function ovalArea(
+  longitude: number,
+  latitude: number,
+  longitudeRadius: number,
+  latitudeRadius: number,
+  rotationDegrees = 0,
+): Coordinate[] {
+  const rotation = rotationDegrees * Math.PI / 180;
+  return Array.from({ length: 12 }, (_, index) => {
+    const angle = index * Math.PI * 2 / 12;
+    const x = Math.cos(angle) * longitudeRadius;
+    const y = Math.sin(angle) * latitudeRadius;
+    return [
+      longitude + x * Math.cos(rotation) - y * Math.sin(rotation),
+      latitude + x * Math.sin(rotation) + y * Math.cos(rotation),
+    ];
+  });
+}
+
 const AREA_POLYGONS: Record<string, Coordinate[]> = {
   cukur: [[34.3, 37.0], [34.8, 36.8], [35.6, 36.7], [36.3, 36.8], [36.1, 37.1], [35.4, 37.3], [34.7, 37.2]],
   konya: [[31.5, 38.4], [32.0, 37.8], [32.8, 37.5], [33.8, 37.7], [34.1, 38.2], [33.5, 38.7], [32.4, 38.8]],
@@ -2369,6 +2551,46 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   "malatya-o": [[37.93, 38.52], [38.05, 38.25], [38.55, 38.2], [38.69, 38.4], [38.52, 38.57], [38.13, 38.61]],
   "suruc-o": [[37.91, 37.15], [38.03, 36.88], [38.53, 36.84], [38.66, 37.03], [38.48, 37.2], [38.09, 37.23]],
   "ceylanpinar-o": [[39.71, 37.04], [39.85, 36.76], [40.43, 36.72], [40.57, 36.91], [40.35, 37.08], [39.92, 37.12]],
+  "gonen-o": ovalArea(27.65, 40.1, .35, .15, -10),
+  "inegol-o": ovalArea(29.51, 40.08, .3, .13, 8),
+  "yenisehir-o": ovalArea(29.65, 40.26, .32, .13, -4),
+  "orhangazi-o": ovalArea(29.31, 40.49, .2, .1, 5),
+  "pamukova-o": ovalArea(30.16, 40.51, .34, .12, -8),
+  "gemlik-o": ovalArea(29.16, 40.42, .22, .11, -5),
+  "tosya-o": ovalArea(34.04, 41.02, .38, .12, -8),
+  "suluova-o": ovalArea(35.65, 40.82, .35, .16, 4),
+  "niksar-o": ovalArea(36.93, 40.57, .42, .13, -8),
+  "tasova-o": ovalArea(36.32, 40.76, .3, .12, -8),
+  "turhal-o": ovalArea(36.08, 40.39, .32, .13, -4),
+  "vezirkopru-o": ovalArea(35.46, 41.15, .34, .18, 6),
+  "erbaa-o": ovalArea(36.57, 40.67, .32, .12, -5),
+  "pasinler-o": ovalArea(41.67, 39.95, .48, .16, 2),
+  "ankara-o": ovalArea(32.85, 39.94, .45, .23, -5),
+  "kayseri-o": ovalArea(35.46, 38.73, .5, .24, 2),
+  "aksaray-o": ovalArea(33.85, 38.37, .45, .24, -4),
+  "cubuk-o": ovalArea(33.09, 40.2, .3, .14, 8),
+  "eskisehir-o": ovalArea(30.52, 39.77, .48, .18, -3),
+  "develi-o": ovalArea(35.49, 38.32, .38, .22, 2),
+  "afsin-o": ovalArea(36.92, 38.25, .3, .15, -4),
+  "elbistan-o": ovalArea(37.22, 38.24, .4, .19, 2),
+  "elazig-o": ovalArea(39.22, 38.67, .35, .16, -6),
+  "bingol-o": ovalArea(40.5, 38.88, .3, .15, 5),
+  "karliova-o": ovalArea(40.99, 39.3, .28, .14, -5),
+  "malazgirt-o": ovalArea(42.55, 39.15, .4, .18, 3),
+  "elmali-o": ovalArea(29.92, 36.74, .32, .18, 2),
+  "korkuteli-o": ovalArea(30.19, 37.06, .3, .18, -4),
+  "gembos-o": ovalArea(32.58, 37.55, .3, .13, 12),
+  "kestel-o": ovalArea(30.51, 37.42, .18, .1, 4),
+  "kocaova-o": ovalArea(30.18, 37.43, .2, .11, -6),
+  "acipayam-o": ovalArea(29.42, 37.42, .3, .2, -8),
+  "mugla-o": ovalArea(28.37, 37.2, .27, .16, 5),
+  "tefenni-o": ovalArea(29.9, 37.33, .28, .17, -5),
+  "golhisar-o": ovalArea(29.55, 37.15, .28, .18, -8),
+  "bozova-karst-o": ovalArea(30.285, 37.215, .2, .12, 5),
+  "antalya-o": ovalArea(30.75, 36.9, .55, .25, -2),
+  "ergene-o": ovalArea(27.45, 41.2, .85, .35, -4),
+  "merzifon-o": ovalArea(35.5, 40.78, .3, .14, 3),
+  "ceyhan-o": ovalArea(35.82, 37.03, .4, .2, 2),
   catalca: [[27.4, 41.5], [28.0, 40.9], [29.3, 40.7], [30.6, 40.9], [30.3, 41.4], [29.2, 41.6], [28.1, 41.7]],
   bozok: [[34.3, 40.0], [34.7, 39.3], [35.6, 39.1], [36.3, 39.5], [36.0, 40.1], [35.2, 40.3]],
   obruk: [[32.2, 38.6], [32.6, 37.8], [33.5, 37.6], [34.3, 38.0], [34.0, 38.8], [33.0, 39.0]],
@@ -3623,6 +3845,7 @@ function featureGraphic(
       <path
         d={ringPath(areaPolygon)}
         className={`geo-shape geo-shape--${feature.kind} geo-shape--area`}
+        clipPath="url(#turkey-country-clip)"
       />
     );
   }
