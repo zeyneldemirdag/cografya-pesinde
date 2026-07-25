@@ -70,6 +70,11 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /const KARSTIC_PLAIN_FEATURES/);
   assert.match(page, /f\("pasinler-o", "Pasinler Ovası"/);
   assert.match(page, /f\("bozok", "Bozok Platosu"/);
+  assert.match(page, /f\("batman-dam", "Batman Barajı · Batman Çayı"/);
+  assert.match(page, /f\("kilickaya-dam", "Kılıçkaya Barajı · Kelkit Çayı"/);
+  assert.match(page, /f\("cubuk1-dam", "Çubuk 1 Barajı · Çubuk Çayı"/);
+  assert.match(page, /"hirfanli-dam": \[33\.5186415, 39\.273381\]/);
+  assert.match(page, /MEB kapsamı · DSİ \+ OSM gövde doğrulaması/);
   assert.match(page, /id: "glacial-mountains"/);
   assert.match(page, /id: "black-sea-rivers"/);
   assert.match(page, /id: "inbound-rivers"/);
