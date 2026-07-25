@@ -195,6 +195,13 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"afyon-mermer": \[\s*\[\[30\.65, 38\.845\]/);
   assert.match(page, /"burdur-marble": \[\s*\[\[30\.49, 37\.445\]/);
   assert.match(page, /"denizli-marble": \[\s*\[\[29\.16, 37\.765\]/);
+  assert.match(page, /"karacabey-longoz-tour": \[\s*\[\[28\.25, 40\.355\]/);
+  assert.match(page, /"igneada-longoz-tour": \[\s*\[\[27\.9, 41\.78\]/);
+  assert.match(page, /"izmir-bird-tour": \[\s*\[\[26\.78, 38\.425\]/);
+  assert.match(page, /"kizilirmak-bird-tour": \[\s*\[\[35\.72, 41\.54\]/);
+  assert.match(page, /"kula-geotour": \[\s*\[\[28\.14, 38\.46\]/);
+  assert.match(page, /"manyas-bird-tour": "manyas"/);
+  assert.match(page, /"meke-geotour": "meke"/);
   assert.match(page, /<g className="geo-distribution">/);
   assert.match(page, /const LABEL_OFFSETS/);
   assert.match(page, /data-quiz-id=\{item\.id\}/);

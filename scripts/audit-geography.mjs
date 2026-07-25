@@ -60,6 +60,10 @@ const basinIds = new Set(basinData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const lakeCanonical = (id) => ({
+  "manyas-bird-tour": "manyas",
+  "golcuk-geotour": "golcuk",
+  "meke-geotour": "meke",
+  "acigol-geotour": "acigol-karapinar",
   "van-vs": "van",
   "iznik-t": "iznik",
   "manyas-t": "manyas",

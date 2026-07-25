@@ -534,29 +534,29 @@ const ENERGY_RAW_MATERIAL_FEATURES: Feature[] = [
 ];
 
 const NATURAL_TOURISM_FEATURES: Feature[] = [
-  f("uludag-tour", "Uludağ · Bursa", 50, 50, 5, 4, "city"),
-  f("kartalkaya-tour", "Kartalkaya · Bolu", 50, 50, 5, 4, "city"),
-  f("erciyes-tour", "Erciyes · Kayseri", 50, 50, 5, 4, "city"),
-  f("palandoken-tour", "Palandöken · Erzurum", 50, 50, 5, 4, "city"),
-  f("kackar-tour", "Kaçkar · Rize", 50, 50, 5, 4, "city"),
-  f("beydaglari-tour", "Beydağları · Antalya", 50, 50, 5, 4, "city"),
-  f("nemrut-bitlis-tour", "Nemrut Dağı ve Kalderası · Bitlis", 50, 50, 5, 4, "city"),
-  f("agri-tour", "Ağrı Dağı · Ağrı", 50, 50, 5, 4, "city"),
-  f("anzer-tour", "Anzer Yaylası · Rize", 50, 50, 5, 4, "city"),
-  f("ayder-tour", "Ayder Yaylası · Rize", 50, 50, 5, 4, "city"),
-  f("kadirga-tour", "Kadırga Yaylası · Trabzon-Gümüşhane", 50, 50, 5, 4, "city"),
-  f("persembe-tour", "Perşembe Yaylası · Ordu", 50, 50, 5, 4, "city"),
+  f("uludag-tour", "Uludağ · Bursa", 50, 50, 8, 5, "mountain"),
+  f("kartalkaya-tour", "Kartalkaya · Bolu", 50, 50, 8, 5, "mountain"),
+  f("erciyes-tour", "Erciyes · Kayseri", 50, 50, 7, 6, "volcano"),
+  f("palandoken-tour", "Palandöken · Erzurum", 50, 50, 8, 5, "mountain"),
+  f("kackar-tour", "Kaçkar · Dağları Millî Parkı (Rize-Artvin-Erzurum)", 50, 50, 12, 5, "mountain"),
+  f("beydaglari-tour", "Beydağları · Antalya", 50, 50, 11, 5, "mountain"),
+  f("nemrut-bitlis-tour", "Nemrut Dağı ve Kalderası · Bitlis", 50, 50, 7, 6, "volcano"),
+  f("agri-tour", "Ağrı Dağı · Ağrı-Iğdır", 50, 50, 7, 6, "volcano"),
+  f("anzer-tour", "Anzer Yaylası · Rize", 50, 50, 8, 5, "plateau"),
+  f("ayder-tour", "Ayder Yaylası · Rize", 50, 50, 8, 5, "plateau"),
+  f("kadirga-tour", "Kadırga Yaylası · Trabzon-Gümüşhane", 50, 50, 8, 5, "plateau"),
+  f("persembe-tour", "Perşembe Yaylası · Ordu", 50, 50, 8, 5, "plateau"),
   f("saklikent-tour", "Saklıkent ve Beydağı · Antalya", 50, 50, 5, 4, "city"),
   f("camliyayla-tour", "Çamlıyayla · Mersin", 50, 50, 5, 4, "city"),
   f("horzum-tour", "Horzum Yaylası · Adana", 50, 50, 5, 4, "city"),
   f("tekir-tour", "Tekir Yaylası · Adana", 50, 50, 5, 4, "city"),
-  f("karacabey-longoz-tour", "Karacabey Longozu · Bursa", 50, 50, 5, 4, "city"),
-  f("igneada-longoz-tour", "İğneada Longozu · Kırklareli", 50, 50, 5, 4, "city"),
-  f("izmir-bird-tour", "İzmir Kuş Cenneti", 50, 50, 5, 4, "city"),
-  f("manyas-bird-tour", "Manyas Kuş Cenneti · Balıkesir", 50, 50, 5, 4, "city"),
-  f("kizilirmak-bird-tour", "Kızılırmak Deltası Kuş Cenneti · Samsun", 50, 50, 5, 4, "city"),
-  f("kapadokya", "Kapadokya Peribacaları · Nevşehir", 50, 50, 5, 4, "city"),
-  f("pamukkale", "Pamukkale Travertenleri · Denizli", 50, 50, 5, 4, "city"),
+  f("karacabey-longoz-tour", "Karacabey Longozu · Bursa", 50, 50, 10, 7, "region"),
+  f("igneada-longoz-tour", "İğneada Longozu · Longoz Ormanları (Kırklareli)", 50, 50, 10, 7, "region"),
+  f("izmir-bird-tour", "İzmir Kuş Cenneti · Gediz Deltası", 50, 50, 10, 7, "region"),
+  f("manyas-bird-tour", "Manyas Kuş Cenneti · Balıkesir", 50, 50, 8, 6, "lake"),
+  f("kizilirmak-bird-tour", "Kızılırmak Deltası Kuş Cenneti · Samsun", 50, 50, 12, 8, "region"),
+  f("kapadokya", "Kapadokya Peribacaları · Nevşehir", 50, 50, 13, 9, "region"),
+  f("pamukkale", "Pamukkale Travertenleri · Denizli", 50, 50, 8, 6, "region"),
   f("akcali-tour", "Akçalı Travertenleri · Van", 50, 50, 5, 4, "city"),
   f("karain-tour", "Karain Mağarası · Antalya", 50, 50, 5, 4, "city"),
   f("damlatas-tour", "Damlataş Mağarası · Antalya", 50, 50, 5, 4, "city"),
@@ -565,10 +565,10 @@ const NATURAL_TOURISM_FEATURES: Feature[] = [
   f("insuyu-tour", "İnsuyu Mağarası · Burdur", 50, 50, 5, 4, "city"),
   f("gilindire-tour", "Gilindire Mağarası · Mersin", 50, 50, 5, 4, "city"),
   f("ballica-tour", "Ballıca Mağarası · Tokat", 50, 50, 5, 4, "city"),
-  f("golcuk-geotour", "Gölcük Kalderası · Isparta", 50, 50, 5, 4, "city"),
-  f("kula-geotour", "Kula Volkanik Alanı · Manisa", 50, 50, 5, 4, "city"),
-  f("meke-geotour", "Meke Gölü · Konya", 50, 50, 5, 4, "city"),
-  f("acigol-geotour", "Acıgöl Maarı · Konya", 50, 50, 5, 4, "city"),
+  f("golcuk-geotour", "Gölcük Kalderası · Isparta", 50, 50, 7, 5, "lake"),
+  f("kula-geotour", "Kula Volkanik Alanı · Kula-Salihli UNESCO Global Jeoparkı", 50, 50, 13, 9, "region"),
+  f("meke-geotour", "Meke Gölü · Konya", 50, 50, 7, 5, "lake"),
+  f("acigol-geotour", "Acıgöl Maarı · Konya", 50, 50, 7, 5, "lake"),
 ];
 
 const CULTURAL_TOURISM_FEATURES: Feature[] = [
@@ -2646,6 +2646,27 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "karacabey-longoz-tour": [
+    [[28.25, 40.355], [28.31, 40.325], [28.405, 40.335], [28.475, 40.39], [28.455, 40.45], [28.36, 40.475], [28.275, 40.43]],
+  ],
+  "igneada-longoz-tour": [
+    [[27.9, 41.78], [27.95, 41.745], [28.025, 41.77], [28.055, 41.835], [28.02, 41.9], [27.955, 41.91], [27.91, 41.86]],
+  ],
+  "izmir-bird-tour": [
+    [[26.78, 38.425], [26.84, 38.39], [26.94, 38.405], [27.035, 38.46], [27.025, 38.525], [26.94, 38.57], [26.84, 38.545], [26.79, 38.49]],
+  ],
+  "kizilirmak-bird-tour": [
+    [[35.72, 41.54], [35.84, 41.47], [36.05, 41.48], [36.23, 41.57], [36.25, 41.7], [36.1, 41.78], [35.88, 41.78], [35.72, 41.69]],
+  ],
+  kapadokya: [
+    [[34.62, 38.54], [34.69, 38.48], [34.82, 38.49], [34.96, 38.55], [35.02, 38.65], [34.94, 38.73], [34.78, 38.75], [34.66, 38.68]],
+  ],
+  pamukkale: [
+    [[29.095, 37.89], [29.115, 37.875], [29.145, 37.885], [29.158, 37.915], [29.145, 37.942], [29.112, 37.948], [29.092, 37.925]],
+  ],
+  "kula-geotour": [
+    [[28.14, 38.46], [28.25, 38.4], [28.45, 38.42], [28.66, 38.51], [28.75, 38.64], [28.66, 38.74], [28.45, 38.77], [28.25, 38.68]],
+  ],
   "adiyaman-phosphate": [
     [[37.82, 37.735], [37.875, 37.705], [37.95, 37.735], [37.985, 37.79], [37.945, 37.84], [37.87, 37.835]],
     [[38.245, 37.79], [38.285, 37.775], [38.345, 37.8], [38.37, 37.845], [38.33, 37.88], [38.27, 37.865]],
@@ -3411,8 +3432,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "alanya-port": [32.0014919, 36.5392159],
   "mersin-port": [34.6444164, 36.8063225],
   "iskenderun-port": [36.1837423, 36.5911349],
-  pamukkale: [29.12, 37.92],
-  kapadokya: [34.83, 38.64],
   safranbolu: [32.69, 41.25],
   "nemrut-tour": [38.74, 37.98],
   sumela: [39.66, 40.69],
@@ -3433,11 +3452,10 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "camliyayla-tour": [34.5934427, 37.1665396],
   "horzum-tour": [35.8492297, 37.6272879],
   "tekir-tour": [34.78, 37.33],
-  "karacabey-longoz-tour": [28.39, 40.4],
-  "igneada-longoz-tour": [27.9565008, 41.8233204],
-  "izmir-bird-tour": [26.9294352, 38.4509623],
-  "manyas-bird-tour": [28.0400417, 40.23195],
-  "kizilirmak-bird-tour": [36.0355242, 41.6697721],
+  "manyas-bird-tour": [27.962844, 40.192018],
+  "golcuk-geotour": [30.494, 37.731],
+  "meke-geotour": [33.64, 37.685],
+  "acigol-geotour": [33.666, 37.713],
   "akcali-tour": [43.9253375, 37.8290539],
   "karain-tour": [30.5706249, 37.077831],
   "damlatas-tour": [31.9887906, 36.5418683],
@@ -3446,10 +3464,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "insuyu-tour": [30.3757774, 37.6597429],
   "gilindire-tour": [33.4022388, 36.1311398],
   "ballica-tour": [36.3015033, 40.2273137],
-  "golcuk-geotour": [30.494, 37.731],
-  "kula-geotour": [28.52, 38.58],
-  "meke-geotour": [33.64, 37.685],
-  "acigol-geotour": [33.666, 37.713],
   "ayasofya-tour": [28.980175, 41.008584],
   "sultanahmet-tour": [28.9768534, 41.0053843],
   "topkapi-tour": [28.9840659, 41.0129795],
@@ -3504,6 +3518,8 @@ const LABEL_OFFSETS: Record<string, Coordinate> = {
 };
 
 const REAL_LINES: Record<string, Coordinate[]> = {
+  "kackar-tour": [[40.42, 40.91], [40.68, 40.86], [40.84, 40.84], [41.08, 40.78], [41.3, 40.72]],
+  "beydaglari-tour": [[29.62, 36.76], [29.9, 36.72], [30.2, 36.72], [30.43, 36.8], [30.62, 36.94]],
   yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
   kure: [[32.0, 41.4], [33.1, 41.5], [34.3, 41.3]],
   canik: [[35.3, 41.1], [36.6, 40.9], [38.0, 40.8]],
@@ -3654,6 +3670,10 @@ function provinceSetCenter(plates: number[], provinces: ProvinceFeature[]): Coor
 
 function lakeShapeId(feature: Feature) {
   const aliases: Record<string, string> = {
+    "manyas-bird-tour": "manyas",
+    "golcuk-geotour": "golcuk",
+    "meke-geotour": "meke",
+    "acigol-geotour": "acigol-karapinar",
     "van-vs": "van",
     "iznik-t": "iznik",
     "manyas-t": "manyas",
