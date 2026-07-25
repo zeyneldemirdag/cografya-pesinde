@@ -12,6 +12,8 @@ type FeatureKind =
   | "plateau"
   | "region"
   | "city"
+  | "landmark"
+  | "route"
   | "gate"
   | "pass"
   | "mine"
@@ -572,28 +574,28 @@ const NATURAL_TOURISM_FEATURES: Feature[] = [
 ];
 
 const CULTURAL_TOURISM_FEATURES: Feature[] = [
-  f("ayasofya-tour", "Ayasofya · İstanbul", 50, 50, 5, 4, "city"),
-  f("sultanahmet-tour", "Sultan Ahmet Camii · İstanbul", 50, 50, 5, 4, "city"),
-  f("topkapi-tour", "Topkapı Sarayı · İstanbul", 50, 50, 5, 4, "city"),
-  f("dolmabahce-tour", "Dolmabahçe Sarayı · İstanbul", 50, 50, 5, 4, "city"),
-  f("meryemana-tour", "Meryem Ana Evi · İzmir", 50, 50, 5, 4, "city"),
-  f("gokmedrese-tour", "Gök Medrese · Sivas", 50, 50, 5, 4, "city"),
-  f("selimiye-tour", "Selimiye Camii · Edirne", 50, 50, 5, 4, "city"),
-  f("ishakpasa-tour", "İshak Paşa Sarayı · Ağrı", 50, 50, 5, 4, "city"),
-  f("gobeklitepe-tour", "Göbeklitepe · Şanlıurfa", 50, 50, 5, 4, "city"),
-  f("catalhoyuk-tour", "Çatalhöyük · Konya", 50, 50, 5, 4, "city"),
-  f("alacahoyuk-tour", "Alacahöyük · Çorum", 50, 50, 5, 4, "city"),
-  f("hattusas-tour", "Hattuşaş · Çorum", 50, 50, 5, 4, "city"),
-  f("arslantepe-tour", "Arslantepe · Malatya", 50, 50, 5, 4, "city"),
-  f("efes", "Efes · İzmir", 50, 50, 5, 4, "city"),
-  f("gelibolu-tour", "Çanakkale Savaşları Gelibolu Tarihî Alanı", 50, 50, 5, 4, "city"),
-  f("baskomutan-tour", "Başkomutan Tarihî Millî Parkı · Afyonkarahisar", 50, 50, 5, 4, "city"),
-  f("istiklal-tour", "İstiklal Yolu Tarihî Millî Parkı · Kastamonu-Çankırı", 50, 50, 5, 4, "city"),
-  f("malazgirt-tour", "Malazgirt Meydan Muharebesi Tarihî Millî Parkı · Muş", 50, 50, 5, 4, "city"),
-  f("sakarya-tour", "Sakarya Meydan Muharebesi Tarihî Millî Parkı · Ankara", 50, 50, 5, 4, "city"),
-  f("safranbolu", "Safranbolu · Karabük", 50, 50, 5, 4, "city"),
-  f("sumela", "Sümela Manastırı · Trabzon", 50, 50, 5, 4, "city"),
-  f("nemrut-tour", "Nemrut Dağı Ören Yeri · Adıyaman", 50, 50, 5, 4, "city"),
+  f("ayasofya-tour", "Ayasofya · İstanbul", 50, 50, 6, 5, "landmark"),
+  f("sultanahmet-tour", "Sultan Ahmet Camii · İstanbul", 50, 50, 6, 5, "landmark"),
+  f("topkapi-tour", "Topkapı Sarayı · İstanbul", 50, 50, 6, 5, "landmark"),
+  f("dolmabahce-tour", "Dolmabahçe Sarayı · İstanbul", 50, 50, 6, 5, "landmark"),
+  f("meryemana-tour", "Meryem Ana Evi · İzmir", 50, 50, 6, 5, "landmark"),
+  f("gokmedrese-tour", "Gök Medrese · Sivas", 50, 50, 6, 5, "landmark"),
+  f("selimiye-tour", "Selimiye Camii · Edirne", 50, 50, 6, 5, "landmark"),
+  f("ishakpasa-tour", "İshak Paşa Sarayı · Ağrı", 50, 50, 6, 5, "landmark"),
+  f("gobeklitepe-tour", "Göbeklitepe · Şanlıurfa", 50, 50, 6, 5, "landmark"),
+  f("catalhoyuk-tour", "Çatalhöyük · Konya", 50, 50, 6, 5, "landmark"),
+  f("alacahoyuk-tour", "Alacahöyük · Çorum", 50, 50, 6, 5, "landmark"),
+  f("hattusas-tour", "Hattuşaş · Çorum", 50, 50, 6, 5, "landmark"),
+  f("arslantepe-tour", "Arslantepe · Malatya", 50, 50, 6, 5, "landmark"),
+  f("efes", "Efes · İzmir", 50, 50, 6, 5, "landmark"),
+  f("gelibolu-tour", "Çanakkale Savaşları Gelibolu Tarihî Alanı", 50, 50, 12, 8, "region"),
+  f("baskomutan-tour", "Başkomutan Tarihî Millî Parkı · Afyonkarahisar-Kütahya", 50, 50, 14, 9, "region"),
+  f("istiklal-tour", "İstiklal Yolu Tarihî Millî Parkı · İnebolu-Kastamonu-Çankırı-Ankara", 50, 50, 13, 5, "route"),
+  f("malazgirt-tour", "Malazgirt Meydan Muharebesi Tarihî Millî Parkı · Muş", 50, 50, 10, 7, "region"),
+  f("sakarya-tour", "Sakarya Meydan Muharebesi Tarihî Millî Parkı · Polatlı-Haymana", 50, 50, 14, 9, "region"),
+  f("safranbolu", "Safranbolu Tarihî Kenti · Karabük", 50, 50, 8, 6, "region"),
+  f("sumela", "Sümela Manastırı · Trabzon", 50, 50, 6, 5, "landmark"),
+  f("nemrut-tour", "Nemrut Dağı Ören Yeri · Adıyaman", 50, 50, 6, 5, "landmark"),
 ];
 
 const TECTONIC_PLAIN_FEATURES: Feature[] = [
@@ -2646,6 +2648,22 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "gelibolu-tour": [
+    [[26.14, 40.03], [26.2, 39.98], [26.31, 40.02], [26.38, 40.14], [26.4, 40.3], [26.34, 40.42], [26.24, 40.39], [26.17, 40.25]],
+  ],
+  "baskomutan-tour": [
+    [[30.23, 38.61], [30.32, 38.55], [30.46, 38.58], [30.55, 38.69], [30.5, 38.8], [30.35, 38.83], [30.24, 38.75]],
+    [[29.8, 38.78], [29.9, 38.72], [30.05, 38.75], [30.14, 38.86], [30.08, 38.96], [29.92, 38.98], [29.82, 38.9]],
+  ],
+  "malazgirt-tour": [
+    [[42.43, 39.09], [42.48, 39.055], [42.57, 39.07], [42.61, 39.13], [42.58, 39.2], [42.49, 39.215], [42.43, 39.17]],
+  ],
+  "sakarya-tour": [
+    [[31.94, 39.35], [32.08, 39.24], [32.32, 39.23], [32.58, 39.34], [32.72, 39.52], [32.61, 39.7], [32.34, 39.78], [32.08, 39.68], [31.95, 39.52]],
+  ],
+  safranbolu: [
+    [[32.665, 41.235], [32.68, 41.225], [32.705, 41.23], [32.715, 41.25], [32.702, 41.27], [32.678, 41.27], [32.663, 41.252]],
+  ],
   "karacabey-longoz-tour": [
     [[28.25, 40.355], [28.31, 40.325], [28.405, 40.335], [28.475, 40.39], [28.455, 40.45], [28.36, 40.475], [28.275, 40.43]],
   ],
@@ -3432,7 +3450,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "alanya-port": [32.0014919, 36.5392159],
   "mersin-port": [34.6444164, 36.8063225],
   "iskenderun-port": [36.1837423, 36.5911349],
-  safranbolu: [32.69, 41.25],
   "nemrut-tour": [38.74, 37.98],
   sumela: [39.66, 40.69],
   efes: [27.34, 37.94],
@@ -3477,11 +3494,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "alacahoyuk-tour": [34.6950961, 40.2345193],
   "hattusas-tour": [34.6197357, 40.0222167],
   "arslantepe-tour": [38.3607149, 38.3815255],
-  "gelibolu-tour": [26.3142842, 40.2045903],
-  "baskomutan-tour": [30.3960434, 38.7009321],
-  "istiklal-tour": [33.76, 41.98],
-  "malazgirt-tour": [42.5119814, 39.1393805],
-  "sakarya-tour": [32.3789195, 39.4367068],
   "istanbul-city": [28.98, 41.01],
   "ankara-city": [32.85, 39.93],
   "izmir-city": [27.14, 38.42],
@@ -3518,6 +3530,7 @@ const LABEL_OFFSETS: Record<string, Coordinate> = {
 };
 
 const REAL_LINES: Record<string, Coordinate[]> = {
+  "istiklal-tour": [[33.76, 41.98], [33.71, 41.81], [33.7, 41.55], [33.78, 41.39], [33.63, 40.92], [33.62, 40.6], [33.33, 40.1], [32.85, 39.93]],
   "kackar-tour": [[40.42, 40.91], [40.68, 40.86], [40.84, 40.84], [41.08, 40.78], [41.3, 40.72]],
   "beydaglari-tour": [[29.62, 36.76], [29.9, 36.72], [30.2, 36.72], [30.43, 36.8], [30.62, 36.94]],
   yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
@@ -3701,7 +3714,7 @@ function riverShapeId(feature: Feature) {
 function realLineFor(feature: Feature) {
   const exactLine = REAL_LINES[feature.id];
   if (exactLine) return exactLine;
-  if (!["mountain", "river"].includes(feature.kind)) return undefined;
+  if (!["mountain", "river", "route"].includes(feature.kind)) return undefined;
   const canonicalId = feature.id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
   return REAL_LINES[canonicalId];
 }
@@ -3837,7 +3850,7 @@ function featureHitArea(feature: Feature) {
       />
     );
   }
-  if (!["volcano", "city", "gate", "pass", "mine", "energy", "dam", "port", "bridge", "tunnel"].includes(feature.kind)) return null;
+  if (!["volcano", "city", "landmark", "gate", "pass", "mine", "energy", "dam", "port", "bridge", "tunnel"].includes(feature.kind)) return null;
   const [cx, cy] = featureCenter(feature);
   return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
 }
@@ -3852,7 +3865,7 @@ function featureGraphic(
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
   const compactPoint = [
-    "volcano", "city", "gate", "pass", "mine", "energy", "dam", "port", "bridge", "tunnel",
+    "volcano", "city", "landmark", "gate", "pass", "mine", "energy", "dam", "port", "bridge", "tunnel",
   ].includes(feature.kind);
   const width = compactPoint ? Math.max(Math.min(feature.w * 4.2, 30), 18) : Math.max(feature.w * 7.2, 20);
   const height = compactPoint ? Math.max(Math.min(feature.h * 2.2, 18), 11) : Math.max(feature.h * 3.1, 12);
@@ -4042,6 +4055,21 @@ function featureGraphic(
       <g className="tunnel-glyph">
         <path d={`M${cx - width * .58},${cy + height * .55} L${cx - width * .58},${cy} Q${cx - width * .52},${cy - height * .72} ${cx},${cy - height * .72} Q${cx + width * .52},${cy - height * .72} ${cx + width * .58},${cy} L${cx + width * .58},${cy + height * .55} Z`} className="geo-shape geo-shape--tunnel" />
         <path d={`M${cx - width * .27},${cy + height * .52} L${cx - width * .27},${cy + height * .05} Q${cx},${cy - height * .34} ${cx + width * .27},${cy + height * .05} L${cx + width * .27},${cy + height * .52}`} className="tunnel-detail" />
+      </g>
+    );
+  }
+  if (feature.kind === "landmark") {
+    return (
+      <g className="landmark-glyph">
+        <path
+          d={`M${cx - width * .58},${cy - height * .18} L${cx},${cy - height * .82} L${cx + width * .58},${cy - height * .18} Z M${cx - width * .5},${cy + height * .5} H${cx + width * .5} V${cy + height * .72} H${cx - width * .5} Z`}
+          className="geo-shape geo-shape--landmark"
+          fillRule="evenodd"
+        />
+        <path
+          d={`M${cx - width * .34},${cy - height * .08} V${cy + height * .48} M${cx},${cy - height * .08} V${cy + height * .48} M${cx + width * .34},${cy - height * .08} V${cy + height * .48}`}
+          className="landmark-detail"
+        />
       </g>
     );
   }

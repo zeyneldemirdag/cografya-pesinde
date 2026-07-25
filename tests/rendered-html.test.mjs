@@ -202,6 +202,11 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"kula-geotour": \[\s*\[\[28\.14, 38\.46\]/);
   assert.match(page, /"manyas-bird-tour": "manyas"/);
   assert.match(page, /"meke-geotour": "meke"/);
+  assert.match(page, /"gelibolu-tour": \[\s*\[\[26\.14, 40\.03\]/);
+  assert.match(page, /"baskomutan-tour": \[\s*\[\[30\.23, 38\.61\]/);
+  assert.match(page, /"sakarya-tour": \[\s*\[\[31\.94, 39\.35\]/);
+  assert.match(page, /"istiklal-tour": \[\[33\.76, 41\.98\]/);
+  assert.match(page, /feature\.kind === "landmark"/);
   assert.match(page, /<g className="geo-distribution">/);
   assert.match(page, /const LABEL_OFFSETS/);
   assert.match(page, /data-quiz-id=\{item\.id\}/);
@@ -254,7 +259,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /window\.scrollTo\(\{ top: 0, behavior: "auto" \}\)/);
   assert.match(page, /Ses.*açık/);
   assert.match(page, /className="geo-line-hit"/);
-  assert.match(page, /"volcano", "city", "gate", "pass"/);
+  assert.match(page, /"volcano", "city", "landmark", "gate", "pass"/);
   assert.match(page, /const usesRiverOverride/);
   assert.match(page, /f\("nemrut", "Nemrut Dağı".*"volcano"\)/);
   assert.match(page, /f\("cilo", "Cilo-Sat Dağları".*"mountain"/);
