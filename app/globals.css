@@ -368,6 +368,13 @@ button { color: inherit; }
   pointer-events: stroke;
 }
 
+.geo-lake-hit {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 14;
+  pointer-events: visiblePainted;
+}
+
 .geo-line-hit {
   fill: none;
   stroke: transparent;
@@ -489,6 +496,14 @@ button { color: inherit; }
   fill: white;
   font-size: 10px;
   font-weight: 900;
+}
+
+.label-layer {
+  pointer-events: none;
+}
+
+.geo-label--province text {
+  font-size: 7px;
 }
 
 .map-province-readout {

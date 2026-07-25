@@ -36,9 +36,16 @@ const features = [...source.matchAll(callPattern)].map((match) => ({
   kind: match[7],
 }));
 
-const lakeData = JSON.parse(fs.readFileSync(new URL("../public/data/turkey-lakes.geojson", import.meta.url), "utf8"));
+const lakeData = [
+  "../public/data/turkey-lakes.geojson",
+  "../public/data/turkey-lakes-extra.geojson",
+  "../public/data/turkey-lakes-karstic-extra.geojson",
+  "../public/data/turkey-lakes-eastern-extra.geojson",
+].flatMap((path) =>
+  JSON.parse(fs.readFileSync(new URL(path, import.meta.url), "utf8")).features
+);
 const riverData = JSON.parse(fs.readFileSync(new URL("../public/data/turkey-rivers.geojson", import.meta.url), "utf8"));
-const lakeIds = new Set(lakeData.features.map((feature) => feature.properties.id));
+const lakeIds = new Set(lakeData.map((feature) => feature.properties.id));
 const riverIds = new Set(riverData.features.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
@@ -51,6 +58,8 @@ const lakeCanonical = (id) => ({
   "burdur-r": "burdur",
   "uluabat-r": "uluabat",
   ulubat: "uluabat",
+  "kiziloren-l": "kizoren",
+  "haçli": "hacli",
   kus: "manyas",
 }[id] ?? id).replace(/-(t|vl|l)$/, "");
 const riverCanonical = (id) => ({
@@ -61,11 +70,11 @@ const riverCanonical = (id) => ({
 
 const classifications = features.map((feature) => {
   let geometry = "fallback";
-  if (pointKeys.has(feature.id)) geometry = "verified-point";
+  if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
+  else if (pointKeys.has(feature.id)) geometry = "verified-point";
   else if (areaKeys.has(feature.id) && ["plain", "plateau", "region", "lake"].includes(feature.kind)) geometry = "area-polygon";
   else if (distributionKeys.has(feature.id)) geometry = "distribution-polygon";
   else if (lineKeys.has(feature.id) || lineKeys.has(canonical(feature.id))) geometry = "coordinate-line";
-  else if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (feature.kind === "river" && riverIds.has(riverCanonical(feature.id))) geometry = "exact-river";
   return { ...feature, geometry };
 });
@@ -116,6 +125,22 @@ const coverageComparisons = [
 });
 
 const officialExpectations = {
+  "tectonic-lakes": [
+    "Manyas Gölü", "Uluabat Gölü", "İznik Gölü", "Sapanca Gölü",
+    "Burdur Gölü", "Acıgöl", "Tuz Gölü", "Eber Gölü", "Akşehir Gölü",
+    "Ilgın (Çavuşçu) Gölü", "Seyfe Gölü", "Hazar Gölü", "Aktaş Gölü",
+  ],
+  "volcanic-set-lakes": [
+    "Çıldır Gölü", "Erçek Gölü", "Nazik Gölü", "Haçlı Gölü", "Balık Gölü",
+  ],
+  "karstic-lakes": [
+    "Avlan Gölü", "Kestel Gölü", "Salda Gölü", "Kızören Obruğu",
+    "Meyil Obruğu", "Çıralı Obruğu", "Hafik Gölü", "Tödürge Gölü",
+  ],
+  "volcanic-lakes": [
+    "Nemrut Kaldera Gölü", "Meke Maarı", "Gölcük Krater Gölü",
+    "Acıgöl (Karapınar)", "Nar Gölü", "Aygır (Süphan) Gölü",
+  ],
   plateaus: [
     "Yazılıkaya Platosu", "Uşak-Eşme Platosu", "Gaziantep Platosu",
     "Şanlıurfa Platosu", "Erzurum-Kars Platosu", "Ardahan Platosu",
@@ -178,6 +203,14 @@ const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected
   };
 });
 
+const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
+const sourceOverrideRequired = [
+  "straits", "gates", "passes", "mines", "energy", "development",
+  "industry", "population", "climate", "vegetation", "soils", "tourism",
+  "agriculture", "livestock", "ports", "gulfs", "bridges-tunnels",
+];
+const missingSourceOverrides = sourceOverrideRequired.filter((id) => !sourceQuizKeys.has(id));
+
 console.log(JSON.stringify({
   featureCalls: features.length,
   uniqueFeatures: unique.size,
@@ -186,4 +219,8 @@ console.log(JSON.stringify({
   conflicts,
   coverageComparisons,
   sourceCoverage,
+  nonExactLakeTargets: [...unique.values()]
+    .filter((feature) => feature.kind === "lake" && feature.geometry !== "exact-lake")
+    .map(({ id, name, geometry }) => ({ id, name, geometry })),
+  missingSourceOverrides,
 }, null, 2));

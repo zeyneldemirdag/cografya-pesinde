@@ -35,3 +35,7 @@ test("resmî MEB, DSİ ve Ticaret Bakanlığı çekirdek listeleri eksiksizdir",
     );
   }
 });
+
+test("grup kaynağının yetersiz kaldığı oyunların konuya özel resmî kaynağı vardır", () => {
+  assert.deepEqual(report.missingSourceOverrides, []);
+});

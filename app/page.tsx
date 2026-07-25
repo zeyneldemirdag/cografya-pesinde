@@ -243,6 +243,8 @@ const QUIZZES: Quiz[] = [
       f("ercis", "Erçek Gölü", 86, 49, 4, 4, "lake"),
       f("acigol-t", "Acıgöl", 29, 61, 5, 4, "lake"),
       f("seyfe-t", "Seyfe Gölü", 54, 46, 5, 4, "lake"),
+      f("ilgin", "Ilgın (Çavuşçu) Gölü", 40, 56, 4, 4, "lake"),
+      f("aktas-lake", "Aktaş Gölü", 89, 25, 4, 4, "lake"),
       f("nazik", "Nazik Gölü", 78, 46, 5, 4, "lake"),
       f("balik", "Balık Gölü", 88, 40, 4, 3, "lake"),
       f("haçli", "Haçlı Gölü", 76, 49, 4, 3, "lake"),
@@ -250,10 +252,17 @@ const QUIZZES: Quiz[] = [
       f("avlan", "Avlan Gölü", 31, 69, 5, 4, "lake"),
       f("kestel-l", "Kestel Gölü", 28, 64, 5, 4, "lake"),
       f("kovada-l", "Kovada Gölü", 35, 62, 5, 4, "lake"),
-      f("kiziloren-l", "Kızılören Obruk Gölü", 51, 52, 5, 4, "lake"),
+      f("kiziloren-l", "Kızören Obruğu", 51, 52, 5, 4, "lake"),
       f("nemrut-vl", "Nemrut Kaldera Gölü", 75, 51, 5, 4, "lake"),
       f("meke-vl", "Meke Maarı", 48, 61, 5, 4, "lake"),
       f("golcuk-vl", "Gölcük Krater Gölü", 34, 61, 5, 4, "lake"),
+      f("acigol-karapinar", "Acıgöl (Karapınar)", 49, 62, 4, 4, "lake"),
+      f("nar-lake", "Nar Gölü", 52, 57, 4, 4, "lake"),
+      f("aygir", "Aygır (Süphan) Gölü", 79, 48, 4, 4, "lake"),
+      f("meyil-lake", "Meyil Obruğu", 49, 59, 4, 4, "lake"),
+      f("cirali-lake", "Çıralı Obruğu", 50, 60, 4, 4, "lake"),
+      f("hafik-lake", "Hafik Gölü", 65, 39, 4, 4, "lake"),
+      f("todurge-lake", "Tödürge Gölü", 66, 39, 4, 4, "lake"),
     ],
   },
   {
@@ -270,14 +279,14 @@ const QUIZZES: Quiz[] = [
       f("manyas-t", "Manyas Gölü", 17, 31, 5, 4, "lake"),
       f("ulubat", "Uluabat Gölü", 19, 35, 5, 3, "lake"),
       f("tuz-t", "Tuz Gölü", 49, 52, 7, 9, "lake", 8),
-      f("beysehir-t", "Beyşehir Gölü", 40, 65, 6, 8, "lake", 14),
-      f("egirdir-t", "Eğirdir Gölü", 36, 64, 4, 9, "lake", -8),
       f("burdur-t", "Burdur Gölü", 33, 62, 5, 5, "lake"),
       f("aksehir-t", "Akşehir Gölü", 39, 58, 5, 4, "lake"),
       f("eber-t", "Eber Gölü", 37, 58, 5, 4, "lake"),
       f("acigol-t", "Acıgöl", 29, 61, 5, 4, "lake"),
       f("hazar", "Hazar Gölü", 71, 54, 6, 3, "lake", -10),
       f("seyfe-t", "Seyfe Gölü", 54, 46, 5, 4, "lake"),
+      f("ilgin", "Ilgın (Çavuşçu) Gölü", 40, 56, 4, 4, "lake"),
+      f("aktas-lake", "Aktaş Gölü", 89, 25, 4, 4, "lake"),
     ],
   },
   {
@@ -289,7 +298,7 @@ const QUIZZES: Quiz[] = [
     color: "#5aa8c8",
     icon: "●",
     features: [
-      f("van-vs", "Van Gölü", 80, 51, 10, 7, "lake", -8),
+      f("cildir", "Çıldır Gölü", 87, 27, 5, 4, "lake"),
       f("nazik", "Nazik Gölü", 78, 46, 5, 4, "lake"),
       f("ercis", "Erçek Gölü", 86, 49, 4, 4, "lake"),
       f("balik", "Balık Gölü", 88, 40, 4, 3, "lake"),
@@ -927,11 +936,13 @@ const QUIZZES: Quiz[] = [
     icon: "◌",
     features: [
       f("salda", "Salda Gölü", 31, 63, 4, 4, "lake"),
-      f("sugla", "Suğla Gölü", 41, 67, 4, 4, "lake"),
       f("avlan", "Avlan Gölü", 32, 72, 4, 4, "lake"),
       f("kestel-l", "Kestel Gölü", 31, 66, 4, 4, "lake"),
-      f("kovada-l", "Kovada Gölü", 35, 66, 4, 4, "lake"),
-      f("kiziloren-l", "Kızılören Obruk Gölü", 48, 59, 4, 4, "lake"),
+      f("kiziloren-l", "Kızören Obruğu", 48, 59, 4, 4, "lake"),
+      f("meyil-lake", "Meyil Obruğu", 49, 59, 4, 4, "lake"),
+      f("cirali-lake", "Çıralı Obruğu", 50, 60, 4, 4, "lake"),
+      f("hafik-lake", "Hafik Gölü", 65, 39, 4, 4, "lake"),
+      f("todurge-lake", "Tödürge Gölü", 66, 39, 4, 4, "lake"),
     ],
   },
   {
@@ -946,7 +957,9 @@ const QUIZZES: Quiz[] = [
       f("nemrut-vl", "Nemrut Kaldera Gölü", 75, 51, 5, 4, "lake"),
       f("meke-vl", "Meke Maarı", 49, 62, 4, 4, "lake"),
       f("golcuk-vl", "Gölcük Krater Gölü", 34, 62, 4, 4, "lake"),
-      f("acigol-vl", "Acıgöl", 29, 61, 5, 4, "lake"),
+      f("acigol-karapinar", "Acıgöl (Karapınar)", 49, 62, 4, 4, "lake"),
+      f("nar-lake", "Nar Gölü", 52, 57, 4, 4, "lake"),
+      f("aygir", "Aygır (Süphan) Gölü", 79, 48, 4, 4, "lake"),
     ],
   },
   {
@@ -1106,8 +1119,8 @@ const SOURCE_BY_GROUP: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page76.html",
   },
   "Göller": {
-    label: "DSİ su kaynakları + MEB",
-    url: "https://dsi.gov.tr/Sayfa/Detay/754",
+    label: "MEB göl sınıfları + DSİ",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
   },
   "Sular": {
     label: "DSİ su kaynakları + MEB",
@@ -1148,17 +1161,49 @@ const SOURCE_BY_GROUP: Record<string, SourceRef> = {
 };
 
 const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
+  straits: {
+    label: "HGM + KGM ulaşım haritaları",
+    url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Root/Haritalarr.aspx",
+  },
   gates: {
     label: "Ticaret Bakanlığı sınır kapıları",
     url: "https://ticaret.gov.tr/gumruk-islemleri/sikca-sorulan-sorular/english/customs-offices",
+  },
+  passes: {
+    label: "KGM yol ağı ve geçit verileri",
+    url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Root/Haritalarr.aspx",
   },
   mines: {
     label: "MTA maden verileri + MEB",
     url: "https://www.mta.gov.tr/v3.0/",
   },
+  energy: {
+    label: "Enerji Bakanlığı resmî haritaları",
+    url: "https://enerji.gov.tr/bilgi-merkezi-haritalar",
+  },
+  development: {
+    label: "Sanayi Bakanlığı bölgesel kalkınma",
+    url: "https://www.sanayi.gov.tr/bolgesel-kalkinma-faaliyetleri",
+  },
+  industry: {
+    label: "Sanayi Bakanlığı il sanayi raporları",
+    url: "https://www.sanayi.gov.tr/plan-program-raporlar-ve-yayinlar/81-il-sanayi-durum-raporlari",
+  },
+  population: {
+    label: "TÜİK nüfus ve demografi verileri",
+    url: "https://data.tuik.gov.tr/Kategori/GetKategori?p=nufus-ve-demografi-109",
+  },
   climate: {
     label: "MGM 1991–2020 iklim verileri",
     url: "https://www.mgm.gov.tr/iklim/iklim-siniflandirmalari.aspx",
+  },
+  vegetation: {
+    label: "MEB doğal sistemler + OGM",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page88.html",
+  },
+  soils: {
+    label: "MEB Türkiye toprakları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page84.html",
   },
   tourism: {
     label: "Kültür ve Turizm Bakanlığı",
@@ -1171,6 +1216,18 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   livestock: {
     label: "Tarım ve Orman Bakanlığı + TÜİK",
     url: "https://arastirma.tarimorman.gov.tr/tepge/Sayfalar/Detay.aspx?TermId=7f477a6a-a8ea-4497-9ddb-173030b5be42&UrlSuffix=27",
+  },
+  ports: {
+    label: "Ulaştırma Bakanlığı liman başkanlıkları",
+    url: "https://www.uab.gov.tr/kurumsal/birimler/",
+  },
+  gulfs: {
+    label: "HGM fiziki harita + kıyı verileri",
+    url: "https://www.harita.gov.tr/urun/turkiye-fiziki-haritasi-dilsiz/273",
+  },
+  "bridges-tunnels": {
+    label: "KGM köprü ve tünel bilgileri",
+    url: "https://www.kgm.gov.tr/Sayfalar/SiteMap.aspx",
   },
 };
 
@@ -1284,7 +1341,7 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   borcka: [[41.64, 41.4], [41.7, 41.32], [41.82, 41.33], [41.86, 41.41], [41.79, 41.48], [41.68, 41.48]],
   ilisu: [[41.73, 37.66], [41.77, 37.49], [42.03, 37.43], [42.16, 37.55], [42.05, 37.7], [41.85, 37.75]],
   avlan: [[29.93, 36.59], [29.96, 36.52], [30.07, 36.52], [30.1, 36.59], [30.04, 36.65], [29.96, 36.64]],
-  "kestel-l": [[29.33, 37.3], [29.38, 37.23], [29.5, 37.23], [29.54, 37.3], [29.48, 37.36], [29.38, 37.36]],
+  "kestel-l": [[30.41, 37.43], [30.44, 37.38], [30.51, 37.38], [30.53, 37.42], [30.49, 37.46], [30.43, 37.46]],
   "kovada-l": [[30.82, 37.66], [30.84, 37.59], [30.94, 37.58], [30.98, 37.65], [30.92, 37.71], [30.85, 37.71]],
   "kiziloren-l": [[33.28, 38.24], [33.29, 38.2], [33.35, 38.19], [33.37, 38.23], [33.34, 38.27], [33.3, 38.27]],
   "nemrut-vl": [[42.15, 38.69], [42.18, 38.6], [42.28, 38.58], [42.34, 38.64], [42.3, 38.73], [42.21, 38.75]],
@@ -1389,6 +1446,17 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "karacadag-ic": [33.65, 38.16],
   "karacadag-gd": [39.83, 37.67],
   kula: [28.52, 38.58],
+  ilgin: [31.875, 38.35],
+  "aktas-lake": [43.21, 41.21],
+  "nar-lake": [34.457, 38.34],
+  "meyil-lake": [33.3535, 37.988],
+  "cirali-lake": [33.413, 37.932],
+  "hafik-lake": [37.378, 39.872],
+  "todurge-lake": [37.6, 39.881],
+  "golcuk-vl": [30.494, 37.731],
+  "meke-vl": [33.64, 37.685],
+  "acigol-karapinar": [33.666, 37.713],
+  aygir: [42.823, 38.837],
   kapikule: [26.36, 41.72],
   ipsala: [26.38, 40.92],
   sarp: [41.55, 41.52],
@@ -1652,6 +1720,8 @@ function lakeShapeId(feature: Feature) {
     "burdur-r": "burdur",
     "uluabat-r": "uluabat",
     "ulubat": "uluabat",
+    "kiziloren-l": "kizoren",
+    "haçli": "hacli",
     kus: "manyas",
   };
   return (aliases[feature.id] ?? feature.id).replace(/-(t|vl|l)$/, "");
@@ -1722,6 +1792,72 @@ function featureLabelCenter(feature: Feature, center: Coordinate, featureIndex =
   return [center[0] + offsetX, center[1] + offsetY];
 }
 
+type LabelPlacement = { x: number; y: number; width: number };
+
+function featureLabelWidth(name: string) {
+  return Math.min(190, Math.max(88, name.length * 5.8 + 24));
+}
+
+function labelOverlapArea(
+  left: { x1: number; y1: number; x2: number; y2: number },
+  right: { x1: number; y1: number; x2: number; y2: number },
+) {
+  const width = Math.max(0, Math.min(left.x2, right.x2) - Math.max(left.x1, right.x1));
+  const height = Math.max(0, Math.min(left.y2, right.y2) - Math.max(left.y1, right.y1));
+  return width * height;
+}
+
+function collisionAwareLabelPlacements(
+  features: Feature[],
+  correctIds: string[],
+  provinces: ProvinceFeature[],
+) {
+  const placements = new Map<string, LabelPlacement>();
+  const occupied: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+
+  features.forEach((feature, featureIndex) => {
+    if (!correctIds.includes(feature.id)) return;
+    const center = feature.plates?.length
+      ? provinceSetCenter(feature.plates, provinces)
+      : featureCenter(feature);
+    const preferred = featureLabelCenter(feature, center, featureIndex);
+    const preferredOffset: Coordinate = [preferred[0] - center[0], preferred[1] - center[1]];
+    const offsets: Coordinate[] = [
+      preferredOffset,
+      [0, -25],
+      [0, 34],
+      [-82, -24],
+      [82, -24],
+      [-82, 33],
+      [82, 33],
+      [0, -58],
+      [0, 68],
+      [-120, 0],
+      [120, 0],
+    ];
+    const uniqueOffsets = offsets.filter(
+      (offset, index) =>
+        offsets.findIndex((candidate) => candidate[0] === offset[0] && candidate[1] === offset[1]) === index,
+    );
+    const width = featureLabelWidth(feature.name);
+    const candidates = uniqueOffsets.map(([offsetX, offsetY]) => {
+      const x = Math.min(988 - width / 2, Math.max(12 + width / 2, center[0] + offsetX));
+      const y = Math.min(418, Math.max(26, center[1] + offsetY));
+      const box = { x1: x - width / 2 - 4, y1: y - 21, x2: x + width / 2 + 4, y2: y + 7 };
+      const overlap = occupied.reduce((sum, item) => sum + labelOverlapArea(box, item), 0);
+      const distance = Math.hypot(x - preferred[0], y - preferred[1]);
+      return { x, y, width, box, score: overlap * 100 + distance };
+    });
+    const selected = candidates.reduce((best, candidate) =>
+      candidate.score < best.score ? candidate : best,
+    );
+    placements.set(feature.id, { x: selected.x, y: selected.y, width });
+    occupied.push(selected.box);
+  });
+
+  return placements;
+}
+
 function featureHitArea(feature: Feature) {
   if (!["volcano", "city", "gate", "pass", "mine", "energy"].includes(feature.kind)) return null;
   const [cx, cy] = featureCenter(feature);
@@ -1736,8 +1872,9 @@ function featureGraphic(
 ) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
-  const width = Math.max(feature.w * 7.2, 20);
-  const height = Math.max(feature.h * 3.1, 12);
+  const compactPoint = ["city", "gate", "mine", "energy"].includes(feature.kind);
+  const width = compactPoint ? Math.max(Math.min(feature.w * 4.2, 30), 18) : Math.max(feature.w * 7.2, 20);
+  const height = compactPoint ? Math.max(Math.min(feature.h * 2.2, 18), 11) : Math.max(feature.h * 3.1, 12);
   const usesRiverOverride = feature.kind === "river"
     && ["aras", "aras-br", "coruh"].includes(feature.id)
     && realLine;
@@ -1755,6 +1892,20 @@ function featureGraphic(
               fillRule="evenodd"
             />
           ))}
+      </g>
+    );
+  }
+
+  if (lakeShape) {
+    const path = lakePath(lakeShape);
+    return (
+      <g>
+        <path d={path} className="geo-lake-hit" fillRule="evenodd" />
+        <path
+          d={path}
+          className="geo-shape geo-shape--lake geo-shape--exact"
+          fillRule="evenodd"
+        />
       </g>
     );
   }
@@ -1796,16 +1947,6 @@ function featureGraphic(
         <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
         <path d={path} className="geo-shape geo-shape--line geo-shape--exact-river" vectorEffect="non-scaling-stroke" />
       </g>
-    );
-  }
-
-  if (lakeShape) {
-    return (
-      <path
-        d={lakePath(lakeShape)}
-        className="geo-shape geo-shape--lake geo-shape--exact"
-        fillRule="evenodd"
-      />
     );
   }
 
@@ -1899,15 +2040,22 @@ function TurkeyMap({
     if (right.id === currentFeatureId) return -1;
     return 0;
   });
+  const labelPlacements = collisionAwareLabelPlacements(orderedFeatures, correctIds, provinces);
 
   useEffect(() => {
     fetch("/data/turkey-provinces.geojson")
       .then((response) => response.json())
       .then((data) => setProvinces(data.features as ProvinceFeature[]))
       .catch(() => setProvinces([]));
-    fetch("/data/turkey-lakes.geojson")
-      .then((response) => response.json())
-      .then((data) => setLakes(data.features as LakeFeature[]))
+    Promise.all([
+      fetch("/data/turkey-lakes.geojson").then((response) => response.json()),
+      fetch("/data/turkey-lakes-extra.geojson").then((response) => response.json()),
+      fetch("/data/turkey-lakes-karstic-extra.geojson").then((response) => response.json()),
+      fetch("/data/turkey-lakes-eastern-extra.geojson").then((response) => response.json()),
+    ])
+      .then((collections) => setLakes(
+        collections.flatMap((data) => data.features as LakeFeature[]),
+      ))
       .catch(() => setLakes([]));
     fetch("/data/turkey-rivers.geojson")
       .then((response) => response.json())
@@ -1991,9 +2139,15 @@ function TurkeyMap({
                 >
                   <path d={provincePath(province)} fillRule="evenodd" />
                   {status === "correct" && (
-                    <g className="geo-label" transform={`translate(${cx} ${cy})`}>
-                      <rect x="-48" y="-18" width="96" height="22" rx="5" />
-                      <text textAnchor="middle" y="-3">{feature.name}</text>
+                    <g className="geo-label geo-label--province" transform={`translate(${cx} ${cy})`}>
+                      <rect
+                        x={-Math.min(82, Math.max(36, feature.name.length * 5.2 + 12)) / 2}
+                        y="-14"
+                        width={Math.min(82, Math.max(36, feature.name.length * 5.2 + 12))}
+                        height="17"
+                        rx="4"
+                      />
+                      <text textAnchor="middle" y="-2">{feature.name}</text>
                     </g>
                   )}
                 </g>
@@ -2002,16 +2156,12 @@ function TurkeyMap({
           </g>
         )}
         {quiz.id !== "provinces" && <g className="feature-layer">
-          {orderedFeatures.map((feature, featureIndex) => {
+          {orderedFeatures.map((feature) => {
             const status = correctIds.includes(feature.id)
               ? "correct"
               : wrongIds.includes(feature.id)
                 ? "wrong"
                 : "idle";
-            const [cx, cy] = feature.plates?.length
-              ? provinceSetCenter(feature.plates, provinces)
-              : featureCenter(feature);
-            const [labelX, labelY] = featureLabelCenter(feature, [cx, cy], featureIndex);
             return (
               <g
                 key={feature.id}
@@ -2033,21 +2183,44 @@ function TurkeyMap({
                   rivers.find((river) => river.properties.id === riverShapeId(feature)),
                   provinces,
                 )}
-                {status === "correct" && (
-                  <>
-                    {(labelX !== cx || labelY !== cy - 18) && (
-                      <line className="geo-label-leader" x1={cx} y1={cy} x2={labelX} y2={labelY - 10} />
-                    )}
-                    <g className="geo-label" transform={`translate(${labelX} ${labelY})`}>
-                      <rect x="-62" y="-19" width="124" height="22" rx="5" />
-                      <text textAnchor="middle" y="-4">{feature.name}</text>
-                    </g>
-                  </>
-                )}
               </g>
             );
           })}
         </g>}
+        {quiz.id !== "provinces" && (
+          <g className="label-layer" aria-hidden="true">
+            {orderedFeatures
+              .filter((feature) => correctIds.includes(feature.id))
+              .map((feature) => {
+                const center = feature.plates?.length
+                  ? provinceSetCenter(feature.plates, provinces)
+                  : featureCenter(feature);
+                const placement = labelPlacements.get(feature.id);
+                if (!placement) return null;
+                return (
+                  <g key={`label-${feature.id}`}>
+                    {Math.hypot(placement.x - center[0], placement.y - center[1]) > 20 && (
+                      <line
+                        className="geo-label-leader"
+                        x1={center[0]}
+                        y1={center[1]}
+                        x2={placement.x}
+                        y2={placement.y - 10}
+                      />
+                    )}
+                    <g
+                      className="geo-label"
+                      data-label-for={feature.id}
+                      transform={`translate(${placement.x} ${placement.y})`}
+                    >
+                      <rect x={-placement.width / 2} y="-19" width={placement.width} height="22" rx="5" />
+                      <text textAnchor="middle" y="-4">{feature.name}</text>
+                    </g>
+                  </g>
+                );
+              })}
+          </g>
+        )}
       </svg>
       <div className="map-province-readout">
         <span>81 İL SINIRI</span>
