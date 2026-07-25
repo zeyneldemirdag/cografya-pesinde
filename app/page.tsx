@@ -354,6 +354,27 @@ const GRASS_VEGETATION_FEATURES: Feature[] = [
   f("alpine-meadow-veg", "Alpin Çayır", 69, 27, 45, 12, "region"),
 ];
 
+const DENSE_POPULATION_FEATURES: Feature[] = [
+  f("catalca-kocaeli-pop", "Çatalca-Kocaeli Yarımadası · Sık", 20, 27, 20, 10, "region"),
+  f("coastal-aegean-pop", "Kıyı Ege · Sık", 18, 53, 15, 25, "region"),
+  f("antalya-pop", "Antalya Yöresi · Sık", 28, 70, 11, 8, "region"),
+  f("ankara-eskisehir-pop", "Ankara-Eskişehir Yöresi · Sık", 42, 43, 20, 12, "region"),
+  f("cukurova-gaziantep-pop", "Çukurova-Gaziantep Yöresi · Sık", 61, 66, 24, 10, "region"),
+  f("middle-east-black-sea-pop", "Orta ve Doğu Karadeniz Kıyıları · Sık", 69, 20, 34, 8, "region"),
+];
+
+const SPARSE_POPULATION_FEATURES: Feature[] = [
+  f("yildiz-pop", "Yıldız Dağları · Seyrek", 9, 17, 17, 10, "region"),
+  f("canakkale-pop", "Çanakkale Çevresi · Seyrek", 10, 37, 12, 15, "region"),
+  f("sinop-pop", "Sinop Çevresi · Seyrek", 48, 16, 12, 8, "region"),
+  f("mentese-pop", "Menteşe Yöresi · Seyrek", 20, 67, 14, 14, "region"),
+  f("teke-pop", "Teke Yöresi · Seyrek", 28, 66, 13, 14, "region"),
+  f("taseli-pop", "Taşeli Yöresi · Seyrek", 43, 69, 18, 11, "region"),
+  f("tuz-lake-pop", "Tuz Gölü Çevresi · Seyrek", 46, 50, 17, 14, "region"),
+  f("erzurum-kars-pop", "Erzurum-Kars Yöresi · Seyrek", 82, 31, 21, 18, "region"),
+  f("hakkari-pop", "Hakkâri Yöresi · Seyrek", 90, 67, 13, 12, "region"),
+];
+
 const NATURAL_TOURISM_FEATURES: Feature[] = [
   f("uludag-tour", "Uludağ · Bursa", 50, 50, 5, 4, "city"),
   f("kartalkaya-tour", "Kartalkaya · Bolu", 50, 50, 5, 4, "city"),
@@ -1031,18 +1052,32 @@ const QUIZZES: Quiz[] = [
   {
     id: "population",
     group: "Beşerî",
-    title: "Nüfus Yoğunluğu",
-    eyebrow: "Beşerî coğrafya · Nüfus",
-    description: "Yoğun nüfuslu çekim alanlarını seç.",
+    title: "Nüfusun Sık ve Seyrek Olduğu Yerler",
+    eyebrow: "Beşerî coğrafya · Nüfus · Tümü",
+    description: "MEB haritasındaki sık ve seyrek nüfuslu yöreleri birlikte bul.",
     color: "#8eaa46",
     icon: "●",
-    features: [
-      fp("marmara-pop", "Çatalca-Kocaeli", 19, 27, 18, 11, [34, 41, 59]),
-      fp("ege-pop", "Kıyı Ege", 17, 53, 11, 24, [9, 35, 45]),
-      fp("cukur-pop", "Çukurova", 57, 68, 17, 10, [1, 33, 80]),
-      fp("ankara-pop", "Ankara Çevresi", 43, 42, 12, 11, [6]),
-      fp("samsun-pop", "Samsun Çevresi", 58, 21, 11, 8, [55]),
-    ],
+    features: [...DENSE_POPULATION_FEATURES, ...SPARSE_POPULATION_FEATURES],
+  },
+  {
+    id: "dense-population",
+    group: "Beşerî",
+    title: "Sık Nüfuslu Yöreler",
+    eyebrow: "Beşerî coğrafya · Nüfus · Sık",
+    description: "Ulaşım, sanayi, ticaret, tarım ve turizmle nüfuslanan başlıca yöreleri bul.",
+    color: "#54a76b",
+    icon: "●",
+    features: [...DENSE_POPULATION_FEATURES],
+  },
+  {
+    id: "sparse-population",
+    group: "Beşerî",
+    title: "Seyrek Nüfuslu Yöreler",
+    eyebrow: "Beşerî coğrafya · Nüfus · Seyrek",
+    description: "Dağlık, karstik, kurak veya ekonomik etkinliği sınırlı başlıca yöreleri bul.",
+    color: "#b98b45",
+    icon: "○",
+    features: [...SPARSE_POPULATION_FEATURES],
   },
   {
     id: "climate",
@@ -1876,8 +1911,16 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page39.html",
   },
   population: {
-    label: "TÜİK nüfus ve demografi verileri",
-    url: "https://data.tuik.gov.tr/Kategori/GetKategori?p=nufus-ve-demografi-109",
+    label: "MEB Türkiye’de nüfus etkinliği",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/defterim/10/cografya/files/basic-html/page139.html",
+  },
+  "dense-population": {
+    label: "MEB sık nüfuslu yöreler",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/defterim/10/cografya/files/basic-html/page139.html",
+  },
+  "sparse-population": {
+    label: "MEB seyrek nüfuslu yöreler",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/defterim/10/cografya/files/basic-html/page139.html",
   },
   climate: {
     label: "MEB Türkiye iklim tipleri + MGM",
@@ -2109,6 +2152,56 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "catalca-kocaeli-pop": [
+    [[27.45, 41.55], [28.35, 41.38], [29.15, 41.18], [30.15, 41.18], [30.82, 40.92], [30.55, 40.55], [29.55, 40.62], [28.65, 40.78], [27.8, 40.92]],
+  ],
+  "coastal-aegean-pop": [
+    [[26.65, 39.42], [27.18, 39.34], [27.78, 39.15], [28.15, 39.2], [28.0, 38.94], [27.42, 38.88], [26.82, 39.03]],
+    [[26.65, 38.72], [27.22, 38.66], [28.2, 38.4], [28.72, 38.48], [28.48, 38.17], [27.68, 38.22], [26.85, 38.44]],
+    [[26.85, 38.22], [27.32, 38.05], [28.42, 37.72], [29.12, 37.65], [28.78, 37.36], [27.85, 37.55], [27.08, 37.82]],
+  ],
+  "antalya-pop": [
+    [[30.2, 36.94], [30.45, 36.62], [30.93, 36.5], [31.3, 36.63], [31.18, 36.94], [30.75, 37.08], [30.35, 37.08]],
+  ],
+  "ankara-eskisehir-pop": [
+    [[29.75, 39.95], [30.18, 39.52], [30.78, 39.38], [31.2, 39.62], [30.92, 39.98], [30.25, 40.08]],
+    [[31.55, 40.12], [32.15, 39.72], [33.08, 39.58], [33.82, 39.82], [33.62, 40.18], [32.72, 40.3], [31.95, 40.28]],
+  ],
+  "cukurova-gaziantep-pop": [
+    [[34.18, 37.15], [34.7, 36.82], [35.55, 36.67], [36.25, 36.82], [36.15, 37.15], [35.42, 37.35], [34.65, 37.32]],
+    [[36.55, 37.45], [36.92, 36.88], [37.72, 36.72], [38.35, 36.98], [38.15, 37.48], [37.45, 37.68], [36.82, 37.68]],
+  ],
+  "middle-east-black-sea-pop": [
+    [[34.75, 41.48], [35.55, 41.63], [36.45, 41.55], [37.35, 41.28], [37.18, 40.98], [36.32, 41.1], [35.48, 41.22]],
+    [[37.3, 41.3], [38.28, 41.42], [39.42, 41.2], [40.45, 41.08], [41.55, 41.28], [41.38, 40.9], [40.35, 40.72], [39.28, 40.88], [38.2, 41.0]],
+  ],
+  "yildiz-pop": [
+    [[25.9, 41.72], [26.45, 42.08], [27.45, 42.1], [28.55, 41.92], [29.0, 41.45], [28.28, 41.18], [27.35, 41.27], [26.45, 41.35]],
+  ],
+  "canakkale-pop": [
+    [[25.7, 40.45], [26.05, 39.82], [26.72, 39.42], [27.5, 39.55], [27.62, 40.05], [27.15, 40.52], [26.4, 40.72]],
+  ],
+  "sinop-pop": [
+    [[34.2, 41.62], [34.65, 41.98], [35.25, 42.12], [35.82, 41.82], [35.68, 41.45], [35.05, 41.35], [34.45, 41.42]],
+  ],
+  "mentese-pop": [
+    [[27.25, 37.52], [27.72, 36.82], [28.48, 36.42], [29.2, 36.58], [29.35, 37.18], [28.92, 37.72], [28.15, 37.88], [27.55, 37.82]],
+  ],
+  "teke-pop": [
+    [[28.85, 37.32], [29.18, 36.65], [29.72, 36.25], [30.35, 36.25], [30.52, 36.58], [30.15, 37.05], [29.72, 37.5], [29.18, 37.52]],
+  ],
+  "taseli-pop": [
+    [[31.18, 37.22], [31.7, 36.48], [32.55, 36.08], [33.72, 36.05], [34.35, 36.38], [34.02, 36.85], [33.2, 37.22], [32.18, 37.42]],
+  ],
+  "tuz-lake-pop": [
+    [[32.35, 39.08], [32.72, 38.38], [33.42, 37.92], [34.18, 38.08], [34.72, 38.62], [34.45, 39.18], [33.65, 39.52], [32.88, 39.45]],
+  ],
+  "erzurum-kars-pop": [
+    [[39.9, 40.82], [40.35, 39.82], [41.18, 39.35], [42.25, 39.32], [43.38, 39.72], [43.85, 40.48], [43.45, 41.18], [42.55, 41.52], [41.38, 41.42], [40.48, 41.22]],
+  ],
+  "hakkari-pop": [
+    [[41.95, 37.82], [42.42, 37.18], [43.18, 36.75], [44.2, 36.58], [44.82, 36.92], [44.48, 37.5], [43.78, 37.88], [42.85, 38.05]],
+  ],
   "kalankli-teke-taseli": [
     [[29.1, 36.35], [29.8, 36.05], [30.7, 36.0], [31.2, 36.2], [30.6, 36.45], [29.8, 36.55]],
     [[31.8, 36.2], [32.8, 36.0], [34.4, 36.0], [34.7, 36.25], [33.4, 36.45], [32.3, 36.5]],

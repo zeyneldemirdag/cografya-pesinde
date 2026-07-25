@@ -146,6 +146,7 @@ const coverageComparisons = [
   ["bridges-tunnels", ["bridges", "tunnels"]],
   ["soils", ["zonal-soils", "intrazonal-soils", "azonal-soils"]],
   ["vegetation", ["forest-vegetation", "shrub-vegetation", "grass-vegetation"]],
+  ["population", ["dense-population", "sparse-population"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -157,6 +158,16 @@ const coverageComparisons = [
 });
 
 const officialExpectations = {
+  "dense-population": [
+    "Çatalca-Kocaeli Yarımadası", "Kıyı Ege", "Antalya Yöresi",
+    "Ankara-Eskişehir Yöresi", "Çukurova-Gaziantep Yöresi",
+    "Orta ve Doğu Karadeniz Kıyıları",
+  ],
+  "sparse-population": [
+    "Yıldız Dağları", "Çanakkale Çevresi", "Sinop Çevresi",
+    "Menteşe Yöresi", "Teke Yöresi", "Taşeli Yöresi",
+    "Tuz Gölü Çevresi", "Erzurum-Kars Yöresi", "Hakkâri Yöresi",
+  ],
   "forest-vegetation": [
     "Kuzey Anadolu Ormanları", "Akdeniz Ormanları",
     "Batı Anadolu Ormanları", "İç Bölge Ormanları",
@@ -383,7 +394,8 @@ const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected
 const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
   "glacial-mountains", "massifs", "straits", "gates", "passes", "mines", "energy", "development",
-  "industry", "population", "climate", "vegetation", "soils", "tourism",
+  "industry", "population", "dense-population", "sparse-population",
+  "climate", "vegetation", "soils", "tourism",
   "zonal-soils", "intrazonal-soils", "azonal-soils",
   "forest-vegetation", "shrub-vegetation", "grass-vegetation",
   "agriculture", "livestock", "ports", "marmara-ports", "black-sea-ports",
