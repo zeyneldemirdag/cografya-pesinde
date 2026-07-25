@@ -95,12 +95,14 @@ const conflicts = Object.entries(Object.groupBy([...unique.values()], (feature) 
   .filter(([, entries]) => new Set(entries.map((entry) => `${entry.name}|${entry.kind}`)).size > 1)
   .map(([id, entries]) => ({ id, variants: entries.map((entry) => `${entry.name} (${entry.kind})`) }));
 
-function quizFeatureNames(id) {
-  const marker = `    id: "${id}",`;
-  const start = source.indexOf(marker);
+function featureNamesInArray(marker, offset = 0) {
+  const start = source.indexOf(marker, offset);
   if (start < 0) return [];
   const featuresStart = source.indexOf("features: [", start);
-  const open = source.indexOf("[", featuresStart);
+  const arrayStart = featuresStart >= 0 && marker.includes("id:")
+    ? featuresStart
+    : source.indexOf("=", start);
+  const open = source.indexOf("[", arrayStart);
   let depth = 0;
   let end = open;
   for (; end < source.length; end += 1) {
@@ -110,8 +112,16 @@ function quizFeatureNames(id) {
       if (depth === 0) break;
     }
   }
-  return [...source.slice(open + 1, end).matchAll(/\b(?:f|fp)\(\s*"[^"]+"\s*,\s*"([^"]+)"/g)]
+  const body = source.slice(open + 1, end);
+  const direct = [...body.matchAll(/\b(?:f|fp)\(\s*"[^"]+"\s*,\s*"([^"]+)"/g)]
     .map((match) => match[1].split(" · ")[0]);
+  const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
+    .flatMap((match) => featureNamesInArray(`const ${match[1]}`));
+  return [...direct, ...spread];
+}
+
+function quizFeatureNames(id) {
+  return featureNamesInArray(`    id: "${id}",`);
 }
 
 const coverageComparisons = [
@@ -119,6 +129,7 @@ const coverageComparisons = [
   ["lakes-all", ["tectonic-lakes", "volcanic-set-lakes", "karstic-lakes", "volcanic-lakes"]],
   ["rivers", ["black-sea-rivers", "aegean-rivers", "mediterranean-rivers", "outbound-rivers", "inbound-rivers", "border-rivers"]],
   ["plains", ["delta-plains"]],
+  ["tourism", ["natural-tourism", "cultural-tourism"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -195,6 +206,25 @@ const officialExpectations = {
     "Kapulukaya Barajı", "Çubuk 1 Barajı", "Çubuk 2 Barajı", "Almus Barajı",
     "Hasan Uğurlu Barajı", "Suat Uğurlu Barajı", "Kılıçkaya Barajı",
     "Muratlı Barajı", "Borçka Barajı", "Deriner Barajı",
+  ],
+  "natural-tourism": [
+    "Uludağ", "Kartalkaya", "Erciyes", "Palandöken", "Kaçkar", "Beydağları",
+    "Nemrut Dağı ve Kalderası", "Ağrı Dağı", "Anzer Yaylası", "Ayder Yaylası",
+    "Kadırga Yaylası", "Perşembe Yaylası", "Saklıkent ve Beydağı", "Çamlıyayla",
+    "Horzum Yaylası", "Tekir Yaylası", "Karacabey Longozu", "İğneada Longozu",
+    "İzmir Kuş Cenneti", "Manyas Kuş Cenneti", "Kızılırmak Deltası Kuş Cenneti",
+    "Kapadokya Peribacaları", "Pamukkale Travertenleri", "Akçalı Travertenleri",
+    "Karain Mağarası", "Damlataş Mağarası", "Dim Mağarası", "Beldibi Mağarası",
+    "İnsuyu Mağarası", "Gilindire Mağarası", "Ballıca Mağarası", "Gölcük Kalderası",
+    "Kula Volkanik Alanı", "Meke Gölü", "Acıgöl Maarı",
+  ],
+  "cultural-tourism": [
+    "Ayasofya", "Sultan Ahmet Camii", "Topkapı Sarayı", "Dolmabahçe Sarayı",
+    "Meryem Ana Evi", "Gök Medrese", "Selimiye Camii", "İshak Paşa Sarayı",
+    "Göbeklitepe", "Çatalhöyük", "Alacahöyük", "Hattuşaş", "Arslantepe", "Efes",
+    "Çanakkale Savaşları Gelibolu Tarihî Alanı", "Başkomutan Tarihî Millî Parkı",
+    "İstiklal Yolu Tarihî Millî Parkı", "Malazgirt Meydan Muharebesi Tarihî Millî Parkı",
+    "Sakarya Meydan Muharebesi Tarihî Millî Parkı",
   ],
   gates: [
     "Pazarkule", "İpsala", "Kapıkule", "Hamzabeyli", "Dereköy",
