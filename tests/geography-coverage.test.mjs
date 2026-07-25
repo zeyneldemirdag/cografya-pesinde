@@ -41,6 +41,10 @@ test("grup kaynağının yetersiz kaldığı oyunların konuya özel resmî kayn
   assert.deepEqual(report.missingSourceOverrides, []);
 });
 
+test("hiçbir oyun yinelenen teknik kimlik yüzünden bir hedefi gizlemez", () => {
+  assert.deepEqual(report.duplicateQuizFeatureIds, []);
+});
+
 test("kapalı havza oyunu resmî CBS sınırlarını kullanır", () => {
   const basinData = JSON.parse(
     fs.readFileSync(

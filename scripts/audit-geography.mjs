@@ -136,9 +136,49 @@ function featureNamesInArray(marker, offset = 0) {
   return [...direct, ...spread, ...referenced];
 }
 
+function featureIdsInArray(marker, offset = 0) {
+  const start = source.indexOf(marker, offset);
+  if (start < 0) return [];
+  const featuresStart = source.indexOf("features: [", start);
+  const arrayStart = featuresStart >= 0 && marker.includes("id:")
+    ? featuresStart
+    : source.indexOf("=", start);
+  const open = source.indexOf("[", arrayStart);
+  let depth = 0;
+  let end = open;
+  for (; end < source.length; end += 1) {
+    if (source[end] === "[") depth += 1;
+    if (source[end] === "]") {
+      depth -= 1;
+      if (depth === 0) break;
+    }
+  }
+  const body = source.slice(open + 1, end);
+  const direct = [...body.matchAll(/\b(?:f|fp)\(\s*"([^"]+)"/g)]
+    .map((match) => match[1]);
+  const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
+    .flatMap((match) => featureIdsInArray(`const ${match[1]}`));
+  const referenced = body.includes("industrySubset")
+    ? [...body.matchAll(/"([^"]+-industry)"/g)].map((match) => match[1])
+    : [];
+  return [...direct, ...spread, ...referenced];
+}
+
 function quizFeatureNames(id) {
   return featureNamesInArray(`    id: "${id}",`);
 }
+
+const quizzesStart = source.indexOf("const QUIZZES");
+const quizzesEnd = source.indexOf("const GROUPS", quizzesStart);
+const quizIds = [...source.slice(quizzesStart, quizzesEnd).matchAll(/^\s{4}id: "([^"]+)",/gm)]
+  .map((match) => match[1]);
+const duplicateQuizFeatureIds = quizIds.flatMap((quiz) => {
+  const ids = featureIdsInArray(`    id: "${quiz}",`);
+  const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
+  return duplicates.length > 0
+    ? [{ quiz, sourceCount: ids.length, uniqueCount: new Set(ids).size, duplicates }]
+    : [];
+});
 
 const coverageComparisons = [
   ["mountains-all", ["fold-mountains", "fault-mountains", "volcanic-mountains", "north-fold-mountains", "south-fold-mountains", "glacial-mountains"]],
@@ -541,4 +581,5 @@ console.log(JSON.stringify({
     .filter((feature) => feature.kind === "lake" && feature.geometry !== "exact-lake")
     .map(({ id, name, geometry }) => ({ id, name, geometry })),
   missingSourceOverrides,
+  duplicateQuizFeatureIds,
 }, null, 2));
