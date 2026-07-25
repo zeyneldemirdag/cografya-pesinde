@@ -145,6 +145,7 @@ const coverageComparisons = [
   ["ports", ["marmara-ports", "black-sea-ports", "aegean-ports", "mediterranean-ports"]],
   ["bridges-tunnels", ["bridges", "tunnels"]],
   ["soils", ["zonal-soils", "intrazonal-soils", "azonal-soils"]],
+  ["vegetation", ["forest-vegetation", "shrub-vegetation", "grass-vegetation"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -156,6 +157,16 @@ const coverageComparisons = [
 });
 
 const officialExpectations = {
+  "forest-vegetation": [
+    "Kuzey Anadolu Ormanları", "Akdeniz Ormanları",
+    "Batı Anadolu Ormanları", "İç Bölge Ormanları",
+  ],
+  "shrub-vegetation": [
+    "Maki", "Garig (Frigana)", "Psödomaki",
+  ],
+  "grass-vegetation": [
+    "Bozkır", "Antropojen Bozkır", "Çayır", "Alpin Çayır",
+  ],
   "zonal-soils": [
     "Terra Rossa", "Kahverengi Orman Toprağı", "Podzol", "Çernezyom",
     "Kestane Renkli Bozkır Toprağı", "Kahverengi Bozkır Toprağı",
@@ -374,6 +385,7 @@ const sourceOverrideRequired = [
   "glacial-mountains", "massifs", "straits", "gates", "passes", "mines", "energy", "development",
   "industry", "population", "climate", "vegetation", "soils", "tourism",
   "zonal-soils", "intrazonal-soils", "azonal-soils",
+  "forest-vegetation", "shrub-vegetation", "grass-vegetation",
   "agriculture", "livestock", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
   "bridges", "tunnels", "cities", "agricultural-function-cities",

@@ -80,6 +80,9 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /id: "zonal-soils"/);
   assert.match(page, /id: "intrazonal-soils"/);
   assert.match(page, /id: "azonal-soils"/);
+  assert.match(page, /id: "forest-vegetation"/);
+  assert.match(page, /id: "shrub-vegetation"/);
+  assert.match(page, /id: "grass-vegetation"/);
   assert.match(styles, /\.geo-feature--correct\s*\{\s*pointer-events:\s*none;/);
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);

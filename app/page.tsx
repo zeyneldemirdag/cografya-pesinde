@@ -334,6 +334,26 @@ const AZONAL_SOIL_FEATURES: Feature[] = [
   f("moraine-soil", "Moren", 70, 30, 35, 12, "region"),
 ];
 
+const FOREST_VEGETATION_FEATURES: Feature[] = [
+  f("forest-black", "Kuzey Anadolu Ormanları", 61, 20, 55, 10, "region"),
+  f("forest-med", "Akdeniz Ormanları", 46, 66, 48, 10, "region"),
+  f("forest-west", "Batı Anadolu Ormanları", 23, 47, 20, 22, "region"),
+  f("forest-interior", "İç Bölge Ormanları", 61, 44, 45, 15, "region"),
+];
+
+const SHRUB_VEGETATION_FEATURES: Feature[] = [
+  f("maquis", "Maki", 35, 69, 50, 11, "region"),
+  f("garig-veg", "Garig (Frigana)", 31, 71, 42, 9, "region"),
+  f("pseudomaquis-veg", "Psödomaki", 60, 20, 54, 7, "region"),
+];
+
+const GRASS_VEGETATION_FEATURES: Feature[] = [
+  f("step", "Bozkır", 54, 48, 45, 24, "region"),
+  f("anthro-step", "Antropojen Bozkır", 31, 45, 20, 14, "region"),
+  f("meadow", "Çayır · Erzurum-Kars-Ardahan", 83, 32, 22, 15, "region"),
+  f("alpine-meadow-veg", "Alpin Çayır", 69, 27, 45, 12, "region"),
+];
+
 const NATURAL_TOURISM_FEATURES: Feature[] = [
   f("uludag-tour", "Uludağ · Bursa", 50, 50, 5, 4, "city"),
   f("kartalkaya-tour", "Kartalkaya · Bolu", 50, 50, 5, 4, "city"),
@@ -1043,17 +1063,41 @@ const QUIZZES: Quiz[] = [
     id: "vegetation",
     group: "Doğal",
     title: "Bitki Örtüsü",
-    eyebrow: "Doğal coğrafya · Bitkiler",
-    description: "Doğal bitki topluluklarının belirgin yayılış alanlarını bul.",
+    eyebrow: "Doğal coğrafya · Bitkiler · Tümü",
+    description: "MEB kapsamındaki orman, çalı ve ot topluluklarının Türkiye'deki yayılışını bul.",
     color: "#4d9660",
     icon: "♣",
-    features: [
-      f("forest-black", "Nemli Karadeniz Ormanları", 61, 20, 55, 10, "region"),
-      f("maquis", "Maki", 35, 69, 50, 11, "region"),
-      f("step", "Bozkır", 54, 48, 45, 24, "region"),
-      f("meadow", "Çayır", 83, 32, 22, 15, "region"),
-      f("anthro-step", "Antropojen Bozkır", 31, 45, 20, 14, "region"),
-    ],
+    features: [...FOREST_VEGETATION_FEATURES, ...SHRUB_VEGETATION_FEATURES, ...GRASS_VEGETATION_FEATURES],
+  },
+  {
+    id: "forest-vegetation",
+    group: "Doğal",
+    title: "Türkiye'nin Orman Bölgeleri",
+    eyebrow: "Doğal coğrafya · Bitkiler · Ağaç",
+    description: "Kuzey Anadolu, Akdeniz, Batı Anadolu ve İç Bölge ormanlarını bul.",
+    color: "#31714a",
+    icon: "♠",
+    features: [...FOREST_VEGETATION_FEATURES],
+  },
+  {
+    id: "shrub-vegetation",
+    group: "Doğal",
+    title: "Çalı Toplulukları",
+    eyebrow: "Doğal coğrafya · Bitkiler · Çalı",
+    description: "Maki, garig ve psödomakinin MEB'de verilen yayılış kuşaklarını bul.",
+    color: "#5d8c4c",
+    icon: "♣",
+    features: [...SHRUB_VEGETATION_FEATURES],
+  },
+  {
+    id: "grass-vegetation",
+    group: "Doğal",
+    title: "Ot Toplulukları",
+    eyebrow: "Doğal coğrafya · Bitkiler · Ot",
+    description: "Bozkır, antropojen bozkır, çayır ve alpin çayır alanlarını bul.",
+    color: "#7b9b48",
+    icon: "⌇",
+    features: [...GRASS_VEGETATION_FEATURES],
   },
   {
     id: "soils",
@@ -1840,8 +1884,20 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page48.html",
   },
   vegetation: {
-    label: "MEB doğal sistemler + OGM",
-    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page88.html",
+    label: "MEB Türkiye bitki toplulukları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page90.html",
+  },
+  "forest-vegetation": {
+    label: "MEB Türkiye orman bölgeleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page90.html",
+  },
+  "shrub-vegetation": {
+    label: "MEB Türkiye çalı toplulukları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page91.html",
+  },
+  "grass-vegetation": {
+    label: "MEB Türkiye ot toplulukları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page91.html",
   },
   soils: {
     label: "MEB Türkiye toprakları",
@@ -2077,15 +2133,41 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   "forest-black": [
     [[27.0, 41.8], [30.0, 41.8], [33.0, 41.8], [36.0, 41.7], [39.0, 41.4], [42.0, 41.4], [41.5, 40.4], [39.0, 40.3], [36.0, 40.6], [33.0, 40.5], [30.0, 40.6], [27.2, 40.9]],
   ],
+  "forest-med": [
+    [[29.0, 37.45], [30.5, 37.65], [32.0, 37.45], [33.8, 37.35], [35.5, 37.65], [36.65, 37.35], [36.3, 36.8], [34.7, 36.75], [32.8, 36.9], [31.0, 37.0], [29.5, 36.9]],
+  ],
+  "forest-west": [
+    [[26.55, 40.0], [27.5, 40.2], [28.3, 39.75], [28.0, 39.25], [27.0, 39.35]],
+    [[28.65, 40.4], [29.35, 40.4], [29.65, 39.85], [29.15, 39.55], [28.6, 39.8]],
+    [[27.2, 39.2], [28.4, 39.1], [29.3, 38.5], [29.0, 37.8], [28.1, 37.9], [27.3, 38.4]],
+  ],
+  "forest-interior": [
+    [[30.2, 40.25], [33.0, 40.45], [35.7, 40.2], [35.4, 39.75], [32.9, 39.85], [30.5, 39.8]],
+    [[30.5, 37.5], [32.5, 37.2], [34.8, 37.25], [35.3, 37.75], [33.0, 38.05], [31.0, 37.95]],
+    [[38.0, 39.2], [40.0, 39.55], [41.2, 39.2], [40.8, 38.65], [39.0, 38.65]],
+    [[41.7, 41.1], [43.4, 41.4], [43.7, 40.5], [42.3, 39.9], [41.5, 40.25]],
+  ],
   maquis: [
     [[26.0, 39.5], [26.7, 38.0], [28.2, 36.8], [29.5, 36.2], [29.8, 37.2], [28.8, 37.9], [27.8, 39.5]],
     [[29.2, 36.2], [31.5, 35.9], [34.0, 36.0], [36.7, 36.0], [36.8, 36.8], [35.2, 37.1], [33.2, 37.0], [31.0, 37.3], [29.6, 37.1]],
+  ],
+  "garig-veg": [
+    [[26.0, 39.55], [26.65, 38.25], [27.65, 37.1], [28.7, 36.55], [29.25, 36.35], [29.35, 36.75], [28.5, 37.25], [27.8, 38.2], [27.2, 39.3]],
+    [[29.2, 36.35], [30.4, 36.0], [31.8, 35.9], [32.2, 36.2], [31.4, 36.45], [30.0, 36.55]],
+    [[32.6, 36.05], [34.2, 35.95], [35.7, 36.35], [36.55, 36.05], [36.7, 36.45], [35.5, 36.75], [33.7, 36.55]],
+  ],
+  "pseudomaquis-veg": [
+    [[27.0, 41.72], [29.8, 41.72], [32.6, 41.72], [35.6, 41.65], [38.8, 41.35], [41.6, 41.35], [41.45, 40.95], [38.7, 40.95], [35.5, 41.15], [32.4, 41.12], [29.7, 41.1], [27.1, 41.25]],
   ],
   step: [
     [[29.8, 40.0], [32.0, 40.4], [35.2, 40.2], [38.2, 39.7], [41.3, 39.2], [42.0, 37.6], [39.5, 37.2], [36.5, 37.5], [33.8, 37.6], [31.2, 38.0], [29.5, 38.8]],
   ],
   meadow: [
     [[39.5, 41.2], [42.8, 41.7], [44.5, 40.8], [44.7, 39.1], [42.4, 39.1], [40.4, 39.8]],
+  ],
+  "alpine-meadow-veg": [
+    [[30.0, 40.85], [33.0, 41.25], [36.0, 41.05], [39.0, 40.65], [41.3, 40.85], [41.1, 40.45], [38.8, 40.2], [35.8, 40.45], [32.8, 40.55], [30.2, 40.45]],
+    [[29.2, 37.55], [31.5, 37.25], [34.0, 37.05], [36.2, 37.2], [36.0, 36.8], [33.7, 36.55], [31.2, 36.75], [29.4, 37.05]],
   ],
   "anthro-step": [
     [[27.8, 40.2], [29.3, 40.6], [31.3, 40.2], [32.0, 39.0], [30.9, 38.5], [28.9, 38.7], [27.5, 39.4]],
