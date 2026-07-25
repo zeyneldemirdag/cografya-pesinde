@@ -3454,10 +3454,10 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "osmangazi-b": [29.5158006, 40.7547337],
   "canakkale-b": [26.6368129, 40.339679],
   "avrasya-t": [28.9981122, 41.0059924],
-  "marmaray-t": [29.018, 41.007],
+  "marmaray-t": [29.0043517, 41.0144323],
   "bolu-t": [31.4589139, 40.7472274],
   "ovit-t": [40.7844019, 40.6211219],
-  "zigana-t": [39.47, 40.64],
+  "zigana-t": [39.4148249, 40.6698851],
 };
 
 const LABEL_OFFSETS: Record<string, Coordinate> = {
