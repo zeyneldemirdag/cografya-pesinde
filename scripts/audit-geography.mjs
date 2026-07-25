@@ -155,6 +155,10 @@ const coverageComparisons = [
 });
 
 const officialExpectations = {
+  massifs: [
+    "Yıldız Masifi", "Menderes Masifi", "Kırşehir Masifi",
+    "Alanya-Anamur Masifi", "Bitlis Masifi", "Kazdağı Masifi",
+  ],
   "agricultural-function-cities": [
     "Söke", "Osmaniye", "Akhisar", "Rize", "Bafra", "Malatya",
   ],
@@ -351,7 +355,7 @@ const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected
 
 const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
-  "glacial-mountains", "straits", "gates", "passes", "mines", "energy", "development",
+  "glacial-mountains", "massifs", "straits", "gates", "passes", "mines", "energy", "development",
   "industry", "population", "climate", "vegetation", "soils", "tourism",
   "agriculture", "livestock", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
