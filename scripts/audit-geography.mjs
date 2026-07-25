@@ -158,6 +158,11 @@ const coverageComparisons = [
 });
 
 const officialExpectations = {
+  regions: [
+    "Marmara Bölgesi", "Ege Bölgesi", "Akdeniz Bölgesi",
+    "Karadeniz Bölgesi", "İç Anadolu Bölgesi",
+    "Doğu Anadolu Bölgesi", "Güneydoğu Anadolu Bölgesi",
+  ],
   "dense-population": [
     "Çatalca-Kocaeli Yarımadası", "Kıyı Ege", "Antalya Yöresi",
     "Ankara-Eskişehir Yöresi", "Çukurova-Gaziantep Yöresi",
@@ -394,7 +399,7 @@ const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected
 const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
   "glacial-mountains", "massifs", "straits", "gates", "passes", "mines", "energy", "development",
-  "industry", "population", "dense-population", "sparse-population",
+  "industry", "population", "dense-population", "sparse-population", "regions",
   "climate", "vegetation", "soils", "tourism",
   "zonal-soils", "intrazonal-soils", "azonal-soils",
   "forest-vegetation", "shrub-vegetation", "grass-vegetation",

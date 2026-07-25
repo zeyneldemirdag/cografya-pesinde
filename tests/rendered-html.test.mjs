@@ -87,6 +87,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /id: "sparse-population"/);
   assert.match(page, /const DENSE_POPULATION_FEATURES/);
   assert.match(page, /const SPARSE_POPULATION_FEATURES/);
+  assert.match(page, /id: "regions"/);
+  assert.match(page, /1941 Türk Coğrafya Kongresi bölge haritası/);
   assert.match(styles, /\.geo-feature--correct\s*\{\s*pointer-events:\s*none;/);
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);
