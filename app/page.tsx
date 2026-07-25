@@ -16,6 +16,7 @@ type FeatureKind =
   | "pass"
   | "mine"
   | "energy"
+  | "dam"
   | "province";
 
 type Feature = {
@@ -804,18 +805,50 @@ const QUIZZES: Quiz[] = [
     group: "Sular",
     title: "Barajlar",
     eyebrow: "Sular · Barajlar",
-    description: "Başlıca barajları üzerinde kurulduğu akarsu çevresinde bul.",
+    description: "MEB listesindeki başlıca barajları, gerçek baraj gövdesi koordinatında bul.",
     color: "#3b8aa1",
     icon: "▰",
     features: [
-      f("ataturk-dam", "Atatürk Barajı", 71, 61, 8, 6, "lake"),
-      f("keban", "Keban Barajı", 70, 49, 7, 6, "lake"),
-      f("karakaya", "Karakaya Barajı", 70, 54, 7, 6, "lake"),
-      f("hirfanli", "Hirfanlı Barajı", 49, 45, 7, 6, "lake"),
-      f("altinkaya", "Altınkaya Barajı", 56, 25, 7, 6, "lake"),
-      f("deriner", "Deriner Barajı", 84, 25, 7, 6, "lake"),
-      f("borcka", "Borçka Barajı", 86, 23, 7, 6, "lake"),
-      f("ilisu", "Ilısu Barajı", 82, 63, 7, 6, "lake"),
+      f("keban-dam", "Keban Barajı · Fırat", 50, 50, 5, 4, "dam"),
+      f("karakaya-dam", "Karakaya Barajı · Fırat", 50, 50, 5, 4, "dam"),
+      f("ataturk-dam", "Atatürk Barajı · Fırat", 50, 50, 5, 4, "dam"),
+      f("birecik-dam", "Birecik Barajı · Fırat", 50, 50, 5, 4, "dam"),
+      f("karkamis-dam", "Karkamış Barajı · Fırat", 50, 50, 5, 4, "dam"),
+      f("kralkizi-dam", "Kralkızı Barajı · Dicle", 50, 50, 5, 4, "dam"),
+      f("ilisu-dam", "Ilısu Barajı · Dicle", 50, 50, 5, 4, "dam"),
+      f("batman-dam", "Batman Barajı · Dicle", 50, 50, 5, 4, "dam"),
+      f("dicle-dam", "Dicle Barajı · Dicle", 50, 50, 5, 4, "dam"),
+      f("devegecidi-dam", "Devegeçidi Barajı · Dicle", 50, 50, 5, 4, "dam"),
+      f("arpacay-dam", "Arpaçay Barajı · Aras", 50, 50, 5, 4, "dam"),
+      f("seyhan-dam", "Seyhan Barajı · Seyhan", 50, 50, 5, 4, "dam"),
+      f("catalan-dam", "Çatalan Barajı · Seyhan", 50, 50, 5, 4, "dam"),
+      f("sir-dam", "Sır Barajı · Ceyhan", 50, 50, 5, 4, "dam"),
+      f("aslantas-dam", "Aslantaş Barajı · Ceyhan", 50, 50, 5, 4, "dam"),
+      f("menzelet-dam", "Menzelet Barajı · Ceyhan", 50, 50, 5, 4, "dam"),
+      f("kartalkaya-dam", "Kartalkaya Barajı · Ceyhan", 50, 50, 5, 4, "dam"),
+      f("oymapinar-dam", "Oymapınar Barajı · Manavgat", 50, 50, 5, 4, "dam"),
+      f("demirkopru-dam", "Demirköprü Barajı · Gediz", 50, 50, 5, 4, "dam"),
+      f("kemer-dam", "Kemer Barajı · Büyük Menderes", 50, 50, 5, 4, "dam"),
+      f("adiguzel-dam", "Adıgüzel Barajı · Büyük Menderes", 50, 50, 5, 4, "dam"),
+      f("porsuk-dam", "Porsuk Barajı · Sakarya", 50, 50, 5, 4, "dam"),
+      f("bayindir-dam", "Bayındır Barajı · Sakarya", 50, 50, 5, 4, "dam"),
+      f("sariyar-dam", "Sarıyar (Hasan Polatkan) Barajı · Sakarya", 50, 50, 5, 4, "dam"),
+      f("gokcekaya-dam", "Gökçekaya Barajı · Sakarya", 50, 50, 5, 4, "dam"),
+      f("kurtbogazi-dam", "Kurtboğazı Barajı · Sakarya", 50, 50, 5, 4, "dam"),
+      f("hirfanli-dam", "Hirfanlı Barajı · Kızılırmak", 50, 50, 5, 4, "dam"),
+      f("derbent-dam", "Derbent Barajı · Kızılırmak", 50, 50, 5, 4, "dam"),
+      f("kesikkopru-dam", "Kesikköprü Barajı · Kızılırmak", 50, 50, 5, 4, "dam"),
+      f("altinkaya-dam", "Altınkaya Barajı · Kızılırmak", 50, 50, 5, 4, "dam"),
+      f("kapulukaya-dam", "Kapulukaya Barajı · Kızılırmak", 50, 50, 5, 4, "dam"),
+      f("cubuk1-dam", "Çubuk 1 Barajı · Kızılırmak", 50, 50, 5, 4, "dam"),
+      f("cubuk2-dam", "Çubuk 2 Barajı · Kızılırmak", 50, 50, 5, 4, "dam"),
+      f("almus-dam", "Almus Barajı · Yeşilırmak", 50, 50, 5, 4, "dam"),
+      f("hasanugurlu-dam", "Hasan Uğurlu Barajı · Yeşilırmak", 50, 50, 5, 4, "dam"),
+      f("suatugurlu-dam", "Suat Uğurlu Barajı · Yeşilırmak", 50, 50, 5, 4, "dam"),
+      f("kilickaya-dam", "Kılıçkaya Barajı · Yeşilırmak", 50, 50, 5, 4, "dam"),
+      f("muratli-dam", "Muratlı Barajı · Çoruh", 50, 50, 5, 4, "dam"),
+      f("borcka-dam", "Borçka Barajı · Çoruh", 50, 50, 5, 4, "dam"),
+      f("deriner-dam", "Deriner Barajı · Çoruh", 50, 50, 5, 4, "dam"),
     ],
   },
   {
@@ -1190,6 +1223,10 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     label: "Enerji Bakanlığı resmî haritaları",
     url: "https://enerji.gov.tr/bilgi-merkezi-haritalar",
   },
+  dams: {
+    label: "MEB başlıca barajlar + gerçek gövde koordinatları",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/cografya/10/unite1/files/basic-html/page79.html",
+  },
   development: {
     label: "Sanayi Bakanlığı bölgesel kalkınma",
     url: "https://www.sanayi.gov.tr/bolgesel-kalkinma-faaliyetleri",
@@ -1476,6 +1513,46 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "meke-vl": [33.64, 37.685],
   "acigol-karapinar": [33.666, 37.713],
   aygir: [42.823, 38.837],
+  "keban-dam": [38.7566096, 38.8080318],
+  "karakaya-dam": [39.1348903, 38.2258096],
+  "ataturk-dam": [38.3198488, 37.4805193],
+  "birecik-dam": [37.890014, 37.053973],
+  "karkamis-dam": [38.0335308, 36.8681117],
+  "kralkizi-dam": [40.0192214, 38.3476202],
+  "ilisu-dam": [41.8461144, 37.5314581],
+  "batman-dam": [41.2022529, 38.1596078],
+  "dicle-dam": [40.1768122, 38.2305638],
+  "devegecidi-dam": [39.9865272, 38.0585711],
+  "arpacay-dam": [43.6450159, 40.5627088],
+  "seyhan-dam": [35.3319783, 37.0392763],
+  "catalan-dam": [35.2798818, 37.1978175],
+  "sir-dam": [36.5956565, 37.5007666],
+  "aslantas-dam": [36.2719514, 37.2720947],
+  "menzelet-dam": [36.8502713, 37.6762981],
+  "kartalkaya-dam": [37.2389926, 37.4686816],
+  "oymapinar-dam": [31.5310808, 36.9078994],
+  "demirkopru-dam": [28.3109941, 38.6161815],
+  "kemer-dam": [28.5248427, 37.5718215],
+  "adiguzel-dam": [29.2057844, 38.1586598],
+  "porsuk-dam": [30.2791284, 39.6357423],
+  "bayindir-dam": [32.9926568, 39.9152713],
+  "sariyar-dam": [31.4146641, 40.0399775],
+  "gokcekaya-dam": [31.0151951, 40.0326683],
+  "kurtbogazi-dam": [32.7006007, 40.2698014],
+  "hirfanli-dam": [33.6730055, 39.1447265],
+  "derbent-dam": [35.8412827, 41.4614629],
+  "kesikkopru-dam": [33.4209485, 39.3959928],
+  "altinkaya-dam": [35.7257254, 41.3637882],
+  "kapulukaya-dam": [33.4837714, 39.7311474],
+  "cubuk1-dam": [32.9262609, 40.0014247],
+  "cubuk2-dam": [33.0155739, 40.2869288],
+  "almus-dam": [36.9020744, 40.407343],
+  "hasanugurlu-dam": [36.6462866, 40.9374358],
+  "suatugurlu-dam": [36.6710399, 41.0751136],
+  "kilickaya-dam": [38.1869778, 40.2429353],
+  "muratli-dam": [41.7140019, 41.4670671],
+  "borcka-dam": [41.68596, 41.3500252],
+  "deriner-dam": [41.8707143, 41.1716191],
   kapikule: [26.36, 41.72],
   ipsala: [26.38, 40.92],
   sarp: [41.55, 41.52],
@@ -1878,7 +1955,7 @@ function collisionAwareLabelPlacements(
 }
 
 function featureHitArea(feature: Feature) {
-  if (!["volcano", "city", "gate", "pass", "mine", "energy"].includes(feature.kind)) return null;
+  if (!["volcano", "city", "gate", "pass", "mine", "energy", "dam"].includes(feature.kind)) return null;
   const [cx, cy] = featureCenter(feature);
   return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
 }
@@ -1891,7 +1968,7 @@ function featureGraphic(
 ) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
-  const compactPoint = ["city", "gate", "mine", "energy"].includes(feature.kind);
+  const compactPoint = ["city", "gate", "mine", "energy", "dam"].includes(feature.kind);
   const width = compactPoint ? Math.max(Math.min(feature.w * 4.2, 30), 18) : Math.max(feature.w * 7.2, 20);
   const height = compactPoint ? Math.max(Math.min(feature.h * 2.2, 18), 11) : Math.max(feature.h * 3.1, 12);
   const usesRiverOverride = feature.kind === "river"
@@ -2030,6 +2107,20 @@ function featureGraphic(
       );
     }
     return <path d={`M${cx},${cy - height} L${cx + width / 2},${cy + height / 2} L${cx - width / 2},${cy + height / 2} Z`} className="geo-shape geo-shape--volcano" />;
+  }
+  if (feature.kind === "dam") {
+    return (
+      <g className="dam-glyph">
+        <path
+          d={`M${cx - width * .56},${cy - height * .55} L${cx - width * .42},${cy + height * .52} L${cx + width * .42},${cy + height * .52} L${cx + width * .56},${cy - height * .55} Z`}
+          className="geo-shape geo-shape--dam"
+        />
+        <path
+          d={`M${cx - width * .32},${cy - height * .14} H${cx + width * .32} M${cx - width * .25},${cy + height * .17} H${cx + width * .25}`}
+          className="dam-detail"
+        />
+      </g>
+    );
   }
   if (feature.kind === "city" || feature.kind === "gate" || feature.kind === "mine" || feature.kind === "energy") {
     return <path d={`M${cx},${cy - height} L${cx + width / 2},${cy} L${cx},${cy + height} L${cx - width / 2},${cy} Z`} className={`geo-shape geo-shape--${feature.kind}`} />;

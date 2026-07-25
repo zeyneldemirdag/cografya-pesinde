@@ -442,6 +442,19 @@ button { color: inherit; }
 .geo-shape--gate { fill: #f2c94c; stroke: #7f6417; }
 .geo-shape--mine { fill: #876c55; stroke: #4d3a2a; }
 .geo-shape--energy { fill: #e7b82f; stroke: #8a6b0a; }
+.geo-shape--dam {
+  fill: #43a8c7;
+  stroke: #0e5e78;
+  stroke-width: 3;
+}
+.dam-detail {
+  fill: none;
+  stroke: #dcf8ff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
 
 .geo-feature--wrong .geo-shape {
   fill: var(--red);
