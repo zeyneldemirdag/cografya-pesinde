@@ -89,6 +89,10 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /const SPARSE_POPULATION_FEATURES/);
   assert.match(page, /id: "regions"/);
   assert.match(page, /1941 Türk Coğrafya Kongresi bölge haritası/);
+  assert.match(page, /id: "grain-legume-crops"/);
+  assert.match(page, /id: "industrial-oil-crops"/);
+  assert.match(page, /id: "fruit-special-crops"/);
+  assert.match(page, /const GRAIN_LEGUME_FEATURES/);
   assert.match(styles, /\.geo-feature--correct\s*\{\s*pointer-events:\s*none;/);
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);
@@ -98,7 +102,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /f\("nemrut", "Nemrut Dağı".*"volcano"\)/);
   assert.match(page, /f\("cilo", "Cilo-Sat Dağları".*"mountain"/);
   assert.match(page, /geo-shape--distribution/);
-  assert.match(page, /fp\("tea", "Çay · Rize".*\[53\]\)/);
+  assert.match(page, /f\("tea", "Çay · Rize-Artvin-Trabzon".*"region"\)/);
+  assert.match(page, /\n  tea: \[/);
   assert.match(page, /fp\("cattle", "Büyükbaş · Erzurum-Kars".*\[25, 36, 75\]\)/);
   assert.match(
     page,

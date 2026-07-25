@@ -375,6 +375,38 @@ const SPARSE_POPULATION_FEATURES: Feature[] = [
   f("hakkari-pop", "Hakkâri Yöresi · Seyrek", 90, 67, 13, 12, "region"),
 ];
 
+const GRAIN_LEGUME_FEATURES: Feature[] = [
+  f("wheat", "Buğday · Konya-Ankara-Diyarbakır", 52, 49, 35, 18, "region"),
+  f("barley-ag", "Arpa · Konya-Ankara-Şanlıurfa", 53, 53, 34, 16, "region"),
+  f("corn", "Mısır · Çukurova-Amik-GAP-Kıyı Ege", 54, 59, 48, 20, "region"),
+  f("rice", "Çeltik · Edirne-Samsun-Balıkesir", 35, 34, 40, 18, "region"),
+  f("chickpea-ag", "Nohut · Kırşehir-Ankara", 49, 43, 18, 11, "region"),
+  f("bean-ag", "Fasulye · Konya-Niğde", 51, 59, 18, 11, "region"),
+  f("lentil", "Mercimek · Diyarbakır-Yozgat", 65, 53, 31, 15, "region"),
+];
+
+const INDUSTRIAL_OIL_CROP_FEATURES: Feature[] = [
+  f("tobacco", "Tütün · Denizli-Manisa-Adıyaman-Samsun", 44, 48, 46, 20, "region"),
+  f("sugarbeet", "Şeker Pancarı · Konya-Yozgat-Aksaray-Eskişehir", 49, 51, 30, 18, "region"),
+  f("cotton", "Pamuk · Şanlıurfa-Çukurova-Kıyı Ege-Iğdır", 59, 60, 57, 17, "region"),
+  f("sunflower", "Ayçiçeği · Trakya-Konya", 28, 36, 40, 17, "region"),
+  f("peanut-ag", "Yer Fıstığı · Adana-Osmaniye", 59, 66, 14, 8, "region"),
+  f("soybean-ag", "Soya Fasulyesi · Adana-Mersin-Samsun", 54, 50, 42, 18, "region"),
+];
+
+const FRUIT_SPECIAL_CROP_FEATURES: Feature[] = [
+  f("olive", "Zeytin · Manisa-Aydın-Bursa-Balıkesir", 23, 49, 20, 24, "region"),
+  f("hazelnut", "Fındık · Ordu-Giresun-Sakarya", 60, 21, 38, 8, "region"),
+  f("tea", "Çay · Rize-Artvin-Trabzon", 79, 19, 18, 7, "region"),
+  f("grape", "Üzüm · Manisa-Denizli-Mersin", 36, 56, 40, 18, "region"),
+  f("pistachio", "Antep Fıstığı · Gaziantep-Şanlıurfa", 72, 67, 15, 9, "region"),
+  f("citrus", "Turunçgiller · Akdeniz-Ege kıyıları", 46, 71, 51, 9, "region"),
+  f("banana", "Muz · Anamur-Alanya", 39, 74, 14, 6, "region"),
+  f("apricot", "Kayısı · Malatya", 68, 51, 8, 6, "region"),
+  f("fig", "İncir · Aydın", 18, 59, 8, 6, "region"),
+  f("apple", "Elma · Isparta", 35, 63, 8, 6, "region"),
+];
+
 const NATURAL_TOURISM_FEATURES: Feature[] = [
   f("uludag-tour", "Uludağ · Bursa", 50, 50, 5, 4, "city"),
   f("kartalkaya-tour", "Kartalkaya · Bolu", 50, 50, 5, 4, "city"),
@@ -1178,30 +1210,41 @@ const QUIZZES: Quiz[] = [
     id: "agriculture",
     group: "Ekonomi",
     title: "Başlıca Tarım Ürünleri",
-    eyebrow: "Ekonomi · Tarım",
-    description: "Ürünleri öne çıkan yetişme alanlarıyla eşleştir.",
+    eyebrow: "Ekonomi · Tarım · Tümü",
+    description: "MEB kapsamındaki tarım ürünlerini başlıca gerçek üretim odaklarıyla eşleştir.",
     color: "#79a43e",
     icon: "✳",
-    features: [
-      fp("tea", "Çay · Rize", 79, 21, 7, 6, [53]),
-      fp("hazelnut", "Fındık · Ordu-Giresun", 66, 21, 10, 6, [28, 52]),
-      fp("olive", "Zeytin · Kıyı Ege", 17, 50, 8, 19, [9, 10, 35, 45]),
-      fp("cotton", "Pamuk · Şanlıurfa", 75, 68, 10, 8, [63]),
-      fp("banana", "Muz · Anamur-Alanya", 40, 74, 13, 6, [7, 33]),
-      fp("apricot", "Kayısı · Malatya", 68, 51, 7, 6, [44]),
-      fp("grape", "Üzüm · Manisa", 20, 52, 7, 6, [45]),
-      fp("sunflower", "Ayçiçeği · Trakya", 9, 26, 11, 10, [22, 39, 59]),
-      fp("sugarbeet", "Şeker Pancarı · İç Anadolu", 49, 49, 20, 14, [6, 26, 38, 40, 42, 66]),
-      fp("fig", "İncir · Aydın", 18, 59, 7, 6, [9]),
-      fp("pistachio", "Antep Fıstığı · Gaziantep-Şanlıurfa", 72, 67, 13, 8, [27, 63]),
-      fp("citrus", "Turunçgiller · Akdeniz kıyıları", 50, 72, 32, 8, [1, 7, 31, 33, 80]),
-      fp("tobacco", "Tütün · Manisa", 20, 52, 7, 6, [45]),
-      fp("rice", "Çeltik · Edirne", 7, 27, 7, 6, [22]),
-      fp("apple", "Elma · Isparta", 35, 63, 7, 6, [32]),
-      fp("lentil", "Kırmızı Mercimek · Güneydoğu", 76, 65, 20, 10, [21, 47, 63]),
-      fp("wheat", "Buğday · İç Anadolu", 50, 48, 28, 18, [6, 18, 26, 40, 42, 66, 68, 70, 71]),
-      fp("corn", "Mısır · Adana-Samsun", 57, 47, 18, 26, [1, 55]),
-    ],
+    features: [...GRAIN_LEGUME_FEATURES, ...INDUSTRIAL_OIL_CROP_FEATURES, ...FRUIT_SPECIAL_CROP_FEATURES],
+  },
+  {
+    id: "grain-legume-crops",
+    group: "Ekonomi",
+    title: "Tahıllar ve Baklagiller",
+    eyebrow: "Ekonomi · Tarım · Tahıl ve baklagil",
+    description: "Buğdaydan mercimeğe başlıca tahıl ve baklagil üretim odaklarını bul.",
+    color: "#c89d43",
+    icon: "≋",
+    features: [...GRAIN_LEGUME_FEATURES],
+  },
+  {
+    id: "industrial-oil-crops",
+    group: "Ekonomi",
+    title: "Sanayi ve Yağ Bitkileri",
+    eyebrow: "Ekonomi · Tarım · Sanayi ve yağ",
+    description: "Tütün, pamuk, ayçiçeği ve diğer sanayi bitkilerinin üretim odaklarını bul.",
+    color: "#9f7342",
+    icon: "✺",
+    features: [...INDUSTRIAL_OIL_CROP_FEATURES],
+  },
+  {
+    id: "fruit-special-crops",
+    group: "Ekonomi",
+    title: "Meyveler ve Özel Ürünler",
+    eyebrow: "Ekonomi · Tarım · Meyve ve özel ürün",
+    description: "Zeytin, çay, fındık, turunçgil ve diğer özel ürünlerin başlıca alanlarını bul.",
+    color: "#4d9a58",
+    icon: "✿",
+    features: [...FRUIT_SPECIAL_CROP_FEATURES],
   },
   {
     id: "livestock",
@@ -1975,8 +2018,20 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page86.html",
   },
   agriculture: {
-    label: "Tarım ve Orman Bakanlığı + TÜİK",
-    url: "https://www.tarimorman.gov.tr/BUGEM/kumelenme/Link/12/Tuik-Istatistikleri",
+    label: "MEB Türkiye’de tarım ürünleri · s. 28-30",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page28.html",
+  },
+  "grain-legume-crops": {
+    label: "MEB tahıllar ve baklagiller",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page28.html",
+  },
+  "industrial-oil-crops": {
+    label: "MEB sanayi ve yağ bitkileri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page29.html",
+  },
+  "fruit-special-crops": {
+    label: "MEB meyveler ve özel ürünler",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page30.html",
   },
   livestock: {
     label: "Tarım ve Orman Bakanlığı + TÜİK",
@@ -2205,6 +2260,105 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   ],
   "hakkari-pop": [
     [[41.95, 37.82], [42.42, 37.18], [43.18, 36.75], [44.2, 36.58], [44.82, 36.92], [44.48, 37.5], [43.78, 37.88], [42.85, 38.05]],
+  ],
+  wheat: [
+    [[31.0, 38.95], [31.6, 37.75], [32.8, 37.35], [34.2, 37.7], [34.55, 38.55], [33.7, 39.05], [32.2, 39.2]],
+    [[31.25, 40.25], [31.8, 39.45], [32.8, 39.15], [33.75, 39.5], [33.55, 40.2], [32.55, 40.5]],
+    [[38.9, 38.75], [39.35, 37.75], [40.45, 37.3], [41.5, 37.65], [41.4, 38.45], [40.45, 38.95], [39.45, 39.0]],
+  ],
+  "barley-ag": [
+    [[31.2, 39.0], [31.75, 37.85], [32.9, 37.45], [34.0, 37.8], [34.25, 38.55], [33.4, 38.95], [32.1, 39.15]],
+    [[31.45, 40.15], [31.85, 39.5], [32.75, 39.25], [33.55, 39.55], [33.35, 40.15], [32.5, 40.38]],
+    [[37.4, 37.55], [37.8, 36.8], [38.9, 36.55], [40.0, 36.8], [39.8, 37.45], [38.8, 37.75]],
+  ],
+  corn: [
+    [[34.25, 37.18], [34.75, 36.75], [35.65, 36.62], [36.35, 36.82], [36.12, 37.22], [35.35, 37.38], [34.62, 37.35]],
+    [[35.85, 36.72], [36.05, 36.25], [36.65, 36.1], [36.95, 36.45], [36.65, 36.82], [36.2, 36.88]],
+    [[37.25, 37.55], [37.7, 36.85], [38.85, 36.55], [40.05, 36.85], [39.75, 37.45], [38.7, 37.72]],
+    [[26.75, 38.75], [27.15, 37.85], [28.25, 37.55], [29.0, 37.9], [28.62, 38.55], [27.65, 38.85]],
+    [[35.55, 41.7], [35.9, 41.25], [36.65, 41.05], [37.25, 41.3], [36.9, 41.65], [36.15, 41.82]],
+  ],
+  rice: [
+    [[25.75, 41.75], [26.0, 40.75], [26.75, 40.55], [27.0, 41.15], [26.7, 41.75]],
+    [[35.55, 41.72], [35.9, 41.25], [36.65, 41.1], [37.15, 41.42], [36.75, 41.72], [36.05, 41.82]],
+    [[27.15, 40.4], [27.55, 39.75], [28.25, 39.7], [28.6, 40.1], [28.18, 40.45], [27.55, 40.55]],
+  ],
+  "chickpea-ag": [
+    [[32.0, 40.05], [32.35, 39.25], [33.1, 38.95], [33.85, 39.25], [33.7, 39.9], [33.0, 40.2]],
+    [[33.3, 39.75], [33.65, 38.95], [34.45, 38.65], [35.15, 39.0], [35.0, 39.65], [34.2, 39.95]],
+  ],
+  "bean-ag": [
+    [[31.2, 38.75], [31.75, 37.75], [32.8, 37.4], [33.6, 37.85], [33.35, 38.65], [32.35, 39.0]],
+    [[33.75, 38.25], [34.05, 37.45], [34.8, 37.2], [35.25, 37.72], [34.95, 38.3], [34.3, 38.48]],
+  ],
+  lentil: [
+    [[38.85, 38.8], [39.3, 37.75], [40.4, 37.25], [41.5, 37.6], [41.35, 38.45], [40.35, 38.92], [39.35, 39.0]],
+    [[34.25, 40.15], [34.55, 39.25], [35.45, 38.95], [36.2, 39.4], [36.0, 40.0], [35.1, 40.3]],
+  ],
+  tobacco: [
+    [[27.35, 39.2], [27.75, 38.45], [28.65, 38.15], [29.25, 38.55], [28.95, 39.15], [28.1, 39.4]],
+    [[28.45, 38.2], [28.85, 37.35], [29.75, 37.1], [30.25, 37.7], [29.9, 38.25], [29.05, 38.48]],
+    [[37.65, 38.15], [38.05, 37.45], [38.85, 37.25], [39.35, 37.8], [39.0, 38.3], [38.3, 38.5]],
+    [[35.55, 41.65], [35.95, 41.15], [36.65, 41.05], [37.1, 41.38], [36.75, 41.72], [36.05, 41.8]],
+  ],
+  sugarbeet: [
+    [[30.0, 40.05], [30.4, 39.25], [31.25, 39.0], [31.8, 39.45], [31.55, 40.1], [30.75, 40.3]],
+    [[31.25, 38.9], [31.8, 37.75], [32.95, 37.4], [34.15, 37.8], [34.25, 38.65], [33.3, 39.05], [32.1, 39.1]],
+    [[34.2, 40.2], [34.6, 39.25], [35.5, 39.0], [36.25, 39.45], [36.0, 40.1], [35.1, 40.35]],
+  ],
+  cotton: [
+    [[37.3, 37.55], [37.75, 36.8], [38.9, 36.55], [40.15, 36.85], [39.8, 37.5], [38.75, 37.78]],
+    [[34.25, 37.15], [34.75, 36.75], [35.65, 36.62], [36.35, 36.82], [36.1, 37.2], [35.35, 37.38], [34.6, 37.35]],
+    [[26.7, 38.72], [27.1, 37.85], [28.2, 37.55], [29.0, 37.9], [28.65, 38.55], [27.65, 38.85]],
+    [[43.4, 40.15], [43.7, 39.65], [44.5, 39.55], [44.85, 39.9], [44.5, 40.2], [43.8, 40.32]],
+  ],
+  sunflower: [
+    [[25.7, 42.05], [26.1, 40.75], [27.2, 40.45], [28.3, 40.65], [29.1, 41.2], [28.75, 41.85], [27.5, 42.1], [26.4, 42.2]],
+    [[31.35, 38.9], [31.8, 37.85], [32.9, 37.5], [34.0, 37.85], [34.15, 38.65], [33.25, 39.0], [32.1, 39.1]],
+  ],
+  "peanut-ag": [
+    [[34.35, 37.2], [34.8, 36.72], [35.7, 36.62], [36.55, 36.9], [36.25, 37.35], [35.4, 37.5], [34.65, 37.42]],
+  ],
+  "soybean-ag": [
+    [[33.9, 37.15], [34.45, 36.68], [35.5, 36.55], [36.35, 36.78], [36.1, 37.2], [35.1, 37.38], [34.3, 37.35]],
+    [[35.55, 41.68], [35.9, 41.2], [36.65, 41.08], [37.2, 41.38], [36.8, 41.7], [36.05, 41.82]],
+  ],
+  olive: [
+    [[26.2, 39.8], [26.65, 38.2], [27.55, 37.1], [28.55, 36.75], [29.0, 37.25], [28.55, 38.1], [27.9, 39.15], [27.0, 40.0]],
+    [[27.2, 40.55], [27.5, 39.65], [28.45, 39.4], [29.25, 39.85], [29.1, 40.45], [28.25, 40.75]],
+  ],
+  hazelnut: [
+    [[30.2, 41.35], [31.0, 41.55], [32.0, 41.45], [33.0, 41.25], [33.0, 40.85], [32.0, 40.85], [31.0, 41.0], [30.3, 41.05]],
+    [[36.7, 41.25], [37.6, 41.4], [38.7, 41.2], [39.6, 41.0], [39.45, 40.65], [38.5, 40.72], [37.6, 40.9], [36.8, 40.95]],
+  ],
+  tea: [
+    [[39.45, 41.15], [40.25, 41.28], [41.15, 41.2], [42.05, 41.45], [42.0, 41.05], [41.15, 40.75], [40.2, 40.82], [39.5, 40.9]],
+  ],
+  grape: [
+    [[27.2, 39.25], [27.65, 38.45], [28.65, 38.2], [29.25, 38.65], [28.9, 39.25], [28.0, 39.45]],
+    [[28.45, 38.2], [28.9, 37.35], [29.8, 37.15], [30.25, 37.75], [29.9, 38.3], [29.05, 38.5]],
+    [[33.75, 36.85], [34.15, 36.3], [34.9, 36.1], [35.35, 36.55], [35.05, 36.95], [34.35, 37.05]],
+  ],
+  pistachio: [
+    [[36.55, 37.6], [36.95, 36.85], [37.95, 36.62], [38.55, 37.05], [38.2, 37.65], [37.3, 37.85]],
+    [[37.85, 37.45], [38.3, 36.7], [39.45, 36.58], [40.15, 37.0], [39.75, 37.55], [38.75, 37.75]],
+  ],
+  citrus: [
+    [[26.4, 38.9], [26.8, 37.8], [27.8, 36.85], [29.0, 36.35], [29.2, 36.75], [28.45, 37.45], [27.6, 38.45], [26.85, 39.3]],
+    [[29.0, 36.65], [30.2, 36.2], [31.8, 36.05], [33.4, 36.0], [35.0, 36.15], [36.65, 36.05], [36.7, 36.55], [35.2, 36.8], [33.5, 36.55], [31.8, 36.65], [30.25, 36.85]],
+    [[40.25, 41.2], [40.65, 40.95], [41.2, 40.9], [41.35, 41.15], [40.9, 41.35], [40.4, 41.35]],
+  ],
+  banana: [
+    [[31.7, 36.35], [32.3, 36.05], [33.2, 36.0], [34.2, 36.15], [34.0, 36.5], [33.1, 36.55], [32.2, 36.65]],
+  ],
+  apricot: [
+    [[37.85, 38.65], [38.05, 38.2], [38.7, 38.05], [39.1, 38.4], [38.8, 38.75], [38.2, 38.85]],
+  ],
+  fig: [
+    [[27.05, 38.05], [27.35, 37.45], [28.15, 37.25], [28.75, 37.65], [28.45, 38.15], [27.65, 38.32]],
+  ],
+  apple: [
+    [[30.05, 38.15], [30.3, 37.55], [31.0, 37.35], [31.45, 37.8], [31.1, 38.25], [30.5, 38.4]],
   ],
   "kalankli-teke-taseli": [
     [[29.1, 36.35], [29.8, 36.05], [30.7, 36.0], [31.2, 36.2], [30.6, 36.45], [29.8, 36.55]],

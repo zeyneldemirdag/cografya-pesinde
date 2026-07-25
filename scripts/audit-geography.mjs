@@ -147,6 +147,7 @@ const coverageComparisons = [
   ["soils", ["zonal-soils", "intrazonal-soils", "azonal-soils"]],
   ["vegetation", ["forest-vegetation", "shrub-vegetation", "grass-vegetation"]],
   ["population", ["dense-population", "sparse-population"]],
+  ["agriculture", ["grain-legume-crops", "industrial-oil-crops", "fruit-special-crops"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -364,11 +365,15 @@ const officialExpectations = {
     "Hasançelebi", "Tuz Gölü", "Çamaltı", "Seyitömer",
     "Afşin-Elbistan", "Soma", "Afyonkarahisar",
   ],
-  agriculture: [
-    "Çay", "Fındık", "Zeytin", "Pamuk", "Muz", "Kayısı", "Üzüm",
-    "Ayçiçeği", "Şeker Pancarı", "İncir", "Antep Fıstığı",
-    "Turunçgiller", "Tütün", "Çeltik", "Elma", "Kırmızı Mercimek",
-    "Buğday", "Mısır",
+  "grain-legume-crops": [
+    "Buğday", "Arpa", "Mısır", "Çeltik", "Nohut", "Fasulye", "Mercimek",
+  ],
+  "industrial-oil-crops": [
+    "Tütün", "Şeker Pancarı", "Pamuk", "Ayçiçeği", "Yer Fıstığı", "Soya Fasulyesi",
+  ],
+  "fruit-special-crops": [
+    "Zeytin", "Fındık", "Çay", "Üzüm", "Antep Fıstığı",
+    "Turunçgiller", "Muz", "Kayısı", "İncir", "Elma",
   ],
   livestock: [
     "Büyükbaş", "Koyun", "Kıl Keçisi", "İpek Böcekçiliği",
@@ -403,7 +408,8 @@ const sourceOverrideRequired = [
   "climate", "vegetation", "soils", "tourism",
   "zonal-soils", "intrazonal-soils", "azonal-soils",
   "forest-vegetation", "shrub-vegetation", "grass-vegetation",
-  "agriculture", "livestock", "ports", "marmara-ports", "black-sea-ports",
+  "agriculture", "grain-legume-crops", "industrial-oil-crops", "fruit-special-crops",
+  "livestock", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
   "bridges", "tunnels", "cities", "agricultural-function-cities",
   "industrial-function-cities", "mining-function-cities", "port-function-cities",
