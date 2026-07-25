@@ -456,6 +456,33 @@ button { color: inherit; }
   vector-effect: non-scaling-stroke;
   pointer-events: none;
 }
+.geo-shape--bridge {
+  fill: none;
+  stroke: #e8dbff;
+  stroke-width: 4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.bridge-detail {
+  fill: none;
+  stroke: #9c83de;
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.geo-shape--tunnel {
+  fill: #65569b;
+  stroke: #e8dbff;
+  stroke-width: 2.2;
+}
+.tunnel-detail {
+  fill: #09212a;
+  stroke: #dcd0ff;
+  stroke-width: 1.8;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
 .geo-shape--dam {
   fill: #43a8c7;
   stroke: #0e5e78;

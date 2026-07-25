@@ -18,6 +18,8 @@ type FeatureKind =
   | "energy"
   | "dam"
   | "port"
+  | "bridge"
+  | "tunnel"
   | "province";
 
 type Feature = {
@@ -701,18 +703,19 @@ const QUIZZES: Quiz[] = [
   {
     id: "passes",
     group: "Ulaşım",
-    title: "Geçitler",
+    title: "Türkiye'nin Başlıca Geçitleri",
     eyebrow: "Ulaşım · Geçitler",
-    description: "Dağ sıralarını aşan önemli geçitleri seç.",
+    description: "MEB sınav kapsamındaki başlıca geçitleri gerçek geçit koordinatında seç.",
     color: "#d98b38",
     icon: "⌃",
     features: [
-      f("bolu-pass", "Bolu Geçidi", 34, 27, 6, 5, "pass"),
+      f("bolu-pass", "Bolu Dağı Geçidi", 50, 50, 5, 4, "pass"),
       f("zigana-pass", "Zigana Geçidi", 70, 28, 6, 5, "pass"),
       f("gulek-pass", "Gülek Geçidi", 54, 69, 6, 5, "pass"),
       f("sertavul-pass", "Sertavul Geçidi", 48, 71, 6, 5, "pass"),
       f("belen-pass", "Belen Geçidi", 62, 73, 6, 5, "pass"),
       f("kop-pass", "Kop Geçidi", 73, 36, 6, 5, "pass"),
+      f("cubuk-pass", "Çubuk Beli Geçidi", 50, 50, 5, 4, "pass"),
     ],
   },
   {
@@ -1394,16 +1397,48 @@ const QUIZZES: Quiz[] = [
     color: "#7861bf",
     icon: "⌒",
     features: [
-      f("bogazici-b", "15 Temmuz Şehitler Köprüsü", 16, 24, 5, 4, "pass"),
-      f("fsm-b", "Fatih Sultan Mehmet Köprüsü", 16, 23, 5, 4, "pass"),
-      f("yss-b", "Yavuz Sultan Selim Köprüsü", 17, 22, 5, 4, "pass"),
-      f("osmangazi-b", "Osmangazi Köprüsü", 20, 31, 5, 4, "pass"),
-      f("canakkale-b", "1915 Çanakkale Köprüsü", 9, 35, 5, 4, "pass"),
-      f("avrasya-t", "Avrasya Tüneli", 16, 25, 5, 4, "pass"),
-      f("marmaray-t", "Marmaray", 16, 24, 5, 4, "pass"),
-      f("bolu-t", "Bolu Dağı Tüneli", 32, 28, 5, 4, "pass"),
-      f("ovit-t", "Ovit Tüneli", 77, 26, 5, 4, "pass"),
-      f("zigana-t", "Yeni Zigana Tüneli", 70, 27, 5, 4, "pass"),
+      f("bogazici-b", "15 Temmuz Şehitler Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("fsm-b", "Fatih Sultan Mehmet Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("yss-b", "Yavuz Sultan Selim Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("osmangazi-b", "Osmangazi Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("canakkale-b", "1915 Çanakkale Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("avrasya-t", "Avrasya Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("marmaray-t", "Marmaray", 50, 50, 5, 4, "tunnel"),
+      f("bolu-t", "Bolu Dağı Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("ovit-t", "Ovit Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("zigana-t", "Yeni Zigana Tüneli", 50, 50, 5, 4, "tunnel"),
+    ],
+  },
+  {
+    id: "bridges",
+    group: "Ulaşım",
+    title: "Başlıca Köprüler",
+    eyebrow: "Ulaşım · Büyük projeler · Alt konu",
+    description: "Boğaz ve körfez geçişlerindeki başlıca köprüleri gerçek orta noktalarında bul.",
+    color: "#7161b7",
+    icon: "⌒",
+    features: [
+      f("bogazici-b", "15 Temmuz Şehitler Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("fsm-b", "Fatih Sultan Mehmet Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("yss-b", "Yavuz Sultan Selim Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("osmangazi-b", "Osmangazi Köprüsü", 50, 50, 5, 4, "bridge"),
+      f("canakkale-b", "1915 Çanakkale Köprüsü", 50, 50, 5, 4, "bridge"),
+    ],
+  },
+  {
+    id: "tunnels",
+    group: "Ulaşım",
+    title: "Başlıca Tüneller",
+    eyebrow: "Ulaşım · Büyük projeler · Alt konu",
+    description: "Başlıca boğaz ve dağ tünellerini gerçek güzergâh orta noktalarında bul.",
+    color: "#6757a9",
+    icon: "∩",
+    features: [
+      f("avrasya-t", "Avrasya Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("marmaray-t", "Marmaray", 50, 50, 5, 4, "tunnel"),
+      f("bolu-t", "Bolu Dağı Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("ovit-t", "Ovit Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("zigana-t", "Yeni Zigana Tüneli", 50, 50, 5, 4, "tunnel"),
     ],
   },
   {
@@ -1506,8 +1541,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ticaret.gov.tr/gumruk-islemleri/sikca-sorulan-sorular/english/customs-offices",
   },
   passes: {
-    label: "KGM yol ağı ve geçit verileri",
-    url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Root/Haritalarr.aspx",
+    label: "MEB geçit soru kapsamı + KGM yol ağı",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/konu-pekistirme/ayt/cografya/files/basic-html/page183.html",
   },
   mines: {
     label: "MTA maden verileri + MEB",
@@ -1611,6 +1646,14 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   },
   "bridges-tunnels": {
     label: "KGM köprü ve tünel bilgileri",
+    url: "https://www.kgm.gov.tr/Sayfalar/SiteMap.aspx",
+  },
+  bridges: {
+    label: "KGM köprü bilgileri",
+    url: "https://www.kgm.gov.tr/Sayfalar/SiteMap.aspx",
+  },
+  tunnels: {
+    label: "KGM tünel bilgileri",
     url: "https://www.kgm.gov.tr/Sayfalar/SiteMap.aspx",
   },
 };
@@ -1906,12 +1949,13 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   karkamis: [38.01, 36.87],
   cobanbey: [37.56, 36.85],
   zeytidali: [36.66, 36.76],
-  "bolu-pass": [31.68, 40.63],
-  "zigana-pass": [39.4, 40.65],
-  "gulek-pass": [34.8, 37.3],
-  "sertavul-pass": [33.1, 36.88],
-  "belen-pass": [36.23, 36.48],
-  "kop-pass": [40.55, 40.03],
+  "bolu-pass": [31.4140658, 40.7473581],
+  "zigana-pass": [39.4051227, 40.6389544],
+  "gulek-pass": [34.7858856, 37.2853853],
+  "sertavul-pass": [33.2635938, 36.9150187],
+  "belen-pass": [36.2252927, 36.4812881],
+  "kop-pass": [40.5120823, 40.0365803],
+  "cubuk-pass": [30.49694, 37.1701959],
   zonguldak: [31.79, 41.45],
   divrigi: [38.12, 39.37],
   seyitomer: [29.58, 39.49],
@@ -2095,15 +2139,15 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "samsun-city": [36.33, 41.29],
   "erzurum-city": [41.27, 39.9],
   "diyarbakir-city": [40.23, 37.91],
-  "bogazici-b": [29.03, 41.05],
-  "fsm-b": [29.06, 41.09],
-  "yss-b": [29.11, 41.2],
-  "osmangazi-b": [29.51, 40.75],
-  "canakkale-b": [26.63, 40.34],
-  "avrasya-t": [29.02, 41.0],
-  "marmaray-t": [29.02, 41.0],
-  "bolu-t": [31.69, 40.65],
-  "ovit-t": [40.78, 40.62],
+  "bogazici-b": [29.0343866, 41.0454858],
+  "fsm-b": [29.0614398, 41.0913084],
+  "yss-b": [29.1117786, 41.2030695],
+  "osmangazi-b": [29.5158006, 40.7547337],
+  "canakkale-b": [26.6368129, 40.339679],
+  "avrasya-t": [28.9981122, 41.0059924],
+  "marmaray-t": [29.018, 41.007],
+  "bolu-t": [31.4589139, 40.7472274],
+  "ovit-t": [40.7844019, 40.6211219],
   "zigana-t": [39.47, 40.64],
 };
 
@@ -2296,8 +2340,11 @@ function riverShapeId(feature: Feature) {
 }
 
 function realLineFor(feature: Feature) {
+  const exactLine = REAL_LINES[feature.id];
+  if (exactLine) return exactLine;
+  if (!["mountain", "river"].includes(feature.kind)) return undefined;
   const canonicalId = feature.id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
-  return REAL_LINES[feature.id] ?? REAL_LINES[canonicalId];
+  return REAL_LINES[canonicalId];
 }
 
 function areaPolygonFor(feature: Feature) {
@@ -2418,7 +2465,7 @@ function collisionAwareLabelPlacements(
 }
 
 function featureHitArea(feature: Feature) {
-  if (!["volcano", "city", "gate", "pass", "mine", "energy", "dam", "port"].includes(feature.kind)) return null;
+  if (!["volcano", "city", "gate", "pass", "mine", "energy", "dam", "port", "bridge", "tunnel"].includes(feature.kind)) return null;
   const [cx, cy] = featureCenter(feature);
   return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
 }
@@ -2431,7 +2478,7 @@ function featureGraphic(
 ) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
-  const compactPoint = ["city", "gate", "mine", "energy", "dam", "port"].includes(feature.kind);
+  const compactPoint = ["city", "gate", "mine", "energy", "dam", "port", "bridge", "tunnel"].includes(feature.kind);
   const width = compactPoint ? Math.max(Math.min(feature.w * 4.2, 30), 18) : Math.max(feature.w * 7.2, 20);
   const height = compactPoint ? Math.max(Math.min(feature.h * 2.2, 18), 11) : Math.max(feature.h * 3.1, 12);
   const usesRiverOverride = feature.kind === "river"
@@ -2593,6 +2640,22 @@ function featureGraphic(
           d={`M${cx},${cy - height * .62} L${cx},${cy + height * .5} M${cx - width * .3},${cy - height * .25} L${cx + width * .3},${cy - height * .25} M${cx - width * .38},${cy + height * .08} Q${cx - width * .34},${cy + height * .55} ${cx},${cy + height * .58} Q${cx + width * .34},${cy + height * .55} ${cx + width * .38},${cy + height * .08}`}
           className="port-detail"
         />
+      </g>
+    );
+  }
+  if (feature.kind === "bridge") {
+    return (
+      <g className="bridge-glyph">
+        <path d={`M${cx - width * .62},${cy + height * .35} L${cx + width * .62},${cy + height * .35} M${cx - width * .46},${cy + height * .35} Q${cx},${cy - height * .72} ${cx + width * .46},${cy + height * .35}`} className="geo-shape geo-shape--bridge" />
+        <path d={`M${cx - width * .38},${cy - height * .02} L${cx - width * .38},${cy + height * .62} M${cx + width * .38},${cy - height * .02} L${cx + width * .38},${cy + height * .62}`} className="bridge-detail" />
+      </g>
+    );
+  }
+  if (feature.kind === "tunnel") {
+    return (
+      <g className="tunnel-glyph">
+        <path d={`M${cx - width * .58},${cy + height * .55} L${cx - width * .58},${cy} Q${cx - width * .52},${cy - height * .72} ${cx},${cy - height * .72} Q${cx + width * .52},${cy - height * .72} ${cx + width * .58},${cy} L${cx + width * .58},${cy + height * .55} Z`} className="geo-shape geo-shape--tunnel" />
+        <path d={`M${cx - width * .27},${cy + height * .52} L${cx - width * .27},${cy + height * .05} Q${cx},${cy - height * .34} ${cx + width * .27},${cy + height * .05} L${cx + width * .27},${cy + height * .52}`} className="tunnel-detail" />
       </g>
     );
   }

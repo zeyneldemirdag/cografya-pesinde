@@ -136,6 +136,7 @@ const coverageComparisons = [
   ["tourism", ["natural-tourism", "cultural-tourism"]],
   ["industry", ["food-industry", "textile-industry", "chemical-industry", "machine-industry"]],
   ["ports", ["marmara-ports", "black-sea-ports", "aegean-ports", "mediterranean-ports"]],
+  ["bridges-tunnels", ["bridges", "tunnels"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -264,6 +265,17 @@ const officialExpectations = {
     "Kapıköy", "Esendere", "Habur", "Üzümlü", "Cilvegözü",
     "Öncüpınar", "Karkamış", "Çobanbey", "Zeytindalı",
   ],
+  passes: [
+    "Bolu Dağı Geçidi", "Zigana Geçidi", "Gülek Geçidi", "Sertavul Geçidi",
+    "Belen Geçidi", "Kop Geçidi", "Çubuk Beli Geçidi",
+  ],
+  bridges: [
+    "15 Temmuz Şehitler Köprüsü", "Fatih Sultan Mehmet Köprüsü",
+    "Yavuz Sultan Selim Köprüsü", "Osmangazi Köprüsü", "1915 Çanakkale Köprüsü",
+  ],
+  tunnels: [
+    "Avrasya Tüneli", "Marmaray", "Bolu Dağı Tüneli", "Ovit Tüneli", "Yeni Zigana Tüneli",
+  ],
   ramsar: [
     "Sultan Sazlığı", "Kuş Gölü", "Kızılırmak Deltası", "Göksu Deltası",
     "Kuyucuk Gölü", "Nemrut Kalderası", "Burdur Gölü", "Seyfe Gölü",
@@ -315,6 +327,7 @@ const sourceOverrideRequired = [
   "industry", "population", "climate", "vegetation", "soils", "tourism",
   "agriculture", "livestock", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
+  "bridges", "tunnels",
 ];
 const missingSourceOverrides = sourceOverrideRequired.filter((id) => !sourceQuizKeys.has(id));
 
