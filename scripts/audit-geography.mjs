@@ -117,7 +117,11 @@ function featureNamesInArray(marker, offset = 0) {
     .map((match) => match[1].split(" · ")[0]);
   const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
     .flatMap((match) => featureNamesInArray(`const ${match[1]}`));
-  return [...direct, ...spread];
+  const referenced = [...body.matchAll(/"([^"]+-industry)"/g)]
+    .map((match) => features.find((feature) => feature.id === match[1])?.name)
+    .filter(Boolean)
+    .map((name) => name.split(" · ")[0]);
+  return [...direct, ...spread, ...referenced];
 }
 
 function quizFeatureNames(id) {
@@ -130,6 +134,7 @@ const coverageComparisons = [
   ["rivers", ["black-sea-rivers", "aegean-rivers", "mediterranean-rivers", "outbound-rivers", "inbound-rivers", "border-rivers"]],
   ["plains", ["delta-plains"]],
   ["tourism", ["natural-tourism", "cultural-tourism"]],
+  ["industry", ["food-industry", "textile-industry", "chemical-industry", "machine-industry"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -229,6 +234,28 @@ const officialExpectations = {
   energy: [
     "Çeşme", "Dinar", "Germencik", "Buharkent", "Akkuyu", "Sinop-İnceburun",
     "Atatürk Barajı", "Deriner", "Karapınar", "Afşin-Elbistan", "Çatalağzı", "Soma",
+  ],
+  "food-industry": [
+    "Konya", "İzmir", "Erzurum", "Balıkesir", "Kars", "Çanakkale", "Trabzon",
+    "Edirne", "Tekirdağ", "Edremit", "Ayvalık", "Gemlik", "Adana", "İstanbul", "Rize",
+  ],
+  "textile-industry": [
+    "Adana", "İzmir", "Denizli", "Aydın", "Antalya", "Manisa", "Gaziantep",
+    "İstanbul", "Bursa", "Kayseri", "Hereke", "Uşak", "Isparta", "Ankara",
+    "Bolu", "Tekirdağ",
+  ],
+  "chemical-industry": [
+    "Kastamonu", "Tekirdağ", "Bursa", "İzmir", "Ankara", "Düzce", "İstanbul",
+    "Kayseri", "İzmit", "Çaycuma", "Dalaman", "Balıkesir", "Taşköprü", "Aliağa",
+    "Kırıkkale", "Batman", "Bandırma", "İskenderun", "Ceyhan", "Mersin", "Kütahya",
+    "Gemlik", "Samsun", "Gaziantep", "Adapazarı", "Kırşehir", "Kırklareli",
+    "Eskişehir", "Afyonkarahisar", "Uşak", "Tokat", "Manisa", "Çan", "Bozüyük", "Söğüt",
+  ],
+  "machine-industry": [
+    "Bursa", "İzmir", "İstanbul", "İzmit", "Adapazarı", "Ankara", "Tekirdağ",
+    "Konya", "Gaziantep", "Manisa", "Eskişehir", "Sivas", "Gölcük", "Tuzla",
+    "Pendik", "Haliç", "Antalya", "Bodrum", "Maden", "Kırka", "Karadeniz Ereğli",
+    "Seydişehir", "Kırıkkale", "Çankırı", "İskenderun",
   ],
   gates: [
     "Pazarkule", "İpsala", "Kapıkule", "Hamzabeyli", "Dereköy",
