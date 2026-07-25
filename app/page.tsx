@@ -407,6 +407,25 @@ const FRUIT_SPECIAL_CROP_FEATURES: Feature[] = [
   f("apple", "Elma · Isparta", 35, 63, 8, 6, "region"),
 ];
 
+const SMALL_RUMINANT_LIVESTOCK_FEATURES: Feature[] = [
+  f("sheep-livestock", "Koyun · İç Kesim Bozkırları", 52, 49, 46, 25, "region"),
+  f("goat", "Kıl Keçisi · Toroslar", 46, 70, 42, 9, "region"),
+  f("angora-goat", "Tiftik Keçisi · İç ve Güneydoğu Anadolu", 58, 53, 43, 19, "region"),
+];
+
+const CATTLE_POULTRY_LIVESTOCK_FEATURES: Feature[] = [
+  f("pasture-cattle", "Mera Sığırcılığı · Kuzeydoğu Anadolu", 83, 32, 20, 15, "region"),
+  f("stable-cattle", "Ahır Sığırcılığı · Marmara-Ege-Akdeniz-İç Anadolu", 43, 50, 58, 35, "region"),
+  f("poultry", "Kümes Hayvancılığı · Bolu-Sakarya-Balıkesir-Manisa", 30, 35, 26, 17, "region"),
+];
+
+const OTHER_LIVESTOCK_FEATURES: Feature[] = [
+  f("silkworm", "İpek Böcekçiliği · Diyarbakır-Şanlıurfa-Antalya-Bursa", 53, 53, 61, 32, "region"),
+  f("beekeeping", "Arıcılık · 9 il", 58, 42, 70, 42, "region"),
+  f("sea-fishing", "Deniz Balıkçılığı · Karadeniz-Boğazlar-Marmara", 51, 20, 78, 10, "region"),
+  f("freshwater-fishing", "Tatlı Su Balıkçılığı · 5 göl", 51, 49, 55, 31, "region"),
+];
+
 const NATURAL_TOURISM_FEATURES: Feature[] = [
   f("uludag-tour", "Uludağ · Bursa", 50, 50, 5, 4, "city"),
   f("kartalkaya-tour", "Kartalkaya · Bolu", 50, 50, 5, 4, "city"),
@@ -1250,20 +1269,45 @@ const QUIZZES: Quiz[] = [
     id: "livestock",
     group: "Ekonomi",
     title: "Başlıca Hayvancılık Alanları",
-    eyebrow: "Ekonomi · Hayvancılık",
-    description: "Hayvancılık türlerinin yoğunlaştığı alanları bul.",
+    eyebrow: "Ekonomi · Hayvancılık · Tümü",
+    description: "MEB kapsamındaki hayvancılık türlerini gerçek yayılış alanlarıyla eşleştir.",
     color: "#aa7748",
     icon: "♜",
     features: [
-      fp("cattle", "Büyükbaş · Erzurum-Kars", 83, 32, 19, 13, [25, 36, 75]),
-      fp("sheep", "Koyun · İç Anadolu", 51, 49, 35, 22, [6, 18, 38, 40, 42, 50, 51, 66, 68, 70, 71]),
-      f("goat", "Kıl Keçisi · Toroslar", 46, 70, 42, 9, "region"),
-      fp("silkworm", "İpek Böcekçiliği · Bursa", 22, 34, 8, 7, [16]),
-      fp("beekeeping", "Arıcılık · Ordu", 65, 23, 10, 7, [52]),
-      fp("angora-goat", "Tiftik Keçisi · Ankara", 43, 42, 10, 8, [6]),
-      fp("poultry", "Kümes Hayvancılığı · Bolu", 34, 27, 10, 8, [14]),
-      fp("fishing", "Balıkçılık · Karadeniz", 69, 21, 32, 9, [8, 28, 52, 53, 55, 61]),
+      ...SMALL_RUMINANT_LIVESTOCK_FEATURES,
+      ...CATTLE_POULTRY_LIVESTOCK_FEATURES,
+      ...OTHER_LIVESTOCK_FEATURES,
     ],
+  },
+  {
+    id: "small-ruminant-livestock",
+    group: "Ekonomi",
+    title: "Küçükbaş Hayvancılık",
+    eyebrow: "Ekonomi · Hayvancılık · Küçükbaş",
+    description: "Koyun, kıl keçisi ve tiftik keçisinin yayılış alanlarını bul.",
+    color: "#b68755",
+    icon: "♞",
+    features: [...SMALL_RUMINANT_LIVESTOCK_FEATURES],
+  },
+  {
+    id: "cattle-poultry-livestock",
+    group: "Ekonomi",
+    title: "Sığır ve Kümes Hayvancılığı",
+    eyebrow: "Ekonomi · Hayvancılık · Büyükbaş ve kümes",
+    description: "Mera ve ahır sığırcılığı ile başlıca kümes hayvancılığı alanlarını ayırt et.",
+    color: "#8b6e50",
+    icon: "♝",
+    features: [...CATTLE_POULTRY_LIVESTOCK_FEATURES],
+  },
+  {
+    id: "other-livestock",
+    group: "Ekonomi",
+    title: "Diğer Hayvancılık ve Su Ürünleri",
+    eyebrow: "Ekonomi · Hayvancılık · Diğer",
+    description: "İpek böcekçiliği, arıcılık ve su ürünleri alanlarını bul.",
+    color: "#3d8791",
+    icon: "≋",
+    features: [...OTHER_LIVESTOCK_FEATURES],
   },
   {
     id: "ports",
@@ -2034,8 +2078,20 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page30.html",
   },
   livestock: {
-    label: "Tarım ve Orman Bakanlığı + TÜİK",
-    url: "https://arastirma.tarimorman.gov.tr/tepge/Sayfalar/Detay.aspx?TermId=7f477a6a-a8ea-4497-9ddb-173030b5be42&UrlSuffix=27",
+    label: "MEB Türkiye’de hayvancılık · s. 32",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page32.html",
+  },
+  "small-ruminant-livestock": {
+    label: "MEB küçükbaş hayvancılık",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page32.html",
+  },
+  "cattle-poultry-livestock": {
+    label: "MEB büyükbaş ve kümes hayvancılığı",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page32.html",
+  },
+  "other-livestock": {
+    label: "MEB arıcılık, ipek böcekçiliği ve su ürünleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page32.html",
   },
   ports: {
     label: "MEB başlıca limanlar + Ulaştırma Bakanlığı liman kayıtları",
@@ -2359,6 +2415,57 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   ],
   apple: [
     [[30.05, 38.15], [30.3, 37.55], [31.0, 37.35], [31.45, 37.8], [31.1, 38.25], [30.5, 38.4]],
+  ],
+  "sheep-livestock": [
+    [[28.7, 40.45], [29.5, 39.35], [30.9, 38.45], [32.3, 37.55], [34.4, 37.45], [36.2, 38.1], [36.75, 39.15], [35.8, 40.1], [33.8, 40.65], [31.5, 40.75]],
+    [[35.8, 39.7], [37.15, 38.55], [38.2, 37.25], [40.15, 36.65], [41.65, 37.25], [41.4, 38.55], [40.2, 39.45], [38.1, 40.05]],
+  ],
+  "angora-goat": [
+    [[30.2, 40.25], [31.15, 39.25], [33.25, 38.55], [35.7, 38.8], [36.2, 39.65], [34.7, 40.35], [32.25, 40.7]],
+    [[36.55, 38.1], [37.2, 36.85], [39.4, 36.45], [41.45, 37.05], [41.0, 38.1], [39.0, 38.65]],
+  ],
+  "pasture-cattle": [
+    [[39.15, 41.35], [40.2, 39.85], [41.55, 39.2], [43.2, 39.45], [44.2, 40.25], [43.35, 41.45], [41.55, 41.75], [40.1, 41.65]],
+  ],
+  "stable-cattle": [
+    [[26.0, 41.95], [27.4, 40.35], [29.7, 40.25], [30.65, 41.15], [29.2, 42.05], [27.1, 42.2]],
+    [[26.3, 39.75], [27.0, 37.65], [29.25, 36.65], [30.15, 37.55], [29.25, 39.05], [27.7, 40.0]],
+    [[29.1, 36.55], [30.9, 36.1], [33.35, 36.0], [35.7, 36.55], [36.5, 37.2], [34.55, 37.55], [32.2, 37.35], [30.25, 37.55]],
+    [[29.7, 40.35], [31.25, 38.15], [34.4, 37.5], [36.25, 38.45], [35.55, 40.2], [33.05, 40.8], [31.0, 40.7]],
+  ],
+  poultry: [
+    [[31.15, 41.05], [31.35, 40.55], [32.0, 40.45], [32.25, 40.85], [31.85, 41.15]],
+    [[29.85, 41.2], [30.05, 40.55], [30.75, 40.45], [31.05, 40.85], [30.65, 41.2]],
+    [[27.25, 40.25], [27.45, 39.45], [28.35, 39.25], [28.75, 39.85], [28.25, 40.35]],
+    [[27.35, 39.25], [27.65, 38.25], [28.65, 38.05], [29.15, 38.7], [28.7, 39.25]],
+  ],
+  silkworm: [
+    [[28.55, 40.55], [28.7, 39.9], [29.45, 39.75], [29.8, 40.25], [29.4, 40.65]],
+    [[30.05, 37.25], [30.25, 36.55], [31.1, 36.35], [31.35, 36.9], [30.9, 37.35]],
+    [[39.55, 38.5], [39.75, 37.6], [40.65, 37.35], [41.05, 38.0], [40.6, 38.55]],
+    [[37.8, 37.7], [38.1, 36.75], [39.2, 36.5], [39.65, 37.15], [39.15, 37.75]],
+  ],
+  beekeeping: [
+    [[42.35, 41.35], [42.55, 40.35], [43.55, 40.15], [44.05, 40.75], [43.55, 41.45]],
+    [[41.45, 38.95], [41.7, 38.05], [42.65, 37.8], [43.05, 38.4], [42.55, 39.0]],
+    [[42.9, 38.0], [43.15, 37.05], [44.25, 36.7], [44.65, 37.35], [44.05, 38.0]],
+    [[39.7, 41.45], [39.9, 40.75], [41.0, 40.65], [41.45, 41.15], [40.85, 41.5]],
+    [[37.05, 41.35], [37.25, 40.65], [38.25, 40.55], [38.65, 41.05], [38.1, 41.4]],
+    [[31.75, 40.35], [32.05, 39.45], [33.35, 39.25], [33.8, 40.0], [33.15, 40.55]],
+    [[27.35, 37.75], [27.75, 36.65], [28.95, 36.25], [29.45, 36.95], [28.8, 37.85]],
+    [[40.2, 40.65], [40.55, 39.45], [41.8, 39.1], [42.35, 39.95], [41.65, 40.75]],
+    [[31.35, 38.75], [31.75, 37.55], [33.3, 37.25], [34.0, 38.05], [33.35, 38.85]],
+  ],
+  "sea-fishing": [
+    [[25.8, 42.15], [29.0, 42.15], [32.0, 41.85], [35.5, 41.95], [38.7, 41.55], [41.8, 41.6], [41.5, 40.72], [38.55, 40.75], [35.4, 41.0], [32.0, 40.95], [29.1, 41.05], [26.0, 41.25]],
+    [[26.0, 41.25], [27.2, 40.2], [29.3, 40.2], [30.65, 40.65], [30.55, 41.25], [28.7, 41.45], [27.0, 41.6]],
+  ],
+  "freshwater-fishing": [
+    [[30.68, 38.18], [30.73, 37.75], [31.0, 37.7], [31.06, 38.15]],
+    [[31.35, 38.0], [31.4, 37.45], [31.82, 37.42], [31.9, 37.95]],
+    [[42.95, 41.22], [43.05, 40.85], [43.45, 40.82], [43.5, 41.15]],
+    [[29.25, 40.62], [29.3, 40.25], [29.85, 40.22], [29.9, 40.58]],
+    [[28.35, 40.4], [28.4, 40.05], [29.0, 40.02], [29.05, 40.35]],
   ],
   "kalankli-teke-taseli": [
     [[29.1, 36.35], [29.8, 36.05], [30.7, 36.0], [31.2, 36.2], [30.6, 36.45], [29.8, 36.55]],
@@ -3712,17 +3819,16 @@ export default function Home() {
     const nextCorrect = correctIds.includes(feature.id)
       ? correctIds
       : [...correctIds, feature.id];
+    const isLastQuestion = nextCorrect.length === quizFeatureCount;
     flushSync(() => {
       setAttempts((value) => value + 1);
       setCorrectIds(nextCorrect);
       setWrongIds([]);
+      if (isLastQuestion) setFinished(true);
     });
     if (soundOn) playMapSound("correct");
 
-    if (nextCorrect.length === quizFeatureCount) {
-      window.setTimeout(() => setFinished(true), 380);
-      return;
-    }
+    if (isLastQuestion) return;
 
     window.setTimeout(() => setQuestionIndex((index) => index + 1), 360);
   };

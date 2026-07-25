@@ -57,6 +57,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   );
   assert.match(page, /setWrongIds\(\[\]\)/);
   assert.match(page, /setCorrectIds\(nextCorrect\)/);
+  assert.match(page, /if \(isLastQuestion\) setFinished\(true\)/);
   assert.match(page, /id: "provinces"/);
   assert.match(page, /id: "delta-plains"/);
   assert.match(page, /id: "glacial-mountains"/);
@@ -92,7 +93,11 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /id: "grain-legume-crops"/);
   assert.match(page, /id: "industrial-oil-crops"/);
   assert.match(page, /id: "fruit-special-crops"/);
+  assert.match(page, /id: "small-ruminant-livestock"/);
+  assert.match(page, /id: "cattle-poultry-livestock"/);
+  assert.match(page, /id: "other-livestock"/);
   assert.match(page, /const GRAIN_LEGUME_FEATURES/);
+  assert.match(page, /const SMALL_RUMINANT_LIVESTOCK_FEATURES/);
   assert.match(styles, /\.geo-feature--correct\s*\{\s*pointer-events:\s*none;/);
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);
@@ -104,7 +109,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /geo-shape--distribution/);
   assert.match(page, /f\("tea", "Çay · Rize-Artvin-Trabzon".*"region"\)/);
   assert.match(page, /\n  tea: \[/);
-  assert.match(page, /fp\("cattle", "Büyükbaş · Erzurum-Kars".*\[25, 36, 75\]\)/);
+  assert.match(page, /f\("pasture-cattle", "Mera Sığırcılığı · Kuzeydoğu Anadolu".*"region"\)/);
+  assert.match(page, /\n  "freshwater-fishing": \[/);
   assert.match(
     page,
     /fp\("gap", "GAP · 9 il", 76, 65, 20, 14, \[2, 21, 27, 47, 56, 63, 72, 73, 79\]\)/,

@@ -148,6 +148,7 @@ const coverageComparisons = [
   ["vegetation", ["forest-vegetation", "shrub-vegetation", "grass-vegetation"]],
   ["population", ["dense-population", "sparse-population"]],
   ["agriculture", ["grain-legume-crops", "industrial-oil-crops", "fruit-special-crops"]],
+  ["livestock", ["small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock"]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -376,8 +377,18 @@ const officialExpectations = {
     "Turunçgiller", "Muz", "Kayısı", "İncir", "Elma",
   ],
   livestock: [
-    "Büyükbaş", "Koyun", "Kıl Keçisi", "İpek Böcekçiliği",
-    "Arıcılık", "Tiftik Keçisi", "Kümes Hayvancılığı", "Balıkçılık",
+    "Koyun", "Kıl Keçisi", "Tiftik Keçisi", "Mera Sığırcılığı",
+    "Ahır Sığırcılığı", "Kümes Hayvancılığı", "İpek Böcekçiliği",
+    "Arıcılık", "Deniz Balıkçılığı", "Tatlı Su Balıkçılığı",
+  ],
+  "small-ruminant-livestock": [
+    "Koyun", "Kıl Keçisi", "Tiftik Keçisi",
+  ],
+  "cattle-poultry-livestock": [
+    "Mera Sığırcılığı", "Ahır Sığırcılığı", "Kümes Hayvancılığı",
+  ],
+  "other-livestock": [
+    "İpek Böcekçiliği", "Arıcılık", "Deniz Balıkçılığı", "Tatlı Su Balıkçılığı",
   ],
   ports: [
     "İstanbul Limanı", "Bandırma Limanı", "İzmit Limanı", "Karadeniz Ereğli Limanı",
@@ -409,7 +420,8 @@ const sourceOverrideRequired = [
   "zonal-soils", "intrazonal-soils", "azonal-soils",
   "forest-vegetation", "shrub-vegetation", "grass-vegetation",
   "agriculture", "grain-legume-crops", "industrial-oil-crops", "fruit-special-crops",
-  "livestock", "ports", "marmara-ports", "black-sea-ports",
+  "livestock", "small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock",
+  "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
   "bridges", "tunnels", "cities", "agricultural-function-cities",
   "industrial-function-cities", "mining-function-cities", "port-function-cities",
