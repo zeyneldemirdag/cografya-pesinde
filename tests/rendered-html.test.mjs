@@ -219,10 +219,14 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /const ids = \[\.\.\.new Set\(features\.map\(\(feature\) => feature\.id\)\)\]/);
   assert.match(page, /ids\[0\] === previousOrder\[0\]/);
   assert.match(page, /1 \+ Math\.floor\(Math\.random\(\) \* \(ids\.length - 1\)\)/);
-  assert.match(page, /questionOrder\.find\(\(id\) => !correctIds\.includes\(id\)\)/);
+  assert.match(page, /const currentId = questionOrder\[0\]/);
+  assert.match(page, /setQuestionOrder\(\(order\) => order\.filter\(\(id\) => id !== feature\.id\)\)/);
+  assert.match(page, /if \(!quizReady \|\| finished \|\| correctIds\.includes\(feature\.id\)\) return/);
+  assert.match(page, /data-quiz-ready=\{quizReady\}/);
+  assert.doesNotMatch(page, /const restoreTimer = window\.setTimeout/);
   assert.doesNotMatch(page, /questionIndex/);
-  assert.match(page, /correctIds\.slice\(-1\)/);
-  assert.match(page, /İsimler: \{showAllLabels \? "tümü" : "son bulunan"\}/);
+  assert.match(page, /showAllLabels \? correctIds\.slice\(-1\) : \[\]/);
+  assert.match(page, /Son doğru isim: \{showAllLabels \? "açık" : "kapalı"\}/);
   assert.match(page, /ACTIVE_QUIZ_STORAGE_KEY/);
   assert.match(page, /id: "agricultural-function-cities"/);
   assert.match(page, /id: "tourism-function-cities"/);

@@ -4105,7 +4105,7 @@ function TurkeyMap({
     if (right.id === currentFeatureId) return -1;
     return 0;
   });
-  const visibleLabelIds = showAllLabels ? correctIds : correctIds.slice(-1);
+  const visibleLabelIds = showAllLabels ? correctIds.slice(-1) : [];
   const labelPlacements = collisionAwareLabelPlacements(orderedFeatures, visibleLabelIds, provinces);
 
   useEffect(() => {
@@ -4214,7 +4214,7 @@ function TurkeyMap({
                   }}
                 >
                   <path d={provincePath(province)} fillRule="evenodd" />
-                  {status === "correct" && (
+                  {status === "correct" && visibleLabelIds.includes(feature.id) && (
                     <g className="geo-label geo-label--province" transform={`translate(${cx} ${cy})`}>
                       <rect
                         x={-Math.min(82, Math.max(36, feature.name.length * 5.2 + 12)) / 2}
@@ -4327,12 +4327,13 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [finished, setFinished] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
-  const [showAllLabels, setShowAllLabels] = useState(false);
+  const [showAllLabels, setShowAllLabels] = useState(true);
+  const [quizReady, setQuizReady] = useState(false);
 
   const quiz = QUIZZES.find((item) => item.id === activeQuizId) ?? QUIZZES[0];
   const quizFeatureCount = new Set(quiz.features.map((feature) => feature.id)).size;
   const sourceRef = SOURCE_BY_QUIZ[quiz.id] ?? SOURCE_BY_GROUP[quiz.group];
-  const currentId = questionOrder.find((id) => !correctIds.includes(id))
+  const currentId = questionOrder[0]
     ?? quiz.features.find((feature) => !correctIds.includes(feature.id))?.id
     ?? quiz.features[0].id;
   const current = quiz.features.find((feature) => feature.id === currentId) ?? quiz.features[0];
@@ -4355,14 +4356,14 @@ export default function Home() {
     setWrongIds([]);
     setAttempts(0);
     setFinished(false);
-    setShowAllLabels(false);
+    setShowAllLabels(true);
     setMenuOpen(false);
     window.localStorage.setItem(ACTIVE_QUIZ_STORAGE_KEY, nextQuiz.id);
     window.scrollTo({ top: 0, behavior: "auto" });
   };
 
   const handleSelect = (feature: Feature) => {
-    if (finished || correctIds.includes(feature.id)) return;
+    if (!quizReady || finished || correctIds.includes(feature.id)) return;
 
     if (feature.id !== current.id) {
       flushSync(() => {
@@ -4382,6 +4383,7 @@ export default function Home() {
     flushSync(() => {
       setAttempts((value) => value + 1);
       setCorrectIds(nextCorrect);
+      setQuestionOrder((order) => order.filter((id) => id !== feature.id));
       setWrongIds([]);
       if (isLastQuestion) setFinished(true);
     });
@@ -4392,15 +4394,13 @@ export default function Home() {
   useEffect(() => {
     const savedQuizId = window.localStorage.getItem(ACTIVE_QUIZ_STORAGE_KEY);
     const savedQuiz = QUIZZES.find((item) => item.id === savedQuizId);
-    const restoreTimer = window.setTimeout(() => {
-      if (savedQuiz) {
-        setActiveQuizId(savedQuiz.id);
-        setQuestionOrder((previousOrder) => shuffledFeatureIds(savedQuiz.features, previousOrder));
-      } else {
-        setQuestionOrder((previousOrder) => shuffledFeatureIds(QUIZZES[0].features, previousOrder));
-      }
-    }, 0);
-    return () => window.clearTimeout(restoreTimer);
+    const restoredQuiz = savedQuiz ?? QUIZZES[0];
+    const restoreFrame = window.requestAnimationFrame(() => {
+      setActiveQuizId(restoredQuiz.id);
+      setQuestionOrder((previousOrder) => shuffledFeatureIds(restoredQuiz.features, previousOrder));
+      setQuizReady(true);
+    });
+    return () => window.cancelAnimationFrame(restoreFrame);
   }, []);
 
   useEffect(() => {
@@ -4412,7 +4412,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="app-shell">
+    <main className="app-shell" data-quiz-ready={quizReady}>
       <header className="topbar">
         <a className="brand" href="#oyun" aria-label="Coğrafya Peşinde ana sayfa">
           <span className="brand-mark">CP</span>
@@ -4486,7 +4486,7 @@ export default function Home() {
                 aria-pressed={showAllLabels}
                 onClick={() => setShowAllLabels((value) => !value)}
               >
-                İsimler: {showAllLabels ? "tümü" : "son bulunan"}
+                Son doğru isim: {showAllLabels ? "açık" : "kapalı"}
               </button>
               <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)}>
                 Konular <span>＋</span>
@@ -4528,7 +4528,7 @@ export default function Home() {
             <span className="behavior-number">01</span>
             <p><strong>Yanlış seçim kırmızı kalır.</strong> Doğruyu bulduğunda o sorudaki kırmızılar temizlenir.</p>
             <span className="behavior-number">02</span>
-            <p><strong>Doğrular yeşil kalır.</strong> İsimleri haritada görünür ve öğrenme izini oluşturur.</p>
+            <p><strong>Doğrular yeşil kalır.</strong> Haritayı kapatmaması için yalnızca son doğru ismin etiketi gösterilir.</p>
           </div>
         </section>
       </section>
