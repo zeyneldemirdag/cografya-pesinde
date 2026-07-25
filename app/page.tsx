@@ -495,10 +495,10 @@ const INDUSTRIAL_MINERAL_FEATURES: Feature[] = [
   f("kestelek-boron", "Kestelek · Bor Madeni", 50, 50, 7, 6, "mine"),
   f("emet-mine", "Emet · Bor (Espey Ocağı)", 26, 41, 7, 6, "mine"),
   f("mazidagi", "Mazıdağı · Fosfat İşletmesi", 78, 65, 7, 6, "mine"),
-  f("adiyaman-phosphate", "Adıyaman · Fosfat", 50, 50, 7, 6, "mine"),
-  f("bingol-phosphate", "Bingöl · Fosfat", 50, 50, 7, 6, "mine"),
-  f("sanliurfa-phosphate", "Şanlıurfa · Fosfat", 50, 50, 7, 6, "mine"),
-  f("bitlis-phosphate", "Bitlis · Fosfat", 50, 50, 7, 6, "mine"),
+  f("adiyaman-phosphate", "Adıyaman · Fosfat Zuhurları (Tut-Pembeğli-Palanlı)", 50, 50, 12, 8, "region"),
+  f("bingol-phosphate", "Bingöl · Fosfat (Genç-Avnik-Arduvan)", 50, 50, 7, 6, "mine"),
+  f("sanliurfa-phosphate", "Şanlıurfa · Fosfat (Bozova)", 50, 50, 7, 6, "mine"),
+  f("bitlis-phosphate", "Bitlis · Fosfat Zuhurları (Bitlis Masifi)", 50, 50, 13, 9, "region"),
   f("cankiri-salt", "Çankırı · Kaya Tuzu (Balıbağı)", 50, 50, 7, 6, "mine"),
   f("gulsehir-salt", "Gülşehir · Kaya Tuzu (Tuzköy)", 50, 50, 7, 6, "mine"),
   f("yerkoy-salt", "Yerköy · Tuz", 50, 50, 7, 6, "mine"),
@@ -2646,6 +2646,13 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "adiyaman-phosphate": [
+    [[37.82, 37.735], [37.875, 37.705], [37.95, 37.735], [37.985, 37.79], [37.945, 37.84], [37.87, 37.835]],
+    [[38.245, 37.79], [38.285, 37.775], [38.345, 37.8], [38.37, 37.845], [38.33, 37.88], [38.27, 37.865]],
+  ],
+  "bitlis-phosphate": [
+    [[41.87, 38.28], [41.95, 38.16], [42.12, 38.12], [42.3, 38.23], [42.34, 38.42], [42.22, 38.56], [42.03, 38.55], [41.9, 38.43]],
+  ],
   "marmara-island-marble": [
     [[27.59, 40.625], [27.625, 40.605], [27.69, 40.615], [27.73, 40.65], [27.705, 40.682], [27.64, 40.692], [27.6, 40.67]],
   ],
@@ -3280,10 +3287,8 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "zamanti-lead-zinc": [35.46667, 38.1],
   "akdagmadeni-lead-zinc": [35.88783, 39.56028],
   "kestelek-boron": [28.56528, 39.94778],
-  "adiyaman-phosphate": [38.28, 37.76],
-  "bingol-phosphate": [40.5, 38.88],
-  "sanliurfa-phosphate": [38.8, 37.17],
-  "bitlis-phosphate": [42.1, 38.4],
+  "bingol-phosphate": [40.321193, 38.6486048],
+  "sanliurfa-phosphate": [38.5253584, 37.3619576],
   "cankiri-salt": [33.77064, 40.53536],
   "gulsehir-salt": [34.4855968, 38.7730603],
   "yerkoy-salt": [34.47, 39.64],
