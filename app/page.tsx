@@ -3777,6 +3777,19 @@ function collisionAwareLabelPlacements(
 }
 
 function featureHitArea(feature: Feature) {
+  if (feature.kind === "lake" && areaPolygonFor(feature)) {
+    const [cx, cy] = featureCenter(feature);
+    return (
+      <rect
+        className="geo-hit geo-hit--small-area"
+        x={cx - 18}
+        y={cy - 15}
+        width="36"
+        height="30"
+        rx="8"
+      />
+    );
+  }
   if (!["volcano", "city", "gate", "pass", "mine", "energy", "dam", "port", "bridge", "tunnel"].includes(feature.kind)) return null;
   const [cx, cy] = featureCenter(feature);
   return <rect className="geo-hit" x={cx - Math.max(feature.w * 4, 16)} y={cy - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
@@ -4470,6 +4483,7 @@ export default function Home() {
               className={`quiz-tile ${item.id === activeQuizId ? "quiz-tile--active" : ""}`}
               type="button"
               key={item.id}
+              data-quiz-id={item.id}
               onClick={() => resetQuiz(item.id)}
               style={{ "--tile-color": item.color } as React.CSSProperties}
             >
