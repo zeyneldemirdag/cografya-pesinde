@@ -60,6 +60,9 @@ const basinData = JSON.parse(
 const basinIds = new Set(basinData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
+const hasRenderedRealLine = (feature) =>
+  lineKeys.has(feature.id) ||
+  (["mountain", "river", "route"].includes(feature.kind) && lineKeys.has(canonical(feature.id)));
 const lakeCanonical = (id) => ({
   "aktas-lake": "aktas",
   "manyas-bird-tour": "manyas",
@@ -88,6 +91,10 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (basinIds.has(feature.id)) geometry = "exact-basin";
+  else if (areaKeys.has(feature.id) && ["plain", "plateau", "region", "lake"].includes(feature.kind)) geometry = "area-polygon";
+  else if (distributionKeys.has(feature.id)) geometry = "distribution-polygon";
+  else if (hasRenderedRealLine(feature)) geometry = "coordinate-line";
+  else if (feature.kind === "river" && riverIds.has(riverCanonical(feature.id))) geometry = "exact-river";
   else if (pointKeys.has(feature.id)) geometry = "verified-point";
   else {
     const functionCityMatch = feature.id.match(
@@ -95,10 +102,6 @@ const classifications = features.map((feature) => {
     );
     if (functionCityMatch && functionCityKeys.has(functionCityMatch[1])) geometry = "verified-point";
   }
-  if (geometry === "fallback" && areaKeys.has(feature.id) && ["plain", "plateau", "region", "lake"].includes(feature.kind)) geometry = "area-polygon";
-  else if (geometry === "fallback" && distributionKeys.has(feature.id)) geometry = "distribution-polygon";
-  else if (geometry === "fallback" && (lineKeys.has(feature.id) || lineKeys.has(canonical(feature.id)))) geometry = "coordinate-line";
-  else if (geometry === "fallback" && feature.kind === "river" && riverIds.has(riverCanonical(feature.id))) geometry = "exact-river";
   return { ...feature, geometry };
 });
 
@@ -109,6 +112,23 @@ for (const feature of classifications) {
 }
 
 const byGeometry = Object.groupBy([...unique.values()], (feature) => feature.geometry);
+const verifiedPointKinds = Object.fromEntries(
+  Object.entries(Object.groupBy(byGeometry["verified-point"] ?? [], (feature) => feature.kind))
+    .map(([kind, entries]) => [kind, entries.length])
+    .sort(([left], [right]) => left.localeCompare(right)),
+);
+const extendedFeatureKinds = new Set([
+  "coast",
+  "lake",
+  "mountain",
+  "plain",
+  "plateau",
+  "region",
+  "river",
+]);
+const suspiciousVerifiedPoints = (byGeometry["verified-point"] ?? [])
+  .filter((feature) => extendedFeatureKinds.has(feature.kind))
+  .map(({ id, name, kind }) => ({ id, name, kind }));
 const conflicts = Object.entries(Object.groupBy([...unique.values()], (feature) => feature.id))
   .filter(([, entries]) => new Set(entries.map((entry) => `${entry.name}|${entry.kind}`)).size > 1)
   .map(([id, entries]) => ({ id, variants: entries.map((entry) => `${entry.name} (${entry.kind})`) }));
@@ -579,6 +599,8 @@ console.log(JSON.stringify({
   featureCalls: features.length,
   uniqueFeatures: unique.size,
   geometryCounts: Object.fromEntries(Object.entries(byGeometry).map(([key, value]) => [key, value.length])),
+  verifiedPointKinds,
+  suspiciousVerifiedPoints,
   fallback: (byGeometry.fallback ?? []).map(({ id, name, kind }) => ({ id, name, kind })),
   conflicts,
   coverageComparisons,

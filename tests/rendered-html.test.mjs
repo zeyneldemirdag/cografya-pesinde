@@ -218,6 +218,11 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"gelibolu-tour": \[\s*\[\[26\.14, 40\.03\]/);
   assert.match(page, /"baskomutan-tour": \[\s*\[\[30\.23, 38\.61\]/);
   assert.match(page, /"sakarya-tour": \[\s*\[\[31\.94, 39\.35\]/);
+  assert.match(page, /"anzer-tour": \[\s*\[\[40\.445, 40\.565\]/);
+  assert.match(page, /"ayder-tour": \[\s*\[\[41\.045, 40\.94\]/);
+  assert.match(page, /"uludag-tour": \[\[28\.8, 40\.1\]/);
+  assert.match(page, /"kartalkaya-tour": \[\[31\.55, 40\.68\]/);
+  assert.match(page, /"palandoken-tour": \[\[40\.95, 40\.02\]/);
   assert.match(page, /"istiklal-tour": \[\[33\.76, 41\.98\]/);
   assert.match(page, /feature\.kind === "landmark"/);
   assert.match(page, /<g className="geo-distribution">/);
@@ -274,6 +279,10 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);
   assert.match(page, /window\.scrollTo\(\{ top: 0, behavior: "auto" \}\)/);
+  assert.match(styles, /html\s*\{\s*scroll-behavior:\s*auto;\s*\}/);
+  assert.doesNotMatch(styles, /html\s*\{\s*scroll-behavior:\s*smooth;/);
+  assert.match(page, /ÖSYM KPSS soru standardı/);
+  assert.match(page, /Bayram Meral kapsam kontrolü · ikincil/);
   assert.match(page, /Ses.*açık/);
   assert.match(page, /className="geo-line-hit"/);
   assert.match(page, /"volcano", "city", "landmark", "gate", "pass"/);

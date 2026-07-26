@@ -2373,8 +2373,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page86.html",
   },
   "natural-tourism": {
-    label: "MEB doğal turizm varlıkları",
-    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page86.html",
+    label: "MEB kapsamı · DKMP alan doğrulaması",
+    url: "https://www.tarimorman.gov.tr/DKMP/Menu/27/Milli-Parklar%3B",
   },
   "cultural-tourism": {
     label: "MEB kültürel varlıklar ve ören yerleri",
@@ -2648,6 +2648,18 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
+  "anzer-tour": [
+    [[40.445, 40.565], [40.475, 40.535], [40.535, 40.532], [40.588, 40.56], [40.595, 40.605], [40.55, 40.635], [40.485, 40.632], [40.448, 40.605]],
+  ],
+  "ayder-tour": [
+    [[41.045, 40.94], [41.07, 40.918], [41.118, 40.92], [41.148, 40.945], [41.142, 40.978], [41.108, 40.997], [41.065, 40.988], [41.042, 40.965]],
+  ],
+  "kadirga-tour": [
+    [[39.26, 40.705], [39.29, 40.675], [39.35, 40.67], [39.405, 40.695], [39.412, 40.733], [39.37, 40.765], [39.31, 40.767], [39.268, 40.742]],
+  ],
+  "persembe-tour": [
+    [[37.215, 40.612], [37.255, 40.575], [37.33, 40.572], [37.395, 40.605], [37.4, 40.65], [37.35, 40.682], [37.275, 40.68], [37.222, 40.655]],
+  ],
   "gelibolu-tour": [
     [[26.14, 40.03], [26.2, 39.98], [26.31, 40.02], [26.38, 40.14], [26.4, 40.3], [26.34, 40.42], [26.24, 40.39], [26.17, 40.25]],
   ],
@@ -3539,6 +3551,9 @@ const LABEL_OFFSETS: Record<string, Coordinate> = {
 
 const REAL_LINES: Record<string, Coordinate[]> = {
   "istiklal-tour": [[33.76, 41.98], [33.71, 41.81], [33.7, 41.55], [33.78, 41.39], [33.63, 40.92], [33.62, 40.6], [33.33, 40.1], [32.85, 39.93]],
+  "uludag-tour": [[28.8, 40.1], [28.98, 40.08], [29.1, 40.0], [29.25, 39.96], [29.4, 39.9]],
+  "kartalkaya-tour": [[31.55, 40.68], [31.72, 40.63], [31.809, 40.59], [31.98, 40.54], [32.12, 40.5]],
+  "palandoken-tour": [[40.95, 40.02], [41.15, 39.94], [41.275, 39.86], [41.47, 39.72], [41.62, 39.58]],
   "kackar-tour": [[40.42, 40.91], [40.68, 40.86], [40.84, 40.84], [41.08, 40.78], [41.3, 40.72]],
   "beydaglari-tour": [[29.62, 36.76], [29.9, 36.72], [30.2, 36.72], [30.43, 36.8], [30.62, 36.94]],
   yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
@@ -4600,6 +4615,9 @@ export default function Home() {
           <a href="https://orgm.meb.gov.tr/ekpssmebozel/cografyakonular.html" target="_blank" rel="noreferrer">
             MEB konu kapsamı <span>↗</span>
           </a>
+          <a href="https://www.osym.gov.tr/TR,29487/2024-kpss-lisans-genel-yetenek-genel-kultur-ve-egitim-bilimleri-temel-soru-kitapciklari-ve-cevap-anahtarlari--10.html" target="_blank" rel="noreferrer">
+            ÖSYM KPSS soru standardı <span>↗</span>
+          </a>
           <a href="https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page76.html" target="_blank" rel="noreferrer">
             MEB yer şekilleri <span>↗</span>
           </a>
@@ -4608,6 +4626,9 @@ export default function Home() {
           </a>
           <a href="https://www.harita.gov.tr/urun/turkiye-fiziki-haritasi-dilsiz/273" target="_blank" rel="noreferrer">
             HGM fiziki harita <span>↗</span>
+          </a>
+          <a href="https://bayrammeral.com/" target="_blank" rel="noreferrer">
+            Bayram Meral kapsam kontrolü · ikincil <span>↗</span>
           </a>
         </div>
       </section>
