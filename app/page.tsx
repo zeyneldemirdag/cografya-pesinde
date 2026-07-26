@@ -85,6 +85,20 @@ const ABSOLUTE_LOCATION_FEATURES: Feature[] = [
   f("meridian-45e", "45° Doğu Meridyeni", 50, 50, 8, 4, "route"),
 ];
 
+const NATURAL_GAS_PIPELINE_FEATURES: Feature[] = [
+  f("pipeline-west-line", "Batı Hattı · Malkoçlar-Ankara", 50, 50, 8, 4, "route"),
+  f("pipeline-blue-stream", "Mavi Akım · Samsun-Ankara", 50, 50, 8, 4, "route"),
+  f("pipeline-iran-turkey", "İran-Türkiye · Doğubayazıt-Ankara", 50, 50, 8, 4, "route"),
+  f("pipeline-bte", "Bakü-Tiflis-Erzurum (BTE)", 50, 50, 8, 4, "route"),
+  f("pipeline-tanap", "TANAP · Posof-İpsala", 50, 50, 8, 4, "route"),
+  f("pipeline-turkstream", "TürkAkım · Kıyıköy-Lüleburgaz", 50, 50, 8, 4, "route"),
+];
+
+const OIL_PIPELINE_FEATURES: Feature[] = [
+  f("pipeline-btc", "Bakü-Tiflis-Ceyhan (BTC)", 50, 50, 8, 4, "route"),
+  f("pipeline-iraq-turkey", "Irak-Türkiye · Kerkük-Ceyhan", 50, 50, 8, 4, "route"),
+];
+
 const p = (plate: number, name: string): Feature => ({
   id: `province-${plate}`,
   name,
@@ -1271,6 +1285,26 @@ const QUIZZES: Quiz[] = [
     features: [...OTHER_ENERGY_FEATURES],
   },
   {
+    id: "natural-gas-pipelines",
+    group: "Ekonomi",
+    title: "Doğal Gaz Boru Hatları",
+    eyebrow: "Ekonomi · Enerji ulaşımı · Doğal gaz",
+    description: "ETKB ve BOTAŞ güzergâhlarına göre Türkiye'nin başlıca uluslararası doğal gaz boru hatlarını bul.",
+    color: "#168b83",
+    icon: "⌁",
+    features: [...NATURAL_GAS_PIPELINE_FEATURES],
+  },
+  {
+    id: "oil-pipelines",
+    group: "Ekonomi",
+    title: "Ham Petrol Boru Hatları",
+    eyebrow: "Ekonomi · Enerji ulaşımı · Petrol",
+    description: "ETKB ve BOTAŞ güzergâhlarına göre Türkiye'deki iki ana uluslararası ham petrol boru hattını bul.",
+    color: "#7b624c",
+    icon: "⌇",
+    features: [...OIL_PIPELINE_FEATURES],
+  },
+  {
     id: "development",
     group: "Ekonomi",
     title: "Kalkınma Projeleri",
@@ -2355,6 +2389,14 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   "other-energy": {
     label: "MEB enerji santrali örnekleri · s. 8, 35-36",
     url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/calisma_defteri/f3/11/cografya/files/basic-html/page8.html",
+  },
+  "natural-gas-pipelines": {
+    label: "ETKB + BOTAŞ başlıca doğal gaz boru hattı güzergâhları",
+    url: "https://www.enerji.gov.tr/bilgi-merkezi-dogal-gaz-boru-hatlari",
+  },
+  "oil-pipelines": {
+    label: "ETKB + BOTAŞ ham petrol boru hattı güzergâhları",
+    url: "https://www.enerji.gov.tr/bilgi-merkezi-haritalar",
   },
   dams: {
     label: "MEB kapsamı · DSİ + OSM gövde doğrulaması",
@@ -3673,6 +3715,14 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   "parallel-42n": [[25.55, 42], [44.85, 42]],
   "meridian-26e": [[26, 35.75], [26, 42.15]],
   "meridian-45e": [[45, 35.75], [45, 42.15]],
+  "pipeline-west-line": [[27.38, 41.84], [27.63, 41.60], [28.68, 40.97], [29.00, 41.02], [29.94, 40.76], [29.06, 40.20], [30.52, 39.78], [32.85, 39.93]],
+  "pipeline-blue-stream": [[36.33, 41.29], [35.84, 40.65], [34.95, 40.55], [33.50, 39.85], [32.85, 39.93]],
+  "pipeline-iran-turkey": [[44.06, 39.55], [41.27, 39.90], [39.50, 39.75], [37.02, 39.75], [35.48, 38.72], [33.50, 39.85], [32.85, 39.93]],
+  "pipeline-bte": [[42.58, 41.16], [43.10, 40.60], [42.25, 40.20], [41.27, 39.90]],
+  "pipeline-tanap": [[42.75, 41.47], [43.10, 40.62], [41.28, 39.96], [39.50, 39.80], [40.22, 40.27], [39.47, 40.49], [38.40, 40.64], [37.02, 39.82], [34.81, 39.88], [34.16, 39.18], [33.50, 39.90], [32.85, 39.98], [30.52, 39.83], [29.98, 40.20], [29.98, 39.48], [29.06, 40.25], [27.89, 39.70], [26.42, 40.20], [27.50, 41.03], [26.34, 40.94]],
+  "pipeline-turkstream": [[28.10, 41.64], [27.70, 41.52], [27.36, 41.41], [27.38, 41.84]],
+  "pipeline-btc": [[42.58, 41.16], [41.25, 39.88], [39.48, 39.72], [37.00, 39.70], [35.48, 38.68], [36.93, 37.56], [35.82, 37.03]],
+  "pipeline-iraq-turkey": [[42.34, 37.15], [41.46, 37.33], [40.74, 37.31], [39.35, 37.18], [38.79, 37.17], [37.38, 37.07], [36.82, 37.07], [35.82, 37.03]],
   "istiklal-tour": [[33.76, 41.98], [33.71, 41.81], [33.7, 41.55], [33.78, 41.39], [33.63, 40.92], [33.62, 40.6], [33.33, 40.1], [32.85, 39.93]],
   "uludag-tour": [[28.8, 40.1], [28.98, 40.08], [29.1, 40.0], [29.25, 39.96], [29.4, 39.9]],
   "kartalkaya-tour": [[31.55, 40.68], [31.72, 40.63], [31.809, 40.59], [31.98, 40.54], [32.12, 40.5]],
@@ -3689,7 +3739,7 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   koroglu: [[30.8, 40.4], [31.5, 40.5], [32.2, 40.4]],
   giresun: [[37.6, 40.5], [38.4, 40.5], [39.0, 40.4]],
   mescit: [[40.2, 40.4], [40.8, 40.3], [41.3, 40.2]],
-  "kop-dagi": [[39.7, 40.0], [40.3, 39.9], [40.8, 39.8]],
+  "kop-dagi": [[39.95, 40.18], [40.35, 40.08], [40.75, 39.96]],
   bey: [[29.4, 36.8], [30.3, 36.9], [31.1, 37.0]],
   sultan: [[30.5, 38.2], [31.2, 38.1], [31.8, 38.0]],
   bolkar: [[32.8, 37.0], [33.8, 37.1], [34.8, 37.2]],
@@ -3698,10 +3748,10 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   malatya: [[37.5, 38.5], [38.2, 38.4], [38.8, 38.3]],
   sundiken: [[30.8, 39.6], [31.4, 39.7], [32.0, 39.6]],
   elmadag: [[32.9, 39.8], [33.4, 39.8], [33.9, 39.7]],
-  munzur: [[38.5, 39.6], [39.4, 39.7], [40.4, 39.6]],
-  mercan: [[39.6, 39.9], [40.2, 39.8], [40.8, 39.7]],
-  hakkari: [[43.0, 37.5], [43.8, 37.6], [44.6, 37.4]],
-  cilo: [[43.3, 37.5], [44.0, 37.5], [44.5, 37.4]],
+  munzur: [[38.35, 39.68], [38.9, 39.67], [39.45, 39.6]],
+  mercan: [[39.45, 39.66], [39.9, 39.64], [40.25, 39.55]],
+  hakkari: [[42.15, 37.92], [42.75, 37.72], [43.3, 37.48], [43.85, 37.26]],
+  cilo: [[43.65, 37.62], [44.05, 37.52], [44.5, 37.38]],
   uludag: [[28.8, 40.1], [29.1, 40.0], [29.4, 39.9]],
   kaz: [[26.6, 39.8], [26.9, 39.7], [27.3, 39.6]],
   madra: [[26.8, 39.3], [27.2, 39.0], [27.5, 38.7]],
@@ -3760,6 +3810,23 @@ function ringPath(ring: Coordinate[]) {
     const [x, y] = project(coordinate);
     return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
   }).join(" ") + " Z";
+}
+
+function smoothPath(points: Coordinate[]) {
+  if (points.length < 3) {
+    return points
+      .map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`)
+      .join(" ");
+  }
+  const commands = [`M${points[0][0].toFixed(1)},${points[0][1].toFixed(1)}`];
+  for (let index = 1; index < points.length - 1; index += 1) {
+    const [x, y] = points[index];
+    const [nextX, nextY] = points[index + 1];
+    commands.push(`Q${x.toFixed(1)},${y.toFixed(1)} ${((x + nextX) / 2).toFixed(1)},${((y + nextY) / 2).toFixed(1)}`);
+  }
+  const [lastX, lastY] = points.at(-1)!;
+  commands.push(`L${lastX.toFixed(1)},${lastY.toFixed(1)}`);
+  return commands.join(" ");
 }
 
 function provincePath(feature: ProvinceFeature) {
@@ -4146,7 +4213,10 @@ function featureGraphic(
 
   if (realLine) {
     const points = realLine.map(project);
-    const path = points.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+    const isPipeline = feature.id.startsWith("pipeline-");
+    const path = isPipeline
+      ? smoothPath(points)
+      : points.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
     if (feature.kind === "mountain") {
       const ridgePoints = points;
       return (
@@ -4169,7 +4239,7 @@ function featureGraphic(
         <path d={path} className="geo-line-hit" vectorEffect="non-scaling-stroke" />
         <path
           d={path}
-          className={`geo-shape geo-shape--line${isCoordinateGrid ? " geo-shape--coordinate-grid" : ""}`}
+          className={`geo-shape geo-shape--line${isCoordinateGrid ? " geo-shape--coordinate-grid" : ""}${isPipeline ? " geo-shape--pipeline" : ""}`}
           vectorEffect="non-scaling-stroke"
         />
       </g>

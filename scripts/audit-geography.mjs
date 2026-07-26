@@ -565,6 +565,13 @@ const officialExpectations = {
     "Germencik", "Buharkent", "Akkuyu", "Sinop-İnceburun",
     "Atatürk Barajı", "Deriner", "Karapınar",
   ],
+  "natural-gas-pipelines": [
+    "Batı Hattı", "Mavi Akım", "İran-Türkiye",
+    "Bakü-Tiflis-Erzurum (BTE)", "TANAP", "TürkAkım",
+  ],
+  "oil-pipelines": [
+    "Bakü-Tiflis-Ceyhan (BTC)", "Irak-Türkiye",
+  ],
   ports: [
     "İstanbul Limanı", "Bandırma Limanı", "İzmit Limanı", "Karadeniz Ereğli Limanı",
     "Zonguldak Limanı", "Sinop Limanı", "Samsun Limanı", "Trabzon Limanı",
@@ -603,7 +610,8 @@ const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
   "glacial-mountains", "massifs", "straits", "gates", "passes",
   "mines", "metallic-mines", "industrial-minerals", "energy-raw-materials",
-  "energy", "wind-energy", "thermal-energy", "other-energy", "development",
+  "energy", "wind-energy", "thermal-energy", "other-energy",
+  "natural-gas-pipelines", "oil-pipelines", "development",
   "industry", "population", "dense-population", "sparse-population", "regions",
   "climate", "vegetation", "soils", "tourism",
   "zonal-soils", "intrazonal-soils", "azonal-soils",
