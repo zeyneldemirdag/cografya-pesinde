@@ -78,6 +78,13 @@ const ACTIVE_FAULT_FEATURES: Feature[] = [
   f("west-anatolian-faults", "Batı Anadolu Fay Sistemi", 50, 50, 8, 4, "fault"),
 ];
 
+const ABSOLUTE_LOCATION_FEATURES: Feature[] = [
+  f("parallel-36n", "36° Kuzey Paraleli", 50, 50, 8, 4, "route"),
+  f("parallel-42n", "42° Kuzey Paraleli", 50, 50, 8, 4, "route"),
+  f("meridian-26e", "26° Doğu Meridyeni", 50, 50, 8, 4, "route"),
+  f("meridian-45e", "45° Doğu Meridyeni", 50, 50, 8, 4, "route"),
+];
+
 const p = (plate: number, name: string): Feature => ({
   id: `province-${plate}`,
   name,
@@ -2101,6 +2108,16 @@ const QUIZZES: Quiz[] = [
     ],
   },
   {
+    id: "absolute-location",
+    group: "Türkiye",
+    title: "Türkiye'nin Mutlak Konumu",
+    eyebrow: "Türkiye · Matematik konum",
+    description: "Türkiye'yi sınırlayan iki paralel ve iki meridyeni tam derece çizgileri üzerinde bul.",
+    color: "#386f9d",
+    icon: "⌗",
+    features: [...ABSOLUTE_LOCATION_FEATURES],
+  },
+  {
     id: "fault-systems",
     group: "Jeoloji",
     title: "Türkiye'nin Başlıca Fay Sistemleri",
@@ -2298,6 +2315,10 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   "fault-systems": {
     label: "MTA Türkiye Diri Fay Haritası 2026 · 1/25.000",
     url: "https://tdfh.mta.gov.tr/",
+  },
+  "absolute-location": {
+    label: "MEB Türkiye'nin mutlak konumu · 36°–42° K / 26°–45° D",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page23.html",
   },
   neighbors: {
     label: "MEB kara ve deniz komşuları haritası · Natural Earth sınırları",
@@ -3648,6 +3669,10 @@ const LABEL_OFFSETS: Record<string, Coordinate> = {
 };
 
 const REAL_LINES: Record<string, Coordinate[]> = {
+  "parallel-36n": [[25.55, 36], [44.85, 36]],
+  "parallel-42n": [[25.55, 42], [44.85, 42]],
+  "meridian-26e": [[26, 35.75], [26, 42.15]],
+  "meridian-45e": [[45, 35.75], [45, 42.15]],
   "istiklal-tour": [[33.76, 41.98], [33.71, 41.81], [33.7, 41.55], [33.78, 41.39], [33.63, 40.92], [33.62, 40.6], [33.33, 40.1], [32.85, 39.93]],
   "uludag-tour": [[28.8, 40.1], [28.98, 40.08], [29.1, 40.0], [29.25, 39.96], [29.4, 39.9]],
   "kartalkaya-tour": [[31.55, 40.68], [31.72, 40.63], [31.809, 40.59], [31.98, 40.54], [32.12, 40.5]],
@@ -4138,12 +4163,13 @@ function featureGraphic(
         </g>
       );
     }
+    const isCoordinateGrid = /^(parallel|meridian)-/.test(feature.id);
     return (
       <g>
         <path d={path} className="geo-line-hit" vectorEffect="non-scaling-stroke" />
         <path
           d={path}
-          className="geo-shape geo-shape--line"
+          className={`geo-shape geo-shape--line${isCoordinateGrid ? " geo-shape--coordinate-grid" : ""}`}
           vectorEffect="non-scaling-stroke"
         />
       </g>
@@ -4302,7 +4328,11 @@ function TurkeyMap({
     <div className="real-map-wrap">
       <svg
         className={`real-map${quiz.id === "neighbors" ? " real-map--neighbors" : ""}`}
-        viewBox={quiz.id === "neighbors" ? "-100 -80 1200 590" : "0 0 1000 430"}
+        viewBox={quiz.id === "neighbors"
+          ? "-100 -80 1200 590"
+          : quiz.id === "absolute-location"
+            ? "-25 -15 1050 460"
+            : "0 0 1000 430"}
         role="img"
         aria-label={quiz.id === "neighbors"
           ? `Türkiye ve sekiz kara komşusu üzerinde ${quiz.title}`
@@ -4505,21 +4535,37 @@ function TurkeyMap({
         )}
       </svg>
       <div className="map-province-readout">
-        <span>{quiz.id === "neighbors" ? "8 KARA KOMŞUSU" : "81 İL SINIRI"}</span>
-        <strong>{hoveredProvince || (quiz.id === "neighbors" ? "Ülke poligonuna gel" : "İlin üzerine gel")}</strong>
+        <span>{quiz.id === "neighbors"
+          ? "8 KARA KOMŞUSU"
+          : quiz.id === "absolute-location"
+            ? "36°–42° K · 26°–45° D"
+            : "81 İL SINIRI"}</span>
+        <strong>{hoveredProvince || (quiz.id === "neighbors"
+          ? "Ülke poligonuna gel"
+          : quiz.id === "absolute-location"
+            ? "Koordinat çizgisine gel"
+            : "İlin üzerine gel")}</strong>
       </div>
       <div className="map-attribution">
-        {quiz.id === "fault-systems"
+        {quiz.id === "absolute-location"
+          ? "Koordinatlar: MEB Türkiye'nin mutlak konumu · "
+          : quiz.id === "fault-systems"
           ? "Diri fay çizgileri: MTA TDFH-2026 · "
           : quiz.id === "neighbors"
           ? "Ülke sınırları: Natural Earth 1:50m · "
           : "Rölyef: Esri · İl sınırları: açık coğrafi veri · "}
         <a
-          href={quiz.id === "fault-systems" ? "https://tdfh.mta.gov.tr/" : "https://www.openstreetmap.org/copyright"}
+          href={quiz.id === "absolute-location"
+            ? "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page23.html"
+            : quiz.id === "fault-systems"
+              ? "https://tdfh.mta.gov.tr/"
+              : "https://www.openstreetmap.org/copyright"}
           target="_blank"
           rel="noreferrer"
         >
-          {quiz.id === "fault-systems"
+          {quiz.id === "absolute-location"
+            ? "Millî Eğitim Bakanlığı"
+            : quiz.id === "fault-systems"
             ? "Maden Tetkik ve Arama Genel Müdürlüğü"
             : quiz.id === "neighbors"
               ? "Türkiye il sınırları: © OpenStreetMap katkıcıları"

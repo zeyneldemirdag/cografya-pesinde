@@ -584,6 +584,10 @@ const officialExpectations = {
   "fault-systems": [
     "Kuzey Anadolu Fay Zonu", "Doğu Anadolu Fay Zonu", "Batı Anadolu Fay Sistemi",
   ],
+  "absolute-location": [
+    "36° Kuzey Paraleli", "42° Kuzey Paraleli",
+    "26° Doğu Meridyeni", "45° Doğu Meridyeni",
+  ],
 };
 
 const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected]) => {
@@ -606,7 +610,8 @@ const sourceOverrideRequired = [
   "forest-vegetation", "shrub-vegetation", "grass-vegetation",
   "agriculture", "grain-legume-crops", "industrial-oil-crops", "fruit-special-crops",
   "livestock", "small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock",
-  "closed-basins", "neighbors", "fault-systems", "ports", "marmara-ports", "black-sea-ports",
+  "closed-basins", "neighbors", "fault-systems", "absolute-location",
+  "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
   "bridges", "tunnels", "cities", "agricultural-function-cities",
   "industrial-function-cities", "mining-function-cities", "port-function-cities",

@@ -399,6 +399,18 @@ button { color: inherit; }
   filter: drop-shadow(0 0 2px rgba(255, 214, 128, .52));
 }
 
+.geo-shape--coordinate-grid {
+  stroke: #f4d172;
+  stroke-width: 4.4;
+  stroke-dasharray: 10 7;
+  filter: drop-shadow(0 0 3px rgba(255, 232, 158, .6));
+}
+
+.geo-feature:hover .geo-shape--coordinate-grid,
+.geo-feature:focus .geo-shape--coordinate-grid {
+  stroke-width: 6.2;
+}
+
 .geo-feature:hover .geo-shape--exact-fault,
 .geo-feature:focus .geo-shape--exact-fault {
   stroke-width: 6.4;
