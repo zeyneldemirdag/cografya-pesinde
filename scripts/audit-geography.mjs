@@ -62,6 +62,10 @@ const neighborData = JSON.parse(
   fs.readFileSync(new URL("../public/data/turkey-neighbors.geojson", import.meta.url), "utf8"),
 ).features;
 const neighborIds = new Set(neighborData.map((feature) => feature.properties.id));
+const faultData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-active-faults.geojson", import.meta.url), "utf8"),
+).features;
+const faultIds = new Set(faultData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const hasRenderedRealLine = (feature) =>
@@ -96,6 +100,7 @@ const classifications = features.map((feature) => {
   if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (basinIds.has(feature.id)) geometry = "exact-basin";
   else if (feature.kind === "country" && neighborIds.has(feature.id)) geometry = "exact-country";
+  else if (feature.kind === "fault" && faultIds.has(feature.id)) geometry = "exact-fault";
   else if (areaKeys.has(feature.id) && ["plain", "plateau", "region", "lake"].includes(feature.kind)) geometry = "area-polygon";
   else if (distributionKeys.has(feature.id)) geometry = "distribution-polygon";
   else if (hasRenderedRealLine(feature)) geometry = "coordinate-line";
@@ -576,6 +581,9 @@ const officialExpectations = {
     "Yunanistan", "Bulgaristan", "Gürcistan", "Ermenistan",
     "Azerbaycan", "İran", "Irak", "Suriye",
   ],
+  "fault-systems": [
+    "Kuzey Anadolu Fay Zonu", "Doğu Anadolu Fay Zonu", "Batı Anadolu Fay Sistemi",
+  ],
 };
 
 const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected]) => {
@@ -598,7 +606,7 @@ const sourceOverrideRequired = [
   "forest-vegetation", "shrub-vegetation", "grass-vegetation",
   "agriculture", "grain-legume-crops", "industrial-oil-crops", "fruit-special-crops",
   "livestock", "small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock",
-  "closed-basins", "neighbors", "ports", "marmara-ports", "black-sea-ports",
+  "closed-basins", "neighbors", "fault-systems", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
   "bridges", "tunnels", "cities", "agricultural-function-cities",
   "industrial-function-cities", "mining-function-cities", "port-function-cities",

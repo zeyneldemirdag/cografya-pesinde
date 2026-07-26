@@ -22,6 +22,7 @@ type FeatureKind =
   | "port"
   | "bridge"
   | "tunnel"
+  | "fault"
   | "country"
   | "province";
 
@@ -69,6 +70,12 @@ const NEIGHBOR_COUNTRY_FEATURES: Feature[] = [
   f("iran", "İran", 0, 0, 8, 8, "country"),
   f("iraq", "Irak", 0, 0, 8, 8, "country"),
   f("syria", "Suriye", 0, 0, 8, 8, "country"),
+];
+
+const ACTIVE_FAULT_FEATURES: Feature[] = [
+  f("north-anatolian-fault", "Kuzey Anadolu Fay Zonu", 50, 50, 8, 4, "fault"),
+  f("east-anatolian-fault", "Doğu Anadolu Fay Zonu", 50, 50, 8, 4, "fault"),
+  f("west-anatolian-faults", "Batı Anadolu Fay Sistemi", 50, 50, 8, 4, "fault"),
 ];
 
 const p = (plate: number, name: string): Feature => ({
@@ -2094,6 +2101,16 @@ const QUIZZES: Quiz[] = [
     ],
   },
   {
+    id: "fault-systems",
+    group: "Jeoloji",
+    title: "Türkiye'nin Başlıca Fay Sistemleri",
+    eyebrow: "Jeoloji · Tektonizma",
+    description: "Kuzey, Doğu ve Batı Anadolu fay sistemlerini MTA'nın 2026 diri fay çizgileri üzerinde bul.",
+    color: "#bc463c",
+    icon: "⌁",
+    features: [...ACTIVE_FAULT_FEATURES],
+  },
+  {
     id: "neighbors",
     group: "Türkiye",
     title: "Türkiye'nin Kara Komşuları",
@@ -2277,6 +2294,10 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   passes: {
     label: "MEB geçit soru kapsamı + KGM yol ağı",
     url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/konu-pekistirme/ayt/cografya/files/basic-html/page183.html",
+  },
+  "fault-systems": {
+    label: "MTA Türkiye Diri Fay Haritası 2026 · 1/25.000",
+    url: "https://tdfh.mta.gov.tr/",
   },
   neighbors: {
     label: "MEB kara ve deniz komşuları haritası · Natural Earth sınırları",
@@ -2523,6 +2544,7 @@ type RiverFeature = {
   };
   properties: { id: string; name: string };
 };
+type FaultFeature = RiverFeature;
 
 const MAP_BOUNDS = { west: 25.55, east: 44.85, north: 42.15, south: 35.75 };
 const NEIGHBOR_LABEL_COORDINATES: Record<string, Coordinate> = {
@@ -3300,6 +3322,9 @@ function functionalCityCoordinate(featureId: string) {
 }
 
 const POINT_COORDINATES: Record<string, Coordinate> = {
+  "north-anatolian-fault": [35.3, 40.75],
+  "east-anatolian-fault": [38.5, 38.25],
+  "west-anatolian-faults": [28.7, 38.25],
   agri: [44.2983964, 39.7019346],
   "agri-v": [44.2983964, 39.7019346],
   "agri-gl": [44.2983964, 39.7019346],
@@ -3961,6 +3986,7 @@ function featureGraphic(
   basinShape?: BasinFeature,
   provinces: ProvinceFeature[] = [],
   neighborShape?: NeighborFeature,
+  faultShape?: FaultFeature,
 ) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
@@ -4021,6 +4047,20 @@ function featureGraphic(
         className="geo-shape geo-shape--country"
         fillRule="evenodd"
       />
+    );
+  }
+
+  if (faultShape) {
+    const path = riverPath(faultShape);
+    return (
+      <g clipPath="url(#turkey-country-clip)">
+        <path d={path} className="geo-fault-hit" vectorEffect="non-scaling-stroke" />
+        <path
+          d={path}
+          className="geo-shape geo-shape--line geo-shape--exact-fault"
+          vectorEffect="non-scaling-stroke"
+        />
+      </g>
     );
   }
 
@@ -4209,6 +4249,7 @@ function TurkeyMap({
   const [rivers, setRivers] = useState<RiverFeature[]>([]);
   const [basins, setBasins] = useState<BasinFeature[]>([]);
   const [neighbors, setNeighbors] = useState<NeighborFeature[]>([]);
+  const [faults, setFaults] = useState<FaultFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
   const uniqueFeatures = [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()];
   const orderedFeatures = [...uniqueFeatures].sort((left, right) => {
@@ -4251,6 +4292,10 @@ function TurkeyMap({
       .then((response) => response.json())
       .then((data) => setNeighbors(data.features as NeighborFeature[]))
       .catch(() => setNeighbors([]));
+    fetch("/data/turkey-active-faults.geojson")
+      .then((response) => response.json())
+      .then((data) => setFaults(data.features as FaultFeature[]))
+      .catch(() => setFaults([]));
   }, []);
 
   return (
@@ -4417,6 +4462,8 @@ function TurkeyMap({
                   rivers.find((river) => river.properties.id === riverShapeId(feature)),
                   basins.find((basin) => basin.properties.id === feature.id),
                   provinces,
+                  undefined,
+                  faults.find((fault) => fault.properties.id === feature.id),
                 )}
               </g>
             );
@@ -4462,11 +4509,21 @@ function TurkeyMap({
         <strong>{hoveredProvince || (quiz.id === "neighbors" ? "Ülke poligonuna gel" : "İlin üzerine gel")}</strong>
       </div>
       <div className="map-attribution">
-        {quiz.id === "neighbors"
+        {quiz.id === "fault-systems"
+          ? "Diri fay çizgileri: MTA TDFH-2026 · "
+          : quiz.id === "neighbors"
           ? "Ülke sınırları: Natural Earth 1:50m · "
           : "Rölyef: Esri · İl sınırları: açık coğrafi veri · "}
-        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
-          {quiz.id === "neighbors" ? "Türkiye il sınırları: © OpenStreetMap katkıcıları" : "© OpenStreetMap katkıcıları"}
+        <a
+          href={quiz.id === "fault-systems" ? "https://tdfh.mta.gov.tr/" : "https://www.openstreetmap.org/copyright"}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {quiz.id === "fault-systems"
+            ? "Maden Tetkik ve Arama Genel Müdürlüğü"
+            : quiz.id === "neighbors"
+              ? "Türkiye il sınırları: © OpenStreetMap katkıcıları"
+              : "© OpenStreetMap katkıcıları"}
         </a>
       </div>
       {provinces.length === 0 && <div className="map-loading">Gerçek Türkiye haritası yükleniyor…</div>}

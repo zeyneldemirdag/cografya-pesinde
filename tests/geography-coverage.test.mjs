@@ -73,3 +73,25 @@ test("kara komşuları oyunu sekiz gerçek ülke poligonunu kullanır", () => {
   assert.equal(neighborData.source, "Natural Earth 1:50m Admin 0 Countries, version 5.1.1");
   assert.equal(report.geometryCounts["exact-country"], 8);
 });
+
+test("başlıca fay sistemleri MTA 2026 çizgilerini kullanır", () => {
+  const faultData = JSON.parse(
+    fs.readFileSync(
+      new URL("../public/data/turkey-active-faults.geojson", import.meta.url),
+      "utf8",
+    ),
+  );
+  assert.deepEqual(
+    faultData.features.map((feature) => feature.properties.id).sort(),
+    ["east-anatolian-fault", "north-anatolian-fault", "west-anatolian-faults"],
+  );
+  assert.match(faultData.source, /MTA Türkiye Diri Fay Haritası 2026/);
+  assert.ok(
+    faultData.features.every(
+      (feature) =>
+        feature.geometry.type === "MultiLineString" &&
+        feature.geometry.coordinates.length > 100,
+    ),
+  );
+  assert.equal(report.geometryCounts["exact-fault"], 3);
+});

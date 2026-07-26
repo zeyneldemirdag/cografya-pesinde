@@ -385,6 +385,25 @@ button { color: inherit; }
   pointer-events: stroke;
 }
 
+.geo-fault-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 18;
+  pointer-events: stroke;
+}
+
+.geo-shape--exact-fault {
+  stroke: #f0a33b;
+  stroke-width: 4.2;
+  stroke-dasharray: none;
+  filter: drop-shadow(0 0 2px rgba(255, 214, 128, .52));
+}
+
+.geo-feature:hover .geo-shape--exact-fault,
+.geo-feature:focus .geo-shape--exact-fault {
+  stroke-width: 6.4;
+}
+
 .geo-lake-hit {
   fill: transparent;
   stroke: transparent;
