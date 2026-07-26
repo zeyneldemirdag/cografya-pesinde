@@ -204,6 +204,17 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"meke-geotour": "meke"/);
   assert.match(page, /"aktas-lake": "aktas"/);
   assert.match(page, /turkey-lakes-border-extra\.geojson/);
+  assert.match(page, /"payas-mine": \[\s*\[\[36\.16, 36\.66\]/);
+  assert.match(page, /"keban-lead-zinc": \[\s*\[\[38\.68, 38\.78\]/);
+  assert.match(page, /zonguldak: \[\s*\[\[31\.18, 41\.18\]/);
+  assert.match(page, /"tavsanli-lignite": \[\s*\[\[29\.13, 39\.42\]/);
+  assert.match(page, /"nallihan-lignite": \[\s*\[\[30\.94, 40\.04\]/);
+  assert.match(page, /"yerkoy-salt": \[34\.2601, 39\.7198\]/);
+  assert.match(page, /"tuzluca-salt": \[43\.6687817, 40\.0492563\]/);
+  assert.match(page, /"celtek-lignite": \[35\.6414145, 40\.9065455\]/);
+  assert.match(page, /"askale-lignite": \[40\.6085481, 39\.8522373\]/);
+  assert.doesNotMatch(page, /"kop-mine": \[/);
+  assert.doesNotMatch(page, /"fethiye-koycegiz-mine": \[/);
   assert.match(page, /"gelibolu-tour": \[\s*\[\[26\.14, 40\.03\]/);
   assert.match(page, /"baskomutan-tour": \[\s*\[\[30\.23, 38\.61\]/);
   assert.match(page, /"sakarya-tour": \[\s*\[\[31\.94, 39\.35\]/);
