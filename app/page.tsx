@@ -521,18 +521,18 @@ const INDUSTRIAL_MINERAL_FEATURES: Feature[] = [
 
 const ENERGY_RAW_MATERIAL_FEATURES: Feature[] = [
   f("zonguldak", "Ereğli-Zonguldak-Amasra · Taş Kömürü Havzası", 31, 20, 20, 8, "region"),
-  f("afsin-mine", "Afşin-Elbistan · Linyit", 65, 52, 8, 6, "mine"),
-  f("soma-mine", "Soma · Linyit", 18, 44, 7, 6, "mine"),
-  f("tuncbilek-lignite", "Tunçbilek · Linyit", 50, 50, 7, 6, "mine"),
-  f("seyitomer", "Seyitömer · Linyit", 25, 44, 7, 6, "mine"),
+  f("afsin-mine", "Afşin-Elbistan · Linyit", 65, 52, 8, 6, "region"),
+  f("soma-mine", "Soma · Linyit", 18, 44, 7, 6, "region"),
+  f("tuncbilek-lignite", "Tunçbilek · Linyit", 50, 50, 7, 6, "region"),
+  f("seyitomer", "Seyitömer · Linyit", 25, 44, 7, 6, "region"),
   f("tavsanli-lignite", "Tavşanlı · Değirmisaz Linyit Havzası", 50, 50, 10, 7, "region"),
-  f("can-lignite", "Çan · Linyit", 50, 50, 7, 6, "mine"),
-  f("yatagan-lignite", "Yatağan · Linyit", 50, 50, 7, 6, "mine"),
-  f("celtek-lignite", "Çeltek · İstasyon ve Tersakan Batısı Linyit Sahası", 50, 50, 7, 6, "mine"),
+  f("can-lignite", "Çan · Linyit", 50, 50, 7, 6, "region"),
+  f("yatagan-lignite", "Yatağan · Linyit", 50, 50, 7, 6, "region"),
+  f("celtek-lignite", "Çeltek · İstasyon ve Tersakan Batısı Linyit Sahası", 50, 50, 7, 6, "region"),
   f("nallihan-lignite", "Nallıhan · Batı Kesimi Linyit Zuhurları", 50, 50, 10, 7, "region"),
-  f("cayirhan-lignite", "Çayırhan · Linyit", 50, 50, 7, 6, "mine"),
-  f("dodurga-lignite", "Dodurga · Linyit", 50, 50, 7, 6, "mine"),
-  f("askale-lignite", "Aşkale · Kükürtlü Linyit Sahası", 50, 50, 7, 6, "mine"),
+  f("cayirhan-lignite", "Çayırhan · Linyit", 50, 50, 7, 6, "region"),
+  f("dodurga-lignite", "Dodurga · Linyit", 50, 50, 7, 6, "region"),
+  f("askale-lignite", "Aşkale · Kükürtlü Linyit Sahası", 50, 50, 7, 6, "region"),
 ];
 
 const NATURAL_TOURISM_FEATURES: Feature[] = [
@@ -3113,6 +3113,36 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   ],
   "nallihan-lignite": [
     [[30.94, 40.04], [31.22, 40.02], [31.45, 40.14], [31.42, 40.32], [31.12, 40.4], [30.87, 40.25]],
+  ],
+  "afsin-mine": [
+    [[36.78, 38.36], [36.86, 38.16], [37.1, 38.08], [37.42, 38.12], [37.7, 38.28], [37.65, 38.5], [37.35, 38.58], [37.0, 38.53]],
+  ],
+  "soma-mine": [
+    [[27.34, 39.08], [27.43, 38.98], [27.62, 38.99], [27.79, 39.09], [27.8, 39.24], [27.65, 39.34], [27.46, 39.3], [27.35, 39.2]],
+  ],
+  "tuncbilek-lignite": [
+    [[29.25, 39.58], [29.34, 39.5], [29.51, 39.5], [29.66, 39.57], [29.67, 39.7], [29.55, 39.78], [29.38, 39.76], [29.27, 39.68]],
+  ],
+  seyitomer: [
+    [[29.64, 39.53], [29.72, 39.44], [29.91, 39.43], [30.08, 39.52], [30.08, 39.65], [29.94, 39.72], [29.76, 39.7], [29.65, 39.62]],
+  ],
+  "can-lignite": [
+    [[26.84, 39.99], [26.93, 39.9], [27.09, 39.91], [27.22, 40.0], [27.2, 40.12], [27.07, 40.18], [26.91, 40.14], [26.84, 40.07]],
+  ],
+  "yatagan-lignite": [
+    [[27.88, 37.33], [27.98, 37.2], [28.18, 37.2], [28.36, 37.31], [28.33, 37.46], [28.17, 37.54], [27.98, 37.48], [27.89, 37.41]],
+  ],
+  "celtek-lignite": [
+    [[35.55, 40.89], [35.61, 40.84], [35.7, 40.85], [35.76, 40.91], [35.73, 40.97], [35.64, 41.0], [35.56, 40.96]],
+  ],
+  "cayirhan-lignite": [
+    [[31.43, 40.03], [31.52, 39.95], [31.7, 39.96], [31.86, 40.04], [31.86, 40.16], [31.72, 40.23], [31.54, 40.2], [31.43, 40.12]],
+  ],
+  "dodurga-lignite": [
+    [[34.61, 40.84], [34.68, 40.77], [34.83, 40.76], [34.96, 40.84], [34.94, 40.94], [34.82, 41.0], [34.68, 40.97], [34.61, 40.91]],
+  ],
+  "askale-lignite": [
+    [[40.51, 39.84], [40.56, 39.78], [40.67, 39.78], [40.75, 39.84], [40.73, 39.91], [40.64, 39.95], [40.54, 39.92]],
   ],
   "yildiz-m": [[[26.1, 42.08], [27.1, 42.12], [28.35, 42.05], [29.05, 41.72], [29.18, 41.36], [28.42, 41.12], [27.22, 41.3], [26.28, 41.58]]],
   "menderes-m": [[[27.05, 39.25], [27.78, 39.18], [28.7, 38.82], [29.42, 38.12], [29.3, 37.38], [28.64, 36.94], [27.82, 37.28], [27.24, 38.02]]],

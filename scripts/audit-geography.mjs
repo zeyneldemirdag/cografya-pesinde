@@ -129,6 +129,9 @@ const extendedFeatureKinds = new Set([
 const suspiciousVerifiedPoints = (byGeometry["verified-point"] ?? [])
   .filter((feature) => extendedFeatureKinds.has(feature.kind))
   .map(({ id, name, kind }) => ({ id, name, kind }));
+const pointMineReview = (byGeometry["verified-point"] ?? [])
+  .filter((feature) => feature.kind === "mine")
+  .map(({ id, name }) => ({ id, name }));
 const conflicts = Object.entries(Object.groupBy([...unique.values()], (feature) => feature.id))
   .filter(([, entries]) => new Set(entries.map((entry) => `${entry.name}|${entry.kind}`)).size > 1)
   .map(([id, entries]) => ({ id, variants: entries.map((entry) => `${entry.name} (${entry.kind})`) }));
@@ -346,7 +349,7 @@ const officialExpectations = {
   plains: [
     "Çukurova", "Gediz Ovası", "Bursa Ovası", "Çarşamba Deltası",
     "Konya Ovası", "Iğdır Ovası", "Yüksekova", "Erzincan Ovası",
-    "Muş Ovası", "Bafra Deltası", "Silifke Deltası", "Adapazarı Ovası",
+    "Muş Ovası", "Erzurum Ovası", "Bafra Deltası", "Silifke Deltası", "Adapazarı Ovası",
     "Bolu Ovası", "Düzce Ovası", "Bergama Ovası", "Soma Ovası",
     "Akhisar Ovası", "Amik Ovası", "Kahramanmaraş Ovası",
     "Malatya Ovası", "Suruç Ovası", "Ceylanpınar Ovası",
@@ -601,6 +604,7 @@ console.log(JSON.stringify({
   geometryCounts: Object.fromEntries(Object.entries(byGeometry).map(([key, value]) => [key, value.length])),
   verifiedPointKinds,
   suspiciousVerifiedPoints,
+  pointMineReview,
   fallback: (byGeometry.fallback ?? []).map(({ id, name, kind }) => ({ id, name, kind })),
   conflicts,
   coverageComparisons,

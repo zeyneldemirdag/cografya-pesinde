@@ -223,6 +223,16 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"uludag-tour": \[\[28\.8, 40\.1\]/);
   assert.match(page, /"kartalkaya-tour": \[\[31\.55, 40\.68\]/);
   assert.match(page, /"palandoken-tour": \[\[40\.95, 40\.02\]/);
+  assert.match(page, /"afsin-mine": \[\s*\[\[36\.78, 38\.36\]/);
+  assert.match(page, /"soma-mine": \[\s*\[\[27\.34, 39\.08\]/);
+  assert.match(page, /"tuncbilek-lignite": \[\s*\[\[29\.25, 39\.58\]/);
+  assert.match(page, /seyitomer: \[\s*\[\[29\.64, 39\.53\]/);
+  assert.match(page, /"can-lignite": \[\s*\[\[26\.84, 39\.99\]/);
+  assert.match(page, /"yatagan-lignite": \[\s*\[\[27\.88, 37\.33\]/);
+  assert.match(page, /"celtek-lignite": \[\s*\[\[35\.55, 40\.89\]/);
+  assert.match(page, /"cayirhan-lignite": \[\s*\[\[31\.43, 40\.03\]/);
+  assert.match(page, /"dodurga-lignite": \[\s*\[\[34\.61, 40\.84\]/);
+  assert.match(page, /"askale-lignite": \[\s*\[\[40\.51, 39\.84\]/);
   assert.match(page, /"istiklal-tour": \[\[33\.76, 41\.98\]/);
   assert.match(page, /feature\.kind === "landmark"/);
   assert.match(page, /<g className="geo-distribution">/);
@@ -276,6 +286,10 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /const METALLIC_MINE_FEATURES/);
   assert.match(styles, /\.geo-feature--correct\s*\{\s*pointer-events:\s*none;/);
   assert.match(styles, /\.geo-feature--idle \.geo-shape--plain/);
+  assert.match(
+    styles,
+    /\.geo-feature--idle \.geo-shape--distribution\s*\{[^}]*fill:\s*rgba\(235, 249, 245, \.09\);[^}]*stroke:\s*rgba\(229, 246, 241, \.76\);[^}]*stroke-width:\s*1\.55;/s,
+  );
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);
   assert.match(page, /window\.scrollTo\(\{ top: 0, behavior: "auto" \}\)/);
