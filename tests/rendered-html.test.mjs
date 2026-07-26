@@ -81,6 +81,11 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /const AREA_POLYGONS/);
   assert.match(page, /const DISTRIBUTION_POLYGONS/);
   assert.match(page, /turkey-closed-basins\.geojson/);
+  assert.match(page, /turkey-neighbors\.geojson/);
+  assert.match(page, /id: "neighbors"/);
+  assert.match(page, /const NEIGHBOR_COUNTRY_FEATURES/);
+  assert.match(page, /geo-shape--country/);
+  assert.match(page, /viewBox=\{quiz\.id === "neighbors" \? "-100 -80 1200 590"/);
   assert.match(page, /geo-shape--exact-basin/);
   assert.match(page, /agri: \[44\.2983964, 39\.7019346\]/);
   assert.match(page, /tendurek: \[43\.8669939, 39\.354844\]/);

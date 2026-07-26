@@ -58,3 +58,18 @@ test("kapalı havza oyunu resmî CBS sınırlarını kullanır", () => {
   );
   assert.equal(report.geometryCounts["exact-basin"], 5);
 });
+
+test("kara komşuları oyunu sekiz gerçek ülke poligonunu kullanır", () => {
+  const neighborData = JSON.parse(
+    fs.readFileSync(
+      new URL("../public/data/turkey-neighbors.geojson", import.meta.url),
+      "utf8",
+    ),
+  );
+  assert.deepEqual(
+    neighborData.features.map((feature) => feature.properties.id).sort(),
+    ["armenia", "azerbaijan", "bulgaria", "georgia", "greece", "iran", "iraq", "syria"],
+  );
+  assert.equal(neighborData.source, "Natural Earth 1:50m Admin 0 Countries, version 5.1.1");
+  assert.equal(report.geometryCounts["exact-country"], 8);
+});

@@ -22,6 +22,7 @@ type FeatureKind =
   | "port"
   | "bridge"
   | "tunnel"
+  | "country"
   | "province";
 
 type Feature = {
@@ -58,6 +59,17 @@ const f = (
   kind: FeatureKind,
   r = 0,
 ): Feature => ({ id, name, x, y, w, h, kind, r });
+
+const NEIGHBOR_COUNTRY_FEATURES: Feature[] = [
+  f("greece", "Yunanistan", 0, 0, 8, 8, "country"),
+  f("bulgaria", "Bulgaristan", 0, 0, 8, 8, "country"),
+  f("georgia", "Gürcistan", 0, 0, 8, 8, "country"),
+  f("armenia", "Ermenistan", 0, 0, 8, 8, "country"),
+  f("azerbaijan", "Azerbaycan · Nahçıvan", 0, 0, 8, 8, "country"),
+  f("iran", "İran", 0, 0, 8, 8, "country"),
+  f("iraq", "Irak", 0, 0, 8, 8, "country"),
+  f("syria", "Suriye", 0, 0, 8, 8, "country"),
+];
 
 const p = (plate: number, name: string): Feature => ({
   id: `province-${plate}`,
@@ -2082,6 +2094,16 @@ const QUIZZES: Quiz[] = [
     ],
   },
   {
+    id: "neighbors",
+    group: "Türkiye",
+    title: "Türkiye'nin Kara Komşuları",
+    eyebrow: "Türkiye · Siyasi konum",
+    description: "Sekiz kara komşusunu, sınırın dışındaki gerçek ülke poligonuna tıklayarak bul.",
+    color: "#397c83",
+    icon: "◎",
+    features: [...NEIGHBOR_COUNTRY_FEATURES],
+  },
+  {
     id: "provinces",
     group: "Türkiye",
     title: "81 İl",
@@ -2255,6 +2277,10 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   passes: {
     label: "MEB geçit soru kapsamı + KGM yol ağı",
     url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/konu-pekistirme/ayt/cografya/files/basic-html/page183.html",
+  },
+  neighbors: {
+    label: "MEB kara ve deniz komşuları haritası · Natural Earth sınırları",
+    url: "https://ttkb.meb.gov.tr/www/haritalar/icerik/739",
   },
   mines: {
     label: "MEB Türkiye’de madenler · s. 34-35",
@@ -2488,6 +2514,7 @@ type LakeFeature = {
 };
 
 type BasinFeature = LakeFeature;
+type NeighborFeature = LakeFeature;
 
 type RiverFeature = {
   geometry: {
@@ -2498,6 +2525,16 @@ type RiverFeature = {
 };
 
 const MAP_BOUNDS = { west: 25.55, east: 44.85, north: 42.15, south: 35.75 };
+const NEIGHBOR_LABEL_COORDINATES: Record<string, Coordinate> = {
+  greece: [25.2, 40.45],
+  bulgaria: [26.9, 42.55],
+  georgia: [42.05, 42.45],
+  armenia: [44.15, 40.55],
+  azerbaijan: [45.1, 39.55],
+  iran: [45.45, 38.35],
+  iraq: [43.45, 36.45],
+  syria: [38.1, 35.55],
+};
 const MAP_COLORS = ["#ead9a2", "#c4d89b", "#e9bd7b", "#c7d8ca", "#d4c1dc", "#f1cf9f", "#b8d6c7"];
 
 function ovalArea(
@@ -3790,6 +3827,8 @@ function distributionPolygonsFor(feature: Feature) {
 }
 
 function featureCenter(feature: Feature): Coordinate {
+  const neighborLabel = NEIGHBOR_LABEL_COORDINATES[feature.id];
+  if (neighborLabel) return project(neighborLabel);
   const point = POINT_COORDINATES[feature.id] ?? functionalCityCoordinate(feature.id);
   if (point) return project(point);
   const areaPolygon = areaPolygonFor(feature);
@@ -3921,6 +3960,7 @@ function featureGraphic(
   riverShape?: RiverFeature,
   basinShape?: BasinFeature,
   provinces: ProvinceFeature[] = [],
+  neighborShape?: NeighborFeature,
 ) {
   const realLine = realLineFor(feature);
   const [cx, cy] = featureCenter(feature);
@@ -3969,6 +4009,16 @@ function featureGraphic(
       <path
         d={lakePath(basinShape)}
         className="geo-shape geo-shape--region geo-shape--area geo-shape--exact-basin"
+        fillRule="evenodd"
+      />
+    );
+  }
+
+  if (neighborShape) {
+    return (
+      <path
+        d={lakePath(neighborShape)}
+        className="geo-shape geo-shape--country"
         fillRule="evenodd"
       />
     );
@@ -4158,6 +4208,7 @@ function TurkeyMap({
   const [lakes, setLakes] = useState<LakeFeature[]>([]);
   const [rivers, setRivers] = useState<RiverFeature[]>([]);
   const [basins, setBasins] = useState<BasinFeature[]>([]);
+  const [neighbors, setNeighbors] = useState<NeighborFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
   const uniqueFeatures = [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()];
   const orderedFeatures = [...uniqueFeatures].sort((left, right) => {
@@ -4196,11 +4247,22 @@ function TurkeyMap({
       .then((response) => response.json())
       .then((data) => setBasins(data.features as BasinFeature[]))
       .catch(() => setBasins([]));
+    fetch("/data/turkey-neighbors.geojson")
+      .then((response) => response.json())
+      .then((data) => setNeighbors(data.features as NeighborFeature[]))
+      .catch(() => setNeighbors([]));
   }, []);
 
   return (
     <div className="real-map-wrap">
-      <svg className="real-map" viewBox="0 0 1000 430" role="img" aria-label={`81 il sınırları üzerinde ${quiz.title}`}>
+      <svg
+        className={`real-map${quiz.id === "neighbors" ? " real-map--neighbors" : ""}`}
+        viewBox={quiz.id === "neighbors" ? "-100 -80 1200 590" : "0 0 1000 430"}
+        role="img"
+        aria-label={quiz.id === "neighbors"
+          ? `Türkiye ve sekiz kara komşusu üzerinde ${quiz.title}`
+          : `81 il sınırları üzerinde ${quiz.title}`}
+      >
         <defs>
           <clipPath id="turkey-country-clip">
             {provinces.map((province) => (
@@ -4233,6 +4295,41 @@ function TurkeyMap({
           fill="url(#terrain-atlas-tint)"
           clipPath="url(#turkey-country-clip)"
         />
+        {quiz.id === "neighbors" && (
+          <g className="neighbor-quiz-layer">
+            {orderedFeatures.map((feature) => {
+              const status = correctIds.includes(feature.id)
+                ? "correct"
+                : wrongIds.includes(feature.id)
+                  ? "wrong"
+                  : "idle";
+              const neighborShape = neighbors.find(
+                (neighbor) => neighbor.properties.id === feature.id,
+              );
+              if (!neighborShape) return null;
+              return (
+                <g
+                  key={`neighbor-${feature.id}`}
+                  role="button"
+                  tabIndex={0}
+                  data-feature-id={feature.id}
+                  data-feature-name={feature.name}
+                  data-status={status}
+                  aria-label={status === "correct" ? `${feature.name}, doğru bilindi` : "Komşu ülke seçeneği"}
+                  className={`geo-feature geo-feature--${status} geo-feature--country`}
+                  onPointerEnter={() => setHoveredProvince(feature.name)}
+                  onPointerLeave={() => setHoveredProvince("")}
+                  onClick={() => onSelect(feature)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") onSelect(feature);
+                  }}
+                >
+                  {featureGraphic(feature, undefined, undefined, undefined, provinces, neighborShape)}
+                </g>
+              );
+            })}
+          </g>
+        )}
         <g className="province-layer">
           {provinces.map((province) => (
             <path
@@ -4291,7 +4388,7 @@ function TurkeyMap({
             })}
           </g>
         )}
-        {quiz.id !== "provinces" && <g className="feature-layer">
+        {quiz.id !== "provinces" && quiz.id !== "neighbors" && <g className="feature-layer">
           {orderedFeatures.map((feature) => {
             const status = correctIds.includes(feature.id)
               ? "correct"
@@ -4361,13 +4458,15 @@ function TurkeyMap({
         )}
       </svg>
       <div className="map-province-readout">
-        <span>81 İL SINIRI</span>
-        <strong>{hoveredProvince || "İlin üzerine gel"}</strong>
+        <span>{quiz.id === "neighbors" ? "8 KARA KOMŞUSU" : "81 İL SINIRI"}</span>
+        <strong>{hoveredProvince || (quiz.id === "neighbors" ? "Ülke poligonuna gel" : "İlin üzerine gel")}</strong>
       </div>
       <div className="map-attribution">
-        Rölyef: Esri · İl sınırları: açık coğrafi veri ·{" "}
+        {quiz.id === "neighbors"
+          ? "Ülke sınırları: Natural Earth 1:50m · "
+          : "Rölyef: Esri · İl sınırları: açık coğrafi veri · "}
         <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
-          © OpenStreetMap katkıcıları
+          {quiz.id === "neighbors" ? "Türkiye il sınırları: © OpenStreetMap katkıcıları" : "© OpenStreetMap katkıcıları"}
         </a>
       </div>
       {provinces.length === 0 && <div className="map-loading">Gerçek Türkiye haritası yükleniyor…</div>}

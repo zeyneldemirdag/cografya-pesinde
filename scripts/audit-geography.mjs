@@ -58,6 +58,10 @@ const basinData = JSON.parse(
   fs.readFileSync(new URL("../public/data/turkey-closed-basins.geojson", import.meta.url), "utf8"),
 ).features;
 const basinIds = new Set(basinData.map((feature) => feature.properties.id));
+const neighborData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-neighbors.geojson", import.meta.url), "utf8"),
+).features;
+const neighborIds = new Set(neighborData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const hasRenderedRealLine = (feature) =>
@@ -91,6 +95,7 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (basinIds.has(feature.id)) geometry = "exact-basin";
+  else if (feature.kind === "country" && neighborIds.has(feature.id)) geometry = "exact-country";
   else if (areaKeys.has(feature.id) && ["plain", "plateau", "region", "lake"].includes(feature.kind)) geometry = "area-polygon";
   else if (distributionKeys.has(feature.id)) geometry = "distribution-polygon";
   else if (hasRenderedRealLine(feature)) geometry = "coordinate-line";
@@ -567,6 +572,10 @@ const officialExpectations = {
     "Göller Yöresi-Burdur Kapalı Havzası", "Akşehir-Eber (Akarçay) Kapalı Havzası",
     "Aras-Kura (Hazar Denizi) Havzası", "Hazar Gölü Kapalı Havzası",
   ],
+  neighbors: [
+    "Yunanistan", "Bulgaristan", "Gürcistan", "Ermenistan",
+    "Azerbaycan", "İran", "Irak", "Suriye",
+  ],
 };
 
 const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected]) => {
@@ -589,7 +598,7 @@ const sourceOverrideRequired = [
   "forest-vegetation", "shrub-vegetation", "grass-vegetation",
   "agriculture", "grain-legume-crops", "industrial-oil-crops", "fruit-special-crops",
   "livestock", "small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock",
-  "closed-basins", "ports", "marmara-ports", "black-sea-ports",
+  "closed-basins", "neighbors", "ports", "marmara-ports", "black-sea-ports",
   "aegean-ports", "mediterranean-ports", "gulfs", "coast-types", "bridges-tunnels",
   "bridges", "tunnels", "cities", "agricultural-function-cities",
   "industrial-function-cities", "mining-function-cities", "port-function-cities",
