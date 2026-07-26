@@ -233,6 +233,10 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"cayirhan-lignite": \[\s*\[\[31\.43, 40\.03\]/);
   assert.match(page, /"dodurga-lignite": \[\s*\[\[34\.61, 40\.84\]/);
   assert.match(page, /"askale-lignite": \[\s*\[\[40\.51, 39\.84\]/);
+  assert.match(page, /"zamanti-lead-zinc": \[\s*\[\[35\.18, 37\.62\]/);
+  assert.match(page, /"bingol-phosphate": \[\s*\[\[40\.255, 38\.61\]/);
+  assert.match(page, /f\("zamanti-lead-zinc", [^\n]+ "region"\)/);
+  assert.match(page, /f\("bingol-phosphate", [^\n]+ "region"\)/);
   assert.match(page, /"istiklal-tour": \[\[33\.76, 41\.98\]/);
   assert.match(page, /feature\.kind === "landmark"/);
   assert.match(page, /<g className="geo-distribution">/);

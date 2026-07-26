@@ -486,7 +486,7 @@ const METALLIC_MINE_FEATURES: Feature[] = [
   f("yenice-lead-zinc", "Yenice · Kurşun-Çinko (Arapuçan)", 50, 50, 7, 6, "mine"),
   f("keban-lead-zinc", "Keban · Kurşun-Çinko Maden Sahası", 50, 50, 9, 7, "region"),
   f("bolkar-lead-zinc", "Bolkar Dağları · Kurşun-Çinko (Madenköy)", 50, 50, 7, 6, "mine"),
-  f("zamanti-lead-zinc", "Zamantı · Kurşun-Çinko (Cevher Bölgesi)", 50, 50, 7, 6, "mine"),
+  f("zamanti-lead-zinc", "Zamantı · Kurşun-Çinko (Yahyalı-Çamardı Cevher Bölgesi)", 50, 50, 7, 6, "region"),
   f("akdagmadeni-lead-zinc", "Akdağmadeni · Kurşun-Çinko (Başçatak)", 50, 50, 7, 6, "mine"),
   f("east-black-sea-lead-zinc", "Doğu Karadeniz Kuşağı · Kurşun-Çinko", 78, 21, 22, 7, "region"),
 ];
@@ -498,7 +498,7 @@ const INDUSTRIAL_MINERAL_FEATURES: Feature[] = [
   f("emet-mine", "Emet · Bor (Espey Ocağı)", 26, 41, 7, 6, "mine"),
   f("mazidagi", "Mazıdağı · Fosfat İşletmesi", 78, 65, 7, 6, "mine"),
   f("adiyaman-phosphate", "Adıyaman · Fosfat Zuhurları (Tut-Pembeğli-Palanlı)", 50, 50, 12, 8, "region"),
-  f("bingol-phosphate", "Bingöl · Fosfat (Genç-Avnik-Arduvan)", 50, 50, 7, 6, "mine"),
+  f("bingol-phosphate", "Bingöl · Fosfat (Genç-Avnik-Arduvan Sahaları)", 50, 50, 7, 6, "region"),
   f("sanliurfa-phosphate", "Şanlıurfa · Fosfat (Bozova)", 50, 50, 7, 6, "mine"),
   f("bitlis-phosphate", "Bitlis · Fosfat Zuhurları (Bitlis Masifi)", 50, 50, 13, 9, "region"),
   f("cankiri-salt", "Çankırı · Kaya Tuzu (Balıbağı)", 50, 50, 7, 6, "mine"),
@@ -3143,6 +3143,12 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   ],
   "askale-lignite": [
     [[40.51, 39.84], [40.56, 39.78], [40.67, 39.78], [40.75, 39.84], [40.73, 39.91], [40.64, 39.95], [40.54, 39.92]],
+  ],
+  "zamanti-lead-zinc": [
+    [[35.18, 37.62], [35.34, 37.49], [35.58, 37.5], [35.78, 37.68], [35.77, 37.96], [35.62, 38.22], [35.39, 38.29], [35.2, 38.13], [35.1, 37.86]],
+  ],
+  "bingol-phosphate": [
+    [[40.255, 38.61], [40.3, 38.585], [40.365, 38.59], [40.405, 38.63], [40.392, 38.69], [40.34, 38.72], [40.275, 38.7], [40.245, 38.66]],
   ],
   "yildiz-m": [[[26.1, 42.08], [27.1, 42.12], [28.35, 42.05], [29.05, 41.72], [29.18, 41.36], [28.42, 41.12], [27.22, 41.3], [26.28, 41.58]]],
   "menderes-m": [[[27.05, 39.25], [27.78, 39.18], [28.7, 38.82], [29.42, 38.12], [29.3, 37.38], [28.64, 36.94], [27.82, 37.28], [27.24, 38.02]]],
