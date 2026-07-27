@@ -29,10 +29,31 @@ const specs = [
     sourceNote: "MEB Coğrafya 10 sirk gölü · Uludağ",
   },
   {
+    id: "buzlu-uludag-glacial",
+    name: "Buzlu Göl (Uludağ)",
+    osmWayId: 721608608,
+    classificationSource: "https://www.tarimorman.gov.tr/DKMP/Belgeler/dkmp%20resmi%20istatistik/kutuphane/58.pdf",
+    sourceNote: "Tarım ve Orman Bakanlığı Uludağ Milli Parkı buzul gölü",
+  },
+  {
+    id: "heybeli-uludag-glacial",
+    name: "Heybeli Gölü (Uludağ, mevsimlik)",
+    osmWayId: 721603998,
+    classificationSource: "https://www.tarimorman.gov.tr/DKMP/Belgeler/dkmp%20resmi%20istatistik/kutuphane/58.pdf",
+    sourceNote: "Tarım ve Orman Bakanlığı Uludağ Milli Parkı · yazın kuruyan buzul gölü",
+  },
+  {
     id: "deligol-glacial",
     name: "Deligöl",
     osmWayId: 29188733,
     sourceNote: "MEB sirk gölü · Kaçkar Dağları",
+  },
+  {
+    id: "sat-ikiyaka-glacial",
+    name: "Sat (İkiyaka) Buzul Gölleri",
+    osmWayIds: [226710688, 1416788048, 226711484, 226711527, 226711563, 226711589],
+    classificationSource: "https://hakkari.ktb.gov.tr/TR-349444/yeryuzu-sekilleri.html",
+    sourceNote: "Hakkâri İl Kültür ve Turizm Müdürlüğü · Sat Gölleri",
   },
 ];
 
@@ -94,9 +115,16 @@ async function osmWayPolygon(osmWayId) {
 
 const features = [];
 for (const spec of specs) {
-  const geometry = spec.osmWayId
-    ? await osmWayPolygon(spec.osmWayId)
-    : await searchPolygon(spec.query);
+  const geometry = spec.osmWayIds
+    ? {
+        type: "MultiPolygon",
+        coordinates: await Promise.all(spec.osmWayIds.map(async (osmWayId) => (
+          (await osmWayPolygon(osmWayId)).coordinates
+        ))),
+      }
+    : spec.osmWayId
+      ? await osmWayPolygon(spec.osmWayId)
+      : await searchPolygon(spec.query);
   if (!geometry) throw new Error(`Su poligonu bulunamadı: ${spec.name}`);
   features.push({
     type: "Feature",

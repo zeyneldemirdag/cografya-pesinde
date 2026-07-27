@@ -107,9 +107,12 @@ test("karma oluşumlu ve sirk gölleri gerçek su poligonlarını kullanır", ()
     lakeData.features.map((feature) => feature.properties.id).sort(),
     [
       "aynali-glacial",
+      "buzlu-uludag-glacial",
       "deligol-glacial",
+      "heybeli-uludag-glacial",
       "karagol-uludag-glacial",
       "kilimli-glacial",
+      "sat-ikiyaka-glacial",
       "yarisli",
     ],
   );
@@ -117,7 +120,11 @@ test("karma oluşumlu ve sirk gölleri gerçek su poligonlarını kullanır", ()
     lakeData.features.every(
       (feature) =>
         /Polygon/.test(feature.geometry.type) &&
-        feature.properties.classification_source.includes("eba.gov.tr"),
+        [
+          "eba.gov.tr",
+          "tarimorman.gov.tr",
+          "hakkari.ktb.gov.tr",
+        ].some((domain) => feature.properties.classification_source.includes(domain)),
     ),
   );
   assert.equal(
@@ -126,7 +133,7 @@ test("karma oluşumlu ve sirk gölleri gerçek su poligonlarını kullanır", ()
   );
   assert.equal(
     report.sourceCoverage.find((coverage) => coverage.quiz === "glacial-lakes").expectedCount,
-    4,
+    7,
   );
 });
 

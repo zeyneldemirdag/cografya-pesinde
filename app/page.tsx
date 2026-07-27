@@ -137,7 +137,10 @@ const GLACIAL_LAKE_FEATURES: Feature[] = [
   f("kilimli-glacial", "Kilimli Gölü", 22, 34, 5, 4, "lake"),
   f("aynali-glacial", "Aynalı Göl", 22, 34, 5, 4, "lake"),
   f("karagol-uludag-glacial", "Karagöl (Uludağ)", 22, 34, 5, 4, "lake"),
+  f("buzlu-uludag-glacial", "Buzlu Göl (Uludağ)", 22, 34, 5, 4, "lake"),
+  f("heybeli-uludag-glacial", "Heybeli Gölü (Uludağ, mevsimlik)", 22, 34, 5, 4, "lake"),
   f("deligol-glacial", "Deligöl", 78, 18, 5, 4, "lake"),
+  f("sat-ikiyaka-glacial", "Sat (İkiyaka) Buzul Gölleri", 90, 65, 6, 5, "lake"),
 ];
 
 const p = (plate: number, name: string): Feature => ({
@@ -1054,7 +1057,7 @@ const QUIZZES: Quiz[] = [
     group: "Göller",
     title: "Sirk (Buzul) Gölleri",
     eyebrow: "Göller · Buzul aşındırması",
-    description: "MEB konu özeti ve Coğrafya 10 kitabında Uludağ ile Kaçkar Dağları üzerinde gösterilen başlıca sirk göllerini gerçek su yüzeylerine tıklayarak bul.",
+    description: "MEB ile Uludağ Milli Parkı envanterindeki başlıca sirk göllerini gerçek su yüzeylerine tıklayarak bul. Heybeli, yazın kuruyan mevsimlik göl olarak ayrıştırılır.",
     color: "#4f83c2",
     icon: "❄",
     features: [...GLACIAL_LAKE_FEATURES],
@@ -3523,7 +3526,10 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "kilimli-glacial": [29.2213, 40.0785],
   "aynali-glacial": [29.2352, 40.0708],
   "karagol-uludag-glacial": [29.228711, 40.073787],
+  "buzlu-uludag-glacial": [29.219054, 40.076535],
+  "heybeli-uludag-glacial": [29.217728, 40.078753],
   "deligol-glacial": [40.9227, 40.69675],
+  "sat-ikiyaka-glacial": [44.187, 37.354],
   agri: [44.2983964, 39.7019346],
   "agri-v": [44.2983964, 39.7019346],
   "agri-gl": [44.2983964, 39.7019346],
@@ -4250,20 +4256,30 @@ function featureGraphic(
       "kilimli-glacial",
       "aynali-glacial",
       "karagol-uludag-glacial",
+      "buzlu-uludag-glacial",
+      "heybeli-uludag-glacial",
       "deligol-glacial",
+      "sat-ikiyaka-glacial",
     ].includes(feature.id);
     if (isMicroLake) {
       const [anchorX, anchorY] = featureCenter(feature);
       const calloutOffsets: Record<string, Coordinate> = {
-        "kilimli-glacial": [-31, 34],
-        "aynali-glacial": [31, 34],
-        "karagol-uludag-glacial": [0, 62],
+        "kilimli-glacial": [-44, 25],
+        "aynali-glacial": [44, 25],
+        "karagol-uludag-glacial": [0, 58],
+        "buzlu-uludag-glacial": [-24, -34],
+        "heybeli-uludag-glacial": [24, -34],
         "deligol-glacial": [-27, 31],
+        "sat-ikiyaka-glacial": [-27, 31],
       };
       const [offsetX, offsetY] = calloutOffsets[feature.id];
       const calloutX = anchorX + offsetX;
       const calloutY = anchorY + offsetY;
-      const scale = feature.id === "deligol-glacial" ? 120 : 150;
+      const scale = feature.id === "deligol-glacial"
+        ? 120
+        : feature.id === "sat-ikiyaka-glacial"
+          ? 90
+          : 150;
       return (
         <g className="micro-lake-callout">
           <line
@@ -4286,7 +4302,9 @@ function featureGraphic(
           <g transform={`translate(${calloutX} ${calloutY}) scale(${scale}) translate(${-anchorX} ${-anchorY})`}>
             <path
               d={path}
-              className="geo-shape geo-shape--lake geo-shape--exact geo-shape--micro-lake"
+              className={`geo-shape geo-shape--lake geo-shape--exact geo-shape--micro-lake${
+                feature.id === "heybeli-uludag-glacial" ? " geo-shape--seasonal-lake" : ""
+              }`}
               fillRule="evenodd"
             />
           </g>

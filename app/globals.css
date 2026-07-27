@@ -555,6 +555,12 @@ button { color: inherit; }
   stroke-dasharray: 5 3;
   filter: drop-shadow(0 0 3px rgba(228, 210, 151, .42));
 }
+.geo-shape--seasonal-lake {
+  fill: rgba(72, 181, 214, .22);
+  stroke: #a8e7f4;
+  stroke-dasharray: 4 3;
+  filter: drop-shadow(0 0 3px rgba(121, 223, 245, .4));
+}
 .geo-feature--idle .geo-shape--plain,
 .geo-feature--idle .geo-shape--plateau {
   fill: rgba(246, 249, 228, .13);
