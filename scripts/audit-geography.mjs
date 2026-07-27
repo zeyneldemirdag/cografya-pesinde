@@ -51,6 +51,7 @@ const lakeData = [
 const riverData = [
   "../public/data/turkey-rivers.geojson",
   "../public/data/turkey-rivers-extra.geojson",
+  "../public/data/turkey-rivers-official-extra.geojson",
 ].flatMap((path) =>
   JSON.parse(fs.readFileSync(new URL(path, import.meta.url), "utf8")).features
 );
@@ -335,6 +336,17 @@ const officialExpectations = {
   ],
   "border-rivers": [
     "Meriç", "Mutludere (Rezve)", "Arpaçay", "Aras", "Asi", "Hezil Çayı",
+  ],
+  "black-sea-rivers": [
+    "Sakarya", "Kızılırmak", "Yeşilırmak", "Çoruh",
+    "Harşit Çayı", "Filyos (Yenice) Çayı", "Bartın Çayı",
+  ],
+  "aegean-rivers": [
+    "Meriç", "Bakırçay", "Gediz", "Küçük Menderes", "Büyük Menderes",
+  ],
+  "mediterranean-rivers": [
+    "Dalaman Çayı", "Aksu", "Manavgat", "Göksu", "Seyhan",
+    "Ceyhan", "Asi", "Eşen Çayı", "Köprüçay",
   ],
   "coast-types": [
     "Boyuna Kıyı", "Enine Kıyı", "Ria Kıyı", "Dalmaçya Kıyı",

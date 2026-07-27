@@ -137,6 +137,35 @@ test("karma oluşumlu ve sirk gölleri gerçek su poligonlarını kullanır", ()
   );
 });
 
+test("MEB havza listelerindeki ek akarsular gerçek yatak çizgilerini kullanır", () => {
+  const riverData = JSON.parse(
+    fs.readFileSync(
+      new URL("../public/data/turkey-rivers-official-extra.geojson", import.meta.url),
+      "utf8",
+    ),
+  );
+  assert.deepEqual(
+    riverData.features.map((feature) => feature.properties.id).sort(),
+    ["bartin", "esen", "filyos", "harsit", "koprucay"],
+  );
+  assert.ok(
+    riverData.features.every(
+      (feature) =>
+        feature.geometry.type === "MultiLineString" &&
+        feature.geometry.coordinates.length > 0 &&
+        feature.properties.classification_source.includes("meb"),
+    ),
+  );
+  assert.equal(
+    report.sourceCoverage.find((coverage) => coverage.quiz === "black-sea-rivers").expectedCount,
+    7,
+  );
+  assert.equal(
+    report.sourceCoverage.find((coverage) => coverage.quiz === "mediterranean-rivers").expectedCount,
+    9,
+  );
+});
+
 test("kurumuş Kestel polyesi güncel su yüzeyi gibi gösterilmez", () => {
   assert.deepEqual(report.nonExactLakeTargets, []);
   assert.deepEqual(report.intermittentPolyeTargets, [

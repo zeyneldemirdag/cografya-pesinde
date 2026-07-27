@@ -381,8 +381,14 @@ button { color: inherit; }
 .geo-river-hit {
   fill: none;
   stroke: transparent;
-  stroke-width: 14;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   pointer-events: stroke;
+}
+
+.geo-feature--current .geo-river-hit {
+  stroke-width: 24;
 }
 
 .geo-fault-hit {

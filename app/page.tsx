@@ -99,6 +99,17 @@ const OIL_PIPELINE_FEATURES: Feature[] = [
   f("pipeline-iraq-turkey", "Irak-Türkiye · Kerkük-Ceyhan", 50, 50, 8, 4, "route"),
 ];
 
+const BLACK_SEA_EXTRA_RIVER_FEATURES: Feature[] = [
+  f("harsit", "Harşit Çayı", 72, 22, 10, 3, "river"),
+  f("filyos", "Filyos (Yenice) Çayı", 35, 18, 10, 3, "river"),
+  f("bartin", "Bartın Çayı", 34, 16, 8, 3, "river"),
+];
+
+const MEDITERRANEAN_EXTRA_RIVER_FEATURES: Feature[] = [
+  f("esen", "Eşen Çayı", 26, 72, 8, 3, "river"),
+  f("koprucay", "Köprüçay", 34, 70, 8, 3, "river"),
+];
+
 const LANDSLIDE_SET_LAKE_FEATURES: Feature[] = [
   f("abant-set", "Abant Gölü", 31, 29, 5, 4, "lake"),
   f("yedigoller-set", "Yedigöller", 34, 22, 5, 4, "lake"),
@@ -1096,6 +1107,8 @@ const QUIZZES: Quiz[] = [
       f("susurluk", "Susurluk (Simav) Çayı", 20, 38, 14, 3, "river", 35),
       f("mutludere-br", "Mutludere (Rezve)", 9, 15, 8, 5, "river"),
       f("hezil-br", "Hezil Çayı", 85, 68, 8, 5, "river"),
+      ...BLACK_SEA_EXTRA_RIVER_FEATURES,
+      ...MEDITERRANEAN_EXTRA_RIVER_FEATURES,
     ],
   },
   {
@@ -1111,6 +1124,7 @@ const QUIZZES: Quiz[] = [
       f("kizilirmak", "Kızılırmak", 48, 34, 24, 3, "river"),
       f("yesilirmak", "Yeşilırmak", 60, 27, 16, 3, "river"),
       f("coruh", "Çoruh", 84, 24, 12, 3, "river"),
+      ...BLACK_SEA_EXTRA_RIVER_FEATURES,
     ],
   },
   {
@@ -1145,6 +1159,7 @@ const QUIZZES: Quiz[] = [
       f("seyhan", "Seyhan", 55, 64, 12, 3, "river"),
       f("ceyhan", "Ceyhan", 60, 63, 12, 3, "river"),
       f("asi", "Asi", 62, 72, 10, 3, "river"),
+      ...MEDITERRANEAN_EXTRA_RIVER_FEATURES,
     ],
   },
   {
@@ -4580,6 +4595,7 @@ function TurkeyMap({
     Promise.all([
       fetch("/data/turkey-rivers.geojson").then((response) => response.json()),
       fetch("/data/turkey-rivers-extra.geojson").then((response) => response.json()),
+      fetch("/data/turkey-rivers-official-extra.geojson").then((response) => response.json()),
     ])
       .then((collections) => setRivers(
         collections.flatMap((data) => data.features as RiverFeature[]),
@@ -4754,7 +4770,9 @@ function TurkeyMap({
                 data-feature-name={feature.name}
                 data-status={status}
                 aria-label={status === "correct" ? `${feature.name}, doğru bilindi` : "Harita seçeneği"}
-                className={`geo-feature geo-feature--${status}`}
+                className={`geo-feature geo-feature--${status}${
+                  feature.id === currentFeatureId ? " geo-feature--current" : ""
+                }`}
                 onClick={() => onSelect(feature)}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") onSelect(feature);
