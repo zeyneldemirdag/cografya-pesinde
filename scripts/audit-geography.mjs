@@ -315,14 +315,19 @@ const officialExpectations = {
     "Antalya", "Marmaris", "Kuşadası", "Nevşehir", "İstanbul",
   ],
   "fold-mountains": [
-    "Sündiken Dağları", "Elmadağ", "Munzur Dağları", "Mercan Dağları",
+    "Küre Dağları", "Canik Dağları", "Kaçkar Dağları", "Ilgaz Dağları",
+    "Köroğlu Dağları", "Giresun Dağları", "Bey Dağları", "Sultan Dağları",
+    "Bolkar Dağları", "Aladağlar", "Nur Dağları", "Sündiken Dağları",
+    "Elmadağ", "Munzur Dağları", "Mercan Dağları", "Hakkâri Dağları",
   ],
   "fault-mountains": [
-    "Madra Dağları", "Yunt Dağları", "Bozdağlar", "Aydın Dağları", "Menteşe Dağları",
+    "Kaz Dağı", "Madra Dağları", "Yunt Dağları", "Bozdağlar",
+    "Aydın Dağları", "Menteşe Dağları", "Nur Dağları",
   ],
   "volcanic-mountains": [
-    "Ağrı Dağı", "Süphan Dağı", "Tendürek Dağı", "Erciyes Dağı",
-    "Nemrut Dağı", "Karacadağ (Güneydoğu)", "Kula Volkanları",
+    "Ağrı Dağı", "Tendürek Dağı", "Süphan Dağı", "Nemrut Dağı",
+    "Erciyes Dağı", "Hasan Dağı", "Karadağ", "Melendiz Dağı",
+    "Karacadağ (İç Anadolu)", "Karacadağ (Güneydoğu)", "Kula Volkanları",
   ],
   "glacial-mountains": [
     "Ağrı Dağı", "Cilo-Sat Dağları", "Kaçkar Dağları", "Süphan Dağı",

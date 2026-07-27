@@ -890,7 +890,7 @@ const QUIZZES: Quiz[] = [
     group: "Dağlar",
     title: "Kırık Dağlar",
     eyebrow: "Dağlar · Alt konu",
-    description: "Ege’de horst sistemini oluşturan kırık dağları bul.",
+    description: "Ege’deki horst sistemini ve MEB’in kırık dağ örneği olarak verdiği Nur (Amanos) Dağları’nı bul.",
     color: "#bf6657",
     icon: "⌁",
     features: [
@@ -900,6 +900,7 @@ const QUIZZES: Quiz[] = [
       f("bozdag-f", "Bozdağlar", 20, 55, 11, 5, "mountain", 13),
       f("aydin-f", "Aydın Dağları", 22, 61, 11, 5, "mountain", 8),
       f("mentese-f", "Menteşe Dağları", 19, 66, 11, 6, "mountain", -15),
+      f("nur", "Nur Dağları", 62, 70, 7, 6, "mountain"),
     ],
   },
   {
