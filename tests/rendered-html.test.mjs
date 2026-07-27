@@ -321,7 +321,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /f\("cilo", "Cilo-Sat Dağları".*"mountain"/);
   assert.match(page, /geo-shape--distribution/);
   assert.match(page, /regionFeature\("tea", "Çay · Rize-Artvin-Trabzon", \[53, 8, 61\]\)/);
-  assert.match(page, /f\("pasture-cattle", "Mera Sığırcılığı · Kuzeydoğu Anadolu".*"region"\)/);
+  assert.match(page, /regionFeature\("pasture-cattle", "Mera Sığırcılığı · Erzurum-Kars-Ağrı-Ardahan", \[25, 36, 4, 75\]\)/);
   assert.match(page, /\n  "freshwater-fishing": \[/);
   assert.match(
     page,

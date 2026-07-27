@@ -104,6 +104,10 @@ const subgameAreaData = JSON.parse(
   fs.readFileSync(new URL("../public/data/turkey-subgame-areas.geojson", import.meta.url), "utf8"),
 ).features;
 const subgameAreaIds = new Set(subgameAreaData.map((feature) => feature.properties.id));
+const agricultureAreaData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-agriculture-areas.geojson", import.meta.url), "utf8"),
+).features;
+const agricultureAreaIds = new Set(agricultureAreaData.map((feature) => feature.properties.id));
 const exactAreaAliases = {
   "terra-rossa": "terra-rossa-map",
   "brown-forest": "brown-forest-map",
@@ -118,6 +122,9 @@ const exactAreaAliases = {
   step: "step-map",
   "anthro-step": "anthropogenic-step-map",
   "mountain-meadow-veg": "mountain-meadow-map",
+  "sheep-livestock": "step-map",
+  goat: "goat-toros",
+  banana: "banana-anamur-alanya",
 };
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
@@ -154,7 +161,8 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (straitKeys.has(feature.id)) geometry = "exact-strait";
   else if (provinceUnionIds.has(feature.id)) geometry = "exact-province-union";
-  else if (subgameAreaIds.has(feature.id)) geometry = "exact-subgame-area";
+  else if (agricultureAreaIds.has(exactAreaAliases[feature.id] ?? feature.id)) geometry = "exact-agriculture-area";
+  else if (subgameAreaIds.has(exactAreaAliases[feature.id] ?? feature.id)) geometry = "exact-subgame-area";
   else if (vegetationAreaIds.has(exactAreaAliases[feature.id] ?? feature.id)) geometry = "exact-vegetation-area";
   else if (soilAreaIds.has(exactAreaAliases[feature.id] ?? feature.id)) geometry = "exact-soil-area";
   else if (climateAreaIds.has(feature.id)) geometry = "exact-climate-area";

@@ -23,6 +23,7 @@ const expectedIds = [
   "regosol-soil",
   "loess-soil",
   "moraine-soil",
+  "goat-toros",
 ];
 
 function allCoordinates(geometry) {
@@ -31,7 +32,7 @@ function allCoordinates(geometry) {
     : geometry.coordinates.flat(2);
 }
 
-test("toprak ve bitki alt oyunlarının MEB tabanlı gerçek alanları tamdır", () => {
+test("toprak, bitki ve hayvancılık alt oyunlarının MEB tabanlı gerçek alanları tamdır", () => {
   assert.deepEqual(
     areas.features.map((feature) => feature.properties.id),
     expectedIds,
@@ -62,6 +63,8 @@ test("zonal ve ot alt oyunları resmî dağılış alanlarına bağlanır", () =
   assert.match(page, /step: "step-map"/);
   assert.match(page, /"anthro-step": "anthropogenic-step-map"/);
   assert.match(page, /"mountain-meadow-veg": "mountain-meadow-map"/);
+  assert.match(page, /"sheep-livestock": "step-map"/);
+  assert.match(page, /goat: "goat-toros"/);
   assert.match(page, /turkey-subgame-areas\.geojson/);
 });
 

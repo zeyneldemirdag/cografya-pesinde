@@ -1,4 +1,4 @@
-"""Build MEB-grounded exact areas for soil and vegetation subgames.
+"""Build MEB-grounded exact areas for soil, vegetation and livestock subgames.
 
 The general distribution maps are official MEB raster vectors.  This script
 derives the more specific textbook subcategories by clipping those vectors to
@@ -31,6 +31,10 @@ MEB_FOREST = (
 MEB_VEGETATION = (
     "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/"
     "tyt-cografya/files/basic-html/page91.html"
+)
+MEB_LIVESTOCK = (
+    "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/"
+    "ayt-cografya/files/basic-html/page32.html"
 )
 
 
@@ -197,6 +201,17 @@ def main() -> None:
         [(32.20, 37.05), (32.70, 37.27)],  # Bolkar
     ], 0.085), country)
 
+    # MEB describes hair-goat breeding with the Taurus system as its canonical
+    # KPSS focus. The corridor follows the real Western, Central and Eastern
+    # Taurus axes instead of the old rectangular southern strip.
+    goat_taurus = useful_geometry(buffered_lines([
+        [(29.4, 36.8), (30.3, 36.9), (31.1, 37.0)],  # Beydağları
+        [(30.5, 38.2), (31.2, 38.1), (31.8, 38.0)],  # Sultan Dağları
+        [(32.8, 37.0), (33.8, 37.1), (34.8, 37.2)],  # Bolkar
+        [(34.7, 37.8), (35.4, 37.9), (36.0, 38.1)],  # Aladağlar
+        [(36.0, 37.1), (36.3, 36.7), (36.2, 36.3)],  # Nur Dağları
+    ], 0.18), country)
+
     output_features = [
         feature("forest-black", "Kuzey Anadolu Ormanları", forest_north, MEB_FOREST,
                 "MEB orman haritasının Kuzey Anadolu orman kuşağı"),
@@ -222,11 +237,13 @@ def main() -> None:
                 "Rüzgâr birikimi; Konya kapalı havzası örnek alanı"),
         feature("moraine-soil", "Moren", moraine, MEB_SOIL,
                 "Türkiye'nin yüksek buzul dağlarındaki moren alanları"),
+        feature("goat-toros", "Kıl Keçisi · Toroslar", goat_taurus, MEB_LIVESTOCK,
+                "MEB'in kıl keçisi için verdiği Toroslar odağı; gerçek dağ eksenleri boyunca"),
     ]
 
     OUTPUT.write_text(json.dumps({
         "type": "FeatureCollection",
-        "name": "MEB Toprak ve Bitki Alt Oyun Alanları",
+        "name": "MEB Toprak, Bitki ve Hayvancılık Alt Oyun Alanları",
         "features": output_features,
     }, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"Yazıldı: {OUTPUT} ({len(output_features)} alt oyun alanı)")

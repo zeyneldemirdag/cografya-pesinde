@@ -541,6 +541,9 @@ const EXACT_AREA_ALIASES: Record<string, string> = {
   step: "step-map",
   "anthro-step": "anthropogenic-step-map",
   "mountain-meadow-veg": "mountain-meadow-map",
+  "sheep-livestock": "step-map",
+  goat: "goat-toros",
+  banana: "banana-anamur-alanya",
 };
 
 const DENSE_POPULATION_FEATURES: Feature[] = [
@@ -567,7 +570,7 @@ const SPARSE_POPULATION_FEATURES: Feature[] = [
 const GRAIN_LEGUME_FEATURES: Feature[] = [
   regionFeature("wheat", "Buğday · Konya-Ankara-Diyarbakır", [42, 6, 21]),
   regionFeature("barley-ag", "Arpa · Konya-Ankara-Şanlıurfa", [42, 6, 63]),
-  f("corn", "Mısır · Çukurova-Amik-GAP-Kıyı Ege", 54, 59, 48, 20, "region"),
+  regionFeature("corn", "Mısır · Çukurova-Amik-Güneydoğu-Kıyı Ege", [1, 33, 80, 31, 63, 21, 47, 27, 72, 73, 56, 79, 9, 35, 45, 20]),
   regionFeature("rice", "Çeltik · Edirne-Samsun-Balıkesir", [22, 55, 10]),
   regionFeature("chickpea-ag", "Nohut · Kırşehir-Ankara", [40, 6]),
   regionFeature("bean-ag", "Fasulye · Konya-Niğde", [42, 51]),
@@ -577,7 +580,7 @@ const GRAIN_LEGUME_FEATURES: Feature[] = [
 const INDUSTRIAL_OIL_CROP_FEATURES: Feature[] = [
   regionFeature("tobacco", "Tütün · Denizli-Manisa-Adıyaman-Samsun", [20, 45, 2, 55]),
   regionFeature("sugarbeet", "Şeker Pancarı · Konya-Yozgat-Aksaray-Eskişehir", [42, 66, 68, 26]),
-  f("cotton", "Pamuk · Şanlıurfa-Çukurova-Kıyı Ege-Iğdır", 59, 60, 57, 17, "region"),
+  regionFeature("cotton", "Pamuk · Şanlıurfa-Çukurova-Kıyı Ege-Iğdır", [63, 1, 33, 31, 80, 9, 35, 45, 76]),
   regionFeature("sunflower", "Ayçiçeği · Tekirdağ-Konya-Edirne-Kırklareli", [59, 42, 22, 39]),
   regionFeature("peanut-ag", "Yer Fıstığı · Adana-Osmaniye", [1, 80]),
   regionFeature("soybean-ag", "Soya Fasulyesi · Adana-Mersin-Samsun", [1, 33, 55]),
@@ -599,12 +602,12 @@ const FRUIT_SPECIAL_CROP_FEATURES: Feature[] = [
 const SMALL_RUMINANT_LIVESTOCK_FEATURES: Feature[] = [
   f("sheep-livestock", "Koyun · İç Kesim Bozkırları", 52, 49, 46, 25, "region"),
   f("goat", "Kıl Keçisi · Toroslar", 46, 70, 42, 9, "region"),
-  f("angora-goat", "Tiftik Keçisi · İç ve Güneydoğu Anadolu", 58, 53, 43, 19, "region"),
+  regionFeature("angora-goat", "Tiftik Keçisi · İç ve Güneydoğu Anadolu", [6, 18, 26, 38, 40, 42, 50, 51, 58, 66, 68, 70, 71, 2, 21, 27, 47, 56, 63, 72, 73, 79]),
 ];
 
 const CATTLE_POULTRY_LIVESTOCK_FEATURES: Feature[] = [
-  f("pasture-cattle", "Mera Sığırcılığı · Kuzeydoğu Anadolu", 83, 32, 20, 15, "region"),
-  f("stable-cattle", "Ahır Sığırcılığı · Marmara-Ege-Akdeniz-İç Anadolu", 43, 50, 58, 35, "region"),
+  regionFeature("pasture-cattle", "Mera Sığırcılığı · Erzurum-Kars-Ağrı-Ardahan", [25, 36, 4, 75]),
+  regionFeature("stable-cattle", "Ahır Sığırcılığı · Marmara-Ege-Akdeniz-İç Anadolu", [10, 11, 16, 17, 22, 34, 39, 41, 54, 59, 77, 3, 9, 20, 35, 43, 45, 48, 64, 1, 7, 15, 31, 32, 33, 46, 80, 6, 18, 26, 38, 40, 42, 50, 51, 58, 66, 68, 70, 71]),
   regionFeature("poultry", "Kümes Hayvancılığı · Bolu-Sakarya-Balıkesir-Manisa", [14, 54, 10, 45]),
 ];
 
@@ -4882,6 +4885,7 @@ function TurkeyMap({
       fetch("/data/turkey-soil-distribution.geojson").then((response) => response.json()),
       fetch("/data/turkey-vegetation-distribution.geojson").then((response) => response.json()),
       fetch("/data/turkey-subgame-areas.geojson").then((response) => response.json()),
+      fetch("/data/turkey-agriculture-areas.geojson").then((response) => response.json()),
     ])
       .then((collections) => setExactAreas(
         collections.flatMap((data) => data.features as AreaFeature[]),
