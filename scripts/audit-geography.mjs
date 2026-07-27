@@ -24,7 +24,10 @@ function constantKeys(name) {
 
 const pointKeys = constantKeys("POINT_COORDINATES");
 const functionCityKeys = constantKeys("FUNCTION_CITY_COORDINATES");
-const areaKeys = constantKeys("AREA_POLYGONS");
+const areaKeys = new Set([
+  ...constantKeys("AREA_POLYGONS"),
+  ...constantKeys("AREA_MULTI_POLYGONS"),
+]);
 const distributionKeys = constantKeys("DISTRIBUTION_POLYGONS");
 const lineKeys = constantKeys("REAL_LINES");
 

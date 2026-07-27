@@ -2764,10 +2764,11 @@ function ovalArea(
   rotationDegrees = 0,
 ): Coordinate[] {
   const rotation = rotationDegrees * Math.PI / 180;
-  return Array.from({ length: 12 }, (_, index) => {
-    const angle = index * Math.PI * 2 / 12;
-    const x = Math.cos(angle) * longitudeRadius;
-    const y = Math.sin(angle) * latitudeRadius;
+  const basinProfile = [0.9, 1.04, 0.96, 1.08, 0.93, 1.02, 0.88, 1.06, 0.95, 1.03, 0.91, 1.07, 0.94, 1.01, 0.89, 1.05];
+  return basinProfile.map((radiusFactor, index) => {
+    const angle = index * Math.PI * 2 / basinProfile.length;
+    const x = Math.cos(angle) * longitudeRadius * radiusFactor;
+    const y = Math.sin(angle) * latitudeRadius * radiusFactor;
     return [
       longitude + x * Math.cos(rotation) - y * Math.sin(rotation),
       latitude + x * Math.sin(rotation) + y * Math.cos(rotation),
@@ -2846,21 +2847,20 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   "ergene-o": ovalArea(27.45, 41.2, .85, .35, -4),
   "merzifon-o": ovalArea(35.5, 40.78, .3, .14, 3),
   "ceyhan-o": ovalArea(35.82, 37.03, .4, .2, 2),
-  catalca: [[27.4, 41.5], [28.0, 40.9], [29.3, 40.7], [30.6, 40.9], [30.3, 41.4], [29.2, 41.6], [28.1, 41.7]],
-  bozok: [[34.3, 40.0], [34.7, 39.3], [35.6, 39.1], [36.3, 39.5], [36.0, 40.1], [35.2, 40.3]],
-  obruk: [[32.2, 38.6], [32.6, 37.8], [33.5, 37.6], [34.3, 38.0], [34.0, 38.8], [33.0, 39.0]],
-  taspinar: [[32.0, 37.3], [32.4, 36.6], [33.5, 36.3], [34.4, 36.7], [34.1, 37.3], [33.1, 37.6]],
-  gaziantep: [[36.5, 37.5], [36.9, 36.8], [37.8, 36.7], [38.5, 37.1], [38.1, 37.7], [37.2, 37.9]],
-  "erzurum-kars": [[40.5, 40.9], [40.8, 39.7], [42.0, 39.3], [43.4, 39.7], [43.7, 40.7], [42.8, 41.2], [41.5, 41.3]],
-  haymana: [[31.5, 39.7], [31.9, 39.0], [32.8, 38.9], [33.5, 39.3], [33.1, 39.9], [32.2, 40.0]],
-  cihanbeyli: [[31.4, 39.1], [31.7, 38.4], [32.6, 38.1], [33.4, 38.5], [33.1, 39.2], [32.2, 39.4]],
-  uzunyayla: [[35.3, 39.2], [35.8, 38.4], [36.7, 38.2], [37.4, 38.7], [37.1, 39.4], [36.1, 39.6]],
-  yazilikaya: [[29.1, 39.7], [29.5, 39.0], [30.4, 38.8], [31.2, 39.2], [30.9, 39.8], [30.0, 40.0]],
-  "usak-esme": [[28.3, 38.9], [28.7, 38.2], [29.5, 38.0], [30.2, 38.4], [29.9, 39.0], [29.0, 39.2]],
-  teke: [[28.8, 37.3], [29.2, 36.4], [30.2, 36.1], [31.2, 36.5], [30.9, 37.3], [29.9, 37.6]],
-  "sanliurfa-p": [[37.0, 37.5], [37.5, 36.8], [38.8, 36.5], [40.2, 36.8], [40.5, 37.5], [39.4, 37.9], [38.0, 37.9]],
-  "ardahan-p": [[42.2, 41.5], [42.5, 40.8], [43.4, 40.6], [43.8, 41.1], [43.4, 41.7], [42.7, 41.8]],
-  "persembe-p": [[36.8, 41.1], [37.2, 40.7], [38.1, 40.6], [38.5, 40.9], [38.1, 41.3], [37.3, 41.4]],
+  bozok: [[34.45, 40.08], [34.48, 39.65], [34.86, 39.28], [35.45, 39.18], [35.98, 39.42], [36.02, 39.9], [35.62, 40.16], [35.02, 40.2]],
+  obruk: [[32.35, 38.55], [32.52, 37.95], [33.02, 37.7], [33.7, 37.72], [34.03, 38.12], [33.82, 38.58], [33.22, 38.78], [32.68, 38.7]],
+  taspinar: [[32.15, 37.22], [32.42, 36.72], [33.02, 36.42], [33.72, 36.43], [34.22, 36.72], [34.0, 37.12], [33.4, 37.4], [32.7, 37.4]],
+  gaziantep: [[36.55, 37.48], [36.72, 37.02], [37.2, 36.72], [37.82, 36.72], [38.28, 37.0], [38.12, 37.46], [37.6, 37.7], [37.0, 37.68]],
+  "erzurum-kars": [[40.65, 40.82], [40.82, 40.02], [41.4, 39.62], [42.2, 39.48], [43.05, 39.72], [43.48, 40.2], [43.28, 40.82], [42.62, 41.08], [41.68, 41.05]],
+  haymana: [[31.62, 39.62], [31.88, 39.08], [32.42, 38.9], [33.02, 39.02], [33.3, 39.4], [32.96, 39.72], [32.28, 39.82]],
+  cihanbeyli: [[31.72, 39.12], [31.92, 38.55], [32.42, 38.25], [33.02, 38.32], [33.34, 38.72], [33.08, 39.08], [32.46, 39.32]],
+  uzunyayla: [[35.5, 39.25], [35.72, 38.72], [36.2, 38.4], [36.78, 38.42], [37.18, 38.8], [37.02, 39.28], [36.52, 39.5], [35.92, 39.48]],
+  yazilikaya: [[29.12, 39.58], [29.38, 39.08], [29.9, 38.82], [30.48, 38.9], [30.88, 39.25], [30.62, 39.62], [30.02, 39.82], [29.48, 39.78]],
+  "usak-esme": [[28.35, 38.82], [28.62, 38.3], [29.12, 38.02], [29.68, 38.12], [30.02, 38.48], [29.8, 38.88], [29.22, 39.05], [28.72, 39.02]],
+  teke: [[28.9, 37.25], [29.08, 36.68], [29.52, 36.28], [30.08, 36.18], [30.72, 36.42], [30.92, 36.88], [30.58, 37.3], [29.98, 37.5], [29.38, 37.48]],
+  "sanliurfa-p": [[37.15, 37.48], [37.42, 36.95], [38.05, 36.62], [39.0, 36.55], [39.92, 36.78], [40.22, 37.22], [39.78, 37.58], [38.82, 37.75], [37.78, 37.7]],
+  "ardahan-p": [[42.25, 41.45], [42.48, 40.92], [42.98, 40.7], [43.48, 40.78], [43.72, 41.15], [43.42, 41.55], [42.82, 41.72]],
+  "persembe-p": [[36.9, 41.08], [37.12, 40.78], [37.58, 40.62], [38.02, 40.72], [38.3, 41.0], [38.02, 41.24], [37.48, 41.34], [37.05, 41.28]],
   "seyfe-t": [[34.34, 39.24], [34.38, 39.15], [34.52, 39.13], [34.57, 39.2], [34.51, 39.28], [34.39, 39.3]],
   balik: [[43.49, 39.82], [43.55, 39.74], [43.66, 39.75], [43.69, 39.84], [43.6, 39.91], [43.51, 39.89]],
   "haçli": [[41.43, 39.12], [41.47, 39.03], [41.61, 39.02], [41.66, 39.1], [41.58, 39.18], [41.47, 39.19]],
@@ -2901,6 +2901,13 @@ const AREA_POLYGONS: Record<string, Coordinate[]> = {
   "goksu-delta": [[33.6, 36.4], [33.8, 36.2], [34.2, 36.2], [34.4, 36.4], [34.1, 36.6], [33.7, 36.6]],
   "tombolo-kapidag": [[27.756, 40.352], [27.821, 40.343], [27.867, 40.369], [27.842, 40.407], [27.773, 40.408], [27.742, 40.379]],
   "tombolo-sinop": [[35.127, 42.008], [35.168, 42.005], [35.181, 42.019], [35.16, 42.034], [35.13, 42.028]],
+};
+
+const AREA_MULTI_POLYGONS: Record<string, Coordinate[][]> = {
+  catalca: [
+    [[27.45, 41.48], [27.55, 41.08], [28.02, 40.87], [28.72, 40.9], [29.02, 41.18], [28.78, 41.52], [28.18, 41.68], [27.7, 41.65]],
+    [[29.05, 41.18], [29.2, 40.78], [29.75, 40.62], [30.35, 40.7], [30.65, 40.98], [30.42, 41.28], [29.82, 41.42], [29.3, 41.38]],
+  ],
 };
 
 const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
@@ -4097,6 +4104,14 @@ function areaPolygonFor(feature: Feature) {
     : undefined;
 }
 
+function areaPolygonsFor(feature: Feature) {
+  if (!["plain", "plateau", "region", "lake"].includes(feature.kind)) return undefined;
+  const multiPolygon = AREA_MULTI_POLYGONS[feature.id];
+  if (multiPolygon) return multiPolygon;
+  const polygon = AREA_POLYGONS[feature.id];
+  return polygon ? [polygon] : undefined;
+}
+
 function distributionPolygonsFor(feature: Feature) {
   return DISTRIBUTION_POLYGONS[feature.id];
 }
@@ -4106,9 +4121,9 @@ function featureCenter(feature: Feature): Coordinate {
   if (neighborLabel) return project(neighborLabel);
   const point = POINT_COORDINATES[feature.id] ?? functionalCityCoordinate(feature.id);
   if (point) return project(point);
-  const areaPolygon = areaPolygonFor(feature);
-  if (areaPolygon) {
-    const projected = areaPolygon.map(project);
+  const areaPolygons = areaPolygonsFor(feature);
+  if (areaPolygons) {
+    const projected = areaPolygons.flat().map(project);
     const xs = projected.map(([x]) => x);
     const ys = projected.map(([, y]) => y);
     return [
@@ -4373,15 +4388,19 @@ function featureGraphic(
     );
   }
 
-  const areaPolygon = areaPolygonFor(feature);
-  if (areaPolygon) {
+  const areaPolygons = areaPolygonsFor(feature);
+  if (areaPolygons) {
     const isIntermittentPolye = feature.id === "kestel-l";
     return (
-      <path
-        d={ringPath(areaPolygon)}
-        className={`geo-shape geo-shape--${feature.kind} geo-shape--area${isIntermittentPolye ? " geo-shape--intermittent-polye" : ""}`}
-        clipPath="url(#turkey-country-clip)"
-      />
+      <g clipPath="url(#turkey-country-clip)">
+        {areaPolygons.map((polygon, index) => (
+          <path
+            key={`${feature.id}-area-${index}`}
+            d={ringPath(polygon)}
+            className={`geo-shape geo-shape--${feature.kind} geo-shape--area${isIntermittentPolye ? " geo-shape--intermittent-polye" : ""}`}
+          />
+        ))}
+      </g>
     );
   }
 
