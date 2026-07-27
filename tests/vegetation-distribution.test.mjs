@@ -11,10 +11,11 @@ const vegetation = JSON.parse(
 );
 
 const expectedIds = [
-  "forest-shrub-map",
-  "redpine-shrub-map",
-  "step-meadow-map",
-  "alpine-meadow-map",
+  "forest-map",
+  "maquis-map",
+  "step-map",
+  "anthropogenic-step-map",
+  "mountain-meadow-map",
 ];
 
 function allCoordinates(geometry) {
@@ -23,7 +24,7 @@ function allCoordinates(geometry) {
     : geometry.coordinates.flat(2);
 }
 
-test("genel bitki oyunu MEB haritasındaki dört formasyonu kullanır", () => {
+test("genel bitki oyunu MEB haritasındaki beş bitki bölgesini kullanır", () => {
   assert.deepEqual(
     vegetation.features.map((feature) => feature.properties.id),
     expectedIds,
@@ -46,7 +47,7 @@ test("bitki formasyonları ayrıntılı Türkiye geometrileridir", () => {
   }
 });
 
-test("genel formasyon haritası ile on bir kavramın alt oyunları ayrıdır", () => {
+test("genel formasyon haritası ile on kavramın alt oyunları ayrıdır", () => {
   assert.match(page, /turkey-vegetation-distribution\.geojson/);
   assert.match(page, /features: \[\.\.\.VEGETATION_DISTRIBUTION_FEATURES\]/);
   assert.match(page, /features: \[\.\.\.FOREST_VEGETATION_FEATURES\]/);

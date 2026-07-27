@@ -1,4 +1,4 @@
-"""Vectorize MEB's four-class Turkey vegetation-formations map."""
+"""Vectorize MEB's five-class Turkey vegetation-regions map."""
 
 from __future__ import annotations
 
@@ -20,23 +20,24 @@ PROVINCES_PATH = ROOT / "public" / "data" / "turkey-provinces.geojson"
 OUTPUT_PATH = ROOT / "public" / "data" / "turkey-vegetation-distribution.geojson"
 SOURCE_URL = (
     "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/"
-    "cografya/10/unite1/bolum2/files/mobile/41.jpg"
+    "cografya/9/ankara/unite3/files/mobile/5.jpg"
 )
 
 WEST_LON = 26.0
 EAST_LON = 44.8
 NORTH_LAT = 42.1
 SOUTH_LAT = 35.8
-WEST_PIXEL = 128.0
-EAST_PIXEL = 1125.0
-NORTH_PIXEL = 458.0
-SOUTH_PIXEL = 884.0
+WEST_PIXEL = 166.0
+EAST_PIXEL = 1138.0
+NORTH_PIXEL = 1105.0
+SOUTH_PIXEL = 1510.0
 
 PALETTE = [
-    ("forest-shrub-map", "Ormanlar ve Çeşitli Çalılar", (26, 175, 85)),
-    ("redpine-shrub-map", "Kızılçam Ormanları ve Çalılar (Maki-Garig)", (248, 142, 128)),
-    ("step-meadow-map", "Bozkır-Antropojen Bozkır-Çayır", (255, 248, 124)),
-    ("alpine-meadow-map", "Alpin Çayırlar", (40, 65, 157)),
+    ("forest-map", "Ormanlar", (56, 116, 126)),
+    ("maquis-map", "Makiler", (250, 188, 41)),
+    ("step-map", "Bozkırlar", (230, 240, 105)),
+    ("anthropogenic-step-map", "Antropojen Step ve Fundalıklar", (163, 165, 164)),
+    ("mountain-meadow-map", "Dağ Çayırları", (108, 203, 161)),
 ]
 
 
@@ -92,19 +93,12 @@ def clean_components(mask: np.ndarray) -> np.ndarray:
             continue
         width = int(xs.max() - xs.min() + 1)
         height = int(ys.max() - ys.min() + 1)
-        rectangularity = len(xs) / max(width * height, 1)
         is_noise = len(xs) < 20
         is_frame = (
             (width > 120 and height <= 2)
             or (height > 120 and width <= 2)
         )
-        is_legend = (
-            xs.min() > 790
-            and ys.min() > 790
-            and width < 65
-            and height < 40
-            and rectangularity > 0.65
-        )
+        is_legend = ys.min() > 1520
         if is_noise or is_frame or is_legend:
             cleaned[components == component_id] = False
     return cleaned
@@ -141,7 +135,7 @@ def mask_to_geometry(mask: np.ndarray, country):
         unary_union(pieces)
         .intersection(country)
         .buffer(0)
-        .simplify(0.01, preserve_topology=True)
+        .simplify(0.025, preserve_topology=True)
     )
 
 
@@ -171,7 +165,7 @@ def main() -> None:
     for palette_index in range(len(PALETTE)):
         raw_mask = (
             (nearest_label == palette_index)
-            & (nearest_distance <= 32**2)
+            & (nearest_distance <= 28**2)
         )
         known_labels[clean_components(raw_mask)] = palette_index
 
@@ -181,7 +175,7 @@ def main() -> None:
     )
     filled_labels = known_labels[nearest_indices[0], nearest_indices[1]]
     filled_labels[~mask_country] = -1
-    filled_labels[fill_distance > 24] = -1
+    filled_labels[fill_distance > 16] = -1
 
     features = []
     for palette_index, (feature_id, name, colour) in enumerate(PALETTE):
@@ -207,7 +201,7 @@ def main() -> None:
         json.dumps(
             {
                 "type": "FeatureCollection",
-                "name": "MEB Türkiye Bitki Formasyonları",
+                "name": "MEB Türkiye Bitki Örtüsüne Göre Bölgeler",
                 "source": SOURCE_URL,
                 "features": features,
             },
@@ -216,7 +210,7 @@ def main() -> None:
         ),
         encoding="utf-8",
     )
-    print(f"Yazıldı: {OUTPUT_PATH} ({len(features)} bitki formasyonu)")
+    print(f"Yazıldı: {OUTPUT_PATH} ({len(features)} bitki bölgesi)")
 
 
 if __name__ == "__main__":

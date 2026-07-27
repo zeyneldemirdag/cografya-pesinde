@@ -665,6 +665,13 @@ button { color: inherit; }
   stroke-dasharray: none;
   vector-effect: non-scaling-stroke;
 }
+.geo-exact-area-hit {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 12;
+  pointer-events: all;
+  vector-effect: non-scaling-stroke;
+}
 .geo-feature--idle:hover .geo-shape--exact-area,
 .geo-feature--idle:focus .geo-shape--exact-area {
   fill-opacity: .72;

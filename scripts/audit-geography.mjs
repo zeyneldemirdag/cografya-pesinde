@@ -100,6 +100,25 @@ const vegetationAreaData = JSON.parse(
   fs.readFileSync(new URL("../public/data/turkey-vegetation-distribution.geojson", import.meta.url), "utf8"),
 ).features;
 const vegetationAreaIds = new Set(vegetationAreaData.map((feature) => feature.properties.id));
+const subgameAreaData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-subgame-areas.geojson", import.meta.url), "utf8"),
+).features;
+const subgameAreaIds = new Set(subgameAreaData.map((feature) => feature.properties.id));
+const exactAreaAliases = {
+  "terra-rossa": "terra-rossa-map",
+  "brown-forest": "brown-forest-map",
+  "podzol-soil": "podzolized-map",
+  cherno: "chernozem-map",
+  "brown-chestnut-step-soil": "brown-chestnut-step-map",
+  "halomorphic-soil": "saline-alkaline-map",
+  "rendzina-soil": "rendzina-map",
+  "vertisol-soil": "vertisol-map",
+  "alluvial-soil": "alluvial-map",
+  "lithosol-soil": "mountain-stony-soil-map",
+  step: "step-map",
+  "anthro-step": "anthropogenic-step-map",
+  "mountain-meadow-veg": "mountain-meadow-map",
+};
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const hasRenderedRealLine = (feature) =>
@@ -135,8 +154,9 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (straitKeys.has(feature.id)) geometry = "exact-strait";
   else if (provinceUnionIds.has(feature.id)) geometry = "exact-province-union";
-  else if (vegetationAreaIds.has(feature.id)) geometry = "exact-vegetation-area";
-  else if (soilAreaIds.has(feature.id)) geometry = "exact-soil-area";
+  else if (subgameAreaIds.has(feature.id)) geometry = "exact-subgame-area";
+  else if (vegetationAreaIds.has(exactAreaAliases[feature.id] ?? feature.id)) geometry = "exact-vegetation-area";
+  else if (soilAreaIds.has(exactAreaAliases[feature.id] ?? feature.id)) geometry = "exact-soil-area";
   else if (climateAreaIds.has(feature.id)) geometry = "exact-climate-area";
   else if (tourismAreaIds.has(feature.id)) geometry = "exact-tourism-area";
   else if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
@@ -310,13 +330,11 @@ const officialExpectations = {
     "Maki", "Garig (Frigana)", "Psödomaki",
   ],
   "grass-vegetation": [
-    "Bozkır", "Antropojen Bozkır", "Çayır", "Alpin Çayır",
+    "Bozkırlar", "Antropojen Step ve Fundalıklar", "Dağ Çayırları (Alpin Çayırlar)",
   ],
   vegetation: [
-    "Ormanlar ve Çeşitli Çalılar",
-    "Kızılçam Ormanları ve Çalılar (Maki-Garig)",
-    "Bozkır-Antropojen Bozkır-Çayır",
-    "Alpin Çayırlar",
+    "Ormanlar", "Makiler", "Bozkırlar",
+    "Antropojen Step ve Fundalıklar", "Dağ Çayırları",
   ],
   soils: [
     "Kahverengi Orman Toprakları", "Kireçli Orman Toprakları",
@@ -328,7 +346,7 @@ const officialExpectations = {
   ],
   "zonal-soils": [
     "Terra Rossa", "Kahverengi Orman Toprağı", "Podzol", "Çernezyom",
-    "Kestane Renkli Bozkır Toprağı", "Kahverengi Bozkır Toprağı",
+    "Kahverengi ve Kestane Renkli Step Toprakları",
   ],
   "intrazonal-soils": [
     "Hidromorfik Toprak", "Halomorfik Toprak",

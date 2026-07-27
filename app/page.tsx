@@ -417,8 +417,7 @@ const ZONAL_SOIL_FEATURES: Feature[] = [
   f("brown-forest", "Kahverengi Orman Toprağı", 55, 23, 55, 10, "region"),
   f("podzol-soil", "Podzol", 58, 17, 45, 8, "region"),
   f("cherno", "Çernezyom", 83, 30, 18, 11, "region"),
-  f("chestnut", "Kestane Renkli Bozkır Toprağı", 55, 45, 36, 17, "region"),
-  f("brown-step", "Kahverengi Bozkır Toprağı", 54, 56, 40, 18, "region"),
+  f("brown-chestnut-step-soil", "Kahverengi ve Kestane Renkli Step Toprakları", 56, 50, 44, 19, "region"),
 ];
 
 const INTRAZONAL_SOIL_FEATURES: Feature[] = [
@@ -452,10 +451,6 @@ const SOIL_DISTRIBUTION_FEATURES: Feature[] = [
   f("coastal-dune-map", "Kıyı Kumulları", 50, 68, 34, 8, "region"),
   f("podzolized-map", "Podzollaşmış Topraklar", 65, 18, 43, 8, "region"),
 ];
-const SOIL_DISTRIBUTION_IDS = new Set(
-  SOIL_DISTRIBUTION_FEATURES.map((feature) => feature.id),
-);
-
 const FOREST_VEGETATION_FEATURES: Feature[] = [
   f("forest-black", "Kuzey Anadolu Ormanları", 61, 20, 55, 10, "region"),
   f("forest-med", "Akdeniz Ormanları", 46, 66, 48, 10, "region"),
@@ -470,22 +465,18 @@ const SHRUB_VEGETATION_FEATURES: Feature[] = [
 ];
 
 const GRASS_VEGETATION_FEATURES: Feature[] = [
-  f("step", "Bozkır", 54, 48, 45, 24, "region"),
-  f("anthro-step", "Antropojen Bozkır", 31, 45, 20, 14, "region"),
-  f("meadow", "Çayır · Erzurum-Kars-Ardahan", 83, 32, 22, 15, "region"),
-  f("alpine-meadow-veg", "Alpin Çayır", 69, 27, 45, 12, "region"),
+  f("step", "Bozkırlar", 54, 48, 45, 24, "region"),
+  f("anthro-step", "Antropojen Step ve Fundalıklar", 42, 40, 52, 19, "region"),
+  f("mountain-meadow-veg", "Dağ Çayırları (Alpin Çayırlar)", 72, 31, 45, 12, "region"),
 ];
 
 const VEGETATION_DISTRIBUTION_FEATURES: Feature[] = [
-  f("forest-shrub-map", "Ormanlar ve Çeşitli Çalılar", 55, 26, 56, 15, "region"),
-  f("redpine-shrub-map", "Kızılçam Ormanları ve Çalılar (Maki-Garig)", 34, 68, 44, 12, "region"),
-  f("step-meadow-map", "Bozkır-Antropojen Bozkır-Çayır", 59, 49, 50, 22, "region"),
-  f("alpine-meadow-map", "Alpin Çayırlar", 72, 29, 46, 10, "region"),
+  f("forest-map", "Ormanlar", 55, 26, 56, 15, "region"),
+  f("maquis-map", "Makiler", 34, 68, 44, 12, "region"),
+  f("step-map", "Bozkırlar", 59, 49, 50, 22, "region"),
+  f("anthropogenic-step-map", "Antropojen Step ve Fundalıklar", 42, 40, 52, 19, "region"),
+  f("mountain-meadow-map", "Dağ Çayırları", 72, 29, 46, 10, "region"),
 ];
-const VEGETATION_DISTRIBUTION_IDS = new Set(
-  VEGETATION_DISTRIBUTION_FEATURES.map((feature) => feature.id),
-);
-
 const CLIMATE_FEATURES: Feature[] = [
   f("akdeniz-cl", "Akdeniz İklimi", 34, 71, 45, 10, "region"),
   f("akdeniz-karasal-gecis-cl", "Akdeniz-Karasal Geçiş İklimi", 35, 57, 45, 10, "region"),
@@ -517,10 +508,39 @@ const EXACT_AREA_COLORS: Record<string, string> = {
   "alluvial-map": "#faf08e",
   "coastal-dune-map": "#1b100e",
   "podzolized-map": "#8ba3a4",
-  "forest-shrub-map": "#1aaf55",
-  "redpine-shrub-map": "#f88e80",
-  "step-meadow-map": "#fff87c",
-  "alpine-meadow-map": "#28419d",
+  "forest-map": "#38747e",
+  "maquis-map": "#fabc29",
+  "step-map": "#e6f069",
+  "anthropogenic-step-map": "#a3a5a4",
+  "mountain-meadow-map": "#6ccba1",
+  "forest-black": "#2f7381",
+  "forest-med": "#2f7f63",
+  "forest-west": "#4d8a66",
+  "forest-interior": "#638b69",
+  maquis: "#fabc29",
+  "garig-veg": "#e98f2f",
+  "pseudomaquis-veg": "#4b9a86",
+  "hydromorphic-soil": "#59a9c4",
+  "colluvial-soil": "#cf9d62",
+  "regosol-soil": "#b87962",
+  "loess-soil": "#d3bb82",
+  "moraine-soil": "#8f9aa8",
+};
+
+const EXACT_AREA_ALIASES: Record<string, string> = {
+  "terra-rossa": "terra-rossa-map",
+  "brown-forest": "brown-forest-map",
+  "podzol-soil": "podzolized-map",
+  cherno: "chernozem-map",
+  "brown-chestnut-step-soil": "brown-chestnut-step-map",
+  "halomorphic-soil": "saline-alkaline-map",
+  "rendzina-soil": "rendzina-map",
+  "vertisol-soil": "vertisol-map",
+  "alluvial-soil": "alluvial-map",
+  "lithosol-soil": "mountain-stony-soil-map",
+  step: "step-map",
+  "anthro-step": "anthropogenic-step-map",
+  "mountain-meadow-veg": "mountain-meadow-map",
 };
 
 const DENSE_POPULATION_FEATURES: Feature[] = [
@@ -1612,7 +1632,7 @@ const QUIZZES: Quiz[] = [
     group: "Doğal",
     title: "Bitki Örtüsü",
     eyebrow: "Doğal coğrafya · Bitkiler · Tümü",
-    description: "MEB Türkiye bitki formasyonları haritasındaki dört gerçek dağılış alanını bul.",
+    description: "MEB Türkiye bitki örtüsü haritasındaki beş gerçek dağılış alanını bul.",
     color: "#4d9660",
     icon: "♣",
     features: [...VEGETATION_DISTRIBUTION_FEATURES],
@@ -1642,7 +1662,7 @@ const QUIZZES: Quiz[] = [
     group: "Doğal",
     title: "Ot Toplulukları",
     eyebrow: "Doğal coğrafya · Bitkiler · Ot",
-    description: "Bozkır, antropojen bozkır, çayır ve alpin çayır alanlarını bul.",
+    description: "MEB haritasındaki bozkır, antropojen step-fundalık ve dağ çayırı alanlarını bul.",
     color: "#7b9b48",
     icon: "⌇",
     features: [...GRASS_VEGETATION_FEATURES],
@@ -2687,8 +2707,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/panel/panel/ResimMaskeOnizle.aspx?alistirmaId=54163",
   },
   vegetation: {
-    label: "MEB · Türkiye bitki formasyonları · 4 resmî dağılış sınıfı",
-    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/cografya/10/unite1/bolum2/files/basic-html/page41.html",
+    label: "MEB · Türkiye bitki örtüsü bölgeleri · 5 resmî dağılış sınıfı",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/cografya/9/ankara/unite3/files/basic-html/page5.html",
   },
   "forest-vegetation": {
     label: "MEB Türkiye orman bölgeleri",
@@ -4241,6 +4261,15 @@ function exactAreaCenter(area: AreaFeature): Coordinate {
   ];
 }
 
+function exactAreaFor(feature: Feature, exactAreas: AreaFeature[]) {
+  const exactId = EXACT_AREA_ALIASES[feature.id] ?? feature.id;
+  return exactAreas.find((area) => area.properties.id === exactId);
+}
+
+function exactAreaColourFor(feature: Feature) {
+  return EXACT_AREA_COLORS[EXACT_AREA_ALIASES[feature.id] ?? feature.id];
+}
+
 function featureLabelCenter(feature: Feature, center: Coordinate, featureIndex = 0): Coordinate {
   const defaultOffset: Coordinate = feature.kind === "mountain"
     ? [featureIndex % 2 === 0 ? -26 : 26, -28 - (featureIndex % 3) * 20]
@@ -4277,8 +4306,8 @@ function collisionAwareLabelPlacements(
     if (!correctIds.includes(feature.id)) return;
     const center = feature.plates?.length
       ? provinceSetCenter(feature.plates, provinces)
-      : exactAreas.find((area) => area.properties.id === feature.id)
-        ? exactAreaCenter(exactAreas.find((area) => area.properties.id === feature.id)!)
+      : exactAreaFor(feature, exactAreas)
+        ? exactAreaCenter(exactAreaFor(feature, exactAreas)!)
         : featureCenter(feature);
     const preferred = featureLabelCenter(feature, center, featureIndex);
     const preferredOffset: Coordinate = [preferred[0] - center[0], preferred[1] - center[1]];
@@ -4329,15 +4358,11 @@ const EXPANDED_AREA_HIT_IDS = new Set([
 
 function featureHitArea(feature: Feature, exactArea?: AreaFeature) {
   if (exactArea) {
-    const [cx, cy] = exactAreaCenter(exactArea);
     return (
-      <rect
-        className="geo-hit geo-hit--small-area"
-        x={cx - 15}
-        y={cy - 12}
-        width="30"
-        height="24"
-        rx="7"
+      <path
+        d={lakePath(exactArea)}
+        className="geo-exact-area-hit"
+        fillRule="evenodd"
       />
     );
   }
@@ -4856,6 +4881,7 @@ function TurkeyMap({
       fetch("/data/turkey-climate-zones.geojson").then((response) => response.json()),
       fetch("/data/turkey-soil-distribution.geojson").then((response) => response.json()),
       fetch("/data/turkey-vegetation-distribution.geojson").then((response) => response.json()),
+      fetch("/data/turkey-subgame-areas.geojson").then((response) => response.json()),
     ])
       .then((collections) => setExactAreas(
         collections.flatMap((data) => data.features as AreaFeature[]),
@@ -5021,16 +5047,11 @@ function TurkeyMap({
                 className={`geo-feature geo-feature--${status}${
                   feature.id === currentFeatureId ? " geo-feature--current" : ""
                 }`}
-                style={EXACT_AREA_COLORS[feature.id]
+                style={exactAreaColourFor(feature)
                   ? ({
-                      "--exact-area-fill": EXACT_AREA_COLORS[feature.id],
+                      "--exact-area-fill": exactAreaColourFor(feature),
                       "--exact-area-opacity": ".48",
-                      "--exact-area-stroke": (
-                        SOIL_DISTRIBUTION_IDS.has(feature.id)
-                        || VEGETATION_DISTRIBUTION_IDS.has(feature.id)
-                      )
-                        ? "rgba(12, 48, 44, .78)"
-                        : "rgba(221, 255, 235, .92)",
+                      "--exact-area-stroke": "rgba(12, 48, 44, .78)",
                     } as CSSProperties)
                   : undefined}
                 onClick={() => onSelect(feature)}
@@ -5040,7 +5061,7 @@ function TurkeyMap({
               >
                 {featureHitArea(
                   feature,
-                  exactAreas.find((area) => area.properties.id === feature.id),
+                  exactAreaFor(feature, exactAreas),
                 )}
                 {featureGraphic(
                   feature,
@@ -5050,7 +5071,7 @@ function TurkeyMap({
                   provinces,
                   undefined,
                   faults.find((fault) => fault.properties.id === feature.id),
-                  exactAreas.find((area) => area.properties.id === feature.id),
+                  exactAreaFor(feature, exactAreas),
                 )}
               </g>
             );
@@ -5063,8 +5084,8 @@ function TurkeyMap({
               .map((feature) => {
                 const center = feature.plates?.length
                   ? provinceSetCenter(feature.plates, provinces)
-                  : exactAreas.find((area) => area.properties.id === feature.id)
-                    ? exactAreaCenter(exactAreas.find((area) => area.properties.id === feature.id)!)
+                  : exactAreaFor(feature, exactAreas)
+                    ? exactAreaCenter(exactAreaFor(feature, exactAreas)!)
                     : featureCenter(feature);
                 const placement = labelPlacements.get(feature.id);
                 if (!placement) return null;
