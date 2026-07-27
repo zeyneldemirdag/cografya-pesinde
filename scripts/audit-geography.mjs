@@ -92,6 +92,10 @@ const climateAreaData = JSON.parse(
   fs.readFileSync(new URL("../public/data/turkey-climate-zones.geojson", import.meta.url), "utf8"),
 ).features;
 const climateAreaIds = new Set(climateAreaData.map((feature) => feature.properties.id));
+const soilAreaData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-soil-distribution.geojson", import.meta.url), "utf8"),
+).features;
+const soilAreaIds = new Set(soilAreaData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const hasRenderedRealLine = (feature) =>
@@ -127,6 +131,7 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (straitKeys.has(feature.id)) geometry = "exact-strait";
   else if (provinceUnionIds.has(feature.id)) geometry = "exact-province-union";
+  else if (soilAreaIds.has(feature.id)) geometry = "exact-soil-area";
   else if (climateAreaIds.has(feature.id)) geometry = "exact-climate-area";
   else if (tourismAreaIds.has(feature.id)) geometry = "exact-tourism-area";
   else if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
@@ -261,7 +266,6 @@ const coverageComparisons = [
   ["industry", ["food-industry", "textile-industry", "chemical-industry", "machine-industry"]],
   ["ports", ["marmara-ports", "black-sea-ports", "aegean-ports", "mediterranean-ports"]],
   ["bridges-tunnels", ["bridges", "tunnels"]],
-  ["soils", ["zonal-soils", "intrazonal-soils", "azonal-soils"]],
   ["vegetation", ["forest-vegetation", "shrub-vegetation", "grass-vegetation"]],
   ["population", ["dense-population", "sparse-population"]],
   ["agriculture", ["grain-legume-crops", "industrial-oil-crops", "fruit-special-crops"]],
@@ -303,6 +307,14 @@ const officialExpectations = {
   ],
   "grass-vegetation": [
     "Bozkır", "Antropojen Bozkır", "Çayır", "Alpin Çayır",
+  ],
+  soils: [
+    "Kahverengi Orman Toprakları", "Kireçli Orman Toprakları",
+    "Kahverengi ve Kestane Renkli Step Toprakları",
+    "Kırmızı Akdeniz Toprakları (Terra Rossa)", "Kızıl Renkli Kireçli Step Toprakları",
+    "Rendzina", "Dağlık ve Volkanik Arazilerde Kumlu-Taşlı Topraklar",
+    "Çernezyom", "Vertisol", "Çorak (Tuzlu-Alkali) Topraklar", "Alüvyal Topraklar",
+    "Kıyı Kumulları", "Podzollaşmış Topraklar",
   ],
   "zonal-soils": [
     "Terra Rossa", "Kahverengi Orman Toprağı", "Podzol", "Çernezyom",

@@ -1,11 +1,4 @@
-"""Vectorize the official MEB Turkey climate map into clickable GeoJSON.
-
-The source is a raster teaching map, so the script:
-1. classifies its seven legend colours,
-2. fills administrative-boundary pixels from the nearest classified pixel,
-3. clips the result to the exact province union used by the game, and
-4. exports simplified, topology-preserving polygons.
-"""
+"""Vectorize the official MEB Turkey soil-distribution map."""
 
 from __future__ import annotations
 
@@ -17,50 +10,67 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw
 from scipy.ndimage import distance_transform_edt, label
-from shapely.geometry import LineString, Polygon, box, mapping, shape
+from shapely.geometry import LineString, Polygon, mapping, shape
 from shapely.ops import polygonize, unary_union
 from skimage.measure import find_contours
 
 
 ROOT = Path(__file__).resolve().parents[1]
 PROVINCES_PATH = ROOT / "public" / "data" / "turkey-provinces.geojson"
-OUTPUT_PATH = ROOT / "public" / "data" / "turkey-climate-zones.geojson"
+OUTPUT_PATH = ROOT / "public" / "data" / "turkey-soil-distribution.geojson"
 SOURCE_URL = (
-    "https://ogmmateryal.eba.gov.tr/panel/upload/images/yaitv3gvmoj.png"
+    "https://ogmmateryal.eba.gov.tr/panel/upload/images/qmhc1q1kqvz.png"
+)
+MEB_SOIL_TEXT_URL = (
+    "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/"
+    "tyt-cografya/files/basic-html/page85.html"
 )
 
-# The official raster uses a simple Turkey-wide map frame. These anchors align
-# İstanbul, Sinop, the Mediterranean coast and the eastern border with EPSG:4326.
 WEST_LON = 26.0
 EAST_LON = 44.8
 NORTH_LAT = 42.1
 SOUTH_LAT = 35.8
-WEST_PIXEL = 43.0
-EAST_PIXEL = 823.0
-NORTH_PIXEL = 21.0
-SOUTH_PIXEL = 398.0
+WEST_PIXEL = 64.0
+EAST_PIXEL = 875.0
+NORTH_PIXEL = 18.0
+SOUTH_PIXEL = 424.0
 
 PALETTE = [
-    ("akdeniz-cl", "Akdeniz İklimi", (232, 67, 32)),
-    ("akdeniz-karasal-gecis-cl", "Akdeniz-Karasal Geçiş İklimi", (250, 180, 18)),
-    ("karadeniz-cl", "Karadeniz İklimi", (115, 149, 87)),
-    ("akdeniz-karadeniz-gecis-cl", "Akdeniz-Karadeniz Geçiş İklimi", (64, 82, 159)),
-    ("karasal-karadeniz-gecis-cl", "Karasal-Karadeniz Geçiş İklimi", (162, 180, 138)),
-    ("karasal-cl", "Karasal İklim", (240, 229, 8)),
-    ("karasal-sert-gecis-cl", "Karasal-Sert Karasal Geçiş İklimi", (127, 109, 89)),
+    ("brown-forest-map", "Kahverengi Orman Toprakları", (226, 181, 156)),
+    ("calcareous-forest-map", "Kireçli Orman Toprakları", (175, 112, 97)),
+    ("brown-chestnut-step-map", "Kahverengi ve Kestane Renkli Step Toprakları", (194, 184, 119)),
+    ("terra-rossa-map", "Kırmızı Akdeniz Toprakları (Terra Rossa)", (209, 94, 125)),
+    ("red-calcareous-step-map", "Kızıl Renkli Kireçli Step Toprakları", (198, 84, 56)),
+    ("rendzina-map", "Rendzina", (173, 215, 198)),
+    ("mountain-stony-soil-map", "Dağlık ve Volkanik Arazilerde Kumlu-Taşlı Topraklar", (217, 135, 94)),
+    ("chernozem-map", "Çernezyom", (138, 126, 175)),
+    ("vertisol-map", "Vertisol", (223, 185, 216)),
+    ("saline-alkaline-map", "Çorak (Tuzlu-Alkali) Topraklar", (238, 113, 21)),
+    ("alluvial-map", "Alüvyal Topraklar", (250, 240, 142)),
+    ("coastal-dune-map", "Kıyı Kumulları", (27, 16, 14)),
+    ("podzolized-map", "Podzollaşmış Topraklar", (183, 205, 217)),
 ]
 
-# The source page also contains coloured borders and legend marks. Geographic
-# envelopes prevent those cartographic decorations from becoming quiz areas.
-EXPECTED_ENVELOPES = {
-    "akdeniz-cl": box(25.4, 35.5, 38.3, 40.05),
-    "akdeniz-karasal-gecis-cl": box(25.4, 35.5, 40.5, 41.35),
-    "karadeniz-cl": box(25.4, 39.9, 43.0, 42.3),
-    "akdeniz-karadeniz-gecis-cl": box(25.4, 38.7, 31.7, 42.3),
-    "karasal-karadeniz-gecis-cl": box(25.4, 39.65, 42.2, 42.3),
-    "karasal-cl": box(25.4, 35.5, 44.9, 42.3),
-    "karasal-sert-gecis-cl": box(39.3, 35.5, 44.9, 42.3),
-}
+PODZOL_MEB_BANDS = unary_union(
+    [
+        Polygon(
+            [
+                (29.7, 41.0), (30.5, 41.45), (31.5, 41.55),
+                (32.5, 41.45), (33.7, 41.55), (34.7, 41.3),
+                (34.3, 40.8), (33.2, 40.65), (32.0, 40.7),
+                (30.8, 40.65),
+            ]
+        ),
+        Polygon(
+            [
+                (37.7, 40.8), (38.5, 41.2), (39.5, 41.45),
+                (40.7, 41.55), (41.7, 41.4), (42.4, 40.95),
+                (41.8, 40.45), (40.5, 40.5), (39.4, 40.45),
+                (38.4, 40.4),
+            ]
+        ),
+    ]
+)
 
 
 def pixel_to_geo(x: float, y: float) -> tuple[float, float]:
@@ -86,8 +96,10 @@ def geo_to_pixel(lon: float, lat: float) -> tuple[float, float]:
 def draw_polygon_mask(
     draw: ImageDraw.ImageDraw, polygon: Polygon, fill: int
 ) -> None:
-    exterior = [geo_to_pixel(lon, lat) for lon, lat in polygon.exterior.coords]
-    draw.polygon(exterior, fill=fill)
+    draw.polygon(
+        [geo_to_pixel(lon, lat) for lon, lat in polygon.exterior.coords],
+        fill=fill,
+    )
     for interior in polygon.interiors:
         draw.polygon(
             [geo_to_pixel(lon, lat) for lon, lat in interior.coords],
@@ -96,15 +108,15 @@ def draw_polygon_mask(
 
 
 def build_country_mask(width: int, height: int, country) -> np.ndarray:
-    mask_image = Image.new("L", (width, height), 0)
-    draw = ImageDraw.Draw(mask_image)
+    image = Image.new("L", (width, height), 0)
+    draw = ImageDraw.Draw(image)
     polygons = [country] if country.geom_type == "Polygon" else list(country.geoms)
     for polygon in polygons:
         draw_polygon_mask(draw, polygon, 1)
-    return np.asarray(mask_image, dtype=bool)
+    return np.asarray(image, dtype=bool)
 
 
-def remove_legend_swatch_components(mask: np.ndarray) -> np.ndarray:
+def remove_noise(mask: np.ndarray) -> np.ndarray:
     cleaned = mask.copy()
     components, count = label(mask)
     for component_id in range(1, count + 1):
@@ -113,20 +125,13 @@ def remove_legend_swatch_components(mask: np.ndarray) -> np.ndarray:
             continue
         width = int(xs.max() - xs.min() + 1)
         height = int(ys.max() - ys.min() + 1)
-        rectangularity = len(xs) / max(width * height, 1)
-        is_noise = len(xs) < 100
+        is_noise = len(xs) < 18
         is_frame_line = (
-            (width > 80 and height <= 2)
-            or (height > 80 and width <= 2)
+            (width > 100 and height <= 2)
+            or (height > 100 and width <= 2)
         )
-        is_legend_swatch = (
-            xs.min() > 470
-            and ys.min() > 330
-            and 12 <= width <= 40
-            and 7 <= height <= 24
-            and rectangularity > 0.68
-        )
-        if is_noise or is_frame_line or is_legend_swatch:
+        is_legend = ys.min() > 440
+        if is_noise or is_frame_line or is_legend:
             cleaned[components == component_id] = False
     return cleaned
 
@@ -158,8 +163,12 @@ def mask_to_geometry(mask: np.ndarray, country):
         ):
             pieces.append(polygon)
 
-    result = unary_union(pieces).intersection(country).buffer(0)
-    return result.simplify(0.012, preserve_topology=True)
+    return (
+        unary_union(pieces)
+        .intersection(country)
+        .buffer(0)
+        .simplify(0.01, preserve_topology=True)
+    )
 
 
 def main() -> None:
@@ -186,31 +195,37 @@ def main() -> None:
     )
     nearest_label = np.argmin(distances, axis=2)
     nearest_distance = np.min(distances, axis=2)
-
     known_labels = np.full((image.height, image.width), -1, dtype=np.int16)
+
     for palette_index in range(len(PALETTE)):
-        raw_mask = (nearest_label == palette_index) & (nearest_distance <= 32**2)
-        raw_mask = remove_legend_swatch_components(raw_mask)
-        known_labels[raw_mask] = palette_index
+        threshold = 18 if PALETTE[palette_index][0] == "coastal-dune-map" else 34
+        raw_mask = (
+            (nearest_label == palette_index)
+            & (nearest_distance <= threshold**2)
+        )
+        known_labels[remove_noise(raw_mask)] = palette_index
 
     known = known_labels >= 0
     fill_distance, nearest_indices = distance_transform_edt(
         ~known, return_distances=True, return_indices=True
     )
-    filled_labels = known_labels[
-        nearest_indices[0],
-        nearest_indices[1],
-    ]
+    filled_labels = known_labels[nearest_indices[0], nearest_indices[1]]
     filled_labels[~country_mask] = -1
-    # Do not extrapolate a coastal colour far beyond the source-map outline.
-    # Twenty pixels is ample for province strokes and antialiasing gaps.
-    filled_labels[fill_distance > 20] = -1
+    filled_labels[fill_distance > 18] = -1
 
     features = []
     for palette_index, (feature_id, name, colour) in enumerate(PALETTE):
-        geometry = mask_to_geometry(
-            filled_labels == palette_index, country
-        ).intersection(EXPECTED_ENVELOPES[feature_id]).buffer(0)
+        geometry = mask_to_geometry(filled_labels == palette_index, country)
+        source_url = SOURCE_URL
+        geometry_note = "MEB renkli dağılış haritasından vektörleştirildi"
+        if feature_id == "podzolized-map":
+            # The raster legend names podzolised soils but its tiny high-mountain
+            # patches are not recoverable at the published resolution. MEB's
+            # accompanying text explicitly places them in the high parts of the
+            # Eastern and Western Black Sea mountains.
+            geometry = PODZOL_MEB_BANDS.intersection(country).buffer(0)
+            source_url = MEB_SOIL_TEXT_URL
+            geometry_note = "MEB metnindeki Doğu ve Batı Karadeniz yüksek dağ kuşakları"
         if geometry.is_empty:
             raise RuntimeError(f"{name} geometry is empty")
         features.append(
@@ -221,24 +236,28 @@ def main() -> None:
                     "id": feature_id,
                     "name": name,
                     "source": "MEB",
-                    "source_url": SOURCE_URL,
+                    "source_url": source_url,
                     "source_rgb": list(colour),
+                    "geometry_note": geometry_note,
                 },
                 "geometry": mapping(geometry),
             }
         )
 
-    result = {
-        "type": "FeatureCollection",
-        "name": "MEB Türkiye İklim Bölgeleri",
-        "source": SOURCE_URL,
-        "features": features,
-    }
     OUTPUT_PATH.write_text(
-        json.dumps(result, ensure_ascii=False, separators=(",", ":")),
+        json.dumps(
+            {
+                "type": "FeatureCollection",
+                "name": "MEB Türkiye Toprak Tiplerinin Dağılışı",
+                "source": SOURCE_URL,
+                "features": features,
+            },
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ),
         encoding="utf-8",
     )
-    print(f"Yazıldı: {OUTPUT_PATH} ({len(features)} iklim bölgesi)")
+    print(f"Yazıldı: {OUTPUT_PATH} ({len(features)} toprak alanı)")
 
 
 if __name__ == "__main__":

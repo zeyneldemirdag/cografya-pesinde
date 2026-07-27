@@ -437,6 +437,25 @@ const AZONAL_SOIL_FEATURES: Feature[] = [
   f("moraine-soil", "Moren", 70, 30, 35, 12, "region"),
 ];
 
+const SOIL_DISTRIBUTION_FEATURES: Feature[] = [
+  f("brown-forest-map", "Kahverengi Orman Toprakları", 53, 24, 52, 12, "region"),
+  f("calcareous-forest-map", "Kireçli Orman Toprakları", 52, 37, 50, 15, "region"),
+  f("brown-chestnut-step-map", "Kahverengi ve Kestane Renkli Step Toprakları", 58, 49, 48, 18, "region"),
+  f("terra-rossa-map", "Kırmızı Akdeniz Toprakları (Terra Rossa)", 34, 68, 44, 12, "region"),
+  f("red-calcareous-step-map", "Kızıl Renkli Kireçli Step Toprakları", 72, 66, 28, 11, "region"),
+  f("rendzina-map", "Rendzina", 30, 48, 28, 14, "region"),
+  f("mountain-stony-soil-map", "Dağlık ve Volkanik Arazilerde Kumlu-Taşlı Topraklar", 73, 38, 36, 20, "region"),
+  f("chernozem-map", "Çernezyom", 86, 31, 18, 12, "region"),
+  f("vertisol-map", "Vertisol", 24, 30, 16, 12, "region"),
+  f("saline-alkaline-map", "Çorak (Tuzlu-Alkali) Topraklar", 50, 55, 14, 10, "region"),
+  f("alluvial-map", "Alüvyal Topraklar", 53, 58, 46, 14, "region"),
+  f("coastal-dune-map", "Kıyı Kumulları", 50, 68, 34, 8, "region"),
+  f("podzolized-map", "Podzollaşmış Topraklar", 65, 18, 43, 8, "region"),
+];
+const SOIL_DISTRIBUTION_IDS = new Set(
+  SOIL_DISTRIBUTION_FEATURES.map((feature) => feature.id),
+);
+
 const FOREST_VEGETATION_FEATURES: Feature[] = [
   f("forest-black", "Kuzey Anadolu Ormanları", 61, 20, 55, 10, "region"),
   f("forest-med", "Akdeniz Ormanları", 46, 66, 48, 10, "region"),
@@ -467,7 +486,7 @@ const CLIMATE_FEATURES: Feature[] = [
   f("karasal-sert-gecis-cl", "Karasal-Sert Karasal Geçiş İklimi", 86, 37, 20, 16, "region"),
 ];
 
-const CLIMATE_ZONE_COLORS: Record<string, string> = {
+const EXACT_AREA_COLORS: Record<string, string> = {
   "akdeniz-cl": "#e84320",
   "akdeniz-karasal-gecis-cl": "#fab412",
   "karadeniz-cl": "#739557",
@@ -475,6 +494,19 @@ const CLIMATE_ZONE_COLORS: Record<string, string> = {
   "karasal-karadeniz-gecis-cl": "#a2b48a",
   "karasal-cl": "#f0e508",
   "karasal-sert-gecis-cl": "#7f6d59",
+  "brown-forest-map": "#e2b59c",
+  "calcareous-forest-map": "#af7061",
+  "brown-chestnut-step-map": "#c2b877",
+  "terra-rossa-map": "#d15e7d",
+  "red-calcareous-step-map": "#c65438",
+  "rendzina-map": "#add7c6",
+  "mountain-stony-soil-map": "#d9875e",
+  "chernozem-map": "#8a7eaf",
+  "vertisol-map": "#dfb9d8",
+  "saline-alkaline-map": "#ee7115",
+  "alluvial-map": "#faf08e",
+  "coastal-dune-map": "#1b100e",
+  "podzolized-map": "#8ba3a4",
 };
 
 const DENSE_POPULATION_FEATURES: Feature[] = [
@@ -1606,10 +1638,10 @@ const QUIZZES: Quiz[] = [
     group: "Doğal",
     title: "Türkiye Toprakları",
     eyebrow: "Doğal coğrafya · Topraklar · Tümü",
-    description: "MEB kapsamındaki zonal, intrazonal ve azonal toprakları gerçek örnek alanlarıyla bul.",
+    description: "MEB'nin Türkiye toprak dağılış haritasındaki 13 renkli alanı gerçek sınırlarıyla bul.",
     color: "#986846",
     icon: "≋",
-    features: [...ZONAL_SOIL_FEATURES, ...INTRAZONAL_SOIL_FEATURES, ...AZONAL_SOIL_FEATURES],
+    features: [...SOIL_DISTRIBUTION_FEATURES],
   },
   {
     id: "zonal-soils",
@@ -2657,8 +2689,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page91.html",
   },
   soils: {
-    label: "MEB Türkiye toprakları",
-    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page85.html",
+    label: "MEB · Türkiye toprak dağılışı · 13 resmî harita sınıfı",
+    url: "https://ogmmateryal.eba.gov.tr/panel/panel/ResimMaskeOnizle.aspx?alistirmaId=54163",
   },
   "zonal-soils": {
     label: "MEB Türkiye zonal toprakları",
@@ -4808,6 +4840,7 @@ function TurkeyMap({
     Promise.all([
       fetch("/data/turkey-tourism-areas.geojson").then((response) => response.json()),
       fetch("/data/turkey-climate-zones.geojson").then((response) => response.json()),
+      fetch("/data/turkey-soil-distribution.geojson").then((response) => response.json()),
     ])
       .then((collections) => setExactAreas(
         collections.flatMap((data) => data.features as AreaFeature[]),
@@ -4973,10 +5006,13 @@ function TurkeyMap({
                 className={`geo-feature geo-feature--${status}${
                   feature.id === currentFeatureId ? " geo-feature--current" : ""
                 }`}
-                style={CLIMATE_ZONE_COLORS[feature.id]
+                style={EXACT_AREA_COLORS[feature.id]
                   ? ({
-                      "--exact-area-fill": CLIMATE_ZONE_COLORS[feature.id],
+                      "--exact-area-fill": EXACT_AREA_COLORS[feature.id],
                       "--exact-area-opacity": ".48",
+                      "--exact-area-stroke": SOIL_DISTRIBUTION_IDS.has(feature.id)
+                        ? "rgba(12, 48, 44, .78)"
+                        : "rgba(221, 255, 235, .92)",
                     } as CSSProperties)
                   : undefined}
                 onClick={() => onSelect(feature)}

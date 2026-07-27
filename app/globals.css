@@ -660,7 +660,7 @@ button { color: inherit; }
 .geo-shape--exact-area {
   fill: var(--exact-area-fill, rgba(117, 188, 149, .3));
   fill-opacity: var(--exact-area-opacity, 1);
-  stroke: rgba(221, 255, 235, .92);
+  stroke: var(--exact-area-stroke, rgba(221, 255, 235, .92));
   stroke-width: 1.7;
   stroke-dasharray: none;
   vector-effect: non-scaling-stroke;
