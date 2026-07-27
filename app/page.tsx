@@ -2236,6 +2236,10 @@ const QUIZZES: Quiz[] = [
       f("bolu-t", "Bolu Dağı Tüneli", 50, 50, 5, 4, "tunnel"),
       f("ovit-t", "Ovit Tüneli", 50, 50, 5, 4, "tunnel"),
       f("zigana-t", "Yeni Zigana Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("ilgaz-t", "Ilgaz 15 Temmuz İstiklal Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("cankurtaran-t", "Cankurtaran Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("sabuncubeli-t", "Sabuncubeli Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("egribel-t", "Eğribel Tüneli", 50, 50, 5, 4, "tunnel"),
     ],
   },
   {
@@ -2268,6 +2272,10 @@ const QUIZZES: Quiz[] = [
       f("bolu-t", "Bolu Dağı Tüneli", 50, 50, 5, 4, "tunnel"),
       f("ovit-t", "Ovit Tüneli", 50, 50, 5, 4, "tunnel"),
       f("zigana-t", "Yeni Zigana Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("ilgaz-t", "Ilgaz 15 Temmuz İstiklal Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("cankurtaran-t", "Cankurtaran Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("sabuncubeli-t", "Sabuncubeli Tüneli", 50, 50, 5, 4, "tunnel"),
+      f("egribel-t", "Eğribel Tüneli", 50, 50, 5, 4, "tunnel"),
     ],
   },
   {
@@ -2708,16 +2716,16 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page75.html",
   },
   "bridges-tunnels": {
-    label: "KGM köprü ve tünel bilgileri",
-    url: "https://www.kgm.gov.tr/Sayfalar/SiteMap.aspx",
+    label: "KGM başlıca köprüler + tünel projeleri",
+    url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Projeler/TunelProjeleri.aspx?Yil=2010",
   },
   bridges: {
     label: "KGM köprü bilgileri",
     url: "https://www.kgm.gov.tr/Sayfalar/SiteMap.aspx",
   },
   tunnels: {
-    label: "KGM tünel bilgileri",
-    url: "https://www.kgm.gov.tr/Sayfalar/SiteMap.aspx",
+    label: "KGM başlıca tünel projeleri + tünel haritası",
+    url: "https://www.kgm.gov.tr/SiteCollectionImages/KGMimages/Haritalar/tuneller.pdf",
   },
 };
 
@@ -3898,6 +3906,10 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "bolu-t": [31.4589139, 40.7472274],
   "ovit-t": [40.7844019, 40.6211219],
   "zigana-t": [39.4148249, 40.6698851],
+  "ilgaz-t": [33.7505896, 41.0631322],
+  "cankurtaran-t": [41.5378512, 41.3847405],
+  "sabuncubeli-t": [27.3015543, 38.5464436],
+  "egribel-t": [38.3754329, 40.4522779],
 };
 
 const LABEL_OFFSETS: Record<string, Coordinate> = {
