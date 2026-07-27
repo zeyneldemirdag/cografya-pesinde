@@ -123,3 +123,10 @@ test("karma oluşumlu ve sirk gölleri gerçek su poligonlarını kullanır", ()
     3,
   );
 });
+
+test("kurumuş Kestel polyesi güncel su yüzeyi gibi gösterilmez", () => {
+  assert.deepEqual(report.nonExactLakeTargets, []);
+  assert.deepEqual(report.intermittentPolyeTargets, [
+    { id: "kestel-l", name: "Kestel Gölü", geometry: "area-polygon" },
+  ]);
+});

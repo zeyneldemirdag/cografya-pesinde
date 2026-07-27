@@ -2000,7 +2000,7 @@ const QUIZZES: Quiz[] = [
     group: "Göller",
     title: "Karstik Göller",
     eyebrow: "Göller · Alt konu",
-    description: "Kalkerli arazilerde çözünme çanaklarında oluşan gölleri bul.",
+    description: "Kalkerli arazilerde çözünme çanaklarında oluşan gölleri bul. Kestel, günümüzde su yüzeyi olmayan kurumuş polye tabanı olarak gösterilir.",
     color: "#2d9bbd",
     icon: "◌",
     features: [
@@ -2402,6 +2402,10 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   },
   "glacial-lakes": {
     label: "MEB başlıca sirk gölleri · gerçek OSM su poligonları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+  },
+  "karstic-lakes": {
+    label: "MEB karstik göller · Kestel kurumuş polye olarak ayrıştırıldı",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
   },
   plains: {
@@ -4329,10 +4333,11 @@ function featureGraphic(
 
   const areaPolygon = areaPolygonFor(feature);
   if (areaPolygon) {
+    const isIntermittentPolye = feature.id === "kestel-l";
     return (
       <path
         d={ringPath(areaPolygon)}
-        className={`geo-shape geo-shape--${feature.kind} geo-shape--area`}
+        className={`geo-shape geo-shape--${feature.kind} geo-shape--area${isIntermittentPolye ? " geo-shape--intermittent-polye" : ""}`}
         clipPath="url(#turkey-country-clip)"
       />
     );

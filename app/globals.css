@@ -548,6 +548,13 @@ button { color: inherit; }
   stroke-width: 3.2;
   filter: drop-shadow(0 2px 2px rgba(8, 25, 28, .22));
 }
+.geo-shape--intermittent-polye {
+  fill: rgba(199, 174, 111, .28);
+  stroke: #d9c47f;
+  stroke-width: 2.2;
+  stroke-dasharray: 5 3;
+  filter: drop-shadow(0 0 3px rgba(228, 210, 151, .42));
+}
 .geo-feature--idle .geo-shape--plain,
 .geo-feature--idle .geo-shape--plateau {
   fill: rgba(246, 249, 228, .13);

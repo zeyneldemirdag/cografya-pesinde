@@ -657,7 +657,16 @@ console.log(JSON.stringify({
   coverageComparisons,
   sourceCoverage,
   nonExactLakeTargets: [...unique.values()]
-    .filter((feature) => feature.kind === "lake" && feature.geometry !== "exact-lake")
+    .filter(
+      (feature) =>
+        feature.kind === "lake" &&
+        feature.geometry !== "exact-lake" &&
+        feature.id !== "kestel-l" &&
+        feature.geometry !== "coordinate-line",
+    )
+    .map(({ id, name, geometry }) => ({ id, name, geometry })),
+  intermittentPolyeTargets: [...unique.values()]
+    .filter((feature) => feature.id === "kestel-l")
     .map(({ id, name, geometry }) => ({ id, name, geometry })),
   missingSourceOverrides,
   duplicateQuizFeatureIds,
