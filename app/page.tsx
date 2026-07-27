@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { flushSync } from "react-dom";
 
 type FeatureKind =
@@ -456,6 +456,26 @@ const GRASS_VEGETATION_FEATURES: Feature[] = [
   f("meadow", "Çayır · Erzurum-Kars-Ardahan", 83, 32, 22, 15, "region"),
   f("alpine-meadow-veg", "Alpin Çayır", 69, 27, 45, 12, "region"),
 ];
+
+const CLIMATE_FEATURES: Feature[] = [
+  f("akdeniz-cl", "Akdeniz İklimi", 34, 71, 45, 10, "region"),
+  f("akdeniz-karasal-gecis-cl", "Akdeniz-Karasal Geçiş İklimi", 35, 57, 45, 10, "region"),
+  f("karadeniz-cl", "Karadeniz İklimi", 58, 20, 58, 10, "region"),
+  f("akdeniz-karadeniz-gecis-cl", "Akdeniz-Karadeniz Geçiş İklimi", 16, 31, 22, 10, "region"),
+  f("karasal-karadeniz-gecis-cl", "Karasal-Karadeniz Geçiş İklimi", 58, 29, 56, 10, "region"),
+  f("karasal-cl", "Karasal İklim", 58, 49, 50, 22, "region"),
+  f("karasal-sert-gecis-cl", "Karasal-Sert Karasal Geçiş İklimi", 86, 37, 20, 16, "region"),
+];
+
+const CLIMATE_ZONE_COLORS: Record<string, string> = {
+  "akdeniz-cl": "#e84320",
+  "akdeniz-karasal-gecis-cl": "#fab412",
+  "karadeniz-cl": "#739557",
+  "akdeniz-karadeniz-gecis-cl": "#40529f",
+  "karasal-karadeniz-gecis-cl": "#a2b48a",
+  "karasal-cl": "#f0e508",
+  "karasal-sert-gecis-cl": "#7f6d59",
+};
 
 const DENSE_POPULATION_FEATURES: Feature[] = [
   f("catalca-kocaeli-pop", "Çatalca-Kocaeli Yarımadası · Sık", 20, 27, 20, 10, "region"),
@@ -1536,15 +1556,10 @@ const QUIZZES: Quiz[] = [
     group: "Doğal",
     title: "İklim Bölgeleri",
     eyebrow: "Doğal coğrafya · İklim",
-    description: "İklim tiplerinin etkili olduğu örnek alanları bul.",
+    description: "MEB haritasındaki dört ana ve üç geçiş iklim kuşağının gerçek yayılış alanlarını bul.",
     color: "#ef8b2d",
     icon: "☼",
-    features: [
-      f("karadeniz-cl", "Karadeniz İklimi", 59, 20, 58, 10, "region"),
-      f("akdeniz-cl", "Akdeniz İklimi", 45, 70, 55, 11, "region"),
-      f("karasal-cl", "Karasal İklim", 58, 45, 50, 25, "region"),
-      f("sert-karasal-cl", "Sert Karasal İklim", 84, 32, 22, 15, "region"),
-    ],
+    features: [...CLIMATE_FEATURES],
   },
   {
     id: "vegetation",
@@ -2622,8 +2637,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://orgm.meb.gov.tr/meb_iys_dosyalar/2023_12/21151051_cografya1.pdf",
   },
   climate: {
-    label: "MEB Türkiye iklim tipleri + MGM",
-    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page48.html",
+    label: "MEB · 7 iklim ve geçiş kuşağı · resmî harita vektörü",
+    url: "https://ogmmateryal.eba.gov.tr/panel/panel/ResimMaskeOnizle.aspx?alistirmaId=54163",
   },
   vegetation: {
     label: "MEB Türkiye bitki toplulukları",
@@ -3220,23 +3235,6 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   "kalankli-teke-taseli": [
     [[29.1, 36.35], [29.8, 36.05], [30.7, 36.0], [31.2, 36.2], [30.6, 36.45], [29.8, 36.55]],
     [[31.8, 36.2], [32.8, 36.0], [34.4, 36.0], [34.7, 36.25], [33.4, 36.45], [32.3, 36.5]],
-  ],
-  "karadeniz-cl": [
-    [[26.6, 41.9], [29.2, 41.8], [32.4, 41.8], [35.7, 41.8], [38.8, 41.4], [41.8, 41.4], [41.5, 40.5], [38.8, 40.4], [35.5, 40.7], [32.0, 40.7], [29.0, 40.8], [27.0, 41.1]],
-  ],
-  "akdeniz-cl": [
-    [[26.05, 40.15], [26.25, 39.2], [26.55, 38.2], [27.25, 37.25], [28.35, 36.55], [29.25, 36.2], [29.85, 36.42], [29.48, 37.3], [28.88, 38.1], [28.2, 39.15], [27.25, 40.05]],
-    [[29.05, 36.35], [30.7, 35.95], [32.6, 35.85], [34.5, 36.0], [35.75, 36.55], [36.75, 36.02], [36.92, 36.88], [35.85, 37.18], [34.15, 37.08], [32.25, 37.18], [30.45, 37.45], [29.4, 37.15]],
-    [[26.05, 40.0], [27.4, 40.2], [28.7, 40.55], [30.15, 40.55], [30.25, 41.0], [28.8, 41.1], [27.25, 40.85], [26.15, 40.65]],
-    [[27.1, 39.3], [28.0, 39.25], [29.15, 38.95], [30.35, 38.2], [30.55, 37.25], [29.7, 37.1], [28.8, 37.55], [27.75, 38.25]],
-    [[36.05, 37.65], [36.65, 37.75], [37.45, 37.55], [38.15, 37.2], [38.05, 36.7], [37.35, 36.75], [36.55, 36.95]],
-  ],
-  "karasal-cl": [
-    [[29.55, 40.0], [31.7, 40.65], [34.45, 40.65], [37.1, 40.35], [39.65, 39.75], [39.45, 37.65], [37.9, 37.25], [36.2, 37.45], [34.0, 37.55], [31.45, 37.75], [29.55, 38.75]],
-    [[38.7, 39.55], [40.0, 39.7], [41.1, 39.15], [42.7, 38.8], [44.4, 39.35], [44.55, 37.35], [42.75, 37.0], [40.35, 37.05], [38.55, 37.55]],
-  ],
-  "sert-karasal-cl": [
-    [[39.45, 41.45], [40.55, 41.78], [42.2, 41.8], [43.65, 41.42], [44.75, 40.55], [44.45, 39.15], [43.0, 39.0], [41.45, 39.28], [40.05, 39.75]],
   ],
   "forest-black": [
     [[27.0, 41.8], [30.0, 41.8], [33.0, 41.8], [36.0, 41.7], [39.0, 41.4], [42.0, 41.4], [41.5, 40.4], [39.0, 40.3], [36.0, 40.6], [33.0, 40.5], [30.0, 40.6], [27.2, 40.9]],
@@ -4807,9 +4805,13 @@ function TurkeyMap({
       .then((response) => response.json())
       .then((data) => setFaults(data.features as FaultFeature[]))
       .catch(() => setFaults([]));
-    fetch("/data/turkey-tourism-areas.geojson")
-      .then((response) => response.json())
-      .then((data) => setExactAreas(data.features as AreaFeature[]))
+    Promise.all([
+      fetch("/data/turkey-tourism-areas.geojson").then((response) => response.json()),
+      fetch("/data/turkey-climate-zones.geojson").then((response) => response.json()),
+    ])
+      .then((collections) => setExactAreas(
+        collections.flatMap((data) => data.features as AreaFeature[]),
+      ))
       .catch(() => setExactAreas([]));
   }, []);
 
@@ -4971,6 +4973,12 @@ function TurkeyMap({
                 className={`geo-feature geo-feature--${status}${
                   feature.id === currentFeatureId ? " geo-feature--current" : ""
                 }`}
+                style={CLIMATE_ZONE_COLORS[feature.id]
+                  ? ({
+                      "--exact-area-fill": CLIMATE_ZONE_COLORS[feature.id],
+                      "--exact-area-opacity": ".48",
+                    } as CSSProperties)
+                  : undefined}
                 onClick={() => onSelect(feature)}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === " ") onSelect(feature);

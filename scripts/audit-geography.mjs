@@ -88,6 +88,10 @@ const tourismAreaData = JSON.parse(
   fs.readFileSync(new URL("../public/data/turkey-tourism-areas.geojson", import.meta.url), "utf8"),
 ).features;
 const tourismAreaIds = new Set(tourismAreaData.map((feature) => feature.properties.id));
+const climateAreaData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-climate-zones.geojson", import.meta.url), "utf8"),
+).features;
+const climateAreaIds = new Set(climateAreaData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const hasRenderedRealLine = (feature) =>
@@ -123,6 +127,7 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (straitKeys.has(feature.id)) geometry = "exact-strait";
   else if (provinceUnionIds.has(feature.id)) geometry = "exact-province-union";
+  else if (climateAreaIds.has(feature.id)) geometry = "exact-climate-area";
   else if (tourismAreaIds.has(feature.id)) geometry = "exact-tourism-area";
   else if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (basinIds.has(feature.id)) geometry = "exact-basin";
@@ -312,7 +317,10 @@ const officialExpectations = {
     "Regosol", "Lös", "Moren",
   ],
   climate: [
-    "Akdeniz İklimi", "Karadeniz İklimi", "Karasal İklim", "Sert Karasal İklim",
+    "Akdeniz İklimi", "Akdeniz-Karasal Geçiş İklimi",
+    "Karadeniz İklimi", "Akdeniz-Karadeniz Geçiş İklimi",
+    "Karasal-Karadeniz Geçiş İklimi", "Karasal İklim",
+    "Karasal-Sert Karasal Geçiş İklimi",
   ],
   massifs: [
     "Yıldız Masifi", "Kazdağı Masifi", "Uludağ Masifi",
