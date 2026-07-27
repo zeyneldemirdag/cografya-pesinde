@@ -450,6 +450,99 @@ button { color: inherit; }
   filter: drop-shadow(0 0 3px rgba(244, 255, 248, .9));
 }
 
+.geo-structure-hit {
+  stroke-width: 24;
+}
+
+.structure-axis-casing {
+  fill: none;
+  stroke: rgba(242, 238, 255, .96);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.geo-shape--bridge-axis {
+  fill: none;
+  stroke: #7659bd;
+  stroke-width: 5;
+  stroke-dasharray: none;
+  filter: drop-shadow(0 0 3px rgba(241, 232, 255, .9));
+}
+
+.geo-shape--tunnel-axis {
+  fill: none;
+  stroke: #67569d;
+  stroke-width: 5;
+  stroke-dasharray: 7 4;
+  filter: drop-shadow(0 0 3px rgba(241, 232, 255, .9));
+}
+
+.structure-axis-end {
+  fill: #09212a;
+  stroke: #f0eaff;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.structure-callout-leader {
+  stroke: rgba(242, 238, 255, .9);
+  stroke-width: 1.6;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.structure-callout-marker {
+  cursor: pointer;
+}
+
+.structure-callout-halo {
+  fill: rgba(9, 33, 42, .94);
+  stroke: rgba(242, 238, 255, .94);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.geo-shape--structure-marker {
+  fill: none;
+  stroke: #d9cbff;
+  stroke-width: 2.2;
+  paint-order: normal;
+  pointer-events: all;
+}
+
+.geo-shape--tunnel-marker {
+  fill: #6b59a6;
+  fill-rule: evenodd;
+}
+
+.geo-feature--wrong .structure-callout-halo {
+  stroke: #ffb8b3;
+}
+
+.geo-feature--correct .structure-callout-halo {
+  stroke: #bff5d7;
+}
+
+.geo-feature--wrong .structure-axis-casing,
+.geo-feature--correct .structure-axis-casing {
+  stroke: rgba(255,255,255,.94);
+}
+
+.geo-feature--wrong .structure-axis-end {
+  fill: var(--red);
+  stroke: #8d1f1a;
+}
+
+.geo-feature--correct .structure-axis-end {
+  fill: var(--green);
+  stroke: #176743;
+}
+
 .geo-shape--exact-river {
   stroke-width: 5.5;
   filter: drop-shadow(0 1px 1px rgba(255,255,255,.45));
