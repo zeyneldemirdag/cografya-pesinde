@@ -6,7 +6,7 @@ const log = openSync(new URL("../.codex-dev.log", import.meta.url), "a");
 const child = spawn(process.execPath, [
   new URL("../node_modules/vinext/dist/cli.js", import.meta.url).pathname.replace(/^\/([A-Z]:)/, "$1").replaceAll("/", "\\"),
   "dev",
-  "--host",
+  "--hostname",
   "0.0.0.0",
   "--port",
   "3000",
