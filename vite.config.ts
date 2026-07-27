@@ -10,6 +10,7 @@ const { d1, r2 } = hostingConfig;
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
+const isGitHubPages = process.env.GITHUB_PAGES === "true";
 
 const localBindingConfig = {
   main: "./worker/index.ts",
@@ -40,20 +41,29 @@ export default defineConfig(async () => {
   process.env.WRANGLER_LOG_PATH ??= ".wrangler/logs";
   process.env.MINIFLARE_REGISTRY_PATH ??= ".wrangler/registry";
 
-  // Wrangler snapshots its log path while the Cloudflare plugin is imported.
-  const { cloudflare } = await import("@cloudflare/vite-plugin");
+  // GitHub Pages only needs Vinext's static-export pipeline. Keeping the
+  // Cloudflare/Sites plugins out of that build avoids request-bound preview
+  // middleware and produces a portable browser-only artifact.
+  const cloudflare = isGitHubPages
+    ? null
+    : (await import("@cloudflare/vite-plugin")).cloudflare;
 
   return {
+    base: isGitHubPages ? "/cografya-pesinde/" : undefined,
     server: isCodexSeatbeltSandbox
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,
     plugins: [
       vinext(),
-      sites(),
-      cloudflare({
-        viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
-        config: localBindingConfig,
-      }),
+      ...(isGitHubPages || !cloudflare
+        ? []
+        : [
+            sites(),
+            cloudflare({
+              viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
+              config: localBindingConfig,
+            }),
+          ]),
     ],
   };
 });

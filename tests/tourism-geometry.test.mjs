@@ -59,7 +59,7 @@ test("multi-part historic national parks retain their official pieces", () => {
 });
 
 test("tourism rendering loads exact areas and removes old hand-drawn substitutes", () => {
-  assert.match(pageSource, /fetch\("\/data\/turkey-tourism-areas\.geojson"\)/);
+  assert.match(pageSource, /fetch\(publicAsset\("\/data\/turkey-tourism-areas\.geojson"\)\)/);
   assert.match(pageSource, /geo-shape--exact-area/);
   for (const id of expectedIds) {
     assert.doesNotMatch(

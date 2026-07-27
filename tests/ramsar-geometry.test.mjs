@@ -60,7 +60,7 @@ test("altı sazlık, delta ve koruma alanı gerçek OSM sınır poligonlarını 
     assert.ok(feature.geometry.coordinates[0].length >= 10, `${feature.properties.id} sınırı fazla kaba`);
     assert.match(feature.properties.osm, /^[RW]\d+$/);
   }
-  assert.match(source, /fetch\("\/data\/turkey-ramsar\.geojson"\)/);
+  assert.match(source, /fetch\(publicAsset\("\/data\/turkey-ramsar\.geojson"\)\)/);
 });
 
 test("ülke ölçeğinde küçük kalan altı Ramsar alanının geniş dokunma hedefi vardır", () => {

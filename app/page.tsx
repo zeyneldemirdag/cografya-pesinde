@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { flushSync } from "react-dom";
 
+export const dynamic = "force-static";
+
 type FeatureKind =
   | "mountain"
   | "volcano"
@@ -49,6 +51,9 @@ type Quiz = {
   icon: string;
   features: Feature[];
 };
+
+const PUBLIC_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const publicAsset = (path: string) => `${PUBLIC_BASE_PATH}${path}`;
 
 const f = (
   id: string,
@@ -4867,53 +4872,53 @@ function TurkeyMap({
   );
 
   useEffect(() => {
-    fetch("/data/turkey-provinces.geojson")
+    fetch(publicAsset("/data/turkey-provinces.geojson"))
       .then((response) => response.json())
       .then((data) => setProvinces(data.features as ProvinceFeature[]))
       .catch(() => setProvinces([]));
     Promise.all([
-      fetch("/data/turkey-lakes.geojson").then((response) => response.json()),
-      fetch("/data/turkey-lakes-extra.geojson").then((response) => response.json()),
-      fetch("/data/turkey-lakes-karstic-extra.geojson").then((response) => response.json()),
-      fetch("/data/turkey-lakes-eastern-extra.geojson").then((response) => response.json()),
-      fetch("/data/turkey-lakes-border-extra.geojson").then((response) => response.json()),
-      fetch("/data/turkey-natural-set-lakes.geojson").then((response) => response.json()),
-      fetch("/data/turkey-mixed-glacial-lakes.geojson").then((response) => response.json()),
-      fetch("/data/turkey-ramsar.geojson").then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-lakes.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-lakes-extra.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-lakes-karstic-extra.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-lakes-eastern-extra.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-lakes-border-extra.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-natural-set-lakes.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-mixed-glacial-lakes.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-ramsar.geojson")).then((response) => response.json()),
     ])
       .then((collections) => setLakes(
         collections.flatMap((data) => data.features as LakeFeature[]),
       ))
       .catch(() => setLakes([]));
     Promise.all([
-      fetch("/data/turkey-rivers.geojson").then((response) => response.json()),
-      fetch("/data/turkey-rivers-extra.geojson").then((response) => response.json()),
-      fetch("/data/turkey-rivers-official-extra.geojson").then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-rivers.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-rivers-extra.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-rivers-official-extra.geojson")).then((response) => response.json()),
     ])
       .then((collections) => setRivers(
         collections.flatMap((data) => data.features as RiverFeature[]),
       ))
       .catch(() => setRivers([]));
-    fetch("/data/turkey-closed-basins.geojson")
+    fetch(publicAsset("/data/turkey-closed-basins.geojson"))
       .then((response) => response.json())
       .then((data) => setBasins(data.features as BasinFeature[]))
       .catch(() => setBasins([]));
-    fetch("/data/turkey-neighbors.geojson")
+    fetch(publicAsset("/data/turkey-neighbors.geojson"))
       .then((response) => response.json())
       .then((data) => setNeighbors(data.features as NeighborFeature[]))
       .catch(() => setNeighbors([]));
-    fetch("/data/turkey-active-faults.geojson")
+    fetch(publicAsset("/data/turkey-active-faults.geojson"))
       .then((response) => response.json())
       .then((data) => setFaults(data.features as FaultFeature[]))
       .catch(() => setFaults([]));
     Promise.all([
-      fetch("/data/turkey-tourism-areas.geojson").then((response) => response.json()),
-      fetch("/data/turkey-climate-zones.geojson").then((response) => response.json()),
-      fetch("/data/turkey-soil-distribution.geojson").then((response) => response.json()),
-      fetch("/data/turkey-vegetation-distribution.geojson").then((response) => response.json()),
-      fetch("/data/turkey-subgame-areas.geojson").then((response) => response.json()),
-      fetch("/data/turkey-agriculture-areas.geojson").then((response) => response.json()),
-      fetch("/data/turkey-population-areas.geojson").then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-tourism-areas.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-climate-zones.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-soil-distribution.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-vegetation-distribution.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-subgame-areas.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-agriculture-areas.geojson")).then((response) => response.json()),
+      fetch(publicAsset("/data/turkey-population-areas.geojson")).then((response) => response.json()),
     ])
       .then((collections) => setExactAreas(
         collections.flatMap((data) => data.features as AreaFeature[]),
@@ -4950,7 +4955,7 @@ function TurkeyMap({
         </defs>
         <image
           className="relief-layer"
-          href="/data/turkey-terrain.png"
+          href={publicAsset("/data/turkey-terrain.png")}
           x="0"
           y="0"
           width="1000"
