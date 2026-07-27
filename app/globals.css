@@ -436,6 +436,10 @@ button { color: inherit; }
   pointer-events: stroke;
 }
 
+.geo-feature--current .geo-line-hit {
+  stroke-width: 24;
+}
+
 .geo-shape--pipeline {
   fill: none;
   stroke: #147b75;
