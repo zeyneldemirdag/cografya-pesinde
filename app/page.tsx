@@ -544,27 +544,31 @@ const EXACT_AREA_ALIASES: Record<string, string> = {
   "sheep-livestock": "step-map",
   goat: "goat-toros",
   banana: "banana-anamur-alanya",
+  "yildiz-pop": "population-yildiz",
+  "teke-pop": "population-teke",
+  "taseli-pop": "population-taseli",
+  "tuz-lake-pop": "population-tuz-lake",
 };
 
 const DENSE_POPULATION_FEATURES: Feature[] = [
-  f("catalca-kocaeli-pop", "Çatalca-Kocaeli Yarımadası · Sık", 20, 27, 20, 10, "region"),
-  f("coastal-aegean-pop", "Kıyı Ege · Sık", 18, 53, 15, 25, "region"),
-  f("antalya-pop", "Antalya Yöresi · Sık", 28, 70, 11, 8, "region"),
-  f("ankara-eskisehir-pop", "Ankara-Eskişehir Yöresi · Sık", 42, 43, 20, 12, "region"),
-  f("cukurova-gaziantep-pop", "Çukurova-Gaziantep Yöresi · Sık", 61, 66, 24, 10, "region"),
-  f("middle-east-black-sea-pop", "Orta ve Doğu Karadeniz Kıyıları · Sık", 69, 20, 34, 8, "region"),
+  regionFeature("catalca-kocaeli-pop", "Çatalca-Kocaeli Yarımadası · Sık", [34, 41, 54]),
+  regionFeature("coastal-aegean-pop", "Kıyı Ege · Sık", [10, 45, 35, 9, 48]),
+  regionFeature("antalya-pop", "Antalya Yöresi · Sık", [7]),
+  regionFeature("ankara-eskisehir-pop", "Ankara-Eskişehir Yöresi · Sık", [6, 26]),
+  regionFeature("cukurova-gaziantep-pop", "Çukurova-Gaziantep Yöresi · Sık", [1, 33, 80, 27]),
+  regionFeature("middle-east-black-sea-pop", "Orta ve Doğu Karadeniz Kıyıları · Sık", [55, 52, 28, 61, 53, 8]),
 ];
 
 const SPARSE_POPULATION_FEATURES: Feature[] = [
   f("yildiz-pop", "Yıldız Dağları · Seyrek", 9, 17, 17, 10, "region"),
-  f("canakkale-pop", "Çanakkale Çevresi · Seyrek", 10, 37, 12, 15, "region"),
-  f("sinop-pop", "Sinop Çevresi · Seyrek", 48, 16, 12, 8, "region"),
-  f("mentese-pop", "Menteşe Yöresi · Seyrek", 20, 67, 14, 14, "region"),
+  regionFeature("canakkale-pop", "Çanakkale Çevresi · Seyrek", [17]),
+  regionFeature("sinop-pop", "Sinop Çevresi · Seyrek", [57]),
+  regionFeature("mentese-pop", "Menteşe Yöresi · Seyrek", [48]),
   f("teke-pop", "Teke Yöresi · Seyrek", 28, 66, 13, 14, "region"),
   f("taseli-pop", "Taşeli Yöresi · Seyrek", 43, 69, 18, 11, "region"),
   f("tuz-lake-pop", "Tuz Gölü Çevresi · Seyrek", 46, 50, 17, 14, "region"),
-  f("erzurum-kars-pop", "Erzurum-Kars Yöresi · Seyrek", 82, 31, 21, 18, "region"),
-  f("hakkari-pop", "Hakkâri Yöresi · Seyrek", 90, 67, 13, 12, "region"),
+  regionFeature("erzurum-kars-pop", "Erzurum-Kars Yöresi · Seyrek", [25, 36, 75]),
+  regionFeature("hakkari-pop", "Hakkâri Yöresi · Seyrek", [30]),
 ];
 
 const GRAIN_LEGUME_FEATURES: Feature[] = [
@@ -4886,6 +4890,7 @@ function TurkeyMap({
       fetch("/data/turkey-vegetation-distribution.geojson").then((response) => response.json()),
       fetch("/data/turkey-subgame-areas.geojson").then((response) => response.json()),
       fetch("/data/turkey-agriculture-areas.geojson").then((response) => response.json()),
+      fetch("/data/turkey-population-areas.geojson").then((response) => response.json()),
     ])
       .then((collections) => setExactAreas(
         collections.flatMap((data) => data.features as AreaFeature[]),
