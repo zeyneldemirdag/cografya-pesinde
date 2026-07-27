@@ -294,8 +294,11 @@ const officialExpectations = {
     "Akdeniz İklimi", "Karadeniz İklimi", "Karasal İklim", "Sert Karasal İklim",
   ],
   massifs: [
-    "Yıldız Masifi", "Menderes Masifi", "Kırşehir Masifi",
-    "Alanya-Anamur Masifi", "Bitlis Masifi", "Kazdağı Masifi",
+    "Yıldız Masifi", "Kazdağı Masifi", "Uludağ Masifi",
+    "Menderes Masifi", "Sultandağ Masifi", "Alanya-Anamur Masifi",
+    "Ilgaz Masifi", "Tokat Masifi", "Akdağmadeni Masifi",
+    "Kırşehir Masifi", "Niğde Masifi", "Akdağ Masifi",
+    "Malatya Masifi", "Bitlis Masifi",
   ],
   "agricultural-function-cities": [
     "Söke", "Osmaniye", "Akhisar", "Rize", "Bafra", "Malatya",
