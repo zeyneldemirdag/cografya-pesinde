@@ -43,6 +43,7 @@ const lakeData = [
   "../public/data/turkey-lakes-karstic-extra.geojson",
   "../public/data/turkey-lakes-eastern-extra.geojson",
   "../public/data/turkey-lakes-border-extra.geojson",
+  "../public/data/turkey-natural-set-lakes.geojson",
 ].flatMap((path) =>
   JSON.parse(fs.readFileSync(new URL(path, import.meta.url), "utf8")).features
 );
@@ -221,7 +222,7 @@ const duplicateQuizFeatureIds = quizIds.flatMap((quiz) => {
 
 const coverageComparisons = [
   ["mountains-all", ["fold-mountains", "fault-mountains", "volcanic-mountains", "north-fold-mountains", "south-fold-mountains", "glacial-mountains"]],
-  ["lakes-all", ["tectonic-lakes", "volcanic-set-lakes", "karstic-lakes", "volcanic-lakes"]],
+  ["lakes-all", ["tectonic-lakes", "volcanic-set-lakes", "landslide-set-lakes", "alluvial-set-lakes", "coastal-set-lakes", "karstic-lakes", "volcanic-lakes"]],
   ["rivers", ["black-sea-rivers", "aegean-rivers", "mediterranean-rivers", "outbound-rivers", "inbound-rivers", "border-rivers"]],
   ["plains", ["delta-plains", "tectonic-plains", "karstic-plains"]],
   ["plateaus", ["tabular-plateaus", "karstic-plateaus", "volcanic-plateaus", "erosion-plateaus"]],
@@ -340,6 +341,15 @@ const officialExpectations = {
   ],
   "volcanic-set-lakes": [
     "Çıldır Gölü", "Erçek Gölü", "Nazik Gölü", "Haçlı Gölü", "Balık Gölü",
+  ],
+  "landslide-set-lakes": [
+    "Abant Gölü", "Yedigöller", "Boraboy Gölü", "Zinav Gölü", "Sera Gölü", "Tortum Gölü",
+  ],
+  "alluvial-set-lakes": [
+    "Marmara Gölü", "Bafa (Çamiçi) Gölü", "Köyceğiz Gölü", "Uzungöl", "Eymir Gölü", "Mogan Gölü",
+  ],
+  "coastal-set-lakes": [
+    "Büyükçekmece Gölü", "Küçükçekmece Gölü", "Durusu (Terkos) Gölü", "Akyatan Lagünü",
   ],
   "karstic-lakes": [
     "Avlan Gölü", "Kestel Gölü", "Salda Gölü", "Kızören Obruğu",

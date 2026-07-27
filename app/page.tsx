@@ -99,6 +99,31 @@ const OIL_PIPELINE_FEATURES: Feature[] = [
   f("pipeline-iraq-turkey", "Irak-Türkiye · Kerkük-Ceyhan", 50, 50, 8, 4, "route"),
 ];
 
+const LANDSLIDE_SET_LAKE_FEATURES: Feature[] = [
+  f("abant-set", "Abant Gölü", 31, 29, 5, 4, "lake"),
+  f("yedigoller-set", "Yedigöller", 34, 22, 5, 4, "lake"),
+  f("borabay-set", "Boraboy Gölü", 58, 26, 5, 4, "lake"),
+  f("zinav-set", "Zinav Gölü", 63, 30, 5, 4, "lake"),
+  f("sera-set", "Sera Gölü", 75, 20, 5, 4, "lake"),
+  f("tortum-set", "Tortum Gölü", 83, 25, 6, 5, "lake"),
+];
+
+const ALLUVIAL_SET_LAKE_FEATURES: Feature[] = [
+  f("marmara-set", "Marmara Gölü", 20, 51, 6, 5, "lake"),
+  f("bafa-set", "Bafa (Çamiçi) Gölü", 18, 62, 6, 5, "lake"),
+  f("koycegiz-set", "Köyceğiz Gölü", 24, 70, 6, 5, "lake"),
+  f("uzungol-set", "Uzungöl", 78, 18, 5, 4, "lake"),
+  f("eymir-set", "Eymir Gölü", 47, 45, 5, 4, "lake"),
+  f("mogan-set", "Mogan Gölü", 47, 47, 5, 5, "lake"),
+];
+
+const COASTAL_SET_LAKE_FEATURES: Feature[] = [
+  f("buyukcekmece-set", "Büyükçekmece Gölü", 10, 27, 6, 5, "lake"),
+  f("kucukcekmece-set", "Küçükçekmece Gölü", 11, 27, 6, 5, "lake"),
+  f("durusu-set", "Durusu (Terkos) Gölü", 10, 20, 6, 5, "lake"),
+  f("akyatan-set", "Akyatan Lagünü", 57, 72, 7, 5, "lake"),
+];
+
 const p = (plate: number, name: string): Feature => ({
   id: `province-${plate}`,
   name,
@@ -926,6 +951,9 @@ const QUIZZES: Quiz[] = [
       f("cirali-lake", "Çıralı Obruğu", 50, 60, 4, 4, "lake"),
       f("hafik-lake", "Hafik Gölü", 65, 39, 4, 4, "lake"),
       f("todurge-lake", "Tödürge Gölü", 66, 39, 4, 4, "lake"),
+      ...LANDSLIDE_SET_LAKE_FEATURES,
+      ...ALLUVIAL_SET_LAKE_FEATURES,
+      ...COASTAL_SET_LAKE_FEATURES,
     ],
   },
   {
@@ -967,6 +995,36 @@ const QUIZZES: Quiz[] = [
       f("balik", "Balık Gölü", 88, 40, 4, 3, "lake"),
       f("haçli", "Haçlı Gölü", 76, 49, 4, 3, "lake"),
     ],
+  },
+  {
+    id: "landslide-set-lakes",
+    group: "Göller",
+    title: "Heyelan Set Gölleri",
+    eyebrow: "Göller · Doğal set · Heyelan",
+    description: "MEB listesindeki heyelanla vadi önü kapanması sonucu oluşan gölleri gerçek kıyı şekilleriyle bul.",
+    color: "#4d9e91",
+    icon: "◒",
+    features: [...LANDSLIDE_SET_LAKE_FEATURES],
+  },
+  {
+    id: "alluvial-set-lakes",
+    group: "Göller",
+    title: "Alüvyal Set Gölleri",
+    eyebrow: "Göller · Doğal set · Alüvyal",
+    description: "MEB listesindeki alüvyal birikimlerle önü kapanan gölleri gerçek kıyı şekilleriyle bul.",
+    color: "#6cae70",
+    icon: "◓",
+    features: [...ALLUVIAL_SET_LAKE_FEATURES],
+  },
+  {
+    id: "coastal-set-lakes",
+    group: "Göller",
+    title: "Kıyı Set Gölleri",
+    eyebrow: "Göller · Doğal set · Lagün",
+    description: "Kıyı oku ve kordonlarının koy önlerini kapatmasıyla oluşan MEB örneklerini gerçek lagün şekilleriyle bul.",
+    color: "#2b9eb3",
+    icon: "◔",
+    features: [...COASTAL_SET_LAKE_FEATURES],
   },
   {
     id: "rivers",
@@ -2294,6 +2352,18 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     label: "MEB Türkiye'de buzullaşma",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page75.html",
   },
+  "landslide-set-lakes": {
+    label: "MEB heyelan set gölleri · gerçek OSM su poligonları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+  },
+  "alluvial-set-lakes": {
+    label: "MEB alüvyal set gölleri · gerçek OSM su poligonları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+  },
+  "coastal-set-lakes": {
+    label: "MEB kıyı set gölleri · gerçek OSM lagün poligonları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+  },
   plains: {
     label: "MEB tektonik, delta ve karstik ova listeleri",
     url: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya2.pdf",
@@ -3388,6 +3458,22 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "north-anatolian-fault": [35.3, 40.75],
   "east-anatolian-fault": [38.5, 38.25],
   "west-anatolian-faults": [28.7, 38.25],
+  "abant-set": [31.28, 40.605],
+  "yedigoller-set": [31.744, 40.941],
+  "borabay-set": [36.154, 40.804],
+  "zinav-set": [37.273, 40.448],
+  "sera-set": [39.614, 40.985],
+  "tortum-set": [41.636, 40.625],
+  "marmara-set": [28.007, 38.62],
+  "bafa-set": [27.455, 37.516],
+  "koycegiz-set": [28.65, 36.91],
+  "uzungol-set": [40.295, 40.619],
+  "eymir-set": [32.83, 39.823],
+  "mogan-set": [32.79, 39.77],
+  "buyukcekmece-set": [28.555, 41.065],
+  "kucukcekmece-set": [28.746, 41.015],
+  "durusu-set": [28.575, 41.345],
+  "akyatan-set": [35.27, 36.61],
   agri: [44.2983964, 39.7019346],
   "agri-v": [44.2983964, 39.7019346],
   "agri-gl": [44.2983964, 39.7019346],
@@ -4367,6 +4453,7 @@ function TurkeyMap({
       fetch("/data/turkey-lakes-karstic-extra.geojson").then((response) => response.json()),
       fetch("/data/turkey-lakes-eastern-extra.geojson").then((response) => response.json()),
       fetch("/data/turkey-lakes-border-extra.geojson").then((response) => response.json()),
+      fetch("/data/turkey-natural-set-lakes.geojson").then((response) => response.json()),
     ])
       .then((collections) => setLakes(
         collections.flatMap((data) => data.features as LakeFeature[]),
