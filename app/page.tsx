@@ -2395,6 +2395,10 @@ const SOURCE_BY_GROUP: Record<string, SourceRef> = {
 };
 
 const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
+  ramsar: {
+    label: "DKMP 14 Ramsar alanı + korunan alan sınırları",
+    url: "https://www.tarimorman.gov.tr/DKMP/Menu/31/Sulak-Alanlar",
+  },
   cities: {
     label: "MEB fonksiyonlarına göre şehirler",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page19.html",
@@ -4154,6 +4158,11 @@ function lakeShapeId(feature: Feature) {
     "ercis": "ercek",
     "burdur-r": "burdur",
     "uluabat-r": "uluabat",
+    "seyfe-r": "seyfe",
+    "nemrut-kaldera": "nemrut",
+    "akyatan-r": "akyatan-set",
+    "meke-r": "meke",
+    "kizoren-r": "kizoren",
     "ulubat": "uluabat",
     "kiziloren-l": "kizoren",
     "haçli": "hacli",
@@ -4306,9 +4315,22 @@ function collisionAwareLabelPlacements(
   return placements;
 }
 
+const EXPANDED_AREA_HIT_IDS = new Set([
+  "kuyucuk",
+  "sultan-sazligi",
+  "nemrut-kaldera",
+  "seyfe-r",
+  "meke-r",
+  "kizoren-r",
+]);
+
 function featureHitArea(feature: Feature) {
   const usesExpandedAreaHit = areaPolygonFor(feature)
-    && (feature.kind === "lake" || feature.id.startsWith("tombolo-"));
+    && (
+      feature.kind === "lake"
+      || feature.id.startsWith("tombolo-")
+      || EXPANDED_AREA_HIT_IDS.has(feature.id)
+    );
   if (usesExpandedAreaHit) {
     const [cx, cy] = featureCenter(feature);
     return (
@@ -4750,6 +4772,7 @@ function TurkeyMap({
       fetch("/data/turkey-lakes-border-extra.geojson").then((response) => response.json()),
       fetch("/data/turkey-natural-set-lakes.geojson").then((response) => response.json()),
       fetch("/data/turkey-mixed-glacial-lakes.geojson").then((response) => response.json()),
+      fetch("/data/turkey-ramsar.geojson").then((response) => response.json()),
     ])
       .then((collections) => setLakes(
         collections.flatMap((data) => data.features as LakeFeature[]),
