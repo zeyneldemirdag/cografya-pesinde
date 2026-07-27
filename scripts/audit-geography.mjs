@@ -40,6 +40,16 @@ const features = [...source.matchAll(callPattern)].map((match) => ({
   y: Number(match[4]),
   kind: match[7],
 }));
+const regionFeatures = [...source.matchAll(/\bregionFeature\(\s*"([^"]+)"\s*,\s*"([^"]+)"/g)]
+  .map((match) => ({
+    id: match[1],
+    name: match[2],
+    x: 50,
+    y: 50,
+    kind: "region",
+  }));
+features.push(...regionFeatures);
+const provinceUnionIds = new Set(regionFeatures.map((feature) => feature.id));
 
 const lakeData = [
   "../public/data/turkey-lakes.geojson",
@@ -105,6 +115,7 @@ const riverCanonical = (id) => ({
 const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (straitKeys.has(feature.id)) geometry = "exact-strait";
+  else if (provinceUnionIds.has(feature.id)) geometry = "exact-province-union";
   else if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (basinIds.has(feature.id)) geometry = "exact-basin";
   else if (feature.kind === "country" && neighborIds.has(feature.id)) geometry = "exact-country";
@@ -172,7 +183,7 @@ function featureNamesInArray(marker, offset = 0) {
     }
   }
   const body = source.slice(open + 1, end);
-  const direct = [...body.matchAll(/\b(?:f|fp)\(\s*"[^"]+"\s*,\s*"([^"]+)"/g)]
+  const direct = [...body.matchAll(/\b(?:f|fp|regionFeature)\(\s*"[^"]+"\s*,\s*"([^"]+)"/g)]
     .map((match) => match[1].split(" · ")[0]);
   const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
     .flatMap((match) => featureNamesInArray(`const ${match[1]}`));
@@ -201,7 +212,7 @@ function featureIdsInArray(marker, offset = 0) {
     }
   }
   const body = source.slice(open + 1, end);
-  const direct = [...body.matchAll(/\b(?:f|fp)\(\s*"([^"]+)"/g)]
+  const direct = [...body.matchAll(/\b(?:f|fp|regionFeature)\(\s*"([^"]+)"/g)]
     .map((match) => match[1]);
   const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
     .flatMap((match) => featureIdsInArray(`const ${match[1]}`));

@@ -712,6 +712,27 @@ button { color: inherit; }
   stroke-width: 1.4;
   stroke-dasharray: none;
 }
+.geo-feature--idle[data-feature-id="marmara"] .geo-shape--province-area {
+  fill: rgba(92, 157, 181, .66);
+}
+.geo-feature--idle[data-feature-id="aegean"] .geo-shape--province-area {
+  fill: rgba(115, 176, 119, .66);
+}
+.geo-feature--idle[data-feature-id="med"] .geo-shape--province-area {
+  fill: rgba(226, 165, 77, .7);
+}
+.geo-feature--idle[data-feature-id="black"] .geo-shape--province-area {
+  fill: rgba(82, 139, 112, .68);
+}
+.geo-feature--idle[data-feature-id="central"] .geo-shape--province-area {
+  fill: rgba(208, 184, 95, .68);
+}
+.geo-feature--idle[data-feature-id="east"] .geo-shape--province-area {
+  fill: rgba(193, 123, 80, .68);
+}
+.geo-feature--idle[data-feature-id="southeast"] .geo-shape--province-area {
+  fill: rgba(181, 105, 91, .7);
+}
 .geo-shape--city { fill: #6549aa; stroke: #39266f; }
 .geo-shape--landmark { fill: #dca455; stroke: #6d3e20; }
 .landmark-detail {
