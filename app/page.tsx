@@ -2720,8 +2720,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Projeler/TunelProjeleri.aspx?Yil=2010",
   },
   bridges: {
-    label: "KGM köprü bilgileri",
-    url: "https://www.kgm.gov.tr/Sayfalar/SiteMap.aspx",
+    label: "KGM 2026 ana boğaz ve körfez köprüleri",
+    url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Root/GormeEngelliDetay.aspx?d=1952",
   },
   tunnels: {
     label: "KGM başlıca tünel projeleri + tünel haritası",
