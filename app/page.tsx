@@ -124,6 +124,21 @@ const COASTAL_SET_LAKE_FEATURES: Feature[] = [
   f("akyatan-set", "Akyatan Lagünü", 57, 72, 7, 5, "lake"),
 ];
 
+const MIXED_ORIGIN_LAKE_FEATURES: Feature[] = [
+  f("beysehir", "Beyşehir Gölü", 40, 65, 6, 8, "lake", 14),
+  f("egirdir", "Eğirdir Gölü", 36, 64, 4, 9, "lake", -8),
+  f("yarisli", "Yarışlı Gölü", 30, 65, 5, 4, "lake"),
+  f("sugla", "Suğla Gölü", 42, 68, 5, 4, "lake"),
+  f("kovada", "Kovada Gölü", 35, 62, 5, 4, "lake"),
+  f("van", "Van Gölü", 80, 51, 10, 7, "lake", -8),
+];
+
+const GLACIAL_LAKE_FEATURES: Feature[] = [
+  f("kilimli-glacial", "Kilimli Gölü", 22, 34, 5, 4, "lake"),
+  f("aynali-glacial", "Aynalı Göl", 22, 34, 5, 4, "lake"),
+  f("deligol-glacial", "Deligöl", 78, 18, 5, 4, "lake"),
+];
+
 const p = (plate: number, name: string): Feature => ({
   id: `province-${plate}`,
   name,
@@ -914,10 +929,7 @@ const QUIZZES: Quiz[] = [
     color: "#33a9cc",
     icon: "◒",
     features: [
-      f("van", "Van Gölü", 80, 51, 10, 7, "lake", -8),
       f("tuz", "Tuz Gölü", 49, 52, 7, 9, "lake", 8),
-      f("beysehir", "Beyşehir Gölü", 40, 65, 6, 8, "lake", 14),
-      f("egirdir", "Eğirdir Gölü", 36, 64, 4, 9, "lake", -8),
       f("iznik", "İznik Gölü", 21, 32, 6, 4, "lake"),
       f("manyas", "Manyas Gölü", 17, 31, 5, 4, "lake"),
       f("uluabat", "Uluabat Gölü", 19, 35, 5, 3, "lake"),
@@ -936,10 +948,8 @@ const QUIZZES: Quiz[] = [
       f("nazik", "Nazik Gölü", 78, 46, 5, 4, "lake"),
       f("balik", "Balık Gölü", 88, 40, 4, 3, "lake"),
       f("haçli", "Haçlı Gölü", 76, 49, 4, 3, "lake"),
-      f("sugla", "Suğla Gölü", 42, 68, 5, 4, "lake"),
       f("avlan", "Avlan Gölü", 31, 69, 5, 4, "lake"),
       f("kestel-l", "Kestel Gölü", 28, 64, 5, 4, "lake"),
-      f("kovada-l", "Kovada Gölü", 35, 62, 5, 4, "lake"),
       f("kiziloren-l", "Kızören Obruğu", 51, 52, 5, 4, "lake"),
       f("nemrut-vl", "Nemrut Kaldera Gölü", 75, 51, 5, 4, "lake"),
       f("meke-vl", "Meke Maarı", 48, 61, 5, 4, "lake"),
@@ -954,6 +964,8 @@ const QUIZZES: Quiz[] = [
       ...LANDSLIDE_SET_LAKE_FEATURES,
       ...ALLUVIAL_SET_LAKE_FEATURES,
       ...COASTAL_SET_LAKE_FEATURES,
+      ...MIXED_ORIGIN_LAKE_FEATURES,
+      ...GLACIAL_LAKE_FEATURES,
     ],
   },
   {
@@ -1025,6 +1037,26 @@ const QUIZZES: Quiz[] = [
     color: "#2b9eb3",
     icon: "◔",
     features: [...COASTAL_SET_LAKE_FEATURES],
+  },
+  {
+    id: "mixed-origin-lakes",
+    group: "Göller",
+    title: "Karma Oluşumlu Göller",
+    eyebrow: "Göller · Karma oluşum",
+    description: "MEB listesindeki tektonik-karstik ve tektonik-volkanik oluşumlu gölleri gerçek kıyı şekilleriyle bul.",
+    color: "#5976b8",
+    icon: "◑",
+    features: [...MIXED_ORIGIN_LAKE_FEATURES],
+  },
+  {
+    id: "glacial-lakes",
+    group: "Göller",
+    title: "Sirk (Buzul) Gölleri",
+    eyebrow: "Göller · Buzul aşındırması",
+    description: "MEB’in Uludağ ve Kaçkar Dağları üzerinde gösterdiği başlıca sirk göllerini gerçek su yüzeylerine tıklayarak bul.",
+    color: "#4f83c2",
+    icon: "❄",
+    features: [...GLACIAL_LAKE_FEATURES],
   },
   {
     id: "rivers",
@@ -2364,6 +2396,14 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     label: "MEB kıyı set gölleri · gerçek OSM lagün poligonları",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
   },
+  "mixed-origin-lakes": {
+    label: "MEB karma oluşumlu göller · gerçek OSM su poligonları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+  },
+  "glacial-lakes": {
+    label: "MEB başlıca sirk gölleri · gerçek OSM su poligonları",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+  },
   plains: {
     label: "MEB tektonik, delta ve karstik ova listeleri",
     url: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya2.pdf",
@@ -3474,6 +3514,10 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "kucukcekmece-set": [28.746, 41.015],
   "durusu-set": [28.575, 41.345],
   "akyatan-set": [35.27, 36.61],
+  yarisli: [29.968, 37.568],
+  "kilimli-glacial": [29.2213, 40.0785],
+  "aynali-glacial": [29.2352, 40.0708],
+  "deligol-glacial": [40.9227, 40.69675],
   agri: [44.2983964, 39.7019346],
   "agri-v": [44.2983964, 39.7019346],
   "agri-gl": [44.2983964, 39.7019346],
@@ -4196,6 +4240,47 @@ function featureGraphic(
 
   if (lakeShape) {
     const path = lakePath(lakeShape);
+    const isMicroLake = ["kilimli-glacial", "aynali-glacial", "deligol-glacial"].includes(feature.id);
+    if (isMicroLake) {
+      const [anchorX, anchorY] = featureCenter(feature);
+      const calloutOffsets: Record<string, Coordinate> = {
+        "kilimli-glacial": [-31, 34],
+        "aynali-glacial": [31, 34],
+        "deligol-glacial": [-27, 31],
+      };
+      const [offsetX, offsetY] = calloutOffsets[feature.id];
+      const calloutX = anchorX + offsetX;
+      const calloutY = anchorY + offsetY;
+      const scale = feature.id === "deligol-glacial" ? 120 : 150;
+      return (
+        <g className="micro-lake-callout">
+          <line
+            className="micro-lake-leader"
+            x1={anchorX}
+            y1={anchorY}
+            x2={calloutX}
+            y2={calloutY}
+          />
+          <circle className="micro-lake-anchor" cx={anchorX} cy={anchorY} r="2.8" />
+          <path d={path} className="micro-lake-anchor-shape" fillRule="evenodd" />
+          <rect
+            className="micro-lake-hit-box"
+            x={calloutX - 15}
+            y={calloutY - 13}
+            width="30"
+            height="26"
+            rx="7"
+          />
+          <g transform={`translate(${calloutX} ${calloutY}) scale(${scale}) translate(${-anchorX} ${-anchorY})`}>
+            <path
+              d={path}
+              className="geo-shape geo-shape--lake geo-shape--exact geo-shape--micro-lake"
+              fillRule="evenodd"
+            />
+          </g>
+        </g>
+      );
+    }
     return (
       <g>
         <path d={path} className="geo-lake-hit" fillRule="evenodd" />
@@ -4454,6 +4539,7 @@ function TurkeyMap({
       fetch("/data/turkey-lakes-eastern-extra.geojson").then((response) => response.json()),
       fetch("/data/turkey-lakes-border-extra.geojson").then((response) => response.json()),
       fetch("/data/turkey-natural-set-lakes.geojson").then((response) => response.json()),
+      fetch("/data/turkey-mixed-glacial-lakes.geojson").then((response) => response.json()),
     ])
       .then((collections) => setLakes(
         collections.flatMap((data) => data.features as LakeFeature[]),

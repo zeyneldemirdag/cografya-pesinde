@@ -44,6 +44,7 @@ const lakeData = [
   "../public/data/turkey-lakes-eastern-extra.geojson",
   "../public/data/turkey-lakes-border-extra.geojson",
   "../public/data/turkey-natural-set-lakes.geojson",
+  "../public/data/turkey-mixed-glacial-lakes.geojson",
 ].flatMap((path) =>
   JSON.parse(fs.readFileSync(new URL(path, import.meta.url), "utf8")).features
 );
@@ -222,7 +223,7 @@ const duplicateQuizFeatureIds = quizIds.flatMap((quiz) => {
 
 const coverageComparisons = [
   ["mountains-all", ["fold-mountains", "fault-mountains", "volcanic-mountains", "north-fold-mountains", "south-fold-mountains", "glacial-mountains"]],
-  ["lakes-all", ["tectonic-lakes", "volcanic-set-lakes", "landslide-set-lakes", "alluvial-set-lakes", "coastal-set-lakes", "karstic-lakes", "volcanic-lakes"]],
+  ["lakes-all", ["tectonic-lakes", "volcanic-set-lakes", "landslide-set-lakes", "alluvial-set-lakes", "coastal-set-lakes", "mixed-origin-lakes", "glacial-lakes", "karstic-lakes", "volcanic-lakes"]],
   ["rivers", ["black-sea-rivers", "aegean-rivers", "mediterranean-rivers", "outbound-rivers", "inbound-rivers", "border-rivers"]],
   ["plains", ["delta-plains", "tectonic-plains", "karstic-plains"]],
   ["plateaus", ["tabular-plateaus", "karstic-plateaus", "volcanic-plateaus", "erosion-plateaus"]],
@@ -350,6 +351,12 @@ const officialExpectations = {
   ],
   "coastal-set-lakes": [
     "Büyükçekmece Gölü", "Küçükçekmece Gölü", "Durusu (Terkos) Gölü", "Akyatan Lagünü",
+  ],
+  "mixed-origin-lakes": [
+    "Beyşehir Gölü", "Eğirdir Gölü", "Yarışlı Gölü", "Suğla Gölü", "Kovada Gölü", "Van Gölü",
+  ],
+  "glacial-lakes": [
+    "Kilimli Gölü", "Aynalı Göl", "Deligöl",
   ],
   "karstic-lakes": [
     "Avlan Gölü", "Kestel Gölü", "Salda Gölü", "Kızören Obruğu",
@@ -618,7 +625,7 @@ const sourceCoverage = Object.entries(officialExpectations).map(([quiz, expected
 
 const sourceQuizKeys = constantKeys("SOURCE_BY_QUIZ");
 const sourceOverrideRequired = [
-  "glacial-mountains", "massifs", "straits", "gates", "passes",
+  "glacial-mountains", "mixed-origin-lakes", "glacial-lakes", "massifs", "straits", "gates", "passes",
   "mines", "metallic-mines", "industrial-minerals", "energy-raw-materials",
   "energy", "wind-energy", "thermal-energy", "other-energy",
   "natural-gas-pipelines", "oil-pipelines", "development",

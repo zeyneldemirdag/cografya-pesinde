@@ -476,6 +476,54 @@ button { color: inherit; }
 }
 .geo-shape--lake { fill: #39a5cc; stroke: #176d91; }
 .geo-shape--exact { stroke-width: 2.6; }
+.geo-shape--micro-lake {
+  stroke: #176d91;
+  stroke-width: 2.8;
+  filter:
+    drop-shadow(0 0 1.5px rgba(255, 255, 255, .95))
+    drop-shadow(0 0 3px rgba(57, 165, 204, .82));
+  pointer-events: none;
+}
+.geo-feature:hover .geo-shape--micro-lake,
+.geo-feature:focus .geo-shape--micro-lake {
+  stroke-width: 4;
+}
+.micro-lake-leader {
+  fill: none;
+  stroke: rgba(166, 229, 241, .88);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.micro-lake-anchor {
+  fill: #c9f5ff;
+  stroke: #176d91;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.micro-lake-anchor-shape {
+  fill: #58c7e4;
+  stroke: #e7fbff;
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 3px rgba(139, 232, 255, .95));
+  pointer-events: none;
+}
+.micro-lake-hit-box {
+  fill: rgba(57, 165, 204, .025);
+  stroke: rgba(142, 232, 255, .26);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  pointer-events: all;
+  cursor: pointer;
+}
+.geo-feature:hover .micro-lake-hit-box,
+.geo-feature:focus .micro-lake-hit-box {
+  fill: rgba(57, 165, 204, .12);
+  stroke: rgba(231, 251, 255, .78);
+}
 .geo-shape--plain { fill: #93b95e; stroke: #587234; }
 .geo-shape--plateau { fill: #b98b59; stroke: #735436; }
 .geo-shape--region { fill: rgba(230, 137, 53, .58); stroke: #8d5926; stroke-dasharray: 7 4; }

@@ -95,3 +95,31 @@ test("başlıca fay sistemleri MTA 2026 çizgilerini kullanır", () => {
   );
   assert.equal(report.geometryCounts["exact-fault"], 3);
 });
+
+test("karma oluşumlu ve sirk gölleri gerçek su poligonlarını kullanır", () => {
+  const lakeData = JSON.parse(
+    fs.readFileSync(
+      new URL("../public/data/turkey-mixed-glacial-lakes.geojson", import.meta.url),
+      "utf8",
+    ),
+  );
+  assert.deepEqual(
+    lakeData.features.map((feature) => feature.properties.id).sort(),
+    ["aynali-glacial", "deligol-glacial", "kilimli-glacial", "yarisli"],
+  );
+  assert.ok(
+    lakeData.features.every(
+      (feature) =>
+        /Polygon/.test(feature.geometry.type) &&
+        feature.properties.classification_source.includes("ogmmateryal.eba.gov.tr"),
+    ),
+  );
+  assert.equal(
+    report.sourceCoverage.find((coverage) => coverage.quiz === "mixed-origin-lakes").expectedCount,
+    6,
+  );
+  assert.equal(
+    report.sourceCoverage.find((coverage) => coverage.quiz === "glacial-lakes").expectedCount,
+    3,
+  );
+});

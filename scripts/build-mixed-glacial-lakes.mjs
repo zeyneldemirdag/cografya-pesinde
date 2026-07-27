@@ -1,0 +1,111 @@
+import { writeFile } from "node:fs/promises";
+
+const OUTPUT = new URL("../public/data/turkey-mixed-glacial-lakes.geojson", import.meta.url);
+const USER_AGENT = "CografyaPesinde/1.0 (KPSS geography map data builder)";
+const specs = [
+  {
+    id: "yarisli",
+    name: "Yarışlı Gölü",
+    query: "Yarışlı Gölü, Burdur, Türkiye",
+    sourceNote: "MEB karma oluşumlu göl · tektonik-karstik",
+  },
+  {
+    id: "kilimli-glacial",
+    name: "Kilimli Gölü",
+    osmWayId: 23035976,
+    sourceNote: "MEB sirk gölü · Uludağ",
+  },
+  {
+    id: "aynali-glacial",
+    name: "Aynalı Göl",
+    osmWayId: 23035949,
+    sourceNote: "MEB sirk gölü · Uludağ",
+  },
+  {
+    id: "deligol-glacial",
+    name: "Deligöl",
+    osmWayId: 29188733,
+    sourceNote: "MEB sirk gölü · Kaçkar Dağları",
+  },
+];
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function ringArea(ring) {
+  return Math.abs(ring.reduce((sum, [x, y], index) => {
+    const [nextX, nextY] = ring[(index + 1) % ring.length];
+    return sum + x * nextY - nextX * y;
+  }, 0) / 2);
+}
+
+function polygonArea(geometry) {
+  if (geometry.type === "Polygon") return ringArea(geometry.coordinates[0]);
+  if (geometry.type === "MultiPolygon") {
+    return geometry.coordinates.reduce((sum, polygon) => sum + ringArea(polygon[0]), 0);
+  }
+  return 0;
+}
+
+async function searchPolygon(query) {
+  const url = new URL("https://nominatim.openstreetmap.org/search");
+  url.search = new URLSearchParams({
+    q: query,
+    format: "geojson",
+    polygon_geojson: "1",
+    limit: "8",
+    countrycodes: "tr",
+  });
+  const response = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
+  if (!response.ok) throw new Error(`Nominatim ${response.status}: ${query}`);
+  const collection = await response.json();
+  return collection.features
+    .filter((feature) => ["Polygon", "MultiPolygon"].includes(feature.geometry?.type))
+    .sort((left, right) => polygonArea(right.geometry) - polygonArea(left.geometry))[0]?.geometry;
+}
+
+async function osmWayPolygon(osmWayId) {
+  const response = await fetch(`https://api.openstreetmap.org/api/0.6/way/${osmWayId}/full.json`, {
+    headers: { "User-Agent": USER_AGENT },
+    signal: AbortSignal.timeout(30_000),
+  });
+  if (!response.ok) throw new Error(`OSM API ${response.status}: ${osmWayId}`);
+  const data = await response.json();
+  const way = data.elements.find((item) => item.type === "way" && item.id === osmWayId);
+  if (!way?.nodes?.length) throw new Error(`OSM way bulunamadı: ${osmWayId}`);
+  const nodes = new Map(
+    data.elements
+      .filter((item) => item.type === "node")
+      .map((node) => [node.id, [node.lon, node.lat]]),
+  );
+  const ring = way.nodes.map((nodeId) => nodes.get(nodeId)).filter(Boolean);
+  if (ring.length < 4) throw new Error(`OSM way geometrisi eksik: ${osmWayId}`);
+  const [firstX, firstY] = ring[0];
+  const [lastX, lastY] = ring.at(-1);
+  if (Math.abs(firstX - lastX) > 1e-7 || Math.abs(firstY - lastY) > 1e-7) ring.push(ring[0]);
+  return { type: "Polygon", coordinates: [ring] };
+}
+
+const features = [];
+for (const spec of specs) {
+  const geometry = spec.osmWayId
+    ? await osmWayPolygon(spec.osmWayId)
+    : await searchPolygon(spec.query);
+  if (!geometry) throw new Error(`Su poligonu bulunamadı: ${spec.name}`);
+  features.push({
+    type: "Feature",
+    properties: {
+      id: spec.id,
+      name: spec.name,
+      source: "OpenStreetMap",
+      source_url: "https://www.openstreetmap.org/copyright",
+      classification_source: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+      classification_note: spec.sourceNote,
+    },
+    geometry,
+  });
+  console.log(`${spec.id}: ${geometry.type}`);
+  await delay(1100);
+}
+
+await writeFile(OUTPUT, `${JSON.stringify({ type: "FeatureCollection", features })}\n`, "utf8");
+console.log(`Yazıldı: ${OUTPUT.pathname} (${features.length} göl)`);
