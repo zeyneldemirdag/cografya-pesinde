@@ -136,6 +136,7 @@ const MIXED_ORIGIN_LAKE_FEATURES: Feature[] = [
 const GLACIAL_LAKE_FEATURES: Feature[] = [
   f("kilimli-glacial", "Kilimli Gölü", 22, 34, 5, 4, "lake"),
   f("aynali-glacial", "Aynalı Göl", 22, 34, 5, 4, "lake"),
+  f("karagol-uludag-glacial", "Karagöl (Uludağ)", 22, 34, 5, 4, "lake"),
   f("deligol-glacial", "Deligöl", 78, 18, 5, 4, "lake"),
 ];
 
@@ -1053,7 +1054,7 @@ const QUIZZES: Quiz[] = [
     group: "Göller",
     title: "Sirk (Buzul) Gölleri",
     eyebrow: "Göller · Buzul aşındırması",
-    description: "MEB’in Uludağ ve Kaçkar Dağları üzerinde gösterdiği başlıca sirk göllerini gerçek su yüzeylerine tıklayarak bul.",
+    description: "MEB konu özeti ve Coğrafya 10 kitabında Uludağ ile Kaçkar Dağları üzerinde gösterilen başlıca sirk göllerini gerçek su yüzeylerine tıklayarak bul.",
     color: "#4f83c2",
     icon: "❄",
     features: [...GLACIAL_LAKE_FEATURES],
@@ -2401,7 +2402,7 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
   },
   "glacial-lakes": {
-    label: "MEB başlıca sirk gölleri · gerçek OSM su poligonları",
+    label: "MEB konu özeti + Coğrafya 10 · gerçek OSM su poligonları",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
   },
   "karstic-lakes": {
@@ -3521,6 +3522,7 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   yarisli: [29.968, 37.568],
   "kilimli-glacial": [29.2213, 40.0785],
   "aynali-glacial": [29.2352, 40.0708],
+  "karagol-uludag-glacial": [29.228711, 40.073787],
   "deligol-glacial": [40.9227, 40.69675],
   agri: [44.2983964, 39.7019346],
   "agri-v": [44.2983964, 39.7019346],
@@ -4244,12 +4246,18 @@ function featureGraphic(
 
   if (lakeShape) {
     const path = lakePath(lakeShape);
-    const isMicroLake = ["kilimli-glacial", "aynali-glacial", "deligol-glacial"].includes(feature.id);
+    const isMicroLake = [
+      "kilimli-glacial",
+      "aynali-glacial",
+      "karagol-uludag-glacial",
+      "deligol-glacial",
+    ].includes(feature.id);
     if (isMicroLake) {
       const [anchorX, anchorY] = featureCenter(feature);
       const calloutOffsets: Record<string, Coordinate> = {
         "kilimli-glacial": [-31, 34],
         "aynali-glacial": [31, 34],
+        "karagol-uludag-glacial": [0, 62],
         "deligol-glacial": [-27, 31],
       };
       const [offsetX, offsetY] = calloutOffsets[feature.id];

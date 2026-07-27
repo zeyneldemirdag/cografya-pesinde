@@ -22,6 +22,13 @@ const specs = [
     sourceNote: "MEB sirk gölü · Uludağ",
   },
   {
+    id: "karagol-uludag-glacial",
+    name: "Karagöl (Uludağ)",
+    osmWayId: 23035969,
+    classificationSource: "https://kitap.eba.gov.tr/panel/dosyalar/upload/3053/0/R_0_02_06_2022_12_28_05_595.pdf",
+    sourceNote: "MEB Coğrafya 10 sirk gölü · Uludağ",
+  },
+  {
     id: "deligol-glacial",
     name: "Deligöl",
     osmWayId: 29188733,
@@ -98,7 +105,8 @@ for (const spec of specs) {
       name: spec.name,
       source: "OpenStreetMap",
       source_url: "https://www.openstreetmap.org/copyright",
-      classification_source: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+      classification_source: spec.classificationSource
+        ?? "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
       classification_note: spec.sourceNote,
     },
     geometry,

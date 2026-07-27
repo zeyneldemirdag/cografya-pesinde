@@ -105,13 +105,19 @@ test("karma oluşumlu ve sirk gölleri gerçek su poligonlarını kullanır", ()
   );
   assert.deepEqual(
     lakeData.features.map((feature) => feature.properties.id).sort(),
-    ["aynali-glacial", "deligol-glacial", "kilimli-glacial", "yarisli"],
+    [
+      "aynali-glacial",
+      "deligol-glacial",
+      "karagol-uludag-glacial",
+      "kilimli-glacial",
+      "yarisli",
+    ],
   );
   assert.ok(
     lakeData.features.every(
       (feature) =>
         /Polygon/.test(feature.geometry.type) &&
-        feature.properties.classification_source.includes("ogmmateryal.eba.gov.tr"),
+        feature.properties.classification_source.includes("eba.gov.tr"),
     ),
   );
   assert.equal(
@@ -120,7 +126,7 @@ test("karma oluşumlu ve sirk gölleri gerçek su poligonlarını kullanır", ()
   );
   assert.equal(
     report.sourceCoverage.find((coverage) => coverage.quiz === "glacial-lakes").expectedCount,
-    3,
+    4,
   );
 });
 

@@ -356,7 +356,7 @@ const officialExpectations = {
     "Beyşehir Gölü", "Eğirdir Gölü", "Yarışlı Gölü", "Suğla Gölü", "Kovada Gölü", "Van Gölü",
   ],
   "glacial-lakes": [
-    "Kilimli Gölü", "Aynalı Göl", "Deligöl",
+    "Kilimli Gölü", "Aynalı Göl", "Karagöl (Uludağ)", "Deligöl",
   ],
   "karstic-lakes": [
     "Avlan Gölü", "Kestel Gölü", "Salda Gölü", "Kızören Obruğu",
