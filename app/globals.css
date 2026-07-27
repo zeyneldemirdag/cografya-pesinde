@@ -485,6 +485,12 @@ button { color: inherit; }
   pointer-events: none;
 }
 .geo-shape--lake { fill: #39a5cc; stroke: #176d91; }
+.geo-shape--strait {
+  fill: #36a7ca;
+  stroke: #d8f6ff;
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 2px rgba(93, 202, 230, .72));
+}
 .geo-shape--exact { stroke-width: 2.6; }
 .geo-shape--micro-lake {
   stroke: #176d91;

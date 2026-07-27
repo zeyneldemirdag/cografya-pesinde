@@ -30,6 +30,7 @@ const areaKeys = new Set([
 ]);
 const distributionKeys = constantKeys("DISTRIBUTION_POLYGONS");
 const lineKeys = constantKeys("REAL_LINES");
+const straitKeys = constantKeys("STRAIT_POLYGONS");
 
 const callPattern = /\bf\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*,\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*,\s*"([^"]+)"/g;
 const features = [...source.matchAll(callPattern)].map((match) => ({
@@ -103,7 +104,8 @@ const riverCanonical = (id) => ({
 
 const classifications = features.map((feature) => {
   let geometry = "fallback";
-  if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
+  if (straitKeys.has(feature.id)) geometry = "exact-strait";
+  else if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (basinIds.has(feature.id)) geometry = "exact-basin";
   else if (feature.kind === "country" && neighborIds.has(feature.id)) geometry = "exact-country";
   else if (feature.kind === "fault" && faultIds.has(feature.id)) geometry = "exact-fault";
