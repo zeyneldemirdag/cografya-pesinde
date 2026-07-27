@@ -96,6 +96,10 @@ const soilAreaData = JSON.parse(
   fs.readFileSync(new URL("../public/data/turkey-soil-distribution.geojson", import.meta.url), "utf8"),
 ).features;
 const soilAreaIds = new Set(soilAreaData.map((feature) => feature.properties.id));
+const vegetationAreaData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-vegetation-distribution.geojson", import.meta.url), "utf8"),
+).features;
+const vegetationAreaIds = new Set(vegetationAreaData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const hasRenderedRealLine = (feature) =>
@@ -131,6 +135,7 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (straitKeys.has(feature.id)) geometry = "exact-strait";
   else if (provinceUnionIds.has(feature.id)) geometry = "exact-province-union";
+  else if (vegetationAreaIds.has(feature.id)) geometry = "exact-vegetation-area";
   else if (soilAreaIds.has(feature.id)) geometry = "exact-soil-area";
   else if (climateAreaIds.has(feature.id)) geometry = "exact-climate-area";
   else if (tourismAreaIds.has(feature.id)) geometry = "exact-tourism-area";
@@ -266,7 +271,6 @@ const coverageComparisons = [
   ["industry", ["food-industry", "textile-industry", "chemical-industry", "machine-industry"]],
   ["ports", ["marmara-ports", "black-sea-ports", "aegean-ports", "mediterranean-ports"]],
   ["bridges-tunnels", ["bridges", "tunnels"]],
-  ["vegetation", ["forest-vegetation", "shrub-vegetation", "grass-vegetation"]],
   ["population", ["dense-population", "sparse-population"]],
   ["agriculture", ["grain-legume-crops", "industrial-oil-crops", "fruit-special-crops"]],
   ["livestock", ["small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock"]],
@@ -307,6 +311,12 @@ const officialExpectations = {
   ],
   "grass-vegetation": [
     "Bozkır", "Antropojen Bozkır", "Çayır", "Alpin Çayır",
+  ],
+  vegetation: [
+    "Ormanlar ve Çeşitli Çalılar",
+    "Kızılçam Ormanları ve Çalılar (Maki-Garig)",
+    "Bozkır-Antropojen Bozkır-Çayır",
+    "Alpin Çayırlar",
   ],
   soils: [
     "Kahverengi Orman Toprakları", "Kireçli Orman Toprakları",

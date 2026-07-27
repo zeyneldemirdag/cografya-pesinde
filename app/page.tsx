@@ -476,6 +476,16 @@ const GRASS_VEGETATION_FEATURES: Feature[] = [
   f("alpine-meadow-veg", "Alpin Çayır", 69, 27, 45, 12, "region"),
 ];
 
+const VEGETATION_DISTRIBUTION_FEATURES: Feature[] = [
+  f("forest-shrub-map", "Ormanlar ve Çeşitli Çalılar", 55, 26, 56, 15, "region"),
+  f("redpine-shrub-map", "Kızılçam Ormanları ve Çalılar (Maki-Garig)", 34, 68, 44, 12, "region"),
+  f("step-meadow-map", "Bozkır-Antropojen Bozkır-Çayır", 59, 49, 50, 22, "region"),
+  f("alpine-meadow-map", "Alpin Çayırlar", 72, 29, 46, 10, "region"),
+];
+const VEGETATION_DISTRIBUTION_IDS = new Set(
+  VEGETATION_DISTRIBUTION_FEATURES.map((feature) => feature.id),
+);
+
 const CLIMATE_FEATURES: Feature[] = [
   f("akdeniz-cl", "Akdeniz İklimi", 34, 71, 45, 10, "region"),
   f("akdeniz-karasal-gecis-cl", "Akdeniz-Karasal Geçiş İklimi", 35, 57, 45, 10, "region"),
@@ -507,6 +517,10 @@ const EXACT_AREA_COLORS: Record<string, string> = {
   "alluvial-map": "#faf08e",
   "coastal-dune-map": "#1b100e",
   "podzolized-map": "#8ba3a4",
+  "forest-shrub-map": "#1aaf55",
+  "redpine-shrub-map": "#f88e80",
+  "step-meadow-map": "#fff87c",
+  "alpine-meadow-map": "#28419d",
 };
 
 const DENSE_POPULATION_FEATURES: Feature[] = [
@@ -1598,10 +1612,10 @@ const QUIZZES: Quiz[] = [
     group: "Doğal",
     title: "Bitki Örtüsü",
     eyebrow: "Doğal coğrafya · Bitkiler · Tümü",
-    description: "MEB kapsamındaki orman, çalı ve ot topluluklarının Türkiye'deki yayılışını bul.",
+    description: "MEB Türkiye bitki formasyonları haritasındaki dört gerçek dağılış alanını bul.",
     color: "#4d9660",
     icon: "♣",
-    features: [...FOREST_VEGETATION_FEATURES, ...SHRUB_VEGETATION_FEATURES, ...GRASS_VEGETATION_FEATURES],
+    features: [...VEGETATION_DISTRIBUTION_FEATURES],
   },
   {
     id: "forest-vegetation",
@@ -2673,8 +2687,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/panel/panel/ResimMaskeOnizle.aspx?alistirmaId=54163",
   },
   vegetation: {
-    label: "MEB Türkiye bitki toplulukları",
-    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page90.html",
+    label: "MEB · Türkiye bitki formasyonları · 4 resmî dağılış sınıfı",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/cografya/10/unite1/bolum2/files/basic-html/page41.html",
   },
   "forest-vegetation": {
     label: "MEB Türkiye orman bölgeleri",
@@ -4841,6 +4855,7 @@ function TurkeyMap({
       fetch("/data/turkey-tourism-areas.geojson").then((response) => response.json()),
       fetch("/data/turkey-climate-zones.geojson").then((response) => response.json()),
       fetch("/data/turkey-soil-distribution.geojson").then((response) => response.json()),
+      fetch("/data/turkey-vegetation-distribution.geojson").then((response) => response.json()),
     ])
       .then((collections) => setExactAreas(
         collections.flatMap((data) => data.features as AreaFeature[]),
@@ -5010,7 +5025,10 @@ function TurkeyMap({
                   ? ({
                       "--exact-area-fill": EXACT_AREA_COLORS[feature.id],
                       "--exact-area-opacity": ".48",
-                      "--exact-area-stroke": SOIL_DISTRIBUTION_IDS.has(feature.id)
+                      "--exact-area-stroke": (
+                        SOIL_DISTRIBUTION_IDS.has(feature.id)
+                        || VEGETATION_DISTRIBUTION_IDS.has(feature.id)
+                      )
                         ? "rgba(12, 48, 44, .78)"
                         : "rgba(221, 255, 235, .92)",
                     } as CSSProperties)
