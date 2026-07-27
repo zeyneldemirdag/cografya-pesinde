@@ -565,35 +565,35 @@ const SPARSE_POPULATION_FEATURES: Feature[] = [
 ];
 
 const GRAIN_LEGUME_FEATURES: Feature[] = [
-  f("wheat", "Buğday · Konya-Ankara-Diyarbakır", 52, 49, 35, 18, "region"),
-  f("barley-ag", "Arpa · Konya-Ankara-Şanlıurfa", 53, 53, 34, 16, "region"),
+  regionFeature("wheat", "Buğday · Konya-Ankara-Diyarbakır", [42, 6, 21]),
+  regionFeature("barley-ag", "Arpa · Konya-Ankara-Şanlıurfa", [42, 6, 63]),
   f("corn", "Mısır · Çukurova-Amik-GAP-Kıyı Ege", 54, 59, 48, 20, "region"),
-  f("rice", "Çeltik · Edirne-Samsun-Balıkesir", 35, 34, 40, 18, "region"),
-  f("chickpea-ag", "Nohut · Kırşehir-Ankara", 49, 43, 18, 11, "region"),
-  f("bean-ag", "Fasulye · Konya-Niğde", 51, 59, 18, 11, "region"),
-  f("lentil", "Mercimek · Diyarbakır-Yozgat", 65, 53, 31, 15, "region"),
+  regionFeature("rice", "Çeltik · Edirne-Samsun-Balıkesir", [22, 55, 10]),
+  regionFeature("chickpea-ag", "Nohut · Kırşehir-Ankara", [40, 6]),
+  regionFeature("bean-ag", "Fasulye · Konya-Niğde", [42, 51]),
+  regionFeature("lentil", "Mercimek · Diyarbakır-Yozgat", [21, 66]),
 ];
 
 const INDUSTRIAL_OIL_CROP_FEATURES: Feature[] = [
-  f("tobacco", "Tütün · Denizli-Manisa-Adıyaman-Samsun", 44, 48, 46, 20, "region"),
-  f("sugarbeet", "Şeker Pancarı · Konya-Yozgat-Aksaray-Eskişehir", 49, 51, 30, 18, "region"),
+  regionFeature("tobacco", "Tütün · Denizli-Manisa-Adıyaman-Samsun", [20, 45, 2, 55]),
+  regionFeature("sugarbeet", "Şeker Pancarı · Konya-Yozgat-Aksaray-Eskişehir", [42, 66, 68, 26]),
   f("cotton", "Pamuk · Şanlıurfa-Çukurova-Kıyı Ege-Iğdır", 59, 60, 57, 17, "region"),
-  f("sunflower", "Ayçiçeği · Trakya-Konya", 28, 36, 40, 17, "region"),
-  f("peanut-ag", "Yer Fıstığı · Adana-Osmaniye", 59, 66, 14, 8, "region"),
-  f("soybean-ag", "Soya Fasulyesi · Adana-Mersin-Samsun", 54, 50, 42, 18, "region"),
+  regionFeature("sunflower", "Ayçiçeği · Tekirdağ-Konya-Edirne-Kırklareli", [59, 42, 22, 39]),
+  regionFeature("peanut-ag", "Yer Fıstığı · Adana-Osmaniye", [1, 80]),
+  regionFeature("soybean-ag", "Soya Fasulyesi · Adana-Mersin-Samsun", [1, 33, 55]),
 ];
 
 const FRUIT_SPECIAL_CROP_FEATURES: Feature[] = [
-  f("olive", "Zeytin · Manisa-Aydın-Bursa-Balıkesir", 23, 49, 20, 24, "region"),
-  f("hazelnut", "Fındık · Ordu-Giresun-Sakarya", 60, 21, 38, 8, "region"),
-  f("tea", "Çay · Rize-Artvin-Trabzon", 79, 19, 18, 7, "region"),
-  f("grape", "Üzüm · Manisa-Denizli-Mersin", 36, 56, 40, 18, "region"),
-  f("pistachio", "Antep Fıstığı · Gaziantep-Şanlıurfa", 72, 67, 15, 9, "region"),
-  f("citrus", "Turunçgiller · Akdeniz-Ege kıyıları", 46, 71, 51, 9, "region"),
+  regionFeature("olive", "Zeytin · Manisa-Aydın-Bursa-Balıkesir", [45, 9, 16, 10]),
+  regionFeature("hazelnut", "Fındık · Ordu-Giresun-Sakarya", [52, 28, 54]),
+  regionFeature("tea", "Çay · Rize-Artvin-Trabzon", [53, 8, 61]),
+  regionFeature("grape", "Üzüm · Manisa-Denizli-Mersin", [45, 20, 33]),
+  regionFeature("pistachio", "Antep Fıstığı · Gaziantep-Şanlıurfa", [27, 63]),
+  regionFeature("citrus", "Turunçgiller · Adana-Hatay-Mersin-Antalya", [1, 31, 33, 7]),
   f("banana", "Muz · Anamur-Alanya", 39, 74, 14, 6, "region"),
-  f("apricot", "Kayısı · Malatya", 68, 51, 8, 6, "region"),
-  f("fig", "İncir · Aydın", 18, 59, 8, 6, "region"),
-  f("apple", "Elma · Isparta", 35, 63, 8, 6, "region"),
+  regionFeature("apricot", "Kayısı · Malatya", [44]),
+  regionFeature("fig", "İncir · Aydın", [9]),
+  regionFeature("apple", "Elma · Isparta", [32]),
 ];
 
 const SMALL_RUMINANT_LIVESTOCK_FEATURES: Feature[] = [
@@ -605,12 +605,12 @@ const SMALL_RUMINANT_LIVESTOCK_FEATURES: Feature[] = [
 const CATTLE_POULTRY_LIVESTOCK_FEATURES: Feature[] = [
   f("pasture-cattle", "Mera Sığırcılığı · Kuzeydoğu Anadolu", 83, 32, 20, 15, "region"),
   f("stable-cattle", "Ahır Sığırcılığı · Marmara-Ege-Akdeniz-İç Anadolu", 43, 50, 58, 35, "region"),
-  f("poultry", "Kümes Hayvancılığı · Bolu-Sakarya-Balıkesir-Manisa", 30, 35, 26, 17, "region"),
+  regionFeature("poultry", "Kümes Hayvancılığı · Bolu-Sakarya-Balıkesir-Manisa", [14, 54, 10, 45]),
 ];
 
 const OTHER_LIVESTOCK_FEATURES: Feature[] = [
-  f("silkworm", "İpek Böcekçiliği · Diyarbakır-Şanlıurfa-Antalya-Bursa", 53, 53, 61, 32, "region"),
-  f("beekeeping", "Arıcılık · 9 il", 58, 42, 70, 42, "region"),
+  regionFeature("silkworm", "İpek Böcekçiliği · Diyarbakır-Şanlıurfa-Antalya-Bursa", [21, 63, 7, 16]),
+  regionFeature("beekeeping", "Arıcılık · Kars-Bitlis-Hakkâri-Rize-Ordu-Ankara-Muğla-Erzurum-Konya", [36, 13, 30, 53, 52, 6, 48, 25, 42]),
   f("sea-fishing", "Deniz Balıkçılığı · Karadeniz-Boğazlar-Marmara", 51, 20, 78, 10, "region"),
   f("freshwater-fishing", "Tatlı Su Balıkçılığı · 5 göl", 51, 49, 55, 31, "region"),
 ];
@@ -1712,7 +1712,7 @@ const QUIZZES: Quiz[] = [
     group: "Ekonomi",
     title: "Başlıca Tarım Ürünleri",
     eyebrow: "Ekonomi · Tarım · Tümü",
-    description: "MEB kapsamındaki tarım ürünlerini başlıca gerçek üretim odaklarıyla eşleştir.",
+    description: "MEB'in “en çok yetiştirildiği yerler” listesini gerçek il sınırlarında; bölgesel ürünleri gerçek yetişme kuşaklarında bul.",
     color: "#79a43e",
     icon: "✳",
     features: [...GRAIN_LEGUME_FEATURES, ...INDUSTRIAL_OIL_CROP_FEATURES, ...FRUIT_SPECIAL_CROP_FEATURES],
@@ -1722,7 +1722,7 @@ const QUIZZES: Quiz[] = [
     group: "Ekonomi",
     title: "Tahıllar ve Baklagiller",
     eyebrow: "Ekonomi · Tarım · Tahıl ve baklagil",
-    description: "Buğdaydan mercimeğe başlıca tahıl ve baklagil üretim odaklarını bul.",
+    description: "Buğdaydan mercimeğe MEB'in verdiği başlıca üretim illerini gerçek il sınırlarında bul.",
     color: "#c89d43",
     icon: "≋",
     features: [...GRAIN_LEGUME_FEATURES],
@@ -1732,7 +1732,7 @@ const QUIZZES: Quiz[] = [
     group: "Ekonomi",
     title: "Sanayi ve Yağ Bitkileri",
     eyebrow: "Ekonomi · Tarım · Sanayi ve yağ",
-    description: "Tütün, pamuk, ayçiçeği ve diğer sanayi bitkilerinin üretim odaklarını bul.",
+    description: "Tütün, ayçiçeği ve diğer sanayi bitkilerinin MEB üretim odaklarını gerçek sınırlarında bul.",
     color: "#9f7342",
     icon: "✺",
     features: [...INDUSTRIAL_OIL_CROP_FEATURES],
@@ -1742,7 +1742,7 @@ const QUIZZES: Quiz[] = [
     group: "Ekonomi",
     title: "Meyveler ve Özel Ürünler",
     eyebrow: "Ekonomi · Tarım · Meyve ve özel ürün",
-    description: "Zeytin, çay, fındık, turunçgil ve diğer özel ürünlerin başlıca alanlarını bul.",
+    description: "Zeytin, çay, fındık, turunçgil ve diğer özel ürünlerin MEB'deki başlıca üretim illerini bul.",
     color: "#4d9a58",
     icon: "✿",
     features: [...FRUIT_SPECIAL_CROP_FEATURES],
@@ -1752,7 +1752,7 @@ const QUIZZES: Quiz[] = [
     group: "Ekonomi",
     title: "Başlıca Hayvancılık Alanları",
     eyebrow: "Ekonomi · Hayvancılık · Tümü",
-    description: "MEB kapsamındaki hayvancılık türlerini gerçek yayılış alanlarıyla eşleştir.",
+    description: "MEB kapsamındaki hayvancılık türlerini gerçek yayılış kuşakları ve öne çıkan illerle eşleştir.",
     color: "#aa7748",
     icon: "♜",
     features: [
@@ -1776,7 +1776,7 @@ const QUIZZES: Quiz[] = [
     group: "Ekonomi",
     title: "Sığır ve Kümes Hayvancılığı",
     eyebrow: "Ekonomi · Hayvancılık · Büyükbaş ve kümes",
-    description: "Mera ve ahır sığırcılığı ile başlıca kümes hayvancılığı alanlarını ayırt et.",
+    description: "Mera ve ahır sığırcılığı kuşaklarını; kümes hayvancılığında MEB'in verdiği dört ili ayırt et.",
     color: "#8b6e50",
     icon: "♝",
     features: [...CATTLE_POULTRY_LIVESTOCK_FEATURES],
@@ -1786,7 +1786,7 @@ const QUIZZES: Quiz[] = [
     group: "Ekonomi",
     title: "Diğer Hayvancılık ve Su Ürünleri",
     eyebrow: "Ekonomi · Hayvancılık · Diğer",
-    description: "İpek böcekçiliği, arıcılık ve su ürünleri alanlarını bul.",
+    description: "İpek böcekçiliği ve arıcılıkta MEB'in verdiği illeri; su ürünlerinde gerçek kıyı ve gölleri bul.",
     color: "#3d8791",
     icon: "≋",
     features: [...OTHER_LIVESTOCK_FEATURES],
