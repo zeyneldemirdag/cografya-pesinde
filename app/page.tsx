@@ -2877,7 +2877,9 @@ type RiverFeature = {
 };
 type FaultFeature = RiverFeature;
 
-const MAP_BOUNDS = { west: 25.55, east: 44.85, north: 42.15, south: 35.75 };
+// Keep the four absolute-location lines inside the interactive SVG, including
+// a small visual/touch margin east of the 45°E meridian.
+const MAP_BOUNDS = { west: 25.55, east: 45.15, north: 42.15, south: 35.75 };
 const NEIGHBOR_LABEL_COORDINATES: Record<string, Coordinate> = {
   greece: [25.2, 40.45],
   bulgaria: [26.9, 42.55],
@@ -4364,6 +4366,27 @@ const EXPANDED_AREA_HIT_IDS = new Set([
 ]);
 
 function featureHitArea(feature: Feature, exactArea?: AreaFeature) {
+  if (feature.id.startsWith("parallel-") || feature.id.startsWith("meridian-")) {
+    const line = REAL_LINES[feature.id]?.map(project) ?? [];
+    if (line.length > 0) {
+      const xs = line.map(([x]) => x);
+      const ys = line.map(([, y]) => y);
+      const minX = Math.min(...xs);
+      const maxX = Math.max(...xs);
+      const minY = Math.min(...ys);
+      const maxY = Math.max(...ys);
+      return (
+        <rect
+          className="geo-hit geo-hit--coordinate"
+          x={minX - 12}
+          y={minY - 12}
+          width={Math.max(maxX - minX + 24, 24)}
+          height={Math.max(maxY - minY + 24, 24)}
+          rx="6"
+        />
+      );
+    }
+  }
   if (exactArea) {
     return (
       <path
@@ -4965,7 +4988,9 @@ function TurkeyMap({
                   data-feature-name={feature.name}
                   data-status={status}
                   aria-label={status === "correct" ? `${feature.name}, doğru bilindi` : "Komşu ülke seçeneği"}
-                  className={`geo-feature geo-feature--${status} geo-feature--country`}
+                  className={`geo-feature geo-feature--${status} geo-feature--country${
+                    feature.id === currentFeatureId ? " geo-feature--current" : ""
+                  }`}
                   onPointerEnter={() => setHoveredProvince(feature.name)}
                   onPointerLeave={() => setHoveredProvince("")}
                   onClick={() => onSelect(feature)}
@@ -5013,7 +5038,9 @@ function TurkeyMap({
                   data-feature-name={feature.name}
                   data-status={status}
                   aria-label={status === "correct" ? `${feature.name}, doğru bilindi` : "İl seçeneği"}
-                  className={`province-option province-option--${status}`}
+                  className={`province-option province-option--${status}${
+                    feature.id === currentFeatureId ? " geo-feature--current" : ""
+                  }`}
                   onClick={() => onSelect(feature)}
                   onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") onSelect(feature);
