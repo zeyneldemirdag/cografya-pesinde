@@ -29,6 +29,7 @@ test("GitHub Pages derlemesi statik çıktı ve depo alt yolu kullanır", () => 
 test("Pages iş akışı bütün oyun verilerini içeren istemci paketini yayınlar", () => {
   assert.match(workflow, /GITHUB_PAGES: "true"/);
   assert.match(workflow, /NEXT_PUBLIC_BASE_PATH: \/cografya-pesinde/);
+  assert.match(workflow, /enablement: true/);
   assert.match(workflow, /path: \.\/dist\/client/);
   assert.match(workflow, /actions\/deploy-pages@v4/);
 });

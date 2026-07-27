@@ -39,6 +39,8 @@ jobs:
 
       - name: Pages'i yapılandır
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Yayın paketini hazırla
         uses: actions/upload-pages-artifact@v3
