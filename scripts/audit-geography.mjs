@@ -524,6 +524,7 @@ const officialExpectations = {
     "Sarp", "Türkgözü", "Çıldır-Aktaş", "Dilucu", "Gürbulak",
     "Kapıköy", "Esendere", "Habur", "Üzümlü", "Cilvegözü",
     "Öncüpınar", "Karkamış", "Çobanbey", "Zeytindalı",
+    "Akçakale", "Ceylanpınar", "Nusaybin", "Yayladağı",
   ],
   passes: [
     "Bolu Dağı Geçidi", "Zigana Geçidi", "Gülek Geçidi", "Sertavul Geçidi",

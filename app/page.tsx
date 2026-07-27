@@ -1229,7 +1229,7 @@ const QUIZZES: Quiz[] = [
     group: "Ulaşım",
     title: "Sınır Kapıları",
     eyebrow: "Ulaşım · Sınır kapıları",
-    description: "Komşu ülkelere açılan kara kapılarını seç.",
+    description: "Ticaret Bakanlığının resmî kara hudut kapılarını gerçek sınır koordinatlarında seç.",
     color: "#ef9b3d",
     icon: "▣",
     features: [
@@ -1252,6 +1252,10 @@ const QUIZZES: Quiz[] = [
       f("karkamis", "Karkamış", 70, 74, 5, 5, "gate"),
       f("cobanbey", "Çobanbey", 67, 73, 5, 5, "gate"),
       f("zeytidali", "Zeytindalı", 65, 75, 5, 5, "gate"),
+      f("akcakale-gate", "Akçakale", 73, 75, 5, 5, "gate"),
+      f("ceylanpinar-gate", "Ceylanpınar", 78, 75, 5, 5, "gate"),
+      f("nusaybin-gate", "Nusaybin", 83, 74, 5, 5, "gate"),
+      f("yayladagi-gate", "Yayladağı", 61, 77, 5, 5, "gate"),
     ],
   },
   {
@@ -2484,8 +2488,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://www.kgm.gov.tr/Sayfalar/KGM/SiteTr/Root/Haritalarr.aspx",
   },
   gates: {
-    label: "Ticaret Bakanlığı sınır kapıları",
-    url: "https://ticaret.gov.tr/gumruk-islemleri/sikca-sorulan-sorular/english/customs-offices",
+    label: "Ticaret Bakanlığı 2026 kara hudut kapıları + MEB",
+    url: "https://ticaret.gov.tr/data/61efa03313b876476cc9f9b0/Kara%20Kapilarina%20ve%20Arac%20Turlerine%20Gore%20Arac%20Sayilari..pdf",
   },
   passes: {
     label: "MEB geçit soru kapsamı + KGM yol ağı",
@@ -3661,6 +3665,10 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   karkamis: [38.00074, 36.82972],
   cobanbey: [37.46996, 36.63524],
   zeytidali: [36.6012175, 36.3673763],
+  "akcakale-gate": [38.95757, 36.70772],
+  "ceylanpinar-gate": [40.0548, 36.8466],
+  "nusaybin-gate": [41.21766, 37.06287],
+  "yayladagi-gate": [36.01188, 35.90087],
   "bolu-pass": [31.4140658, 40.7473581],
   "zigana-pass": [39.4051227, 40.6389544],
   "gulek-pass": [34.7858856, 37.2853853],
