@@ -730,6 +730,26 @@ button { color: inherit; }
   stroke: #eaf8ff;
   stroke-width: 2.2;
 }
+.port-callout-leader {
+  stroke: rgba(234, 248, 255, .9);
+  stroke-width: 1.6;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.port-callout-anchor {
+  fill: #0a2430;
+  stroke: #eaf8ff;
+  stroke-width: 1.7;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.geo-feature--wrong .port-callout-anchor {
+  stroke: #ffb8b3;
+}
+.geo-feature--correct .port-callout-anchor {
+  stroke: #bff5d7;
+}
 .port-detail {
   fill: none;
   stroke: #fff;

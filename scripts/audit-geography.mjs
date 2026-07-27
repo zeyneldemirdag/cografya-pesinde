@@ -625,7 +625,8 @@ const officialExpectations = {
     "Bakü-Tiflis-Ceyhan (BTC)", "Irak-Türkiye",
   ],
   ports: [
-    "İstanbul Limanı", "Bandırma Limanı", "İzmit Limanı", "Karadeniz Ereğli Limanı",
+    "Haydarpaşa Limanı", "İstanbul Limanı", "İzmit Derince Limanı", "Bandırma Limanı",
+    "Ambarlı Limanı", "Gemlik Limanı", "Karasu Limanı", "Karadeniz Ereğli Limanı",
     "Zonguldak Limanı", "Sinop Limanı", "Samsun Limanı", "Trabzon Limanı",
     "İzmir Limanı", "Kuşadası Limanı", "Bodrum Limanı", "Marmaris Limanı",
     "Fethiye Limanı", "Antalya Limanı", "Alanya Limanı", "Mersin Limanı",
