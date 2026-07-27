@@ -1274,6 +1274,10 @@ const QUIZZES: Quiz[] = [
       f("belen-pass", "Belen Geçidi", 62, 73, 6, 5, "pass"),
       f("kop-pass", "Kop Geçidi", 73, 36, 6, 5, "pass"),
       f("cubuk-pass", "Çubuk Beli Geçidi", 50, 50, 5, 4, "pass"),
+      f("ilgaz-pass", "Ilgaz Dağı Geçidi", 50, 29, 5, 4, "pass"),
+      f("ovit-pass", "Ovit Geçidi", 76, 28, 5, 4, "pass"),
+      f("egribel-pass", "Eğribel Geçidi", 67, 31, 5, 4, "pass"),
+      f("cankurtaran-pass", "Cankurtaran Geçidi", 86, 23, 5, 4, "pass"),
     ],
   },
   {
@@ -2492,7 +2496,7 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ticaret.gov.tr/data/61efa03313b876476cc9f9b0/Kara%20Kapilarina%20ve%20Arac%20Turlerine%20Gore%20Arac%20Sayilari..pdf",
   },
   passes: {
-    label: "MEB geçit soru kapsamı + KGM yol ağı",
+    label: "MEB sınav kapsamı + KGM · 11 çekirdek geçit",
     url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/konu-pekistirme/ayt/cografya/files/basic-html/page183.html",
   },
   "fault-systems": {
@@ -3676,6 +3680,10 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "belen-pass": [36.2252927, 36.4812881],
   "kop-pass": [40.5120823, 40.0365803],
   "cubuk-pass": [30.49694, 37.1701959],
+  "ilgaz-pass": [33.7449, 41.0437],
+  "ovit-pass": [40.7811342, 40.6259079],
+  "egribel-pass": [38.397344, 40.456541],
+  "cankurtaran-pass": [41.5327165, 41.3939175],
   divrigi: [38.102998, 39.40934],
   seyitomer: [29.832337, 39.574254],
   murgul: [41.58172, 41.24761],

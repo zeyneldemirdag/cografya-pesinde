@@ -529,6 +529,7 @@ const officialExpectations = {
   passes: [
     "Bolu Dağı Geçidi", "Zigana Geçidi", "Gülek Geçidi", "Sertavul Geçidi",
     "Belen Geçidi", "Kop Geçidi", "Çubuk Beli Geçidi",
+    "Ilgaz Dağı Geçidi", "Ovit Geçidi", "Eğribel Geçidi", "Cankurtaran Geçidi",
   ],
   bridges: [
     "15 Temmuz Şehitler Köprüsü", "Fatih Sultan Mehmet Köprüsü",
