@@ -59,6 +59,7 @@ const lakeData = [
   "../public/data/turkey-lakes-border-extra.geojson",
   "../public/data/turkey-natural-set-lakes.geojson",
   "../public/data/turkey-mixed-glacial-lakes.geojson",
+  "../public/data/turkey-ramsar.geojson",
 ].flatMap((path) =>
   JSON.parse(fs.readFileSync(new URL(path, import.meta.url), "utf8")).features
 );
@@ -83,6 +84,10 @@ const faultData = JSON.parse(
   fs.readFileSync(new URL("../public/data/turkey-active-faults.geojson", import.meta.url), "utf8"),
 ).features;
 const faultIds = new Set(faultData.map((feature) => feature.properties.id));
+const tourismAreaData = JSON.parse(
+  fs.readFileSync(new URL("../public/data/turkey-tourism-areas.geojson", import.meta.url), "utf8"),
+).features;
+const tourismAreaIds = new Set(tourismAreaData.map((feature) => feature.properties.id));
 
 const canonical = (id) => id.replace(/-(f|t|vs|n|s|gl|d|br)$/, "");
 const hasRenderedRealLine = (feature) =>
@@ -90,6 +95,8 @@ const hasRenderedRealLine = (feature) =>
   (["mountain", "river", "route"].includes(feature.kind) && lineKeys.has(canonical(feature.id)));
 const lakeCanonical = (id) => ({
   "aktas-lake": "aktas",
+  "izmir-bird-tour": "gediz-r",
+  "kizilirmak-bird-tour": "kizilirmak-delta",
   "manyas-bird-tour": "manyas",
   "golcuk-geotour": "golcuk",
   "meke-geotour": "meke",
@@ -116,6 +123,7 @@ const classifications = features.map((feature) => {
   let geometry = "fallback";
   if (straitKeys.has(feature.id)) geometry = "exact-strait";
   else if (provinceUnionIds.has(feature.id)) geometry = "exact-province-union";
+  else if (tourismAreaIds.has(feature.id)) geometry = "exact-tourism-area";
   else if (lakeIds.has(lakeCanonical(feature.id))) geometry = "exact-lake";
   else if (basinIds.has(feature.id)) geometry = "exact-basin";
   else if (feature.kind === "country" && neighborIds.has(feature.id)) geometry = "exact-country";

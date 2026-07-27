@@ -657,6 +657,20 @@ button { color: inherit; }
   stroke-width: 3.2;
   filter: drop-shadow(0 2px 2px rgba(8, 25, 28, .22));
 }
+.geo-shape--exact-area {
+  fill: rgba(117, 188, 149, .3);
+  stroke: rgba(221, 255, 235, .92);
+  stroke-width: 1.7;
+  stroke-dasharray: none;
+  vector-effect: non-scaling-stroke;
+}
+.geo-feature--idle:hover .geo-shape--exact-area,
+.geo-feature--idle:focus .geo-shape--exact-area {
+  fill: rgba(126, 214, 169, .48);
+  stroke: #f4fff8;
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 5px rgba(209, 255, 229, .65));
+}
 .geo-shape--intermittent-polye {
   fill: rgba(199, 174, 111, .28);
   stroke: #d9c47f;
@@ -1309,4 +1323,25 @@ footer span { color: #aab9b4; }
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+.app-shell[data-quiz-ready="false"] .game-layout {
+  visibility: hidden;
+}
+
+.app-shell[data-quiz-ready="false"]::after {
+  content: "Son çalıştığın harita hazırlanıyor…";
+  display: grid;
+  position: fixed;
+  inset: 82px 0 0;
+  z-index: 100;
+  place-items: center;
+  background:
+    linear-gradient(rgba(17, 48, 44, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 48, 44, 0.035) 1px, transparent 1px),
+    var(--paper);
+  background-size: 48px 48px;
+  color: var(--ink);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 750;
+  letter-spacing: 0.01em;
 }

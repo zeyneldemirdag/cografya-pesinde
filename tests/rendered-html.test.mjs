@@ -212,10 +212,9 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"afyon-mermer": \[\s*\[\[30\.65, 38\.845\]/);
   assert.match(page, /"burdur-marble": \[\s*\[\[30\.49, 37\.445\]/);
   assert.match(page, /"denizli-marble": \[\s*\[\[29\.16, 37\.765\]/);
-  assert.match(page, /"karacabey-longoz-tour": \[\s*\[\[28\.25, 40\.355\]/);
-  assert.match(page, /"igneada-longoz-tour": \[\s*\[\[27\.9, 41\.78\]/);
-  assert.match(page, /"izmir-bird-tour": \[\s*\[\[26\.78, 38\.425\]/);
-  assert.match(page, /"kizilirmak-bird-tour": \[\s*\[\[35\.72, 41\.54\]/);
+  assert.match(page, /turkey-tourism-areas\.geojson/);
+  assert.match(page, /"izmir-bird-tour": "gediz-r"/);
+  assert.match(page, /"kizilirmak-bird-tour": "kizilirmak-delta"/);
   assert.match(page, /"kula-geotour": \[\s*\[\[28\.14, 38\.46\]/);
   assert.match(page, /"manyas-bird-tour": "manyas"/);
   assert.match(page, /"meke-geotour": "meke"/);
@@ -232,9 +231,6 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"askale-lignite": \[40\.6085481, 39\.8522373\]/);
   assert.doesNotMatch(page, /"kop-mine": \[/);
   assert.doesNotMatch(page, /"fethiye-koycegiz-mine": \[/);
-  assert.match(page, /"gelibolu-tour": \[\s*\[\[26\.14, 40\.03\]/);
-  assert.match(page, /"baskomutan-tour": \[\s*\[\[30\.23, 38\.61\]/);
-  assert.match(page, /"sakarya-tour": \[\s*\[\[31\.94, 39\.35\]/);
   assert.match(page, /"anzer-tour": \[\s*\[\[40\.445, 40\.565\]/);
   assert.match(page, /"ayder-tour": \[\s*\[\[41\.045, 40\.94\]/);
   assert.match(page, /"uludag-tour": \[\[28\.8, 40\.1\]/);
@@ -254,7 +250,6 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"bingol-phosphate": \[\s*\[\[40\.255, 38\.61\]/);
   assert.match(page, /f\("zamanti-lead-zinc", [^\n]+ "region"\)/);
   assert.match(page, /f\("bingol-phosphate", [^\n]+ "region"\)/);
-  assert.match(page, /"istiklal-tour": \[\[33\.76, 41\.98\]/);
   assert.match(page, /feature\.kind === "landmark"/);
   assert.match(page, /<g className="geo-distribution">/);
   assert.match(page, /const LABEL_OFFSETS/);

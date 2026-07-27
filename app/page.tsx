@@ -2658,15 +2658,15 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page86.html",
   },
   tourism: {
-    label: "MEB Türkiye turizmi + Kültür Portalı",
+    label: "MEB sınav kapsamı · DKMP/KTB gerçek alanları",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page86.html",
   },
   "natural-tourism": {
-    label: "MEB kapsamı · DKMP alan doğrulaması",
-    url: "https://www.tarimorman.gov.tr/DKMP/Menu/27/Milli-Parklar%3B",
+    label: "MEB doğal turizm kapsamı · DKMP/OSM geometrisi",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page86.html",
   },
   "cultural-tourism": {
-    label: "MEB kültürel varlıklar ve ören yerleri",
+    label: "MEB kültürel kapsamı · DKMP/KTB geometrisi",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/ayt-cografya/files/basic-html/page86.html",
   },
   agriculture: {
@@ -2778,6 +2778,7 @@ type LakeFeature = {
 
 type BasinFeature = LakeFeature;
 type NeighborFeature = LakeFeature;
+type AreaFeature = LakeFeature;
 
 type RiverFeature = {
   geometry: {
@@ -2968,39 +2969,8 @@ const DISTRIBUTION_POLYGONS: Record<string, Coordinate[][]> = {
   "persembe-tour": [
     [[37.215, 40.612], [37.255, 40.575], [37.33, 40.572], [37.395, 40.605], [37.4, 40.65], [37.35, 40.682], [37.275, 40.68], [37.222, 40.655]],
   ],
-  "gelibolu-tour": [
-    [[26.14, 40.03], [26.2, 39.98], [26.31, 40.02], [26.38, 40.14], [26.4, 40.3], [26.34, 40.42], [26.24, 40.39], [26.17, 40.25]],
-  ],
-  "baskomutan-tour": [
-    [[30.23, 38.61], [30.32, 38.55], [30.46, 38.58], [30.55, 38.69], [30.5, 38.8], [30.35, 38.83], [30.24, 38.75]],
-    [[29.8, 38.78], [29.9, 38.72], [30.05, 38.75], [30.14, 38.86], [30.08, 38.96], [29.92, 38.98], [29.82, 38.9]],
-  ],
-  "malazgirt-tour": [
-    [[42.43, 39.09], [42.48, 39.055], [42.57, 39.07], [42.61, 39.13], [42.58, 39.2], [42.49, 39.215], [42.43, 39.17]],
-  ],
-  "sakarya-tour": [
-    [[31.94, 39.35], [32.08, 39.24], [32.32, 39.23], [32.58, 39.34], [32.72, 39.52], [32.61, 39.7], [32.34, 39.78], [32.08, 39.68], [31.95, 39.52]],
-  ],
   safranbolu: [
     [[32.665, 41.235], [32.68, 41.225], [32.705, 41.23], [32.715, 41.25], [32.702, 41.27], [32.678, 41.27], [32.663, 41.252]],
-  ],
-  "karacabey-longoz-tour": [
-    [[28.25, 40.355], [28.31, 40.325], [28.405, 40.335], [28.475, 40.39], [28.455, 40.45], [28.36, 40.475], [28.275, 40.43]],
-  ],
-  "igneada-longoz-tour": [
-    [[27.9, 41.78], [27.95, 41.745], [28.025, 41.77], [28.055, 41.835], [28.02, 41.9], [27.955, 41.91], [27.91, 41.86]],
-  ],
-  "izmir-bird-tour": [
-    [[26.78, 38.425], [26.84, 38.39], [26.94, 38.405], [27.035, 38.46], [27.025, 38.525], [26.94, 38.57], [26.84, 38.545], [26.79, 38.49]],
-  ],
-  "kizilirmak-bird-tour": [
-    [[35.72, 41.54], [35.84, 41.47], [36.05, 41.48], [36.23, 41.57], [36.25, 41.7], [36.1, 41.78], [35.88, 41.78], [35.72, 41.69]],
-  ],
-  kapadokya: [
-    [[34.62, 38.54], [34.69, 38.48], [34.82, 38.49], [34.96, 38.55], [35.02, 38.65], [34.94, 38.73], [34.78, 38.75], [34.66, 38.68]],
-  ],
-  pamukkale: [
-    [[29.095, 37.89], [29.115, 37.875], [29.145, 37.885], [29.158, 37.915], [29.145, 37.942], [29.112, 37.948], [29.092, 37.925]],
   ],
   "kula-geotour": [
     [[28.14, 38.46], [28.25, 38.4], [28.45, 38.42], [28.66, 38.51], [28.75, 38.64], [28.66, 38.74], [28.45, 38.77], [28.25, 38.68]],
@@ -3944,7 +3914,6 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   "pipeline-turkstream": [[28.10, 41.64], [27.70, 41.52], [27.36, 41.41], [27.38, 41.84]],
   "pipeline-btc": [[42.58, 41.16], [41.25, 39.88], [39.48, 39.72], [37.00, 39.70], [35.48, 38.68], [36.93, 37.56], [35.82, 37.03]],
   "pipeline-iraq-turkey": [[42.34, 37.15], [41.46, 37.33], [40.74, 37.31], [39.35, 37.18], [38.79, 37.17], [37.38, 37.07], [36.82, 37.07], [35.82, 37.03]],
-  "istiklal-tour": [[33.76, 41.98], [33.71, 41.81], [33.7, 41.55], [33.78, 41.39], [33.63, 40.92], [33.62, 40.6], [33.33, 40.1], [32.85, 39.93]],
   "uludag-tour": [[28.8, 40.1], [28.98, 40.08], [29.1, 40.0], [29.25, 39.96], [29.4, 39.9]],
   "kartalkaya-tour": [[31.55, 40.68], [31.72, 40.63], [31.809, 40.59], [31.98, 40.54], [32.12, 40.5]],
   "palandoken-tour": [[40.95, 40.02], [41.15, 39.94], [41.275, 39.86], [41.47, 39.72], [41.62, 39.58]],
@@ -4119,6 +4088,8 @@ function provinceSetCenter(plates: number[], provinces: ProvinceFeature[]): Coor
 function lakeShapeId(feature: Feature) {
   const aliases: Record<string, string> = {
     "aktas-lake": "aktas",
+    "izmir-bird-tour": "gediz-r",
+    "kizilirmak-bird-tour": "kizilirmak-delta",
     "manyas-bird-tour": "manyas",
     "golcuk-geotour": "golcuk",
     "meke-geotour": "meke",
@@ -4213,6 +4184,19 @@ function featureCenter(feature: Feature): Coordinate {
   return [50 + feature.x * 9, 20 + feature.y * 3.75];
 }
 
+function exactAreaCenter(area: AreaFeature): Coordinate {
+  const coordinates = area.geometry.type === "Polygon"
+    ? (area.geometry.coordinates as Coordinate[][]).flat()
+    : (area.geometry.coordinates as Coordinate[][][]).flat(2);
+  const projected = coordinates.map(project);
+  const xs = projected.map(([x]) => x);
+  const ys = projected.map(([, y]) => y);
+  return [
+    (Math.min(...xs) + Math.max(...xs)) / 2,
+    (Math.min(...ys) + Math.max(...ys)) / 2,
+  ];
+}
+
 function featureLabelCenter(feature: Feature, center: Coordinate, featureIndex = 0): Coordinate {
   const defaultOffset: Coordinate = feature.kind === "mountain"
     ? [featureIndex % 2 === 0 ? -26 : 26, -28 - (featureIndex % 3) * 20]
@@ -4240,6 +4224,7 @@ function collisionAwareLabelPlacements(
   features: Feature[],
   correctIds: string[],
   provinces: ProvinceFeature[],
+  exactAreas: AreaFeature[] = [],
 ) {
   const placements = new Map<string, LabelPlacement>();
   const occupied: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
@@ -4248,7 +4233,9 @@ function collisionAwareLabelPlacements(
     if (!correctIds.includes(feature.id)) return;
     const center = feature.plates?.length
       ? provinceSetCenter(feature.plates, provinces)
-      : featureCenter(feature);
+      : exactAreas.find((area) => area.properties.id === feature.id)
+        ? exactAreaCenter(exactAreas.find((area) => area.properties.id === feature.id)!)
+        : featureCenter(feature);
     const preferred = featureLabelCenter(feature, center, featureIndex);
     const preferredOffset: Coordinate = [preferred[0] - center[0], preferred[1] - center[1]];
     const offsets: Coordinate[] = [
@@ -4296,7 +4283,20 @@ const EXPANDED_AREA_HIT_IDS = new Set([
   "kizoren-r",
 ]);
 
-function featureHitArea(feature: Feature) {
+function featureHitArea(feature: Feature, exactArea?: AreaFeature) {
+  if (exactArea) {
+    const [cx, cy] = exactAreaCenter(exactArea);
+    return (
+      <rect
+        className="geo-hit geo-hit--small-area"
+        x={cx - 15}
+        y={cy - 12}
+        width="30"
+        height="24"
+        rx="7"
+      />
+    );
+  }
   const usesExpandedAreaHit = areaPolygonFor(feature)
     && (
       feature.kind === "lake"
@@ -4332,6 +4332,7 @@ function featureGraphic(
   provinces: ProvinceFeature[] = [],
   neighborShape?: NeighborFeature,
   faultShape?: FaultFeature,
+  exactAreaShape?: AreaFeature,
 ) {
   const realLine = realLineFor(feature);
   const straitPolygon = STRAIT_POLYGONS[feature.id];
@@ -4476,6 +4477,16 @@ function featureGraphic(
           vectorEffect="non-scaling-stroke"
         />
       </g>
+    );
+  }
+
+  if (exactAreaShape) {
+    return (
+      <path
+        d={lakePath(exactAreaShape)}
+        className="geo-shape geo-shape--region geo-shape--area geo-shape--exact-area"
+        fillRule="evenodd"
+      />
     );
   }
 
@@ -4740,6 +4751,7 @@ function TurkeyMap({
   const [basins, setBasins] = useState<BasinFeature[]>([]);
   const [neighbors, setNeighbors] = useState<NeighborFeature[]>([]);
   const [faults, setFaults] = useState<FaultFeature[]>([]);
+  const [exactAreas, setExactAreas] = useState<AreaFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
   const uniqueFeatures = [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()];
   const orderedFeatures = [...uniqueFeatures].sort((left, right) => {
@@ -4748,7 +4760,12 @@ function TurkeyMap({
     return 0;
   });
   const visibleLabelIds = showAllLabels ? correctIds.slice(-1) : [];
-  const labelPlacements = collisionAwareLabelPlacements(orderedFeatures, visibleLabelIds, provinces);
+  const labelPlacements = collisionAwareLabelPlacements(
+    orderedFeatures,
+    visibleLabelIds,
+    provinces,
+    exactAreas,
+  );
 
   useEffect(() => {
     fetch("/data/turkey-provinces.geojson")
@@ -4790,6 +4807,10 @@ function TurkeyMap({
       .then((response) => response.json())
       .then((data) => setFaults(data.features as FaultFeature[]))
       .catch(() => setFaults([]));
+    fetch("/data/turkey-tourism-areas.geojson")
+      .then((response) => response.json())
+      .then((data) => setExactAreas(data.features as AreaFeature[]))
+      .catch(() => setExactAreas([]));
   }, []);
 
   return (
@@ -4955,7 +4976,10 @@ function TurkeyMap({
                   if (event.key === "Enter" || event.key === " ") onSelect(feature);
                 }}
               >
-                {featureHitArea(feature)}
+                {featureHitArea(
+                  feature,
+                  exactAreas.find((area) => area.properties.id === feature.id),
+                )}
                 {featureGraphic(
                   feature,
                   lakes.find((lake) => lake.properties.id === lakeShapeId(feature)),
@@ -4964,6 +4988,7 @@ function TurkeyMap({
                   provinces,
                   undefined,
                   faults.find((fault) => fault.properties.id === feature.id),
+                  exactAreas.find((area) => area.properties.id === feature.id),
                 )}
               </g>
             );
@@ -4976,7 +5001,9 @@ function TurkeyMap({
               .map((feature) => {
                 const center = feature.plates?.length
                   ? provinceSetCenter(feature.plates, provinces)
-                  : featureCenter(feature);
+                  : exactAreas.find((area) => area.properties.id === feature.id)
+                    ? exactAreaCenter(exactAreas.find((area) => area.properties.id === feature.id)!)
+                    : featureCenter(feature);
                 const placement = labelPlacements.get(feature.id);
                 if (!placement) return null;
                 return (
