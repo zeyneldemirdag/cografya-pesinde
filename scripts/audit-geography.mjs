@@ -300,6 +300,12 @@ const officialExpectations = {
     "Kırşehir Masifi", "Niğde Masifi", "Akdağ Masifi",
     "Malatya Masifi", "Bitlis Masifi",
   ],
+  gulfs: [
+    "Saros Körfezi", "İzmit Körfezi", "Gemlik Körfezi",
+    "Edremit Körfezi", "Çandarlı Körfezi", "İzmir Körfezi",
+    "Kuşadası Körfezi", "Güllük Körfezi", "Gökova Körfezi",
+    "Antalya Körfezi", "Mersin Körfezi", "İskenderun Körfezi",
+  ],
   "agricultural-function-cities": [
     "Söke", "Osmaniye", "Akhisar", "Rize", "Bafra", "Malatya",
   ],
