@@ -931,6 +931,8 @@ const QUIZZES: Quiz[] = [
     color: "#e85c4a",
     icon: "▲",
     features: [
+      f("north-anatolian-belt", "Kuzey Anadolu Dağları", 55, 20, 58, 7, "mountain"),
+      f("taurus-belt", "Toros Dağları", 54, 68, 51, 8, "mountain"),
       f("yildiz", "Yıldız Dağları", 14, 19, 8, 5, "mountain", 4),
       f("kure", "Küre Dağları", 39, 17, 9, 5, "mountain", 2),
       f("canik", "Canik Dağları", 58, 19, 9, 5, "mountain", 5),
@@ -982,6 +984,8 @@ const QUIZZES: Quiz[] = [
     color: "#ef6d59",
     icon: "≋",
     features: [
+      f("north-anatolian-belt", "Kuzey Anadolu Dağları", 55, 20, 58, 7, "mountain"),
+      f("taurus-belt", "Toros Dağları", 54, 68, 51, 8, "mountain"),
       f("kure-f", "Küre Dağları", 35, 17, 15, 5, "mountain", 2),
       f("canik-f", "Canik Dağları", 56, 19, 14, 5, "mountain", 5),
       f("kackar-f", "Kaçkar Dağları", 76, 18, 13, 5, "mountain", -6),
@@ -2091,6 +2095,7 @@ const QUIZZES: Quiz[] = [
     color: "#6d4a78",
     icon: "≋",
     features: [
+      f("north-anatolian-belt", "Kuzey Anadolu Dağları", 55, 20, 58, 7, "mountain"),
       f("kure-n", "Küre Dağları", 39, 17, 9, 5, "mountain"),
       f("bolu-n", "Bolu Dağları", 29, 23, 8, 5, "mountain"),
       f("ilgaz-n", "Ilgaz Dağları", 42, 25, 8, 5, "mountain"),
@@ -2103,12 +2108,13 @@ const QUIZZES: Quiz[] = [
   {
     id: "south-fold-mountains",
     group: "Dağlar",
-    title: "Güney Anadolu Kıvrım Dağları",
+    title: "Toros Dağları",
     eyebrow: "Dağlar · Toros kuşağı",
     description: "Toros sisteminin batı, orta ve güneydoğu uzantılarını bul.",
     color: "#744768",
     icon: "≋",
     features: [
+      f("taurus-belt", "Toros Dağları", 54, 68, 51, 8, "mountain"),
       f("bey-s", "Bey Dağları", 32, 71, 8, 5, "mountain"),
       f("sultan-s", "Sultan Dağları", 38, 62, 8, 5, "mountain"),
       f("bolkar-s", "Bolkar Dağları", 49, 71, 8, 5, "mountain"),
@@ -3998,6 +4004,15 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   "kackar-tour": [[40.42, 40.91], [40.68, 40.86], [40.84, 40.84], [41.08, 40.78], [41.3, 40.72]],
   "beydaglari-tour": [[29.62, 36.76], [29.9, 36.72], [30.2, 36.72], [30.43, 36.8], [30.62, 36.94]],
   yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
+  "north-anatolian-belt": [
+    [30.4, 40.75], [31.7, 40.95], [33.0, 41.35], [34.4, 41.22],
+    [35.7, 40.98], [37.1, 40.82], [38.5, 40.72], [39.9, 40.78], [41.4, 40.72],
+  ],
+  "taurus-belt": [
+    [29.25, 36.75], [30.45, 36.85], [31.75, 36.78], [33.1, 36.92],
+    [34.45, 37.12], [35.55, 37.65], [36.7, 38.05], [38.1, 38.45],
+    [39.55, 38.35], [41.0, 37.95], [42.35, 37.65], [43.65, 37.35],
+  ],
   kure: [[32.0, 41.4], [33.1, 41.5], [34.3, 41.3]],
   canik: [[35.3, 41.1], [36.6, 40.9], [38.0, 40.8]],
   kackar: [[39.2, 40.9], [40.4, 40.8], [41.7, 40.8]],
@@ -4098,6 +4113,25 @@ function smoothPath(points: Coordinate[]) {
   return commands.join(" ");
 }
 
+function samplePolyline(points: Coordinate[], spacing = 22) {
+  if (points.length < 2) return points;
+  const samples: Coordinate[] = [];
+  points.slice(0, -1).forEach(([startX, startY], index) => {
+    const [endX, endY] = points[index + 1];
+    const length = Math.hypot(endX - startX, endY - startY);
+    const steps = Math.max(Math.round(length / spacing), 1);
+    for (let step = 0; step < steps; step += 1) {
+      const ratio = step / steps;
+      samples.push([
+        startX + (endX - startX) * ratio,
+        startY + (endY - startY) * ratio,
+      ]);
+    }
+  });
+  samples.push(points.at(-1)!);
+  return samples;
+}
+
 function provincePath(feature: ProvinceFeature) {
   if (feature.geometry.type === "Polygon") {
     return (feature.geometry.coordinates as Coordinate[][]).map(ringPath).join(" ");
@@ -4114,6 +4148,64 @@ function lakePath(feature: LakeFeature) {
   return (feature.geometry.coordinates as Coordinate[][][])
     .flatMap((polygon) => polygon.map(ringPath))
     .join(" ");
+}
+
+type LakeLayout = {
+  anchor: Coordinate;
+  displayCenter: Coordinate;
+  scale: number;
+  width: number;
+  height: number;
+  usesCallout: boolean;
+};
+
+const LAKE_CALLOUT_OFFSETS: Record<string, Coordinate> = {
+  "kilimli-glacial": [-44, -24],
+  "aynali-glacial": [44, -24],
+  "karagol-uludag-glacial": [0, 44],
+  "buzlu-uludag-glacial": [-44, 25],
+  "heybeli-uludag-glacial": [44, 25],
+  "deligol-glacial": [-25, 25],
+  "sat-ikiyaka-glacial": [-28, -24],
+  "meke": [-19, 20],
+  "acigol-karapinar": [19, -20],
+  "kizoren": [-25, -22],
+  "meyil-lake": [0, 25],
+  "cirali-lake": [25, -20],
+  "hafik-lake": [-19, -20],
+  "todurge-lake": [19, 20],
+};
+
+function lakeProjectedCoordinates(feature: LakeFeature) {
+  const coordinates = feature.geometry.type === "Polygon"
+    ? (feature.geometry.coordinates as Coordinate[][]).flat()
+    : (feature.geometry.coordinates as Coordinate[][][]).flat(2);
+  return coordinates.map(project);
+}
+
+function lakeLayout(feature: Feature, lakeShape: LakeFeature): LakeLayout {
+  const projected = lakeProjectedCoordinates(lakeShape);
+  const xs = projected.map(([x]) => x);
+  const ys = projected.map(([, y]) => y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const anchor: Coordinate = [(minX + maxX) / 2, (minY + maxY) / 2];
+  const exactWidth = Math.max(maxX - minX, 0.05);
+  const exactHeight = Math.max(maxY - minY, 0.05);
+  const longestSide = Math.max(exactWidth, exactHeight);
+  const scale = longestSide < 12 ? Math.min(12 / longestSide, 240) : 1;
+  const canonicalId = lakeShapeId(feature);
+  const offset = LAKE_CALLOUT_OFFSETS[canonicalId] ?? [0, 0];
+  return {
+    anchor,
+    displayCenter: [anchor[0] + offset[0], anchor[1] + offset[1]],
+    scale,
+    width: exactWidth * scale,
+    height: exactHeight * scale,
+    usesCallout: offset[0] !== 0 || offset[1] !== 0,
+  };
 }
 
 function riverPath(feature: RiverFeature) {
@@ -4370,7 +4462,7 @@ const EXPANDED_AREA_HIT_IDS = new Set([
   "kizoren-r",
 ]);
 
-function featureHitArea(feature: Feature, exactArea?: AreaFeature) {
+function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: AreaFeature) {
   if (feature.id.startsWith("parallel-") || feature.id.startsWith("meridian-")) {
     const line = REAL_LINES[feature.id]?.map(project) ?? [];
     if (line.length > 0) {
@@ -4400,6 +4492,23 @@ function featureHitArea(feature: Feature, exactArea?: AreaFeature) {
         fillRule="evenodd"
       />
     );
+  }
+  if (lakeShape) {
+    const layout = lakeLayout(feature, lakeShape);
+    if (layout.scale > 1 || layout.usesCallout) {
+      const [displayX, displayY] = layout.displayCenter;
+      return (
+        <rect
+          className="micro-lake-hit-box"
+          x={displayX - Math.max(layout.width / 2 + 4, 11)}
+          y={displayY - Math.max(layout.height / 2 + 4, 9)}
+          width={Math.max(layout.width + 8, 22)}
+          height={Math.max(layout.height + 8, 18)}
+          rx="6"
+        />
+      );
+    }
+    return <path d={lakePath(lakeShape)} className="geo-lake-hit" fillRule="evenodd" />;
   }
   const usesExpandedAreaHit = areaPolygonFor(feature)
     && (
@@ -4479,58 +4588,28 @@ function featureGraphic(
 
   if (lakeShape) {
     const path = lakePath(lakeShape);
-    const isMicroLake = [
-      "kilimli-glacial",
-      "aynali-glacial",
-      "karagol-uludag-glacial",
-      "buzlu-uludag-glacial",
-      "heybeli-uludag-glacial",
-      "deligol-glacial",
-      "sat-ikiyaka-glacial",
-    ].includes(feature.id);
-    if (isMicroLake) {
-      const [anchorX, anchorY] = featureCenter(feature);
-      const calloutOffsets: Record<string, Coordinate> = {
-        "kilimli-glacial": [-44, 25],
-        "aynali-glacial": [44, 25],
-        "karagol-uludag-glacial": [0, 58],
-        "buzlu-uludag-glacial": [-24, -34],
-        "heybeli-uludag-glacial": [24, -34],
-        "deligol-glacial": [-27, 31],
-        "sat-ikiyaka-glacial": [-27, 31],
-      };
-      const [offsetX, offsetY] = calloutOffsets[feature.id];
-      const calloutX = anchorX + offsetX;
-      const calloutY = anchorY + offsetY;
-      const scale = feature.id === "deligol-glacial"
-        ? 120
-        : feature.id === "sat-ikiyaka-glacial"
-          ? 90
-          : 150;
+    const layout = lakeLayout(feature, lakeShape);
+    if (layout.scale > 1 || layout.usesCallout) {
+      const [anchorX, anchorY] = layout.anchor;
+      const [calloutX, calloutY] = layout.displayCenter;
       return (
         <g className="micro-lake-callout">
-          <line
-            className="micro-lake-leader"
-            x1={anchorX}
-            y1={anchorY}
-            x2={calloutX}
-            y2={calloutY}
-          />
+          {layout.usesCallout && (
+            <line
+              className="micro-lake-leader"
+              x1={anchorX}
+              y1={anchorY}
+              x2={calloutX}
+              y2={calloutY}
+            />
+          )}
           <circle className="micro-lake-anchor" cx={anchorX} cy={anchorY} r="2.8" />
           <path d={path} className="micro-lake-anchor-shape" fillRule="evenodd" />
-          <rect
-            className="micro-lake-hit-box"
-            x={calloutX - 15}
-            y={calloutY - 13}
-            width="30"
-            height="26"
-            rx="7"
-          />
-          <g transform={`translate(${calloutX} ${calloutY}) scale(${scale}) translate(${-anchorX} ${-anchorY})`}>
+          <g transform={`translate(${calloutX} ${calloutY}) scale(${layout.scale}) translate(${-anchorX} ${-anchorY})`}>
             <path
               d={path}
               className={`geo-shape geo-shape--lake geo-shape--exact geo-shape--micro-lake${
-                feature.id === "heybeli-uludag-glacial" ? " geo-shape--seasonal-lake" : ""
+                lakeShapeId(feature) === "heybeli-uludag-glacial" ? " geo-shape--seasonal-lake" : ""
               }`}
               fillRule="evenodd"
             />
@@ -4540,7 +4619,6 @@ function featureGraphic(
     }
     return (
       <g>
-        <path d={path} className="geo-lake-hit" fillRule="evenodd" />
         <path
           d={path}
           className="geo-shape geo-shape--lake geo-shape--exact"
@@ -4663,15 +4741,16 @@ function featureGraphic(
       ? smoothPath(points)
       : points.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
     if (feature.kind === "mountain") {
-      const ridgePoints = points;
+      const ridgePoints = samplePolyline(points);
       return (
-        <g>
+        <g className={feature.id.endsWith("-belt") ? "mountain-belt" : undefined}>
           <path d={path} className="geo-line-hit" vectorEffect="non-scaling-stroke" />
           <path d={path} className="geo-shape geo-shape--mountain-line" vectorEffect="non-scaling-stroke" />
           {ridgePoints.map(([x, y], index) => (
             <path
               key={`${feature.id}-peak-${index}`}
-              d={`M${x - 9},${y + 5} L${x},${y - 9} L${x + 9},${y + 5} Z`}
+              d="M-8,5 L0,-8 L8,5 Z"
+              transform={`translate(${x} ${y})`}
               className="geo-shape geo-shape--mountain-peak"
             />
           ))}
@@ -5102,6 +5181,7 @@ function TurkeyMap({
               >
                 {featureHitArea(
                   feature,
+                  lakes.find((lake) => lake.properties.id === lakeShapeId(feature)),
                   exactAreaFor(feature, exactAreas),
                 )}
                 {featureGraphic(
@@ -5123,11 +5203,14 @@ function TurkeyMap({
             {orderedFeatures
               .filter((feature) => visibleLabelIds.includes(feature.id))
               .map((feature) => {
+                const exactLake = lakes.find((lake) => lake.properties.id === lakeShapeId(feature));
                 const center = feature.plates?.length
                   ? provinceSetCenter(feature.plates, provinces)
                   : exactAreaFor(feature, exactAreas)
                     ? exactAreaCenter(exactAreaFor(feature, exactAreas)!)
-                    : featureCenter(feature);
+                    : exactLake
+                      ? lakeLayout(feature, exactLake).displayCenter
+                      : featureCenter(feature);
                 const placement = labelPlacements.get(feature.id);
                 if (!placement) return null;
                 return (

@@ -556,12 +556,22 @@ button { color: inherit; }
 .geo-shape--mountain-line {
   fill: none;
   stroke: #432d55;
-  stroke-width: 5;
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .geo-shape--mountain-peak {
   fill: #6b4a70;
   stroke: #432d55;
-  stroke-width: 2;
+  stroke-width: 1.7;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.mountain-belt .geo-shape--mountain-line {
+  stroke-width: 5.5;
+}
+.mountain-belt .geo-shape--mountain-peak {
+  fill: #74517b;
 }
 
 .geo-shape--volcano { fill: #c45139; stroke: #7b2e20; }
