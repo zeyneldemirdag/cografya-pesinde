@@ -64,8 +64,8 @@ test("eski geniş dikdörtgen bölge tanımları il hedefleri için kullanılmaz
 });
 
 test("çakışan üretim illerinde güncel soru en üst tıklama katmanına alınır", () => {
-  assert.match(page, /if \(left\.id === currentFeatureId\) return 1;/);
-  assert.match(page, /if \(right\.id === currentFeatureId\) return -1;/);
+  assert.match(page, /if \(feature\.id === currentFeatureId\) return 30;/);
+  assert.match(page, /featureLayerPriority\(left\) - featureLayerPriority\(right\)/);
 });
 
 test("tarım ve hayvancılık kaynakları doğrudan MEB konu özetlerine bağlıdır", () => {

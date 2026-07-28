@@ -4687,6 +4687,7 @@ function featureGraphic(
     return (
       <g>
         <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
+        <path d={path} className="geo-river-casing" vectorEffect="non-scaling-stroke" />
         <path d={path} className="geo-shape geo-shape--line geo-shape--exact-river" vectorEffect="non-scaling-stroke" />
       </g>
     );
@@ -4697,6 +4698,7 @@ function featureGraphic(
     return (
       <g>
         <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
+        <path d={path} className="geo-river-casing" vectorEffect="non-scaling-stroke" />
         <path
           d={path}
           className="geo-shape geo-shape--line geo-shape--exact-river"
@@ -4910,10 +4912,14 @@ function TurkeyMap({
   const [exactAreas, setExactAreas] = useState<AreaFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
   const uniqueFeatures = [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()];
-  const orderedFeatures = [...uniqueFeatures].sort((left, right) => {
-    if (left.id === currentFeatureId) return 1;
-    if (right.id === currentFeatureId) return -1;
+  const featureLayerPriority = (feature: Feature) => {
+    if (feature.id === currentFeatureId) return 30;
+    if (correctIds.includes(feature.id)) return 20;
+    if (wrongIds.includes(feature.id)) return 10;
     return 0;
+  };
+  const orderedFeatures = [...uniqueFeatures].sort((left, right) => {
+    return featureLayerPriority(left) - featureLayerPriority(right);
   });
   const visibleLabelIds = showAllLabels ? correctIds.slice(-1) : [];
   const labelPlacements = collisionAwareLabelPlacements(

@@ -387,6 +387,16 @@ button { color: inherit; }
   pointer-events: stroke;
 }
 
+.geo-river-casing {
+  fill: none;
+  stroke: rgba(237, 245, 232, .92);
+  stroke-width: 8.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
 .geo-feature--current .geo-river-hit {
   stroke-width: 24;
 }
@@ -544,8 +554,8 @@ button { color: inherit; }
 }
 
 .geo-shape--exact-river {
-  stroke-width: 5.5;
-  filter: drop-shadow(0 1px 1px rgba(255,255,255,.45));
+  stroke-width: 5.2;
+  filter: none;
 }
 
 .geo-shape--mountain {
