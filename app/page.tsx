@@ -931,8 +931,6 @@ const QUIZZES: Quiz[] = [
     color: "#e85c4a",
     icon: "▲",
     features: [
-      f("north-anatolian-belt", "Kuzey Anadolu Dağları", 55, 20, 58, 7, "mountain"),
-      f("taurus-belt", "Toros Dağları", 54, 68, 51, 8, "mountain"),
       f("yildiz", "Yıldız Dağları", 14, 19, 8, 5, "mountain", 4),
       f("kure", "Küre Dağları", 39, 17, 9, 5, "mountain", 2),
       f("canik", "Canik Dağları", 58, 19, 9, 5, "mountain", 5),
@@ -984,8 +982,6 @@ const QUIZZES: Quiz[] = [
     color: "#ef6d59",
     icon: "≋",
     features: [
-      f("north-anatolian-belt", "Kuzey Anadolu Dağları", 55, 20, 58, 7, "mountain"),
-      f("taurus-belt", "Toros Dağları", 54, 68, 51, 8, "mountain"),
       f("kure-f", "Küre Dağları", 35, 17, 15, 5, "mountain", 2),
       f("canik-f", "Canik Dağları", 56, 19, 14, 5, "mountain", 5),
       f("kackar-f", "Kaçkar Dağları", 76, 18, 13, 5, "mountain", -6),
@@ -1002,6 +998,19 @@ const QUIZZES: Quiz[] = [
       f("munzur-f", "Munzur Dağları", 69, 46, 9, 5, "mountain"),
       f("mercan-f", "Mercan Dağları", 71, 41, 9, 5, "mountain"),
       f("hakkari", "Hakkâri Dağları", 82, 69, 13, 6, "mountain", -8),
+    ],
+  },
+  {
+    id: "main-fold-belts",
+    group: "Dağlar",
+    title: "Ana Kıvrım Dağ Kuşakları",
+    eyebrow: "Dağlar · Ana sistemler",
+    description: "Kuzey Anadolu Dağları ile Toros Dağları ana kuşaklarını ayrı ve temiz bir haritada bul.",
+    color: "#795174",
+    icon: "≋",
+    features: [
+      f("north-anatolian-belt", "Kuzey Anadolu Dağları", 55, 20, 58, 7, "mountain"),
+      f("taurus-belt", "Toros Dağları", 54, 68, 51, 8, "mountain"),
     ],
   },
   {
@@ -2095,7 +2104,6 @@ const QUIZZES: Quiz[] = [
     color: "#6d4a78",
     icon: "≋",
     features: [
-      f("north-anatolian-belt", "Kuzey Anadolu Dağları", 55, 20, 58, 7, "mountain"),
       f("kure-n", "Küre Dağları", 39, 17, 9, 5, "mountain"),
       f("bolu-n", "Bolu Dağları", 29, 23, 8, 5, "mountain"),
       f("ilgaz-n", "Ilgaz Dağları", 42, 25, 8, 5, "mountain"),
@@ -2108,13 +2116,12 @@ const QUIZZES: Quiz[] = [
   {
     id: "south-fold-mountains",
     group: "Dağlar",
-    title: "Toros Dağları",
+    title: "Toros Sisteminin Dağları",
     eyebrow: "Dağlar · Toros kuşağı",
     description: "Toros sisteminin batı, orta ve güneydoğu uzantılarını bul.",
     color: "#744768",
     icon: "≋",
     features: [
-      f("taurus-belt", "Toros Dağları", 54, 68, 51, 8, "mountain"),
       f("bey-s", "Bey Dağları", 32, 71, 8, 5, "mountain"),
       f("sultan-s", "Sultan Dağları", 38, 62, 8, 5, "mountain"),
       f("bolkar-s", "Bolkar Dağları", 49, 71, 8, 5, "mountain"),
@@ -4113,7 +4120,7 @@ function smoothPath(points: Coordinate[]) {
   return commands.join(" ");
 }
 
-function samplePolyline(points: Coordinate[], spacing = 22) {
+function samplePolyline(points: Coordinate[], spacing = 28) {
   if (points.length < 2) return points;
   const samples: Coordinate[] = [];
   points.slice(0, -1).forEach(([startX, startY], index) => {
@@ -4156,24 +4163,6 @@ type LakeLayout = {
   scale: number;
   width: number;
   height: number;
-  usesCallout: boolean;
-};
-
-const LAKE_CALLOUT_OFFSETS: Record<string, Coordinate> = {
-  "kilimli-glacial": [-44, -24],
-  "aynali-glacial": [44, -24],
-  "karagol-uludag-glacial": [0, 44],
-  "buzlu-uludag-glacial": [-44, 25],
-  "heybeli-uludag-glacial": [44, 25],
-  "deligol-glacial": [-25, 25],
-  "sat-ikiyaka-glacial": [-28, -24],
-  "meke": [-19, 20],
-  "acigol-karapinar": [19, -20],
-  "kizoren": [-25, -22],
-  "meyil-lake": [0, 25],
-  "cirali-lake": [25, -20],
-  "hafik-lake": [-19, -20],
-  "todurge-lake": [19, 20],
 };
 
 function lakeProjectedCoordinates(feature: LakeFeature) {
@@ -4195,16 +4184,13 @@ function lakeLayout(feature: Feature, lakeShape: LakeFeature): LakeLayout {
   const exactWidth = Math.max(maxX - minX, 0.05);
   const exactHeight = Math.max(maxY - minY, 0.05);
   const longestSide = Math.max(exactWidth, exactHeight);
-  const scale = longestSide < 12 ? Math.min(12 / longestSide, 240) : 1;
-  const canonicalId = lakeShapeId(feature);
-  const offset = LAKE_CALLOUT_OFFSETS[canonicalId] ?? [0, 0];
+  const scale = longestSide < 8 ? Math.min(8 / longestSide, 160) : 1;
   return {
     anchor,
-    displayCenter: [anchor[0] + offset[0], anchor[1] + offset[1]],
+    displayCenter: anchor,
     scale,
     width: exactWidth * scale,
     height: exactHeight * scale,
-    usesCallout: offset[0] !== 0 || offset[1] !== 0,
   };
 }
 
@@ -4495,16 +4481,16 @@ function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: A
   }
   if (lakeShape) {
     const layout = lakeLayout(feature, lakeShape);
-    if (layout.scale > 1 || layout.usesCallout) {
+    if (layout.scale > 1) {
       const [displayX, displayY] = layout.displayCenter;
       return (
         <rect
           className="micro-lake-hit-box"
-          x={displayX - Math.max(layout.width / 2 + 4, 11)}
-          y={displayY - Math.max(layout.height / 2 + 4, 9)}
-          width={Math.max(layout.width + 8, 22)}
-          height={Math.max(layout.height + 8, 18)}
-          rx="6"
+          x={displayX - Math.max(layout.width / 2 + 3, 9)}
+          y={displayY - Math.max(layout.height / 2 + 3, 8)}
+          width={Math.max(layout.width + 6, 18)}
+          height={Math.max(layout.height + 6, 16)}
+          rx="5"
         />
       );
     }
@@ -4589,23 +4575,11 @@ function featureGraphic(
   if (lakeShape) {
     const path = lakePath(lakeShape);
     const layout = lakeLayout(feature, lakeShape);
-    if (layout.scale > 1 || layout.usesCallout) {
+    if (layout.scale > 1) {
       const [anchorX, anchorY] = layout.anchor;
-      const [calloutX, calloutY] = layout.displayCenter;
       return (
         <g className="micro-lake-callout">
-          {layout.usesCallout && (
-            <line
-              className="micro-lake-leader"
-              x1={anchorX}
-              y1={anchorY}
-              x2={calloutX}
-              y2={calloutY}
-            />
-          )}
-          <circle className="micro-lake-anchor" cx={anchorX} cy={anchorY} r="2.8" />
-          <path d={path} className="micro-lake-anchor-shape" fillRule="evenodd" />
-          <g transform={`translate(${calloutX} ${calloutY}) scale(${layout.scale}) translate(${-anchorX} ${-anchorY})`}>
+          <g transform={`translate(${anchorX} ${anchorY}) scale(${layout.scale}) translate(${-anchorX} ${-anchorY})`}>
             <path
               d={path}
               className={`geo-shape geo-shape--lake geo-shape--exact geo-shape--micro-lake${
@@ -4749,7 +4723,7 @@ function featureGraphic(
           {ridgePoints.map(([x, y], index) => (
             <path
               key={`${feature.id}-peak-${index}`}
-              d="M-8,5 L0,-8 L8,5 Z"
+              d="M-6,4 L0,-6 L6,4 Z"
               transform={`translate(${x} ${y})`}
               className="geo-shape geo-shape--mountain-peak"
             />
@@ -5181,12 +5155,16 @@ function TurkeyMap({
               >
                 {featureHitArea(
                   feature,
-                  lakes.find((lake) => lake.properties.id === lakeShapeId(feature)),
+                  feature.kind === "lake"
+                    ? lakes.find((lake) => lake.properties.id === lakeShapeId(feature))
+                    : undefined,
                   exactAreaFor(feature, exactAreas),
                 )}
                 {featureGraphic(
                   feature,
-                  lakes.find((lake) => lake.properties.id === lakeShapeId(feature)),
+                  feature.kind === "lake"
+                    ? lakes.find((lake) => lake.properties.id === lakeShapeId(feature))
+                    : undefined,
                   rivers.find((river) => river.properties.id === riverShapeId(feature)),
                   basins.find((basin) => basin.properties.id === feature.id),
                   provinces,
@@ -5203,7 +5181,9 @@ function TurkeyMap({
             {orderedFeatures
               .filter((feature) => visibleLabelIds.includes(feature.id))
               .map((feature) => {
-                const exactLake = lakes.find((lake) => lake.properties.id === lakeShapeId(feature));
+                const exactLake = feature.kind === "lake"
+                  ? lakes.find((lake) => lake.properties.id === lakeShapeId(feature))
+                  : undefined;
                 const center = feature.plates?.length
                   ? provinceSetCenter(feature.plates, provinces)
                   : exactAreaFor(feature, exactAreas)
