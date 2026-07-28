@@ -4120,7 +4120,7 @@ function smoothPath(points: Coordinate[]) {
   return commands.join(" ");
 }
 
-function samplePolyline(points: Coordinate[], spacing = 28) {
+function samplePolyline(points: Coordinate[], spacing = 10) {
   if (points.length < 2) return points;
   const samples: Coordinate[] = [];
   points.slice(0, -1).forEach(([startX, startY], index) => {
@@ -4719,7 +4719,6 @@ function featureGraphic(
       return (
         <g className={feature.id.endsWith("-belt") ? "mountain-belt" : undefined}>
           <path d={path} className="geo-line-hit" vectorEffect="non-scaling-stroke" />
-          <path d={path} className="geo-shape geo-shape--mountain-line" vectorEffect="non-scaling-stroke" />
           {ridgePoints.map(([x, y], index) => (
             <path
               key={`${feature.id}-peak-${index}`}
