@@ -38,6 +38,62 @@ const specs = [
     classificationSource: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya2.pdf",
     classificationNote: "MEB · Akdeniz Havzası",
   },
+  {
+    id: "ergene",
+    name: "Ergene",
+    osmRelationId: 11100490,
+    classificationSource: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/beceri_temelli/10/cografya/files/basic-html/page34.html",
+    classificationNote: "MEB · Başlıca akarsular",
+  },
+  {
+    id: "porsuk",
+    name: "Porsuk Çayı",
+    osmRelationId: 1236869,
+    classificationSource: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
+    classificationNote: "MEB TTKB · Türkiye fiziki haritası",
+  },
+  {
+    id: "devrez",
+    name: "Devrez Çayı",
+    osmRelationId: 1223734,
+    classificationSource: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
+    classificationNote: "MEB TTKB · Türkiye fiziki haritası",
+  },
+  {
+    id: "kelkit",
+    name: "Kelkit Çayı",
+    osmRelationId: 14009330,
+    classificationSource: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
+    classificationNote: "MEB TTKB · Türkiye fiziki haritası",
+  },
+  {
+    id: "karasu-firat",
+    name: "Karasu (Fırat'ın kolu)",
+    osmRelationId: 2830440,
+    classificationSource: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
+    classificationNote: "MEB TTKB · Türkiye fiziki haritası",
+  },
+  {
+    id: "murat",
+    name: "Murat Nehri",
+    osmRelationId: 1246862,
+    classificationSource: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
+    classificationNote: "MEB TTKB · Türkiye fiziki haritası",
+  },
+  {
+    id: "batman-cayi",
+    name: "Batman Çayı",
+    osmRelationId: 2264091,
+    classificationSource: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
+    classificationNote: "MEB TTKB · Türkiye fiziki haritası",
+  },
+  {
+    id: "buyuk-zap",
+    name: "Büyük Zap Suyu",
+    osmRelationId: 368962,
+    classificationSource: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
+    classificationNote: "MEB TTKB · Türkiye fiziki haritası",
+  },
 ];
 
 async function relationGeometry(osmRelationId) {

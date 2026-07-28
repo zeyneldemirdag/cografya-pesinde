@@ -17,7 +17,8 @@ test("doğru akarsu yanlış akarsuyun üstünde, güncel hedef en üstte çizil
 test("akarsular beyaz yol konturu olmadan sade çizilir", () => {
   assert.doesNotMatch(page, /geo-river-casing/);
   assert.doesNotMatch(styles, /\.geo-river-casing/);
-  assert.match(styles, /\.geo-shape--exact-river\s*\{[\s\S]*stroke-width: 5\.5/);
+  assert.match(styles, /\.geo-shape--exact-river\s*\{[\s\S]*stroke-width: 3\.2/);
+  assert.match(styles, /\.geo-feature:hover \.geo-shape--exact-river,[\s\S]*stroke-width: 4\.4/);
 });
 
 test("doğru cevap aynı güncellemede bütün yanlış vurguları temizler", () => {
@@ -33,7 +34,7 @@ test("akarsular kopuk yan kollar yerine tek ana yatak olarak çizilir", () => {
   assert.match(page, /return primaryRiverCoordinates\(feature\)/);
   assert.match(
     page,
-    /const usesRiverOverride = feature\.kind === "river"[\s\S]*\["aras", "aras-br", "coruh", "dicle"\]\.includes\(feature\.id\)/,
+    /const usesRiverOverride = feature\.kind === "river"[\s\S]*!riverShape[\s\S]*\["aras", "aras-br", "coruh", "dicle"\]\.includes\(feature\.id\)/,
   );
   assert.doesNotMatch(
     page,

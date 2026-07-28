@@ -146,14 +146,17 @@ test("MEB havza listelerindeki ek akarsular gerçek yatak çizgilerini kullanır
   );
   assert.deepEqual(
     riverData.features.map((feature) => feature.properties.id).sort(),
-    ["bartin", "esen", "filyos", "harsit", "koprucay"],
+    [
+      "bartin", "batman-cayi", "buyuk-zap", "devrez", "ergene", "esen",
+      "filyos", "harsit", "karasu-firat", "kelkit", "koprucay", "murat", "porsuk",
+    ],
   );
   assert.ok(
     riverData.features.every(
       (feature) =>
         feature.geometry.type === "MultiLineString" &&
         feature.geometry.coordinates.length > 0 &&
-        feature.properties.classification_source.includes("meb"),
+        feature.properties.classification_note.startsWith("MEB"),
     ),
   );
   assert.equal(
@@ -163,6 +166,10 @@ test("MEB havza listelerindeki ek akarsular gerçek yatak çizgilerini kullanır
   assert.equal(
     report.sourceCoverage.find((coverage) => coverage.quiz === "mediterranean-rivers").expectedCount,
     9,
+  );
+  assert.equal(
+    report.sourceCoverage.find((coverage) => coverage.quiz === "river-tributaries").expectedCount,
+    8,
   );
 });
 

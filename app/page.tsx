@@ -115,6 +115,17 @@ const MEDITERRANEAN_EXTRA_RIVER_FEATURES: Feature[] = [
   f("koprucay", "Köprüçay", 34, 70, 8, 3, "river"),
 ];
 
+const RIVER_TRIBUTARY_FEATURES: Feature[] = [
+  f("ergene", "Ergene", 9, 24, 11, 3, "river"),
+  f("porsuk", "Porsuk Çayı", 37, 42, 13, 3, "river"),
+  f("devrez", "Devrez Çayı", 48, 25, 11, 3, "river"),
+  f("kelkit", "Kelkit Çayı", 64, 29, 17, 3, "river"),
+  f("karasu-firat", "Karasu (Fırat'ın kolu)", 73, 34, 15, 3, "river"),
+  f("murat", "Murat Nehri", 79, 46, 18, 3, "river"),
+  f("batman-cayi", "Batman Çayı", 79, 59, 9, 3, "river"),
+  f("buyuk-zap", "Büyük Zap Suyu", 87, 64, 10, 3, "river"),
+];
+
 const LANDSLIDE_SET_LAKE_FEATURES: Feature[] = [
   f("abant-set", "Abant Gölü", 31, 29, 5, 4, "lake"),
   f("yedigoller-set", "Yedigöller", 34, 22, 5, 4, "lake"),
@@ -1226,7 +1237,18 @@ const QUIZZES: Quiz[] = [
       f("hezil-br", "Hezil Çayı", 85, 68, 8, 5, "river"),
       ...BLACK_SEA_EXTRA_RIVER_FEATURES,
       ...MEDITERRANEAN_EXTRA_RIVER_FEATURES,
+      ...RIVER_TRIBUTARY_FEATURES,
     ],
+  },
+  {
+    id: "river-tributaries",
+    group: "Sular",
+    title: "Başlıca Akarsu Kolları",
+    eyebrow: "Sular · Ana kollar",
+    description: "MEB fiziki haritasındaki başlıca akarsu kollarını gerçek yatakları üzerinde bul.",
+    color: "#2485b5",
+    icon: "⑂",
+    features: [...RIVER_TRIBUTARY_FEATURES],
   },
   {
     id: "black-sea-rivers",
@@ -2574,6 +2596,10 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   "glacial-lakes": {
     label: "MEB konu özeti + Coğrafya 10 · gerçek OSM su poligonları",
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
+  },
+  "river-tributaries": {
+    label: "MEB TTKB fiziki haritası · gerçek OSM akarsu geometrileri",
+    url: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
   },
   "karstic-lakes": {
     label: "MEB karstik göller · Kestel kurumuş polye olarak ayrıştırıldı",
@@ -4597,8 +4623,8 @@ function featureGraphic(
   const width = compactPoint ? Math.max(Math.min(feature.w * 4.2, 30), 18) : Math.max(feature.w * 7.2, 20);
   const height = compactPoint ? Math.max(Math.min(feature.h * 2.2, 18), 11) : Math.max(feature.h * 3.1, 12);
   const usesRiverOverride = feature.kind === "river"
-    && ["aras", "aras-br", "coruh", "dicle"].includes(feature.id)
-    && realLine;
+    && realLine
+    && (!riverShape || ["aras", "aras-br", "coruh", "dicle"].includes(feature.id));
 
   if (feature.plates?.length) {
     return (
@@ -4740,7 +4766,7 @@ function featureGraphic(
       })
       .join(" ");
     return (
-      <g>
+      <g clipPath="url(#turkey-country-clip)">
         <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
         <path d={path} className="geo-shape geo-shape--line geo-shape--exact-river" vectorEffect="non-scaling-stroke" />
       </g>
@@ -4750,7 +4776,7 @@ function featureGraphic(
   if (feature.kind === "river" && riverShape) {
     const path = riverPath(riverShape);
     return (
-      <g>
+      <g clipPath="url(#turkey-country-clip)">
         <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
         <path
           d={path}

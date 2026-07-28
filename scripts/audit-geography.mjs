@@ -301,7 +301,7 @@ const duplicateQuizFeatureIds = quizIds.flatMap((quiz) => {
 const coverageComparisons = [
   ["mountains-all", ["fold-mountains", "fault-mountains", "volcanic-mountains", "north-fold-mountains", "south-fold-mountains", "glacial-mountains"]],
   ["lakes-all", ["tectonic-lakes", "volcanic-set-lakes", "landslide-set-lakes", "alluvial-set-lakes", "coastal-set-lakes", "mixed-origin-lakes", "glacial-lakes", "karstic-lakes", "volcanic-lakes"]],
-  ["rivers", ["black-sea-rivers", "aegean-rivers", "mediterranean-rivers", "outbound-rivers", "inbound-rivers", "border-rivers"]],
+  ["rivers", ["river-tributaries", "black-sea-rivers", "aegean-rivers", "mediterranean-rivers", "outbound-rivers", "inbound-rivers", "border-rivers"]],
   ["plains", ["delta-plains", "tectonic-plains", "karstic-plains"]],
   ["plateaus", ["tabular-plateaus", "karstic-plateaus", "volcanic-plateaus", "erosion-plateaus"]],
   ["tourism", ["natural-tourism", "cultural-tourism"]],
@@ -445,6 +445,10 @@ const officialExpectations = {
   "mediterranean-rivers": [
     "Dalaman Çayı", "Aksu", "Manavgat", "Göksu", "Seyhan",
     "Ceyhan", "Asi", "Eşen Çayı", "Köprüçay",
+  ],
+  "river-tributaries": [
+    "Ergene", "Porsuk Çayı", "Devrez Çayı", "Kelkit Çayı",
+    "Karasu (Fırat'ın kolu)", "Murat Nehri", "Batman Çayı", "Büyük Zap Suyu",
   ],
   "coast-types": [
     "Boyuna Kıyı", "Enine Kıyı", "Ria Kıyı", "Dalmaçya Kıyı",
