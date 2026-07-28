@@ -4687,7 +4687,6 @@ function featureGraphic(
     return (
       <g>
         <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
-        <path d={path} className="geo-river-casing" vectorEffect="non-scaling-stroke" />
         <path d={path} className="geo-shape geo-shape--line geo-shape--exact-river" vectorEffect="non-scaling-stroke" />
       </g>
     );
@@ -4698,7 +4697,6 @@ function featureGraphic(
     return (
       <g>
         <path d={path} className="geo-river-hit" vectorEffect="non-scaling-stroke" />
-        <path d={path} className="geo-river-casing" vectorEffect="non-scaling-stroke" />
         <path
           d={path}
           className="geo-shape geo-shape--line geo-shape--exact-river"

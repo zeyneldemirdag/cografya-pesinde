@@ -14,11 +14,10 @@ test("doğru akarsu yanlış akarsuyun üstünde, güncel hedef en üstte çizil
   assert.match(page, /featureLayerPriority\(left\) - featureLayerPriority\(right\)/);
 });
 
-test("kesişen akarsular renkleri birbirine karıştırmayan ayırıcı kılıfa sahiptir", () => {
-  const casings = page.match(/className="geo-river-casing"/g) ?? [];
-  assert.equal(casings.length, 2);
-  assert.match(styles, /\.geo-river-casing\s*\{[\s\S]*stroke-width: 8\.5/);
-  assert.match(styles, /\.geo-shape--exact-river\s*\{[\s\S]*stroke-width: 5\.2/);
+test("akarsular beyaz yol konturu olmadan sade çizilir", () => {
+  assert.doesNotMatch(page, /geo-river-casing/);
+  assert.doesNotMatch(styles, /\.geo-river-casing/);
+  assert.match(styles, /\.geo-shape--exact-river\s*\{[\s\S]*stroke-width: 5\.5/);
 });
 
 test("doğru cevap aynı güncellemede bütün yanlış vurguları temizler", () => {
