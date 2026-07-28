@@ -5386,6 +5386,7 @@ export default function Home() {
   const [mapView, setMapView] = useState<MapView>(DEFAULT_MAP_VIEW);
   const mapStageRef = useRef<HTMLDivElement>(null);
   const mapPointersRef = useRef(new Map<number, { x: number; y: number }>());
+  const mapPointerStartsRef = useRef(new Map<number, { x: number; y: number }>());
   const mapGestureRef = useRef<{
     center: { x: number; y: number } | null;
     distance: number;
@@ -5432,6 +5433,7 @@ export default function Home() {
 
   const resetMapView = () => {
     mapPointersRef.current.clear();
+    mapPointerStartsRef.current.clear();
     mapGestureRef.current = { center: null, distance: 0 };
     mapDidDragRef.current = false;
     setMapView(DEFAULT_MAP_VIEW);
@@ -5467,9 +5469,10 @@ export default function Home() {
 
   const handleMapPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if ((event.target as Element).closest(".map-zoom-controls")) return;
-    event.currentTarget.setPointerCapture(event.pointerId);
     mapDidDragRef.current = false;
-    mapPointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const pointer = { x: event.clientX, y: event.clientY };
+    mapPointersRef.current.set(event.pointerId, pointer);
+    mapPointerStartsRef.current.set(event.pointerId, pointer);
     const pointers = [...mapPointersRef.current.values()];
     if (pointers.length === 1) {
       mapGestureRef.current = { center: pointers[0], distance: 0 };
@@ -5491,12 +5494,22 @@ export default function Home() {
     if (pointers.length === 1) {
       const deltaX = event.clientX - previousPointer.x;
       const deltaY = event.clientY - previousPointer.y;
-      if (Math.hypot(deltaX, deltaY) > 2) mapDidDragRef.current = true;
-      setMapView((view) =>
-        view.scale > MIN_MAP_ZOOM
-          ? clampMapView({ ...view, x: view.x + deltaX, y: view.y + deltaY })
-          : view,
+      const startPointer = mapPointerStartsRef.current.get(event.pointerId) ?? previousPointer;
+      const movedFromStart = Math.hypot(
+        event.clientX - startPointer.x,
+        event.clientY - startPointer.y,
       );
+      if (mapView.scale > MIN_MAP_ZOOM && movedFromStart > 4) {
+        mapDidDragRef.current = true;
+        if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
+          event.currentTarget.setPointerCapture(event.pointerId);
+        }
+        setMapView((view) => clampMapView({
+          ...view,
+          x: view.x + deltaX,
+          y: view.y + deltaY,
+        }));
+      }
       mapGestureRef.current = { center: pointers[0], distance: 0 };
       return;
     }
@@ -5509,6 +5522,9 @@ export default function Home() {
     const centerDeltaX = previousGesture.center ? center.x - previousGesture.center.x : 0;
     const centerDeltaY = previousGesture.center ? center.y - previousGesture.center.y : 0;
     mapDidDragRef.current = true;
+    if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
     setMapView((view) => clampMapView({
       scale: view.scale * scaleFactor,
       x: view.x + centerDeltaX,
@@ -5519,6 +5535,7 @@ export default function Home() {
 
   const handleMapPointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
     mapPointersRef.current.delete(event.pointerId);
+    mapPointerStartsRef.current.delete(event.pointerId);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }

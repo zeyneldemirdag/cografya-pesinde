@@ -34,3 +34,16 @@ test("harita yakınlaştırması erişilebilir denetimlerle sıfırlanabilir", (
   assert.match(page, /aria-label="Haritayı yakınlaştır"/);
   assert.match(page, /setMapView\(DEFAULT_MAP_VIEW\)/);
 });
+
+test("normal nesne tıklaması pointer capture ile harita katmanına kaçırılmaz", () => {
+  const pointerDown = page.slice(
+    page.indexOf("const handleMapPointerDown"),
+    page.indexOf("const handleMapPointerMove"),
+  );
+  const pointerMove = page.slice(
+    page.indexOf("const handleMapPointerMove"),
+    page.indexOf("const handleMapPointerEnd"),
+  );
+  assert.doesNotMatch(pointerDown, /setPointerCapture/);
+  assert.match(pointerMove, /movedFromStart > 4[\s\S]*setPointerCapture/);
+});
