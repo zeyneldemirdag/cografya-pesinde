@@ -7,7 +7,6 @@ import {
   useState,
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
-  type WheelEvent as ReactWheelEvent,
 } from "react";
 import { flushSync } from "react-dom";
 
@@ -5438,11 +5437,33 @@ export default function Home() {
     setMapView(DEFAULT_MAP_VIEW);
   };
 
-  const handleMapWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    if (!event.ctrlKey) return;
-    event.preventDefault();
-    zoomMap(event.deltaY < 0 ? 1.18 : 1 / 1.18);
-  };
+  useEffect(() => {
+    const mapStage = mapStageRef.current;
+    if (!mapStage) return;
+
+    const handleCtrlWheel = (event: WheelEvent) => {
+      if (!event.ctrlKey) return;
+      event.preventDefault();
+      setMapView((view) => {
+        const scale = Math.min(
+          MAX_MAP_ZOOM,
+          Math.max(MIN_MAP_ZOOM, view.scale * (event.deltaY < 0 ? 1.18 : 1 / 1.18)),
+        );
+        if (scale === MIN_MAP_ZOOM) return DEFAULT_MAP_VIEW;
+        const bounds = mapStage.getBoundingClientRect();
+        const maxX = (bounds.width * (scale - 1)) / 2;
+        const maxY = (bounds.height * (scale - 1)) / 2;
+        return {
+          scale,
+          x: Math.min(maxX, Math.max(-maxX, view.x)),
+          y: Math.min(maxY, Math.max(-maxY, view.y)),
+        };
+      });
+    };
+
+    mapStage.addEventListener("wheel", handleCtrlWheel, { passive: false });
+    return () => mapStage.removeEventListener("wheel", handleCtrlWheel);
+  }, []);
 
   const handleMapPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if ((event.target as Element).closest(".map-zoom-controls")) return;
@@ -5657,7 +5678,6 @@ export default function Home() {
           <div
             ref={mapStageRef}
             className={`map-stage${mapView.scale > MIN_MAP_ZOOM ? " map-stage--zoomed" : ""}`}
-            onWheel={handleMapWheel}
             onPointerDown={handleMapPointerDown}
             onPointerMove={handleMapPointerMove}
             onPointerUp={handleMapPointerEnd}
