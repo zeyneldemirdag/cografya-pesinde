@@ -26,3 +26,17 @@ test("doğru cevap aynı güncellemede bütün yanlış vurguları temizler", ()
     /flushSync\(\(\) => \{[\s\S]*setCorrectIds\(nextCorrect\)[\s\S]*setQuestionOrder[\s\S]*setWrongIds\(\[\]\)/,
   );
 });
+
+test("akarsular kopuk yan kollar yerine tek ana yatak olarak çizilir", () => {
+  assert.match(page, /function primaryRiverCoordinates\(feature: RiverFeature\)/);
+  assert.match(page, /const joinToleranceKm = 2\.5/);
+  assert.match(page, /return primaryRiverCoordinates\(feature\)/);
+  assert.match(
+    page,
+    /const usesRiverOverride = feature\.kind === "river"[\s\S]*\["aras", "aras-br", "coruh", "dicle"\]\.includes\(feature\.id\)/,
+  );
+  assert.doesNotMatch(
+    page,
+    /function riverPath\(feature: RiverFeature\) \{[\s\S]*?return lines[\s\S]*?\.join\(" "\)/,
+  );
+});

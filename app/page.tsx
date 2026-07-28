@@ -4053,7 +4053,10 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   yesilirmak: [[36.6, 40.3], [35.8, 40.6], [36.3, 41.0], [36.8, 41.4]],
   sakarya: [[30.1, 38.6], [31.3, 39.2], [31.0, 40.0], [30.4, 40.7]],
   firat: [[38.5, 39.8], [39.1, 38.9], [38.4, 38.1], [39.2, 37.2], [40.5, 36.9]],
-  dicle: [[40.2, 38.2], [40.8, 37.7], [41.4, 37.2], [42.4, 37.0]],
+  dicle: [
+    [39.2, 38.2], [39.65, 38.0], [40.2, 37.9], [40.75, 37.9],
+    [41.2, 37.75], [41.45, 37.85], [41.85, 37.55], [42.15, 37.35], [42.4, 37.05],
+  ],
   seyhan: [[35.5, 38.4], [35.4, 37.8], [35.3, 37.1], [35.3, 36.8]],
   buyukmenderes: [[29.2, 38.1], [28.7, 37.8], [28.0, 37.7], [27.3, 37.6]],
   "meric-br": [[26.5, 41.7], [26.3, 41.1], [26.1, 40.7]],
@@ -4194,20 +4197,72 @@ function lakeLayout(feature: Feature, lakeShape: LakeFeature): LakeLayout {
   };
 }
 
-function riverPath(feature: RiverFeature) {
-  const lines = feature.geometry.type === "LineString"
+function coordinateDistance([leftX, leftY]: Coordinate, [rightX, rightY]: Coordinate) {
+  return Math.hypot((leftX - rightX) * 85, (leftY - rightY) * 111);
+}
+
+function coordinateLineLength(line: Coordinate[]) {
+  return line.reduce(
+    (total, coordinate, index) =>
+      index === 0 ? total : total + coordinateDistance(line[index - 1], coordinate),
+    0,
+  );
+}
+
+function primaryRiverCoordinates(feature: RiverFeature) {
+  const sourceLines = feature.geometry.type === "LineString"
     ? [feature.geometry.coordinates as Coordinate[]]
     : (feature.geometry.coordinates as Coordinate[][]);
-  return lines
+  const lines = sourceLines
     .filter((line) => line.length > 1)
-    .map((line) =>
-      line
-        .map((coordinate, index) => {
-          const [x, y] = project(coordinate);
-          return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
-        })
-        .join(" "),
-    )
+    .map((line) => [...line]);
+  if (lines.length <= 1) return lines[0] ?? [];
+
+  const seedIndex = lines.reduce(
+    (longestIndex, line, index) =>
+      coordinateLineLength(line) > coordinateLineLength(lines[longestIndex])
+        ? index
+        : longestIndex,
+    0,
+  );
+  const chain = [...lines.splice(seedIndex, 1)[0]];
+  const joinToleranceKm = 2.5;
+
+  while (lines.length > 0) {
+    const chainStart = chain[0];
+    const chainEnd = chain.at(-1)!;
+    const candidates = lines.flatMap((line, index) => {
+      const lineStart = line[0];
+      const lineEnd = line.at(-1)!;
+      return [
+        { index, side: "end" as const, reverse: false, distance: coordinateDistance(chainEnd, lineStart), length: coordinateLineLength(line) },
+        { index, side: "end" as const, reverse: true, distance: coordinateDistance(chainEnd, lineEnd), length: coordinateLineLength(line) },
+        { index, side: "start" as const, reverse: false, distance: coordinateDistance(chainStart, lineEnd), length: coordinateLineLength(line) },
+        { index, side: "start" as const, reverse: true, distance: coordinateDistance(chainStart, lineStart), length: coordinateLineLength(line) },
+      ];
+    }).filter((candidate) => candidate.distance <= joinToleranceKm);
+    if (candidates.length === 0) break;
+    const selected = candidates.reduce((best, candidate) => {
+      if (candidate.length !== best.length) return candidate.length > best.length ? candidate : best;
+      return candidate.distance < best.distance ? candidate : best;
+    });
+    const nextLine = [...lines.splice(selected.index, 1)[0]];
+    if (selected.reverse) nextLine.reverse();
+    if (selected.side === "end") {
+      chain.push(...nextLine.slice(1));
+    } else {
+      chain.unshift(...nextLine.slice(0, -1));
+    }
+  }
+  return chain;
+}
+
+function riverPath(feature: RiverFeature) {
+  return primaryRiverCoordinates(feature)
+    .map((coordinate, index) => {
+      const [x, y] = project(coordinate);
+      return `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+    })
     .join(" ");
 }
 
@@ -4542,7 +4597,7 @@ function featureGraphic(
   const width = compactPoint ? Math.max(Math.min(feature.w * 4.2, 30), 18) : Math.max(feature.w * 7.2, 20);
   const height = compactPoint ? Math.max(Math.min(feature.h * 2.2, 18), 11) : Math.max(feature.h * 3.1, 12);
   const usesRiverOverride = feature.kind === "river"
-    && ["aras", "aras-br", "coruh"].includes(feature.id)
+    && ["aras", "aras-br", "coruh", "dicle"].includes(feature.id)
     && realLine;
 
   if (feature.plates?.length) {
