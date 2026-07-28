@@ -5439,6 +5439,7 @@ export default function Home() {
   };
 
   const handleMapWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
+    if (!event.ctrlKey) return;
     event.preventDefault();
     zoomMap(event.deltaY < 0 ? 1.18 : 1 / 1.18);
   };

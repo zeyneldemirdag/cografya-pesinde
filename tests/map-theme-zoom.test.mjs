@@ -21,6 +21,7 @@ test("yakınlaştırma yalnızca harita çerçevesinin içindeki katmanı dönü
   assert.match(page, /className="real-map-wrap"[\s\S]*translate3d\(\$\{mapView\.x\}px/);
   assert.match(page, /className="map-zoom-controls"/);
   assert.match(page, /onWheel=\{handleMapWheel\}/);
+  assert.match(page, /if \(!event\.ctrlKey\) return;[\s\S]*event\.preventDefault\(\);/);
   assert.match(page, /onPointerMove=\{handleMapPointerMove\}/);
   assert.match(styles, /\.map-stage \{[\s\S]*overflow: hidden;[\s\S]*touch-action: none;/);
   assert.match(styles, /\.real-map-wrap \{[\s\S]*transform-origin: center;/);
