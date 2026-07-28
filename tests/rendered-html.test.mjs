@@ -309,7 +309,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /window\.localStorage\.setItem/);
   assert.match(page, /window\.localStorage\.getItem/);
   assert.match(page, /window\.scrollTo\(\{ top: 0, behavior: "auto" \}\)/);
-  assert.match(styles, /html\s*\{\s*scroll-behavior:\s*auto;\s*\}/);
+  assert.match(styles, /html\s*\{[\s\S]*?scroll-behavior:\s*auto;[\s\S]*?\}/);
   assert.doesNotMatch(styles, /html\s*\{\s*scroll-behavior:\s*smooth;/);
   assert.match(page, /ÖSYM KPSS soru standardı/);
   assert.match(page, /Bayram Meral kapsam kontrolü · ikincil/);

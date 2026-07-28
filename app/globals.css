@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: only light;
   --ink: #162925;
   --muted: #66736e;
   --paper: #f5f2e9;
@@ -12,7 +13,11 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: auto; }
+html {
+  scroll-behavior: auto;
+  color-scheme: only light;
+  background-color: #f5f2e9;
+}
 
 body {
   margin: 0;
@@ -240,6 +245,8 @@ button { color: inherit; }
   box-shadow:
     inset 0 0 0 8px rgba(255,255,255,.025),
     0 22px 55px rgba(0, 0, 0, .22);
+  touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .map-stage::before {
@@ -273,6 +280,8 @@ button { color: inherit; }
   z-index: 3;
   display: grid;
   place-items: center;
+  transform-origin: center;
+  will-change: transform;
 }
 
 .real-map {
@@ -280,6 +289,55 @@ button { color: inherit; }
   height: 100%;
   overflow: visible;
   filter: drop-shadow(0 15px 10px rgba(0, 0, 0, .42));
+}
+
+.map-stage--zoomed {
+  cursor: grab;
+}
+
+.map-stage--zoomed:active {
+  cursor: grabbing;
+}
+
+.map-zoom-controls {
+  position: absolute;
+  z-index: 14;
+  left: 16px;
+  bottom: 15px;
+  display: grid;
+  grid-template-columns: 34px minmax(48px, auto) 34px;
+  gap: 5px;
+  padding: 5px;
+  border: 1px solid rgba(180, 220, 215, .3);
+  border-radius: 999px;
+  background: rgba(7, 24, 32, .88);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, .24);
+  backdrop-filter: blur(10px);
+}
+
+.map-zoom-controls button {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .1);
+  color: #f4fbf8;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.map-zoom-controls button:hover,
+.map-zoom-controls button:focus-visible {
+  background: rgba(128, 211, 194, .28);
+  outline: 2px solid #a9e6da;
+  outline-offset: 1px;
+}
+
+.map-zoom-controls .map-zoom-level {
+  color: #c8ddd8;
+  font-size: 10px;
+  letter-spacing: .02em;
 }
 
 .relief-layer {
@@ -1315,7 +1373,7 @@ footer span { color: #aab9b4; }
   .map-stage {
     min-height: clamp(330px, 70vw, 480px);
     aspect-ratio: 1.45;
-    touch-action: manipulation;
+    touch-action: none;
   }
   .real-map-wrap { inset: 40px 12px 26px; }
   .turkey-map, .turkey-shadow { left: 3%; top: 28%; width: 94%; height: 43%; }
@@ -1358,6 +1416,12 @@ footer span { color: #aab9b4; }
   .real-map-wrap { inset: 36px 5px 22px; }
   .sea-label--aegean { left: 2%; }
   .map-note { display: none; }
+  .map-zoom-controls {
+    left: 9px;
+    bottom: 9px;
+    grid-template-columns: 38px minmax(50px, auto) 38px;
+  }
+  .map-zoom-controls button { min-width: 38px; height: 38px; }
   .feature--correct span { font-size: 7px; max-width: 90px; overflow: hidden; text-overflow: ellipsis; }
   .behavior-note {
     grid-template-columns: auto 1fr;

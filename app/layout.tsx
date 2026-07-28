@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const dynamic = "force-static";
@@ -33,13 +33,21 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#f5f2e9",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr">
+    <html lang="tr" style={{ colorScheme: "only light" }}>
+      <head>
+        <meta name="color-scheme" content="only light" />
+      </head>
       <body>{children}</body>
     </html>
   );

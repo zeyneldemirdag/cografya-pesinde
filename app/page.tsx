@@ -1,6 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  type WheelEvent as ReactWheelEvent,
+} from "react";
 import { flushSync } from "react-dom";
 
 export const dynamic = "force-static";
@@ -4973,6 +4981,7 @@ function TurkeyMap({
   correctIds,
   wrongIds,
   showAllLabels,
+  mapView,
   onSelect,
 }: {
   quiz: Quiz;
@@ -4980,6 +4989,7 @@ function TurkeyMap({
   correctIds: string[];
   wrongIds: string[];
   showAllLabels: boolean;
+  mapView: { scale: number; x: number; y: number };
   onSelect: (feature: Feature) => void;
 }) {
   const [provinces, setProvinces] = useState<ProvinceFeature[]>([]);
@@ -5064,7 +5074,12 @@ function TurkeyMap({
   }, []);
 
   return (
-    <div className="real-map-wrap">
+    <div
+      className="real-map-wrap"
+      style={{
+        transform: `translate3d(${mapView.x}px, ${mapView.y}px, 0) scale(${mapView.scale})`,
+      }}
+    >
       <svg
         className={`real-map${quiz.id === "neighbors" ? " real-map--neighbors" : ""}`}
         viewBox={quiz.id === "neighbors"
@@ -5345,6 +5360,16 @@ function TurkeyMap({
   );
 }
 
+type MapView = {
+  scale: number;
+  x: number;
+  y: number;
+};
+
+const DEFAULT_MAP_VIEW: MapView = { scale: 1, x: 0, y: 0 };
+const MIN_MAP_ZOOM = 1;
+const MAX_MAP_ZOOM = 4;
+
 export default function Home() {
   const [activeQuizId, setActiveQuizId] = useState(QUIZZES[0].id);
   const [questionOrder, setQuestionOrder] = useState(
@@ -5359,6 +5384,14 @@ export default function Home() {
   const [soundOn, setSoundOn] = useState(true);
   const [showAllLabels, setShowAllLabels] = useState(true);
   const [quizReady, setQuizReady] = useState(false);
+  const [mapView, setMapView] = useState<MapView>(DEFAULT_MAP_VIEW);
+  const mapStageRef = useRef<HTMLDivElement>(null);
+  const mapPointersRef = useRef(new Map<number, { x: number; y: number }>());
+  const mapGestureRef = useRef<{
+    center: { x: number; y: number } | null;
+    distance: number;
+  }>({ center: null, distance: 0 });
+  const mapDidDragRef = useRef(false);
 
   const quiz = QUIZZES.find((item) => item.id === activeQuizId) ?? QUIZZES[0];
   const quizFeatureCount = new Set(quiz.features.map((feature) => feature.id)).size;
@@ -5378,6 +5411,101 @@ export default function Home() {
   const accuracy =
     attempts === 0 ? 100 : Math.round((correctIds.length / attempts) * 100);
 
+  const clampMapView = (nextView: MapView): MapView => {
+    const scale = Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, nextView.scale));
+    if (scale === MIN_MAP_ZOOM) return DEFAULT_MAP_VIEW;
+    const bounds = mapStageRef.current?.getBoundingClientRect();
+    const maxX = bounds ? (bounds.width * (scale - 1)) / 2 : 0;
+    const maxY = bounds ? (bounds.height * (scale - 1)) / 2 : 0;
+    return {
+      scale,
+      x: Math.min(maxX, Math.max(-maxX, nextView.x)),
+      y: Math.min(maxY, Math.max(-maxY, nextView.y)),
+    };
+  };
+
+  const zoomMap = (factor: number) => {
+    setMapView((view) => clampMapView({
+      ...view,
+      scale: view.scale * factor,
+    }));
+  };
+
+  const resetMapView = () => {
+    mapPointersRef.current.clear();
+    mapGestureRef.current = { center: null, distance: 0 };
+    mapDidDragRef.current = false;
+    setMapView(DEFAULT_MAP_VIEW);
+  };
+
+  const handleMapWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    zoomMap(event.deltaY < 0 ? 1.18 : 1 / 1.18);
+  };
+
+  const handleMapPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if ((event.target as Element).closest(".map-zoom-controls")) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    mapDidDragRef.current = false;
+    mapPointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const pointers = [...mapPointersRef.current.values()];
+    if (pointers.length === 1) {
+      mapGestureRef.current = { center: pointers[0], distance: 0 };
+    } else {
+      const [first, second] = pointers;
+      mapGestureRef.current = {
+        center: { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 },
+        distance: Math.hypot(second.x - first.x, second.y - first.y),
+      };
+    }
+  };
+
+  const handleMapPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const previousPointer = mapPointersRef.current.get(event.pointerId);
+    if (!previousPointer) return;
+    event.preventDefault();
+    mapPointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const pointers = [...mapPointersRef.current.values()];
+    if (pointers.length === 1) {
+      const deltaX = event.clientX - previousPointer.x;
+      const deltaY = event.clientY - previousPointer.y;
+      if (Math.hypot(deltaX, deltaY) > 2) mapDidDragRef.current = true;
+      setMapView((view) =>
+        view.scale > MIN_MAP_ZOOM
+          ? clampMapView({ ...view, x: view.x + deltaX, y: view.y + deltaY })
+          : view,
+      );
+      mapGestureRef.current = { center: pointers[0], distance: 0 };
+      return;
+    }
+
+    const [first, second] = pointers;
+    const center = { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 };
+    const distance = Math.hypot(second.x - first.x, second.y - first.y);
+    const previousGesture = mapGestureRef.current;
+    const scaleFactor = previousGesture.distance > 0 ? distance / previousGesture.distance : 1;
+    const centerDeltaX = previousGesture.center ? center.x - previousGesture.center.x : 0;
+    const centerDeltaY = previousGesture.center ? center.y - previousGesture.center.y : 0;
+    mapDidDragRef.current = true;
+    setMapView((view) => clampMapView({
+      scale: view.scale * scaleFactor,
+      x: view.x + centerDeltaX,
+      y: view.y + centerDeltaY,
+    }));
+    mapGestureRef.current = { center, distance };
+  };
+
+  const handleMapPointerEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
+    mapPointersRef.current.delete(event.pointerId);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    const pointers = [...mapPointersRef.current.values()];
+    mapGestureRef.current = pointers.length === 1
+      ? { center: pointers[0], distance: 0 }
+      : { center: null, distance: 0 };
+  };
+
   const resetQuiz = (nextQuizId = activeQuizId) => {
     const nextQuiz = QUIZZES.find((item) => item.id === nextQuizId) ?? QUIZZES[0];
     setActiveQuizId(nextQuizId);
@@ -5388,6 +5516,7 @@ export default function Home() {
     setFinished(false);
     setShowAllLabels(true);
     setMenuOpen(false);
+    resetMapView();
     window.localStorage.setItem(ACTIVE_QUIZ_STORAGE_KEY, nextQuiz.id);
     window.scrollTo({ top: 0, behavior: "auto" });
   };
@@ -5524,7 +5653,15 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="map-stage">
+          <div
+            ref={mapStageRef}
+            className={`map-stage${mapView.scale > MIN_MAP_ZOOM ? " map-stage--zoomed" : ""}`}
+            onWheel={handleMapWheel}
+            onPointerDown={handleMapPointerDown}
+            onPointerMove={handleMapPointerMove}
+            onPointerUp={handleMapPointerEnd}
+            onPointerCancel={handleMapPointerEnd}
+          >
             <div className="sea-label sea-label--black">KARADENİZ</div>
             <div className="sea-label sea-label--aegean">EGE DENİZİ</div>
             <div className="sea-label sea-label--med">AKDENİZ</div>
@@ -5534,8 +5671,27 @@ export default function Home() {
               correctIds={correctIds}
               wrongIds={wrongIds}
               showAllLabels={showAllLabels}
-              onSelect={handleSelect}
+              mapView={mapView}
+              onSelect={(feature) => {
+                if (mapDidDragRef.current) {
+                  mapDidDragRef.current = false;
+                  return;
+                }
+                handleSelect(feature);
+              }}
             />
+            <div className="map-zoom-controls" aria-label="Harita yakınlaştırma denetimleri">
+              <button type="button" aria-label="Haritayı uzaklaştır" onClick={() => zoomMap(1 / 1.35)}>−</button>
+              <button
+                type="button"
+                className="map-zoom-level"
+                aria-label="Harita yakınlaştırmasını sıfırla"
+                onClick={resetMapView}
+              >
+                %{Math.round(mapView.scale * 100)}
+              </button>
+              <button type="button" aria-label="Haritayı yakınlaştır" onClick={() => zoomMap(1.35)}>+</button>
+            </div>
             <div className="map-note"><span>↖</span> Gerçek il sınırları ve coğrafi koordinatlar</div>
 
             {finished && (

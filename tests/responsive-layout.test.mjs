@@ -18,7 +18,7 @@ test("dar ekranlarda oyun tek sütuna geçer ve harita dokunmaya uygun kalır", 
   );
   assert.match(
     styles,
-    /@media \(max-width: 900px\)[\s\S]*?\.map-stage \{[\s\S]*?touch-action: manipulation;/,
+    /@media \(max-width: 900px\)[\s\S]*?\.map-stage \{[\s\S]*?touch-action: none;/,
   );
   assert.match(
     styles,
