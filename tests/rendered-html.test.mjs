@@ -283,7 +283,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /const DENSE_POPULATION_FEATURES/);
   assert.match(page, /const SPARSE_POPULATION_FEATURES/);
   assert.match(page, /id: "regions"/);
-  assert.match(page, /1941 Birinci Coğrafya Kongresi'nin 7 bölgesi/);
+  assert.match(page, /Birinci Coğrafya Kongresi ve bölge belirleme ölçütleri/);
   assert.match(page, /id: "grain-legume-crops"/);
   assert.match(page, /id: "industrial-oil-crops"/);
   assert.match(page, /id: "fruit-special-crops"/);

@@ -47,6 +47,6 @@ test("region polygons partition all 81 provinces once with no gaps or overlaps",
 test("region quiz cites the direct official MEB geography source", () => {
   assert.match(
     source,
-    /MEB · 1941 Birinci Coğrafya Kongresi'nin 7 bölgesi[\s\S]*orgm\.meb\.gov\.tr\/meb_iys_dosyalar\/2023_12\/21151051_cografya1\.pdf/,
+    /MEB · Birinci Coğrafya Kongresi ve bölge belirleme ölçütleri[\s\S]*tymm-modul-2\/files\/basic-html\/page26\.html/,
   );
 });

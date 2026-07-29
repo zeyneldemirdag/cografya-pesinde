@@ -2539,7 +2539,7 @@ const SOURCE_BY_GROUP: Record<string, SourceRef> = {
   },
   "Türkiye": {
     label: "HGM idari ve fiziki haritaları",
-    url: "https://www.harita.gov.tr/urunler/indirilebilir-urunler/14",
+    url: "https://www.harita.gov.tr/urunler/downloadable-products/13",
   },
 };
 
@@ -2605,8 +2605,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page81.html",
   },
   "river-tributaries": {
-    label: "MEB TTKB fiziki haritası · gerçek OSM akarsu geometrileri",
-    url: "https://ttkb.meb.gov.tr/meb_iys_dosyalar/2025_02/24140617_turkiye_fiziki_haritasi_ttkb.pdf",
+    label: "MEB Türkiye akarsuları · gerçek OSM akarsu geometrileri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page82.html",
   },
   "karstic-lakes": {
     label: "MEB karstik göller · Kestel kurumuş polye olarak ayrıştırıldı",
@@ -2757,8 +2757,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/defterim/10/cografya/files/basic-html/page139.html",
   },
   regions: {
-    label: "MEB · 1941 Birinci Coğrafya Kongresi'nin 7 bölgesi",
-    url: "https://orgm.meb.gov.tr/meb_iys_dosyalar/2023_12/21151051_cografya1.pdf",
+    label: "MEB · Birinci Coğrafya Kongresi ve bölge belirleme ölçütleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/tymm/tymm-modul-2/files/basic-html/page26.html",
   },
   climate: {
     label: "MEB · 7 iklim ve geçiş kuşağı · resmî harita vektörü",
@@ -2846,27 +2846,27 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   },
   ports: {
     label: "MEB güncel Türkiye lojistik coğrafyası · 21 liman",
-    url: "https://meslek.meb.gov.tr/upload/dersmateryali/pdf/UH2024TU0924.pdf",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/calisma_defteri/f3/12/cografya/files/basic-html/page6.html",
   },
   "marmara-ports": {
     label: "MEB Marmara Denizi'ndeki 6 liman",
-    url: "https://meslek.meb.gov.tr/upload/dersmateryali/pdf/UH2024TU0924.pdf",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/calisma_defteri/f3/12/cografya/files/basic-html/page6.html",
   },
   "black-sea-ports": {
     label: "MEB Karadeniz'deki 6 liman",
-    url: "https://meslek.meb.gov.tr/upload/dersmateryali/pdf/UH2024TU0924.pdf",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/calisma_defteri/f3/12/cografya/files/basic-html/page6.html",
   },
   "aegean-ports": {
     label: "MEB Ege Denizi'ndeki 5 liman",
-    url: "https://meslek.meb.gov.tr/upload/dersmateryali/pdf/UH2024TU0924.pdf",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/calisma_defteri/f3/12/cografya/files/basic-html/page6.html",
   },
   "mediterranean-ports": {
     label: "MEB Akdeniz'deki 4 liman",
-    url: "https://meslek.meb.gov.tr/upload/dersmateryali/pdf/UH2024TU0924.pdf",
+    url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/calisma_defteri/f3/12/cografya/files/basic-html/page6.html",
   },
   gulfs: {
     label: "HGM fiziki harita + kıyı verileri",
-    url: "https://www.harita.gov.tr/urun/turkiye-fiziki-haritasi-dilsiz/273",
+    url: "https://www.harita.gov.tr/urun/turkiye-dilsiz-fiziki-haritasi/273",
   },
   "coast-types": {
     label: "MEB Türkiye kıyı tipleri",
@@ -5365,18 +5365,29 @@ type MapView = {
   y: number;
 };
 
+type QuizMastery = {
+  bestAccuracy: number;
+  lastAccuracy: number;
+  completedRuns: number;
+  lastPlayedAt: string;
+};
+
 const DEFAULT_MAP_VIEW: MapView = { scale: 1, x: 0, y: 0 };
 const MIN_MAP_ZOOM = 1;
 const MAX_MAP_ZOOM = 4;
+const MASTERY_STORAGE_KEY = "cografya-pesinde:mastery";
 
 export default function Home() {
+  const initialFeatureIds = [...new Set(QUIZZES[0].features.map((feature) => feature.id))];
   const [activeQuizId, setActiveQuizId] = useState(QUIZZES[0].id);
-  const [questionOrder, setQuestionOrder] = useState(
-    QUIZZES[0].features.map((feature) => feature.id),
-  );
+  const [questionOrder, setQuestionOrder] = useState(initialFeatureIds);
+  const [sessionFeatureIds, setSessionFeatureIds] = useState(initialFeatureIds);
   const [activeGroup, setActiveGroup] = useState("Tümü");
   const [correctIds, setCorrectIds] = useState<string[]>([]);
   const [wrongIds, setWrongIds] = useState<string[]>([]);
+  const [missedFeatureIds, setMissedFeatureIds] = useState<string[]>([]);
+  const [reviewRound, setReviewRound] = useState(false);
+  const [masteryByQuiz, setMasteryByQuiz] = useState<Record<string, QuizMastery>>({});
   const [attempts, setAttempts] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -5392,12 +5403,13 @@ export default function Home() {
     distance: number;
   }>({ center: null, distance: 0 });
   const mapDidDragRef = useRef(false);
+  const questionHadWrongRef = useRef(false);
 
   const quiz = QUIZZES.find((item) => item.id === activeQuizId) ?? QUIZZES[0];
-  const quizFeatureCount = new Set(quiz.features.map((feature) => feature.id)).size;
+  const quizFeatureCount = sessionFeatureIds.length;
   const sourceRef = SOURCE_BY_QUIZ[quiz.id] ?? SOURCE_BY_GROUP[quiz.group];
   const currentId = questionOrder[0]
-    ?? quiz.features.find((feature) => !correctIds.includes(feature.id))?.id
+    ?? sessionFeatureIds.find((id) => !correctIds.includes(id))
     ?? quiz.features[0].id;
   const current = quiz.features.find((feature) => feature.id === currentId) ?? quiz.features[0];
   const visibleQuizzes = useMemo(
@@ -5407,6 +5419,8 @@ export default function Home() {
         : QUIZZES.filter((item) => item.group === activeGroup),
     [activeGroup],
   );
+  const completedQuizCount = Object.values(masteryByQuiz)
+    .filter((mastery) => mastery.completedRuns > 0).length;
 
   const accuracy =
     attempts === 0 ? 100 : Math.round((correctIds.length / attempts) * 100);
@@ -5545,25 +5559,53 @@ export default function Home() {
       : { center: null, distance: 0 };
   };
 
-  const resetQuiz = (nextQuizId = activeQuizId) => {
+  const resetQuiz = (nextQuizId = activeQuizId, reviewIds?: string[]) => {
     const nextQuiz = QUIZZES.find((item) => item.id === nextQuizId) ?? QUIZZES[0];
+    const availableIds = new Set(nextQuiz.features.map((feature) => feature.id));
+    const roundIds = reviewIds?.filter((id) => availableIds.has(id)) ?? [...availableIds];
+    const roundFeatures = nextQuiz.features.filter((feature) => roundIds.includes(feature.id));
     setActiveQuizId(nextQuizId);
-    setQuestionOrder((previousOrder) => shuffledFeatureIds(nextQuiz.features, previousOrder));
+    setSessionFeatureIds(roundIds);
+    setQuestionOrder((previousOrder) => shuffledFeatureIds(roundFeatures, previousOrder));
     setCorrectIds([]);
     setWrongIds([]);
+    setMissedFeatureIds([]);
+    setReviewRound(Boolean(reviewIds));
     setAttempts(0);
     setFinished(false);
     setShowAllLabels(true);
     setMenuOpen(false);
     resetMapView();
+    questionHadWrongRef.current = false;
     window.localStorage.setItem(ACTIVE_QUIZ_STORAGE_KEY, nextQuiz.id);
     window.scrollTo({ top: 0, behavior: "auto" });
+  };
+
+  const reviewMissedFeatures = () => {
+    if (missedFeatureIds.length === 0) return;
+    resetQuiz(activeQuizId, missedFeatureIds);
+  };
+
+  const recordMastery = (quizId: string, finalAccuracy: number) => {
+    const previous = masteryByQuiz[quizId];
+    const nextMastery = {
+      ...masteryByQuiz,
+      [quizId]: {
+        bestAccuracy: Math.max(previous?.bestAccuracy ?? 0, finalAccuracy),
+        lastAccuracy: finalAccuracy,
+        completedRuns: (previous?.completedRuns ?? 0) + 1,
+        lastPlayedAt: new Date().toISOString(),
+      },
+    };
+    setMasteryByQuiz(nextMastery);
+    window.localStorage.setItem(MASTERY_STORAGE_KEY, JSON.stringify(nextMastery));
   };
 
   const handleSelect = (feature: Feature) => {
     if (!quizReady || finished || correctIds.includes(feature.id)) return;
 
     if (feature.id !== current.id) {
+      questionHadWrongRef.current = true;
       flushSync(() => {
         setAttempts((value) => value + 1);
         setWrongIds((ids) =>
@@ -5578,23 +5620,42 @@ export default function Home() {
       ? correctIds
       : [...correctIds, feature.id];
     const isLastQuestion = nextCorrect.length === quizFeatureCount;
+    const finalAccuracy = Math.round((nextCorrect.length / (attempts + 1)) * 100);
+    const wasMissed = questionHadWrongRef.current;
+    questionHadWrongRef.current = false;
     flushSync(() => {
       setAttempts((value) => value + 1);
       setCorrectIds(nextCorrect);
       setQuestionOrder((order) => order.filter((id) => id !== feature.id));
       setWrongIds([]);
+      if (wasMissed) {
+        setMissedFeatureIds((ids) => ids.includes(feature.id) ? ids : [...ids, feature.id]);
+      }
       if (isLastQuestion) setFinished(true);
     });
+    if (isLastQuestion && !reviewRound) recordMastery(quiz.id, finalAccuracy);
     if (soundOn) playMapSound("correct");
 
   };
 
   useEffect(() => {
     const savedQuizId = window.localStorage.getItem(ACTIVE_QUIZ_STORAGE_KEY);
+    const savedMastery = window.localStorage.getItem(MASTERY_STORAGE_KEY);
+    let restoredMastery: Record<string, QuizMastery> = {};
+    if (savedMastery) {
+      try {
+        restoredMastery = JSON.parse(savedMastery) as Record<string, QuizMastery>;
+      } catch {
+        window.localStorage.removeItem(MASTERY_STORAGE_KEY);
+      }
+    }
     const savedQuiz = QUIZZES.find((item) => item.id === savedQuizId);
     const restoredQuiz = savedQuiz ?? QUIZZES[0];
+    const restoredIds = [...new Set(restoredQuiz.features.map((feature) => feature.id))];
     const restoreFrame = window.requestAnimationFrame(() => {
+      setMasteryByQuiz(restoredMastery);
       setActiveQuizId(restoredQuiz.id);
+      setSessionFeatureIds(restoredIds);
       setQuestionOrder((previousOrder) => shuffledFeatureIds(restoredQuiz.features, previousOrder));
       setQuizReady(true);
     });
@@ -5651,7 +5712,7 @@ export default function Home() {
 
           <div className="question-card" style={{ "--accent": quiz.color } as React.CSSProperties}>
             <span className="question-count">
-              SORU {Math.min(correctIds.length + 1, quizFeatureCount)} / {quizFeatureCount}
+              {reviewRound ? "TEKRAR" : "SORU"} {Math.min(correctIds.length + 1, quizFeatureCount)} / {quizFeatureCount}
             </span>
             <div className="question-icon">{quiz.icon}</div>
             <p>Haritada nerede?</p>
@@ -5737,8 +5798,17 @@ export default function Home() {
                 <span className="finish-confetti">✦</span>
                 <p>HARİTA TAMAMLANDI</p>
                 <h3>{quizFeatureCount} / {quizFeatureCount} doğru</h3>
-                <span>%{accuracy} isabetle bitirdin.</span>
+                <span>
+                  {reviewRound && missedFeatureIds.length === 0
+                    ? "Zayıf hedefleri hatasız tamamladın."
+                    : `%${accuracy} isabetle bitirdin.`}
+                </span>
                 <div>
+                  {missedFeatureIds.length > 0 && (
+                    <button type="button" onClick={reviewMissedFeatures}>
+                      Yanlışları tekrar et · {missedFeatureIds.length}
+                    </button>
+                  )}
                   <button type="button" onClick={() => resetQuiz()}>Tekrar oyna</button>
                   <button type="button" className="finish-secondary" onClick={() => setMenuOpen(true)}>
                     Yeni konu
@@ -5763,7 +5833,12 @@ export default function Home() {
             <span className="eyebrow">KONU KÜTÜPHANESİ</span>
             <h2>Bir sonraki haritanı seç</h2>
           </div>
-          <p>Ana konular ve sınavda sık ayrılan alt başlıklar ayrı ayrı çalışılabilir.</p>
+          <p>
+            Ana konular ve sınavda sık ayrılan alt başlıklar ayrı ayrı çalışılabilir.
+            <strong className="mastery-summary">
+              {completedQuizCount} / {QUIZZES.length} haritada en az bir tam tur
+            </strong>
+          </p>
         </div>
         <div className="filter-row" role="tablist" aria-label="Konu grupları">
           {GROUPS.map((group) => (
@@ -5780,8 +5855,10 @@ export default function Home() {
           ))}
         </div>
         <div className="quiz-grid">
-          {visibleQuizzes.map((item, index) => (
-            <button
+          {visibleQuizzes.map((item, index) => {
+            const mastery = masteryByQuiz[item.id];
+            return (
+              <button
               className={`quiz-tile ${item.id === activeQuizId ? "quiz-tile--active" : ""}`}
               type="button"
               key={item.id}
@@ -5794,9 +5871,15 @@ export default function Home() {
               <span className="tile-group">{item.eyebrow}</span>
               <strong>{item.title}</strong>
               <small>{item.features.length} konum · Tıklamalı</small>
+              {mastery && (
+                <span className="tile-mastery">
+                  En iyi %{mastery.bestAccuracy} · {mastery.completedRuns} tur
+                </span>
+              )}
               <span className="tile-arrow">↗</span>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       </section>
 
@@ -5815,7 +5898,7 @@ export default function Home() {
           <a href="https://orgm.meb.gov.tr/ekpssmebozel/cografyakonular.html" target="_blank" rel="noreferrer">
             MEB konu kapsamı <span>↗</span>
           </a>
-          <a href="https://www.osym.gov.tr/TR,29487/2024-kpss-lisans-genel-yetenek-genel-kultur-ve-egitim-bilimleri-temel-soru-kitapciklari-ve-cevap-anahtarlari--10.html" target="_blank" rel="noreferrer">
+          <a href="https://www.osym.gov.tr/2025kpss-a-grubu-sinavi-genel-yetenekgenel-kultur-oturumunun-temel-soru-kitapcigi-ve-cevap-anahtari-yayimlandi" target="_blank" rel="noreferrer">
             ÖSYM KPSS soru standardı <span>↗</span>
           </a>
           <a href="https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page76.html" target="_blank" rel="noreferrer">
@@ -5824,7 +5907,7 @@ export default function Home() {
           <a href="https://www.tarimorman.gov.tr/DKMP/Menu/18/Korunan-Alan-Istatistikleri" target="_blank" rel="noreferrer">
             DKMP korunan alanlar <span>↗</span>
           </a>
-          <a href="https://www.harita.gov.tr/urun/turkiye-fiziki-haritasi-dilsiz/273" target="_blank" rel="noreferrer">
+          <a href="https://www.harita.gov.tr/urun/turkiye-dilsiz-fiziki-haritasi/273" target="_blank" rel="noreferrer">
             HGM fiziki harita <span>↗</span>
           </a>
           <a href="https://bayrammeral.com/" target="_blank" rel="noreferrer">

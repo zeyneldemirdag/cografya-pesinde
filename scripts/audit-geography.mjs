@@ -768,8 +768,7 @@ const sourceOverrideRequired = [
   "tourism-function-cities",
 ];
 const missingSourceOverrides = sourceOverrideRequired.filter((id) => !sourceQuizKeys.has(id));
-
-console.log(JSON.stringify({
+const report = {
   featureCalls: features.length,
   uniqueFeatures: unique.size,
   geometryCounts: Object.fromEntries(Object.entries(byGeometry).map(([key, value]) => [key, value.length])),
@@ -794,4 +793,30 @@ console.log(JSON.stringify({
     .map(({ id, name, geometry }) => ({ id, name, geometry })),
   missingSourceOverrides,
   duplicateQuizFeatureIds,
-}, null, 2));
+};
+
+console.log(JSON.stringify(report, null, 2));
+
+const auditFailures = [
+  ...(report.fallback.length > 0 ? [`${report.fallback.length} yaklaşık/yedek şekil`] : []),
+  ...report.coverageComparisons
+    .filter((entry) => entry.missingFromGeneral.length > 0)
+    .map((entry) => `${entry.general}: genel haritada ${entry.missingFromGeneral.length} eksik`),
+  ...report.sourceCoverage
+    .filter((entry) => entry.missing.length > 0)
+    .map((entry) => `${entry.quiz}: resmî kapsamda ${entry.missing.length} eksik`),
+  ...(report.nonExactLakeTargets.length > 0
+    ? [`${report.nonExactLakeTargets.length} gerçek şekle bağlanmamış göl`]
+    : []),
+  ...(report.missingSourceOverrides.length > 0
+    ? [`${report.missingSourceOverrides.length} konuya özel kaynak eksiği`]
+    : []),
+  ...(report.duplicateQuizFeatureIds.length > 0
+    ? [`${report.duplicateQuizFeatureIds.length} oyunda yinelenen hedef`]
+    : []),
+];
+
+if (auditFailures.length > 0) {
+  auditFailures.forEach((failure) => console.error(`HATA: ${failure}`));
+  process.exitCode = 1;
+}

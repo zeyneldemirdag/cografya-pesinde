@@ -49,7 +49,7 @@ for (const [quizId, expectedIds] of Object.entries(expectedByQuiz)) {
 test("port source points to the current official MEB logistics geography book", () => {
   assert.match(
     source,
-    /MEB güncel Türkiye lojistik coğrafyası · 21 liman[\s\S]*UH2024TU0924\.pdf/,
+    /MEB güncel Türkiye lojistik coğrafyası · 21 liman[\s\S]*cografya\/files\/basic-html\/page6\.html/,
   );
 });
 
