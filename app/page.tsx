@@ -3776,7 +3776,7 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "avnik-mine": [40.33306, 38.65],
   "mansurlu-mine": [35.63806, 37.95417],
   "kesikkopru-iron": [33.38736, 39.34966],
-  "kokaksu-mine": [31.66667, 41.41667],
+  "kokaksu-mine": [31.895833, 41.434722],
   "tavas-mine": [28.99695, 37.44393],
   "balya-mine": [27.58869, 39.73914],
   "yenice-lead-zinc": [27.36556, 39.98345],

@@ -182,7 +182,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"maden-mine": \[39\.66481, 38\.38581\]/);
   assert.match(page, /"guleman-mine": \[39\.87504, 38\.45661\]/);
   assert.match(page, /"seydisehir-mine": \[31\.88028, 37\.28917\]/);
-  assert.match(page, /"kokaksu-mine": \[31\.66667, 41\.41667\]/);
+  assert.match(page, /"kokaksu-mine": \[31\.895833, 41\.434722\]/);
   assert.match(page, /"tavas-mine": \[28\.99695, 37\.44393\]/);
   assert.match(page, /"balya-mine": \[27\.58869, 39\.73914\]/);
   assert.match(page, /"yenice-lead-zinc": \[27\.36556, 39\.98345\]/);

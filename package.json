@@ -9,9 +9,10 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "vinext start",
-    "test": "npm run audit:content && npm run build && node --test tests/*.test.mjs",
+    "test": "npm run audit:content && npm run audit:points && npm run build && node --test tests/*.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "audit:content": "node scripts/audit-geography.mjs",
+    "audit:points": "node scripts/audit-point-provinces.mjs",
     "data:basins": "node scripts/fetch-official-basins.mjs",
     "db:generate": "drizzle-kit generate"
   },
