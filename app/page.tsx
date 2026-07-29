@@ -4554,6 +4554,7 @@ function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: A
           width={Math.max(maxX - minX + 24, 24)}
           height={Math.max(maxY - minY + 24, 24)}
           rx="6"
+          vectorEffect="non-scaling-stroke"
         />
       );
     }
@@ -4564,6 +4565,7 @@ function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: A
         d={lakePath(exactArea)}
         className="geo-exact-area-hit"
         fillRule="evenodd"
+        vectorEffect="non-scaling-stroke"
       />
     );
   }
@@ -4579,10 +4581,18 @@ function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: A
           width={Math.max(layout.width + 6, 18)}
           height={Math.max(layout.height + 6, 16)}
           rx="5"
+          vectorEffect="non-scaling-stroke"
         />
       );
     }
-    return <path d={lakePath(lakeShape)} className="geo-lake-hit" fillRule="evenodd" />;
+    return (
+      <path
+        d={lakePath(lakeShape)}
+        className="geo-lake-hit"
+        fillRule="evenodd"
+        vectorEffect="non-scaling-stroke"
+      />
+    );
   }
   const usesExpandedAreaHit = areaPolygonFor(feature)
     && (
@@ -4600,6 +4610,7 @@ function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: A
         width="36"
         height="30"
         rx="8"
+        vectorEffect="non-scaling-stroke"
       />
     );
   }
@@ -4608,7 +4619,17 @@ function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: A
   const [offsetX, offsetY] = feature.kind === "port"
     ? PORT_CALLOUT_OFFSETS[feature.id] ?? [0, 0]
     : [0, 0];
-  return <rect className="geo-hit" x={cx + offsetX - Math.max(feature.w * 4, 16)} y={cy + offsetY - Math.max(feature.h * 2, 12)} width={Math.max(feature.w * 8, 32)} height={Math.max(feature.h * 4, 24)} />;
+  return (
+    <rect
+      className="geo-hit geo-hit--point"
+      x={cx + offsetX - Math.max(feature.w * 4, 16)}
+      y={cy + offsetY - Math.max(feature.h * 2, 12)}
+      width={Math.max(feature.w * 8, 32)}
+      height={Math.max(feature.h * 4, 24)}
+      rx="5"
+      vectorEffect="non-scaling-stroke"
+    />
+  );
 }
 
 function featureGraphic(
@@ -5370,6 +5391,7 @@ type QuizMastery = {
   lastAccuracy: number;
   completedRuns: number;
   lastPlayedAt: string;
+  weakFeatureIds: string[];
 };
 
 const DEFAULT_MAP_VIEW: MapView = { scale: 1, x: 0, y: 0 };
@@ -5421,6 +5443,8 @@ export default function Home() {
   );
   const completedQuizCount = Object.values(masteryByQuiz)
     .filter((mastery) => mastery.completedRuns > 0).length;
+  const savedWeakFeatureIds = (masteryByQuiz[quiz.id]?.weakFeatureIds ?? [])
+    .filter((id) => quiz.features.some((feature) => feature.id === id));
 
   const accuracy =
     attempts === 0 ? 100 : Math.round((correctIds.length / attempts) * 100);
@@ -5586,7 +5610,16 @@ export default function Home() {
     resetQuiz(activeQuizId, missedFeatureIds);
   };
 
-  const recordMastery = (quizId: string, finalAccuracy: number) => {
+  const persistMastery = (nextMastery: Record<string, QuizMastery>) => {
+    setMasteryByQuiz(nextMastery);
+    window.localStorage.setItem(MASTERY_STORAGE_KEY, JSON.stringify(nextMastery));
+  };
+
+  const recordMastery = (
+    quizId: string,
+    finalAccuracy: number,
+    finalMissedFeatureIds: string[],
+  ) => {
     const previous = masteryByQuiz[quizId];
     const nextMastery = {
       ...masteryByQuiz,
@@ -5595,10 +5628,30 @@ export default function Home() {
         lastAccuracy: finalAccuracy,
         completedRuns: (previous?.completedRuns ?? 0) + 1,
         lastPlayedAt: new Date().toISOString(),
+        weakFeatureIds: [...new Set([
+          ...(previous?.weakFeatureIds ?? []),
+          ...finalMissedFeatureIds,
+        ])],
       },
     };
-    setMasteryByQuiz(nextMastery);
-    window.localStorage.setItem(MASTERY_STORAGE_KEY, JSON.stringify(nextMastery));
+    persistMastery(nextMastery);
+  };
+
+  const recordReviewOutcome = (quizId: string, finalMissedFeatureIds: string[]) => {
+    const previous = masteryByQuiz[quizId];
+    if (!previous) return;
+    const reviewedIds = new Set(sessionFeatureIds);
+    const retainedWeakIds = previous.weakFeatureIds
+      .filter((id) => !reviewedIds.has(id));
+    const nextMastery = {
+      ...masteryByQuiz,
+      [quizId]: {
+        ...previous,
+        lastPlayedAt: new Date().toISOString(),
+        weakFeatureIds: [...new Set([...retainedWeakIds, ...finalMissedFeatureIds])],
+      },
+    };
+    persistMastery(nextMastery);
   };
 
   const handleSelect = (feature: Feature) => {
@@ -5622,6 +5675,9 @@ export default function Home() {
     const isLastQuestion = nextCorrect.length === quizFeatureCount;
     const finalAccuracy = Math.round((nextCorrect.length / (attempts + 1)) * 100);
     const wasMissed = questionHadWrongRef.current;
+    const finalMissedFeatureIds = wasMissed && !missedFeatureIds.includes(feature.id)
+      ? [...missedFeatureIds, feature.id]
+      : missedFeatureIds;
     questionHadWrongRef.current = false;
     flushSync(() => {
       setAttempts((value) => value + 1);
@@ -5633,7 +5689,13 @@ export default function Home() {
       }
       if (isLastQuestion) setFinished(true);
     });
-    if (isLastQuestion && !reviewRound) recordMastery(quiz.id, finalAccuracy);
+    if (isLastQuestion) {
+      if (reviewRound) {
+        recordReviewOutcome(quiz.id, finalMissedFeatureIds);
+      } else {
+        recordMastery(quiz.id, finalAccuracy, finalMissedFeatureIds);
+      }
+    }
     if (soundOn) playMapSound("correct");
 
   };
@@ -5644,7 +5706,27 @@ export default function Home() {
     let restoredMastery: Record<string, QuizMastery> = {};
     if (savedMastery) {
       try {
-        restoredMastery = JSON.parse(savedMastery) as Record<string, QuizMastery>;
+        const parsedMastery = JSON.parse(savedMastery) as Record<string, Partial<QuizMastery>>;
+        restoredMastery = Object.fromEntries(
+          Object.entries(parsedMastery)
+            .filter(([, mastery]) =>
+              Number.isFinite(mastery.bestAccuracy)
+              && Number.isFinite(mastery.lastAccuracy)
+              && Number.isFinite(mastery.completedRuns)
+              && typeof mastery.lastPlayedAt === "string")
+            .map(([quizId, mastery]) => [
+              quizId,
+              {
+                bestAccuracy: mastery.bestAccuracy!,
+                lastAccuracy: mastery.lastAccuracy!,
+                completedRuns: mastery.completedRuns!,
+                lastPlayedAt: mastery.lastPlayedAt!,
+                weakFeatureIds: Array.isArray(mastery.weakFeatureIds)
+                  ? mastery.weakFeatureIds.filter((id): id is string => typeof id === "string")
+                  : [],
+              },
+            ]),
+        );
       } catch {
         window.localStorage.removeItem(MASTERY_STORAGE_KEY);
       }
@@ -5725,6 +5807,18 @@ export default function Home() {
             <div><strong>{attempts - correctIds.length}</strong><span>Yanlış</span></div>
             <div><strong>%{accuracy}</strong><span>İsabet</span></div>
           </div>
+
+          {!reviewRound && !finished && savedWeakFeatureIds.length > 0 && (
+            <button
+              className="weak-review-button"
+              type="button"
+              onClick={() => resetQuiz(activeQuizId, savedWeakFeatureIds)}
+            >
+              <span>↻</span>
+              Zayıf hedefleri çalış
+              <b>{savedWeakFeatureIds.length}</b>
+            </button>
+          )}
 
           <div className="legend">
             <span><i className="legend-correct" /> Öğrenildi</span>
@@ -5874,6 +5968,7 @@ export default function Home() {
               {mastery && (
                 <span className="tile-mastery">
                   En iyi %{mastery.bestAccuracy} · {mastery.completedRuns} tur
+                  {mastery.weakFeatureIds.length > 0 && ` · ${mastery.weakFeatureIds.length} zayıf`}
                 </span>
               )}
               <span className="tile-arrow">↗</span>

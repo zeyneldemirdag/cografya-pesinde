@@ -225,7 +225,7 @@ const conflicts = Object.entries(Object.groupBy([...unique.values()], (feature) 
   .filter(([, entries]) => new Set(entries.map((entry) => `${entry.name}|${entry.kind}`)).size > 1)
   .map(([id, entries]) => ({ id, variants: entries.map((entry) => `${entry.name} (${entry.kind})`) }));
 
-function featureNamesInArray(marker, offset = 0) {
+function featureNamesInArray(marker, offset = 0, normalize = true) {
   const start = source.indexOf(marker, offset);
   if (start < 0) return [];
   const featuresStart = source.indexOf("features: [", start);
@@ -243,14 +243,20 @@ function featureNamesInArray(marker, offset = 0) {
     }
   }
   const body = source.slice(open + 1, end);
-  const direct = [...body.matchAll(/\b(?:f|fp|regionFeature)\(\s*"[^"]+"\s*,\s*"([^"]+)"/g)]
-    .map((match) => match[1].split(" · ")[0]);
+  const direct = [
+    ...[...body.matchAll(/\b(?:f|fp|regionFeature)\(\s*"[^"]+"\s*,\s*"([^"]+)"/g)]
+      .map((match) => match[1]),
+    ...[...body.matchAll(/\bp\(\s*\d+\s*,\s*"([^"]+)"/g)]
+      .map((match) => match[1]),
+  ].map((name) => normalize ? name.split(" · ")[0] : name);
   const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
-    .flatMap((match) => featureNamesInArray(`const ${match[1]}`));
-  const referenced = [...body.matchAll(/"([^"]+-industry)"/g)]
-    .map((match) => features.find((feature) => feature.id === match[1])?.name)
-    .filter(Boolean)
-    .map((name) => name.split(" · ")[0]);
+    .flatMap((match) => featureNamesInArray(`const ${match[1]}`, 0, normalize));
+  const referenced = direct.length === 0
+    ? [...body.matchAll(/"([^"]+-industry)"/g)]
+      .map((match) => features.find((feature) => feature.id === match[1])?.name)
+      .filter(Boolean)
+      .map((name) => normalize ? name.split(" · ")[0] : name)
+    : [];
   return [...direct, ...spread, ...referenced];
 }
 
@@ -272,11 +278,15 @@ function featureIdsInArray(marker, offset = 0) {
     }
   }
   const body = source.slice(open + 1, end);
-  const direct = [...body.matchAll(/\b(?:f|fp|regionFeature)\(\s*"([^"]+)"/g)]
-    .map((match) => match[1]);
+  const direct = [
+    ...[...body.matchAll(/\b(?:f|fp|regionFeature)\(\s*"([^"]+)"/g)]
+      .map((match) => match[1]),
+    ...[...body.matchAll(/\bp\(\s*(\d+)\s*,/g)]
+      .map((match) => `province-${match[1]}`),
+  ];
   const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
     .flatMap((match) => featureIdsInArray(`const ${match[1]}`));
-  const referenced = body.includes("industrySubset")
+  const referenced = direct.length === 0
     ? [...body.matchAll(/"([^"]+-industry)"/g)].map((match) => match[1])
     : [];
   return [...direct, ...spread, ...referenced];
@@ -297,6 +307,16 @@ const duplicateQuizFeatureIds = quizIds.flatMap((quiz) => {
     ? [{ quiz, sourceCount: ids.length, uniqueCount: new Set(ids).size, duplicates }]
     : [];
 });
+const duplicateQuizFeatureNames = quizIds.flatMap((quiz) => {
+  const names = featureNamesInArray(`    id: "${quiz}",`, 0, false);
+  const duplicates = [...new Set(names.filter((name, index) => names.indexOf(name) !== index))];
+  return duplicates.length > 0
+    ? [{ quiz, duplicates }]
+    : [];
+});
+const undersizedQuizzes = quizIds
+  .map((quiz) => ({ quiz, featureCount: new Set(featureIdsInArray(`    id: "${quiz}",`)).size }))
+  .filter(({ featureCount }) => featureCount < 2);
 
 const coverageComparisons = [
   ["mountains-all", ["fold-mountains", "fault-mountains", "volcanic-mountains", "north-fold-mountains", "south-fold-mountains", "glacial-mountains"]],
@@ -313,6 +333,15 @@ const coverageComparisons = [
   ["livestock", ["small-ruminant-livestock", "cattle-poultry-livestock", "other-livestock"]],
   ["energy", ["wind-energy", "thermal-energy", "other-energy"]],
   ["mines", ["metallic-mines", "industrial-minerals", "energy-raw-materials"]],
+  ["cities", [
+    "agricultural-function-cities",
+    "industrial-function-cities",
+    "mining-function-cities",
+    "port-function-cities",
+    "transport-trade-function-cities",
+    "culture-admin-military-function-cities",
+    "tourism-function-cities",
+  ]],
 ].map(([general, subtopics]) => {
   const generalNames = new Set(quizFeatureNames(general));
   const subtopicNames = [...new Set(subtopics.flatMap(quizFeatureNames))];
@@ -793,6 +822,8 @@ const report = {
     .map(({ id, name, geometry }) => ({ id, name, geometry })),
   missingSourceOverrides,
   duplicateQuizFeatureIds,
+  duplicateQuizFeatureNames,
+  undersizedQuizzes,
 };
 
 console.log(JSON.stringify(report, null, 2));
@@ -813,6 +844,12 @@ const auditFailures = [
     : []),
   ...(report.duplicateQuizFeatureIds.length > 0
     ? [`${report.duplicateQuizFeatureIds.length} oyunda yinelenen hedef`]
+    : []),
+  ...(report.duplicateQuizFeatureNames.length > 0
+    ? [`${report.duplicateQuizFeatureNames.length} oyunda ayırt edilemeyen yinelenen ad`]
+    : []),
+  ...(report.undersizedQuizzes.length > 0
+    ? [`${report.undersizedQuizzes.length} oyunda ikiden az hedef`]
     : []),
 ];
 

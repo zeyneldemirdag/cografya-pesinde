@@ -196,6 +196,48 @@ button { color: inherit; }
 .score-grid strong { font-size: 21px; letter-spacing: -.04em; }
 .score-grid span { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; }
 
+.weak-review-button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 9px 12px;
+  border: 1px solid rgba(108, 71, 199, .24);
+  border-radius: 13px;
+  background: rgba(108, 71, 199, .07);
+  color: #5334a6;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 9px;
+  text-align: left;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.weak-review-button:hover,
+.weak-review-button:focus-visible {
+  border-color: rgba(108, 71, 199, .54);
+  background: rgba(108, 71, 199, .12);
+  outline: 2px solid rgba(108, 71, 199, .2);
+  outline-offset: 2px;
+}
+
+.weak-review-button > span {
+  font-size: 18px;
+}
+
+.weak-review-button > b {
+  min-width: 28px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #6944c4;
+  color: white;
+  text-align: center;
+  font-size: 11px;
+}
+
 .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 18px; color: var(--muted); font-size: 11px; }
 .legend span { display: flex; align-items: center; gap: 7px; }
 .legend i { width: 11px; height: 11px; border-radius: 3px; }
@@ -406,7 +448,20 @@ button { color: inherit; }
 
 .geo-hit {
   fill: transparent;
+  stroke: transparent;
+  stroke-width: 18;
+  vector-effect: non-scaling-stroke;
   pointer-events: all;
+}
+
+.geo-feature--current .geo-hit--point,
+.geo-feature--current .micro-lake-hit-box {
+  stroke: transparent;
+  stroke-width: 34;
+}
+
+.geo-feature--current .geo-lake-hit {
+  stroke-width: 28;
 }
 
 .geo-feature:focus .geo-shape,
@@ -483,7 +538,8 @@ button { color: inherit; }
 .geo-lake-hit {
   fill: transparent;
   stroke: transparent;
-  stroke-width: 14;
+  stroke-width: 18;
+  vector-effect: non-scaling-stroke;
   pointer-events: visiblePainted;
 }
 
@@ -666,6 +722,7 @@ button { color: inherit; }
 .micro-lake-hit-box {
   fill: transparent;
   stroke: transparent;
+  stroke-width: 18;
   vector-effect: non-scaling-stroke;
   pointer-events: all;
   cursor: pointer;

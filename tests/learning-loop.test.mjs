@@ -26,3 +26,18 @@ test("tamamlanan tam turlar cihazda konu ustalığı olarak saklanır", () => {
   assert.match(page, /window\.localStorage\.setItem\(MASTERY_STORAGE_KEY/);
   assert.match(page, /En iyi %\{mastery\.bestAccuracy\} · \{mastery\.completedRuns\} tur/);
 });
+
+test("yanlış hedefler oturumlar arasında zayıf hedef olarak saklanır ve temizlenebilir", () => {
+  assert.match(page, /weakFeatureIds: string\[\]/);
+  assert.match(page, /\.\.\.finalMissedFeatureIds/);
+  assert.match(page, /const recordReviewOutcome/);
+  assert.match(page, /previous\.weakFeatureIds[\s\S]*filter\(\(id\) => !reviewedIds\.has\(id\)\)/);
+  assert.match(page, /Zayıf hedefleri çalış/);
+  assert.match(page, /resetQuiz\(activeQuizId, savedWeakFeatureIds\)/);
+});
+
+test("eski veya bozuk cihaz kayıtları güvenli biçimde normalleştirilir", () => {
+  assert.match(page, /Number\.isFinite\(mastery\.bestAccuracy\)/);
+  assert.match(page, /Array\.isArray\(mastery\.weakFeatureIds\)/);
+  assert.match(page, /window\.localStorage\.removeItem\(MASTERY_STORAGE_KEY\)/);
+});

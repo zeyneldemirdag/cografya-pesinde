@@ -45,6 +45,11 @@ test("hiçbir oyun yinelenen teknik kimlik yüzünden bir hedefi gizlemez", () =
   assert.deepEqual(report.duplicateQuizFeatureIds, []);
 });
 
+test("her oyun en az iki ayırt edilebilir hedef içerir", () => {
+  assert.deepEqual(report.duplicateQuizFeatureNames, []);
+  assert.deepEqual(report.undersizedQuizzes, []);
+});
+
 test("kapalı havza oyunu resmî CBS sınırlarını kullanır", () => {
   const basinData = JSON.parse(
     fs.readFileSync(
