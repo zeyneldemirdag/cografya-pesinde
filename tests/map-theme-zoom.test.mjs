@@ -24,8 +24,19 @@ test("yakınlaştırma yalnızca harita çerçevesinin içindeki katmanı dönü
   assert.match(page, /addEventListener\("wheel", handleCtrlWheel, \{ passive: false \}\)/);
   assert.doesNotMatch(page, /onWheel=\{/);
   assert.match(page, /onPointerMove=\{handleMapPointerMove\}/);
-  assert.match(styles, /\.map-stage \{[\s\S]*overflow: hidden;[\s\S]*touch-action: none;/);
+  assert.match(styles, /\.map-stage \{[\s\S]*overflow: hidden;[\s\S]*touch-action: pan-y;/);
+  assert.match(styles, /\.map-stage--zoomed \{[\s\S]*touch-action: none;/);
+  assert.doesNotMatch(styles, /overscroll-behavior:\s*contain/);
   assert.match(styles, /\.real-map-wrap \{[\s\S]*transform-origin: center;/);
+});
+
+test("normal fare tekerleği ve yüzde yüz haritadaki dikey hareket sayfayı kaydırır", () => {
+  assert.match(page, /if \(!event\.ctrlKey\) return;/);
+  assert.match(
+    page,
+    /if \(mapView\.scale <= MIN_MAP_ZOOM\) return;\s*event\.preventDefault\(\);/,
+  );
+  assert.match(styles, /overscroll-behavior:\s*auto/);
 });
 
 test("harita yakınlaştırması erişilebilir denetimlerle sıfırlanabilir", () => {

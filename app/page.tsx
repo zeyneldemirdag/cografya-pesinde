@@ -5600,10 +5600,11 @@ export default function Home() {
   const handleMapPointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     const previousPointer = mapPointersRef.current.get(event.pointerId);
     if (!previousPointer) return;
-    event.preventDefault();
     mapPointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
     const pointers = [...mapPointersRef.current.values()];
     if (pointers.length === 1) {
+      if (mapView.scale <= MIN_MAP_ZOOM) return;
+      event.preventDefault();
       const deltaX = event.clientX - previousPointer.x;
       const deltaY = event.clientY - previousPointer.y;
       const startPointer = mapPointerStartsRef.current.get(event.pointerId) ?? previousPointer;
@@ -5626,6 +5627,7 @@ export default function Home() {
       return;
     }
 
+    event.preventDefault();
     const [first, second] = pointers;
     const center = { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 };
     const distance = Math.hypot(second.x - first.x, second.y - first.y);

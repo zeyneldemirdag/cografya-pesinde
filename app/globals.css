@@ -287,8 +287,8 @@ button { color: inherit; }
   box-shadow:
     inset 0 0 0 8px rgba(255,255,255,.025),
     0 22px 55px rgba(0, 0, 0, .22);
-  touch-action: none;
-  overscroll-behavior: contain;
+  touch-action: pan-y;
+  overscroll-behavior: auto;
 }
 
 .map-stage::before {
@@ -335,6 +335,7 @@ button { color: inherit; }
 
 .map-stage--zoomed {
   cursor: grab;
+  touch-action: none;
 }
 
 .map-stage--zoomed:active {
@@ -1558,8 +1559,9 @@ footer span { color: #aab9b4; }
   .map-stage {
     min-height: clamp(330px, 70vw, 480px);
     aspect-ratio: 1.45;
-    touch-action: none;
+    touch-action: pan-y;
   }
+  .map-stage--zoomed { touch-action: none; }
   .real-map-wrap { inset: 40px 12px 26px; }
   .turkey-map, .turkey-shadow { left: 3%; top: 28%; width: 94%; height: 43%; }
   .catalogue { padding: 70px 20px; }
