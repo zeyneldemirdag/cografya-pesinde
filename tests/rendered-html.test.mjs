@@ -21,6 +21,10 @@ test("KPSS harita oyunu sunucuda doğru kimlikle oluşturulur", async () => {
   assert.match(html, /Coğrafya Peşinde/);
   assert.match(html, /Haritada bul/);
   assert.match(html, /Türkiye Dağları/);
+  assert.match(html, /data-active-quiz-id="mountains-all"/);
+  assert.match(html, /data-quiz-id="provinces"/);
+  assert.match(html, /104(?:<!-- -->)? harita/);
+  assert.match(html, /1456(?:<!-- -->)? konum/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Starter Project/);
 });
 

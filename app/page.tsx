@@ -5753,7 +5753,11 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="app-shell" data-quiz-ready={quizReady}>
+    <main
+      className="app-shell"
+      data-quiz-ready={quizReady}
+      data-active-quiz-id={quiz.id}
+    >
       <header className="topbar">
         <a className="brand" href="#oyun" aria-label="Coğrafya Peşinde ana sayfa">
           <span className="brand-mark">CP</span>

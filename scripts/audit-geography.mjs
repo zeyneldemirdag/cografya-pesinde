@@ -300,6 +300,15 @@ const quizzesStart = source.indexOf("const QUIZZES");
 const quizzesEnd = source.indexOf("const GROUPS", quizzesStart);
 const quizIds = [...source.slice(quizzesStart, quizzesEnd).matchAll(/^\s{4}id: "([^"]+)",/gm)]
   .map((match) => match[1]);
+const quizFeatureCounts = quizIds.map((quiz) => ({
+  quiz,
+  featureCount: new Set(featureIdsInArray(`    id: "${quiz}",`)).size,
+}));
+const quizLocationCount = quizFeatureCounts
+  .reduce((sum, entry) => sum + entry.featureCount, 0);
+const duplicateQuizIds = [...new Set(
+  quizIds.filter((id, index) => quizIds.indexOf(id) !== index),
+)];
 const duplicateQuizFeatureIds = quizIds.flatMap((quiz) => {
   const ids = featureIdsInArray(`    id: "${quiz}",`);
   const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
@@ -315,7 +324,7 @@ const duplicateQuizFeatureNames = quizIds.flatMap((quiz) => {
     : [];
 });
 const undersizedQuizzes = quizIds
-  .map((quiz) => ({ quiz, featureCount: new Set(featureIdsInArray(`    id: "${quiz}",`)).size }))
+  .map((quiz) => quizFeatureCounts.find((entry) => entry.quiz === quiz))
   .filter(({ featureCount }) => featureCount < 2);
 
 const coverageComparisons = [
@@ -798,6 +807,8 @@ const sourceOverrideRequired = [
 ];
 const missingSourceOverrides = sourceOverrideRequired.filter((id) => !sourceQuizKeys.has(id));
 const report = {
+  quizCount: quizIds.length,
+  quizLocationCount,
   featureCalls: features.length,
   uniqueFeatures: unique.size,
   geometryCounts: Object.fromEntries(Object.entries(byGeometry).map(([key, value]) => [key, value.length])),
@@ -823,12 +834,22 @@ const report = {
   missingSourceOverrides,
   duplicateQuizFeatureIds,
   duplicateQuizFeatureNames,
+  duplicateQuizIds,
   undersizedQuizzes,
 };
 
 console.log(JSON.stringify(report, null, 2));
 
 const auditFailures = [
+  ...(report.quizCount < 104
+    ? [`oyun kataloğu 104 oyunun altına düştü (${report.quizCount})`]
+    : []),
+  ...(report.quizLocationCount < 1456
+    ? [`oyun hedefleri 1456 konumun altına düştü (${report.quizLocationCount})`]
+    : []),
+  ...(report.duplicateQuizIds.length > 0
+    ? [`${report.duplicateQuizIds.length} yinelenen oyun kimliği`]
+    : []),
   ...(report.fallback.length > 0 ? [`${report.fallback.length} yaklaşık/yedek şekil`] : []),
   ...report.coverageComparisons
     .filter((entry) => entry.missingFromGeneral.length > 0)
