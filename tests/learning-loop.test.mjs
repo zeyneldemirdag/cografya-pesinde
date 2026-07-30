@@ -41,3 +41,36 @@ test("eski veya bozuk cihaz kayıtları güvenli biçimde normalleştirilir", ()
   assert.match(page, /Array\.isArray\(mastery\.weakFeatureIds\)/);
   assert.match(page, /window\.localStorage\.removeItem\(MASTERY_STORAGE_KEY\)/);
 });
+
+test("kişisel KPSS rotası zayıf, düşük isabetli ve yeni konuları doğru önceliklendirir", () => {
+  assert.match(page, /type StudyRouteReason = "weak" \| "improve" \| "new" \| "refresh"/);
+  assert.match(page, /weak: 0,[\s\S]*improve: 1,[\s\S]*new: 2,[\s\S]*refresh: 3/);
+  assert.match(page, /weakFeatureIds\.length > 0[\s\S]*mastery\.lastAccuracy < 85/);
+  assert.match(page, /const studyRoute = useMemo\(\(\) => buildStudyRoute\(masteryByQuiz\)/);
+});
+
+test("rota zayıf konuya yalnızca kayıtlı zayıf hedeflerle, diğer konulara tam turla başlar", () => {
+  assert.match(page, /KİŞİSEL KPSS ROTASI/);
+  assert.match(page, /Sıradaki en verimli üç çalışma/);
+  assert.match(
+    page,
+    /item\.reason === "weak" \? item\.weakFeatureIds : undefined/,
+  );
+  assert.match(page, /Her tam turdan sonra sıra kendiliğinden yenilenir/);
+});
+
+test("yarım kalan oyun soru sırası ve ilerlemesiyle birlikte cihazda devam eder", () => {
+  assert.match(page, /const SESSION_STORAGE_KEY = "cografya-pesinde:active-session"/);
+  assert.match(page, /type QuizSessionSnapshot = \{/);
+  assert.match(page, /questionOrder: string\[\]/);
+  assert.match(page, /correctIds: string\[\]/);
+  assert.match(page, /wrongIds: string\[\]/);
+  assert.match(page, /restoredSession\?\.questionOrder/);
+  assert.match(page, /window\.localStorage\.setItem\(SESSION_STORAGE_KEY, JSON\.stringify\(snapshot\)\)/);
+});
+
+test("tamamlanan veya bozuk oyun oturumu güvenle temizlenir", () => {
+  assert.match(page, /correctSessionIds\.length < sessionIds\.length/);
+  assert.match(page, /isCompletePermutation/);
+  assert.match(page, /if \(finished\) \{[\s\S]*removeItem\(SESSION_STORAGE_KEY\)/);
+});

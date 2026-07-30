@@ -5394,10 +5394,81 @@ type QuizMastery = {
   weakFeatureIds: string[];
 };
 
+type StudyRouteReason = "weak" | "improve" | "new" | "refresh";
+
+type StudyRouteItem = {
+  quiz: Quiz;
+  reason: StudyRouteReason;
+  weakFeatureIds: string[];
+  mastery?: QuizMastery;
+  catalogueIndex: number;
+};
+
+type QuizSessionSnapshot = {
+  quizId: string;
+  questionOrder: string[];
+  sessionFeatureIds: string[];
+  correctIds: string[];
+  wrongIds: string[];
+  missedFeatureIds: string[];
+  attempts: number;
+  reviewRound: boolean;
+};
+
+function buildStudyRoute(masteryByQuiz: Record<string, QuizMastery>): StudyRouteItem[] {
+  const reasonPriority: Record<StudyRouteReason, number> = {
+    weak: 0,
+    improve: 1,
+    new: 2,
+    refresh: 3,
+  };
+
+  return QUIZZES
+    .map((quiz, catalogueIndex): StudyRouteItem => {
+      const mastery = masteryByQuiz[quiz.id];
+      const availableIds = new Set(quiz.features.map((feature) => feature.id));
+      const weakFeatureIds = (mastery?.weakFeatureIds ?? [])
+        .filter((id) => availableIds.has(id));
+      const reason: StudyRouteReason = weakFeatureIds.length > 0
+        ? "weak"
+        : !mastery || mastery.completedRuns === 0
+          ? "new"
+          : mastery.lastAccuracy < 85
+            ? "improve"
+            : "refresh";
+
+      return { quiz, reason, weakFeatureIds, mastery, catalogueIndex };
+    })
+    .sort((left, right) => {
+      const priorityDifference = reasonPriority[left.reason] - reasonPriority[right.reason];
+      if (priorityDifference !== 0) return priorityDifference;
+      if (left.reason === "weak") {
+        const weakDifference = right.weakFeatureIds.length - left.weakFeatureIds.length;
+        if (weakDifference !== 0) return weakDifference;
+        const accuracyDifference =
+          (left.mastery?.lastAccuracy ?? 0) - (right.mastery?.lastAccuracy ?? 0);
+        if (accuracyDifference !== 0) return accuracyDifference;
+      }
+      if (left.reason === "improve") {
+        const accuracyDifference =
+          (left.mastery?.lastAccuracy ?? 0) - (right.mastery?.lastAccuracy ?? 0);
+        if (accuracyDifference !== 0) return accuracyDifference;
+      }
+      if (left.reason === "refresh") {
+        const leftPlayedAt = Date.parse(left.mastery?.lastPlayedAt ?? "") || 0;
+        const rightPlayedAt = Date.parse(right.mastery?.lastPlayedAt ?? "") || 0;
+        if (leftPlayedAt !== rightPlayedAt) return leftPlayedAt - rightPlayedAt;
+      }
+      return left.catalogueIndex - right.catalogueIndex;
+    })
+    .slice(0, 3);
+}
+
 const DEFAULT_MAP_VIEW: MapView = { scale: 1, x: 0, y: 0 };
 const MIN_MAP_ZOOM = 1;
 const MAX_MAP_ZOOM = 4;
 const MASTERY_STORAGE_KEY = "cografya-pesinde:mastery";
+const SESSION_STORAGE_KEY = "cografya-pesinde:active-session";
 
 export default function Home() {
   const initialFeatureIds = [...new Set(QUIZZES[0].features.map((feature) => feature.id))];
@@ -5443,6 +5514,9 @@ export default function Home() {
   );
   const completedQuizCount = Object.values(masteryByQuiz)
     .filter((mastery) => mastery.completedRuns > 0).length;
+  const totalWeakFeatureCount = Object.values(masteryByQuiz)
+    .reduce((total, mastery) => total + mastery.weakFeatureIds.length, 0);
+  const studyRoute = useMemo(() => buildStudyRoute(masteryByQuiz), [masteryByQuiz]);
   const savedWeakFeatureIds = (masteryByQuiz[quiz.id]?.weakFeatureIds ?? [])
     .filter((id) => quiz.features.some((feature) => feature.id === id));
 
@@ -5703,6 +5777,7 @@ export default function Home() {
   useEffect(() => {
     const savedQuizId = window.localStorage.getItem(ACTIVE_QUIZ_STORAGE_KEY);
     const savedMastery = window.localStorage.getItem(MASTERY_STORAGE_KEY);
+    const savedSession = window.localStorage.getItem(SESSION_STORAGE_KEY);
     let restoredMastery: Record<string, QuizMastery> = {};
     if (savedMastery) {
       try {
@@ -5731,18 +5806,116 @@ export default function Home() {
         window.localStorage.removeItem(MASTERY_STORAGE_KEY);
       }
     }
+    let restoredSession: QuizSessionSnapshot | null = null;
+    if (savedSession) {
+      try {
+        const parsedSession = JSON.parse(savedSession) as Partial<QuizSessionSnapshot>;
+        const sessionQuiz = QUIZZES.find((item) => item.id === parsedSession.quizId);
+        const availableIds = new Set(sessionQuiz?.features.map((feature) => feature.id) ?? []);
+        const sessionIds = Array.isArray(parsedSession.sessionFeatureIds)
+          ? [...new Set(parsedSession.sessionFeatureIds.filter(
+            (id): id is string => typeof id === "string" && availableIds.has(id),
+          ))]
+          : [];
+        const orderIds = Array.isArray(parsedSession.questionOrder)
+          ? [...new Set(parsedSession.questionOrder.filter(
+            (id): id is string => typeof id === "string" && sessionIds.includes(id),
+          ))]
+          : [];
+        const correctSessionIds = Array.isArray(parsedSession.correctIds)
+          ? [...new Set(parsedSession.correctIds.filter(
+            (id): id is string => typeof id === "string" && sessionIds.includes(id),
+          ))]
+          : [];
+        const isCompletePermutation =
+          orderIds.length === sessionIds.length
+          && sessionIds.every((id) => orderIds.includes(id));
+        if (
+          sessionQuiz
+          && sessionIds.length > 0
+          && isCompletePermutation
+          && correctSessionIds.length < sessionIds.length
+          && Number.isFinite(parsedSession.attempts)
+        ) {
+          restoredSession = {
+            quizId: sessionQuiz.id,
+            questionOrder: orderIds,
+            sessionFeatureIds: sessionIds,
+            correctIds: correctSessionIds,
+            wrongIds: Array.isArray(parsedSession.wrongIds)
+              ? [...new Set(parsedSession.wrongIds.filter(
+                (id): id is string => typeof id === "string" && availableIds.has(id),
+              ))]
+              : [],
+            missedFeatureIds: Array.isArray(parsedSession.missedFeatureIds)
+              ? [...new Set(parsedSession.missedFeatureIds.filter(
+                (id): id is string => typeof id === "string" && sessionIds.includes(id),
+              ))]
+              : [],
+            attempts: Math.max(correctSessionIds.length, Math.floor(parsedSession.attempts!)),
+            reviewRound: parsedSession.reviewRound === true,
+          };
+        } else {
+          window.localStorage.removeItem(SESSION_STORAGE_KEY);
+        }
+      } catch {
+        window.localStorage.removeItem(SESSION_STORAGE_KEY);
+      }
+    }
     const savedQuiz = QUIZZES.find((item) => item.id === savedQuizId);
-    const restoredQuiz = savedQuiz ?? QUIZZES[0];
-    const restoredIds = [...new Set(restoredQuiz.features.map((feature) => feature.id))];
+    const restoredQuiz = restoredSession
+      ? QUIZZES.find((item) => item.id === restoredSession.quizId)!
+      : savedQuiz ?? QUIZZES[0];
+    const restoredIds = restoredSession?.sessionFeatureIds
+      ?? [...new Set(restoredQuiz.features.map((feature) => feature.id))];
     const restoreFrame = window.requestAnimationFrame(() => {
       setMasteryByQuiz(restoredMastery);
       setActiveQuizId(restoredQuiz.id);
       setSessionFeatureIds(restoredIds);
-      setQuestionOrder((previousOrder) => shuffledFeatureIds(restoredQuiz.features, previousOrder));
+      setQuestionOrder(
+        restoredSession?.questionOrder
+        ?? shuffledFeatureIds(restoredQuiz.features),
+      );
+      setCorrectIds(restoredSession?.correctIds ?? []);
+      setWrongIds(restoredSession?.wrongIds ?? []);
+      setMissedFeatureIds(restoredSession?.missedFeatureIds ?? []);
+      setReviewRound(restoredSession?.reviewRound ?? false);
+      setAttempts(restoredSession?.attempts ?? 0);
+      questionHadWrongRef.current = (restoredSession?.wrongIds.length ?? 0) > 0;
       setQuizReady(true);
     });
     return () => window.cancelAnimationFrame(restoreFrame);
   }, []);
+
+  useEffect(() => {
+    if (!quizReady) return;
+    if (finished) {
+      window.localStorage.removeItem(SESSION_STORAGE_KEY);
+      return;
+    }
+    const snapshot: QuizSessionSnapshot = {
+      quizId: quiz.id,
+      questionOrder,
+      sessionFeatureIds,
+      correctIds,
+      wrongIds,
+      missedFeatureIds,
+      attempts,
+      reviewRound,
+    };
+    window.localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(snapshot));
+  }, [
+    attempts,
+    correctIds,
+    finished,
+    missedFeatureIds,
+    questionOrder,
+    quiz.id,
+    quizReady,
+    reviewRound,
+    sessionFeatureIds,
+    wrongIds,
+  ]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -5938,6 +6111,65 @@ export default function Home() {
             </strong>
           </p>
         </div>
+        {quizReady && (
+          <section className="study-route" aria-labelledby="study-route-title">
+            <div className="study-route-intro">
+              <span className="eyebrow">KİŞİSEL KPSS ROTASI</span>
+              <h3 id="study-route-title">Sıradaki en verimli üç çalışma</h3>
+              <p>
+                Zayıf hedeflerin, son isabetin ve çalışmadığın konular birlikte
+                değerlendirilir. Her tam turdan sonra sıra kendiliğinden yenilenir.
+              </p>
+              <div className="study-route-stats" aria-label="Çalışma özeti">
+                <span><strong>{completedQuizCount}</strong> / {QUIZZES.length} tamamlandı</span>
+                <span><strong>{totalWeakFeatureCount}</strong> zayıf hedef</span>
+              </div>
+            </div>
+            <ol className="study-route-list">
+              {studyRoute.map((item, index) => {
+                const routeCopy = {
+                  weak: {
+                    label: "ZAYIFLARI TEMİZLE",
+                    detail: `${item.weakFeatureIds.length} hedeflik kısa tekrar`,
+                  },
+                  improve: {
+                    label: "İSABETİ YÜKSELT",
+                    detail: `Son turun %${item.mastery?.lastAccuracy ?? 0}`,
+                  },
+                  new: {
+                    label: "YENİ KONU",
+                    detail: `${item.quiz.features.length} konum`,
+                  },
+                  refresh: {
+                    label: "TEKRAR ZAMANI",
+                    detail: `En iyi %${item.mastery?.bestAccuracy ?? 0}`,
+                  },
+                }[item.reason];
+                return (
+                  <li key={item.quiz.id}>
+                    <button
+                      type="button"
+                      onClick={() => resetQuiz(
+                        item.quiz.id,
+                        item.reason === "weak" ? item.weakFeatureIds : undefined,
+                      )}
+                      style={{ "--route-color": item.quiz.color } as React.CSSProperties}
+                      aria-label={`${index + 1}. çalışma: ${item.quiz.title}, ${routeCopy.label}`}
+                    >
+                      <span className="study-route-rank">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="study-route-copy">
+                        <small>{routeCopy.label}</small>
+                        <strong>{item.quiz.title}</strong>
+                        <span>{routeCopy.detail}</span>
+                      </span>
+                      <span className="study-route-arrow" aria-hidden="true">↗</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </section>
+        )}
         <div className="filter-row" role="tablist" aria-label="Konu grupları">
           {GROUPS.map((group) => (
             <button
