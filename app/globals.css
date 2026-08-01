@@ -183,6 +183,60 @@ button { color: inherit; }
 .question-card h2 { margin: 0; font-size: clamp(28px, 3vw, 46px); letter-spacing: -.05em; line-height: 1; max-width: 86%; }
 .instruction { display: block; margin-top: 20px; font-size: 12px; font-weight: 800; }
 
+.question-card--map {
+  min-width: 270px;
+  min-height: 112px;
+  padding: 15px 18px;
+  border-radius: 18px;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.question-card--map::after {
+  width: 94px;
+  height: 94px;
+  border-width: 16px;
+  right: -34px;
+  top: -32px;
+}
+.question-card--map .question-count { display: block; padding-right: 52px; }
+.question-card--map .question-icon { right: 14px; bottom: 5px; font-size: 52px; }
+.question-card--map p { margin: 12px 0 1px; font-size: 11px; }
+.question-card--map h2 {
+  max-width: calc(100% - 42px);
+  font-size: clamp(21px, 2vw, 30px);
+  overflow-wrap: anywhere;
+}
+.question-card--map .instruction { margin-top: 7px; font-size: 10px; }
+.question-card-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 7px;
+}
+.question-card--map .question-card-footer .instruction { margin-top: 0; }
+.skip-question {
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255,255,255,.48);
+  border-radius: 999px;
+  background: rgba(7,24,32,.18);
+  color: white;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 900;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.skip-question:hover,
+.skip-question:focus-visible {
+  background: rgba(7,24,32,.34);
+  outline: 2px solid rgba(255,255,255,.35);
+  outline-offset: 2px;
+}
+.skip-question:disabled { opacity: .42; cursor: default; }
+
 .score-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -252,7 +306,13 @@ button { color: inherit; }
   flex-direction: column;
 }
 .map-panel .map-kicker { color: #83aaa6; }
-.map-topline { display: flex; align-items: end; justify-content: space-between; margin-bottom: 18px; }
+.map-topline {
+  display: grid;
+  grid-template-columns: minmax(210px, 1fr) minmax(270px, 360px) auto;
+  align-items: center;
+  gap: clamp(12px, 2vw, 26px);
+  margin-bottom: 18px;
+}
 .map-topline h2 { margin: 5px 0 0; font-size: clamp(22px, 2.5vw, 34px); letter-spacing: -.045em; }
 .map-actions { display: flex; align-items: center; gap: 8px; }
 .label-toggle {
@@ -260,11 +320,29 @@ button { color: inherit; }
   border-radius: 999px;
   background: rgba(9, 38, 46, .7);
   color: #d8e7e3;
+  min-width: 142px;
   padding: 8px 12px;
   font: inherit;
-  font-size: 12px;
-  font-weight: 800;
+  text-align: left;
   cursor: pointer;
+}
+.label-toggle span {
+  display: block;
+  color: #9fc1bb;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.label-toggle strong {
+  display: block;
+  max-width: 170px;
+  margin-top: 2px;
+  overflow: hidden;
+  color: #eef6ef;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .label-toggle:hover,
 .label-toggle[aria-pressed="true"] {
@@ -716,22 +794,21 @@ button { color: inherit; }
   filter: drop-shadow(0 0 1.5px rgba(231, 251, 255, .72));
   pointer-events: none;
 }
+.geo-shape--clustered-lake {
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
 .geo-feature:hover .geo-shape--micro-lake,
 .geo-feature:focus .geo-shape--micro-lake {
   stroke-width: 3;
 }
 .micro-lake-hit-box {
-  fill: transparent;
-  stroke: transparent;
+  fill: transparent !important;
+  stroke: transparent !important;
   stroke-width: 18;
   vector-effect: non-scaling-stroke;
   pointer-events: all;
   cursor: pointer;
-}
-.geo-feature:hover .micro-lake-hit-box,
-.geo-feature:focus .micro-lake-hit-box {
-  fill: rgba(57, 165, 204, .12);
-  stroke: rgba(231, 251, 255, .78);
 }
 .geo-shape--plain { fill: #93b95e; stroke: #587234; }
 .geo-shape--plateau { fill: #b98b59; stroke: #735436; }
@@ -976,41 +1053,8 @@ button { color: inherit; }
   stroke: var(--green);
 }
 
-.geo-label-leader {
-  stroke: rgba(255,255,255,.9);
-  stroke-width: 1.5;
-  stroke-dasharray: 3 3;
-  vector-effect: non-scaling-stroke;
-  pointer-events: none;
-}
-
 @keyframes mapPulse {
   50% { filter: brightness(1.35); }
-}
-
-.geo-label {
-  pointer-events: none;
-}
-
-.geo-label rect {
-  fill: rgba(249, 246, 232, .9);
-  stroke: rgba(21, 63, 57, .34);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-
-.geo-label text {
-  fill: #143b36;
-  font-size: 9px;
-  font-weight: 900;
-}
-
-.label-layer {
-  pointer-events: none;
-}
-
-.geo-label--province text {
-  font-size: 7px;
 }
 
 .map-province-readout {
@@ -1544,17 +1588,26 @@ footer span { color: #aab9b4; }
     font-size: 17px;
   }
   .game-layout { display: flex; flex-direction: column; }
+  .map-panel { order: 1; }
   .progress-panel {
+    order: 2;
     border-right: 0;
     border-bottom: 1px solid var(--line);
     padding: 32px clamp(20px, 5vw, 44px) 24px;
   }
   .progress-panel > h1 { font-size: clamp(42px, 8vw, 58px); margin-top: 13px; }
   .progress-panel > p { margin-bottom: 22px; }
-  .question-card { min-height: 190px; padding: 22px 24px; }
-  .question-card p { margin-top: 30px; }
   .legend { display: none; }
   .map-panel { padding: 26px clamp(16px, 4vw, 34px) 30px; }
+  .map-topline {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+  .question-card--map {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-height: 126px;
+  }
   .mobile-menu { display: block; }
   .map-stage {
     min-height: clamp(330px, 70vw, 480px);
@@ -1583,18 +1636,27 @@ footer span { color: #aab9b4; }
   .progress-panel > h1 { font-size: clamp(36px, 11vw, 46px); }
   .progress-panel > p { font-size: 14px; line-height: 1.45; }
   .coverage-stamp { align-items: flex-start; flex-direction: column; }
-  .question-card { min-height: 174px; padding: 20px; border-radius: 20px; }
-  .question-card p { margin-top: 24px; }
-  .question-card h2 { max-width: 90%; font-size: clamp(27px, 9vw, 38px); }
   .score-grid div { padding: 12px 7px; }
   .map-panel { padding: 16px 10px 26px; }
   .map-topline {
-    align-items: flex-start;
-    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 10px;
     margin: 0 6px 14px;
   }
+  .question-card--map {
+    min-width: 0;
+    min-height: 118px;
+    padding: 13px 15px;
+    border-radius: 16px;
+  }
+  .question-card--map p { margin-top: 10px; }
+  .question-card--map h2 { max-width: calc(100% - 38px); font-size: clamp(22px, 7vw, 30px); }
+  .question-card--map .instruction { margin-top: 6px; }
+  .skip-question { min-height: 34px; padding-inline: 11px; }
   .map-actions { flex-direction: column; align-items: flex-end; }
-  .label-toggle { max-width: 142px; padding: 7px 10px; font-size: 10px; }
+  .label-toggle { min-width: 112px; max-width: 142px; padding: 7px 9px; }
+  .label-toggle strong { max-width: 120px; font-size: 10px; }
   .mobile-menu { min-height: 36px; padding: 0 13px; font-size: 11px; }
   .map-stage {
     min-height: clamp(300px, 88vw, 390px);

@@ -32,7 +32,9 @@ test("MEB ana kıvrım kuşakları ayrı hedef ve sürekli dağ zinciridir", () 
   assert.match(page, /f\("north-anatolian-belt", "Kuzey Anadolu Dağları"/);
   assert.match(page, /f\("taurus-belt", "Toros Dağları"/);
   assert.match(page, /"north-anatolian-belt": \[[\s\S]*?\],\n  "taurus-belt": \[/);
-  assert.match(page, /function samplePolyline\(points: Coordinate\[], spacing = 10\)/);
+  assert.match(page, /function samplePolyline\(points: Coordinate\[], spacing = 9\.5\)/);
+  assert.match(page, /let distanceSinceSample = 0/);
+  assert.doesNotMatch(page, /const steps = Math\.max\(Math\.round\(length \/ spacing\), 1\)/);
   assert.doesNotMatch(page, /className="geo-shape geo-shape--mountain-line"/);
   assert.match(page, /className=\{feature\.id\.endsWith\("-belt"\) \? "mountain-belt"/);
 });

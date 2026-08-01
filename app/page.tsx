@@ -3979,22 +3979,6 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "egribel-t": [38.3754329, 40.4522779],
 };
 
-const LABEL_OFFSETS: Record<string, Coordinate> = {
-  agri: [0, -22],
-  "agri-v": [24, -20],
-  tendurek: [24, 34],
-  suphan: [-44, -24],
-  nemrut: [-36, 20],
-  erciyes: [0, -22],
-  "erciyes-v": [0, -22],
-  hasan: [-34, 22],
-  karadag: [-26, 24],
-  melendiz: [36, -4],
-  "karacadag-ic": [-45, -2],
-  "karacadag-gd": [28, 22],
-  kula: [0, -20],
-};
-
 const STRUCTURE_CALLOUT_OFFSETS: Record<string, Coordinate> = {
   "bogazici-b": [-38, -29],
   "fsm-b": [0, -53],
@@ -4162,22 +4146,27 @@ function smoothPath(points: Coordinate[]) {
   return commands.join(" ");
 }
 
-function samplePolyline(points: Coordinate[], spacing = 10) {
+function samplePolyline(points: Coordinate[], spacing = 9.5) {
   if (points.length < 2) return points;
-  const samples: Coordinate[] = [];
+  const samples: Coordinate[] = [points[0]];
+  let distanceSinceSample = 0;
   points.slice(0, -1).forEach(([startX, startY], index) => {
     const [endX, endY] = points[index + 1];
     const length = Math.hypot(endX - startX, endY - startY);
-    const steps = Math.max(Math.round(length / spacing), 1);
-    for (let step = 0; step < steps; step += 1) {
-      const ratio = step / steps;
+    if (length === 0) return;
+    let travelled = 0;
+    while (distanceSinceSample + length - travelled >= spacing) {
+      const step = spacing - distanceSinceSample;
+      travelled += step;
+      const ratio = travelled / length;
       samples.push([
         startX + (endX - startX) * ratio,
         startY + (endY - startY) * ratio,
       ]);
+      distanceSinceSample = 0;
     }
+    distanceSinceSample += length - travelled;
   });
-  samples.push(points.at(-1)!);
   return samples;
 }
 
@@ -4314,36 +4303,6 @@ function riverPath(feature: RiverFeature) {
     .join(" ");
 }
 
-function provinceCenter(feature: ProvinceFeature): Coordinate {
-  const coordinates = feature.geometry.type === "Polygon"
-    ? (feature.geometry.coordinates as Coordinate[][]).flat()
-    : (feature.geometry.coordinates as Coordinate[][][]).flat(2);
-  const projected = coordinates.map(project);
-  const xs = projected.map(([x]) => x);
-  const ys = projected.map(([, y]) => y);
-  return [
-    (Math.min(...xs) + Math.max(...xs)) / 2,
-    (Math.min(...ys) + Math.max(...ys)) / 2,
-  ];
-}
-
-function provinceSetCenter(plates: number[], provinces: ProvinceFeature[]): Coordinate {
-  const selected = provinces.filter((province) => plates.includes(province.properties.plate));
-  if (selected.length === 0) return [500, 215];
-  const projected = selected.flatMap((province) => {
-    const coordinates = province.geometry.type === "Polygon"
-      ? (province.geometry.coordinates as Coordinate[][]).flat()
-      : (province.geometry.coordinates as Coordinate[][][]).flat(2);
-    return coordinates.map(project);
-  });
-  const xs = projected.map(([x]) => x);
-  const ys = projected.map(([, y]) => y);
-  return [
-    (Math.min(...xs) + Math.max(...xs)) / 2,
-    (Math.min(...ys) + Math.max(...ys)) / 2,
-  ];
-}
-
 function lakeShapeId(feature: Feature) {
   const aliases: Record<string, string> = {
     "aktas-lake": "aktas",
@@ -4380,6 +4339,48 @@ function riverShapeId(feature: Feature) {
     "asi-br": "asi",
   };
   return aliases[feature.id] ?? feature.id;
+}
+
+type ClusteredLakeLayout = {
+  offset: Coordinate;
+  outline: Coordinate[];
+};
+
+// Uludağ'ın sirk gölleri Türkiye ölçeğinde bir pikselden küçük ve birbirine
+// çok yakındır. Gerçek pusula yönlerini koruyan yerel büyütme, beş hedefin tek
+// lekeye dönüşmesini önler ve her birine bağımsız dokunma alanı verir.
+const CLUSTERED_MICRO_LAKES: Record<string, ClusteredLakeLayout> = {
+  "kilimli-glacial": {
+    offset: [0, -20],
+    outline: [[-4, -1], [-2, -3], [2, -3], [4, -1], [3, 2], [0, 3], [-3, 2]],
+  },
+  "aynali-glacial": {
+    offset: [25, 14],
+    outline: [[-4, 0], [-2, -3], [1, -3], [4, -1], [3, 2], [1, 3], [-3, 2]],
+  },
+  "karagol-uludag-glacial": {
+    offset: [8, 4],
+    outline: [[-4, -2], [0, -3], [4, -1], [3, 2], [0, 3], [-4, 1]],
+  },
+  "buzlu-uludag-glacial": {
+    offset: [-10, 11],
+    outline: [[-4, 1], [-3, -2], [0, -3], [4, -1], [3, 2], [-1, 3]],
+  },
+  "heybeli-uludag-glacial": {
+    offset: [-24, -8],
+    outline: [[-4, -1], [-1, -3], [3, -2], [4, 1], [1, 3], [-3, 2]],
+  },
+};
+
+function clusteredMicroLake(feature: Feature) {
+  const layout = CLUSTERED_MICRO_LAKES[feature.id];
+  if (!layout) return undefined;
+  const [anchorX, anchorY] = featureCenter(feature);
+  const center: Coordinate = [anchorX + layout.offset[0], anchorY + layout.offset[1]];
+  const path = `${layout.outline.map(([x, y], index) =>
+    `${index === 0 ? "M" : "L"}${center[0] + x},${center[1] + y}`,
+  ).join(" ")} Z`;
+  return { center, path };
 }
 
 function realLineFor(feature: Feature) {
@@ -4443,19 +4444,6 @@ function featureCenter(feature: Feature): Coordinate {
   return [50 + feature.x * 9, 20 + feature.y * 3.75];
 }
 
-function exactAreaCenter(area: AreaFeature): Coordinate {
-  const coordinates = area.geometry.type === "Polygon"
-    ? (area.geometry.coordinates as Coordinate[][]).flat()
-    : (area.geometry.coordinates as Coordinate[][][]).flat(2);
-  const projected = coordinates.map(project);
-  const xs = projected.map(([x]) => x);
-  const ys = projected.map(([, y]) => y);
-  return [
-    (Math.min(...xs) + Math.max(...xs)) / 2,
-    (Math.min(...ys) + Math.max(...ys)) / 2,
-  ];
-}
-
 function exactAreaFor(feature: Feature, exactAreas: AreaFeature[]) {
   const exactId = EXACT_AREA_ALIASES[feature.id] ?? feature.id;
   return exactAreas.find((area) => area.properties.id === exactId);
@@ -4463,83 +4451,6 @@ function exactAreaFor(feature: Feature, exactAreas: AreaFeature[]) {
 
 function exactAreaColourFor(feature: Feature) {
   return EXACT_AREA_COLORS[EXACT_AREA_ALIASES[feature.id] ?? feature.id];
-}
-
-function featureLabelCenter(feature: Feature, center: Coordinate, featureIndex = 0): Coordinate {
-  const defaultOffset: Coordinate = feature.kind === "mountain"
-    ? [featureIndex % 2 === 0 ? -26 : 26, -28 - (featureIndex % 3) * 20]
-    : [0, -18];
-  const [offsetX, offsetY] = LABEL_OFFSETS[feature.id] ?? defaultOffset;
-  return [center[0] + offsetX, center[1] + offsetY];
-}
-
-type LabelPlacement = { x: number; y: number; width: number };
-
-function featureLabelWidth(name: string) {
-  return Math.min(190, Math.max(88, name.length * 5.8 + 24));
-}
-
-function labelOverlapArea(
-  left: { x1: number; y1: number; x2: number; y2: number },
-  right: { x1: number; y1: number; x2: number; y2: number },
-) {
-  const width = Math.max(0, Math.min(left.x2, right.x2) - Math.max(left.x1, right.x1));
-  const height = Math.max(0, Math.min(left.y2, right.y2) - Math.max(left.y1, right.y1));
-  return width * height;
-}
-
-function collisionAwareLabelPlacements(
-  features: Feature[],
-  correctIds: string[],
-  provinces: ProvinceFeature[],
-  exactAreas: AreaFeature[] = [],
-) {
-  const placements = new Map<string, LabelPlacement>();
-  const occupied: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
-
-  features.forEach((feature, featureIndex) => {
-    if (!correctIds.includes(feature.id)) return;
-    const center = feature.plates?.length
-      ? provinceSetCenter(feature.plates, provinces)
-      : exactAreaFor(feature, exactAreas)
-        ? exactAreaCenter(exactAreaFor(feature, exactAreas)!)
-        : featureCenter(feature);
-    const preferred = featureLabelCenter(feature, center, featureIndex);
-    const preferredOffset: Coordinate = [preferred[0] - center[0], preferred[1] - center[1]];
-    const offsets: Coordinate[] = [
-      preferredOffset,
-      [0, -25],
-      [0, 34],
-      [-82, -24],
-      [82, -24],
-      [-82, 33],
-      [82, 33],
-      [0, -58],
-      [0, 68],
-      [-120, 0],
-      [120, 0],
-    ];
-    const uniqueOffsets = offsets.filter(
-      (offset, index) =>
-        offsets.findIndex((candidate) => candidate[0] === offset[0] && candidate[1] === offset[1]) === index,
-    );
-    const width = featureLabelWidth(feature.name);
-    const candidates = uniqueOffsets.map(([offsetX, offsetY]) => {
-      const x = Math.min(988 - width / 2, Math.max(12 + width / 2, center[0] + offsetX));
-      const y = Math.min(418, Math.max(26, center[1] + offsetY));
-      const box = { x1: x - width / 2 - 4, y1: y - 21, x2: x + width / 2 + 4, y2: y + 7 };
-      const overlap = occupied.reduce((sum, item) => sum + labelOverlapArea(box, item), 0);
-      const distance = Math.hypot(x - preferred[0], y - preferred[1]);
-      return { x, y, width, box, score: overlap * 100 + distance };
-    });
-    const selected = candidates.reduce((best, candidate) =>
-      candidate.score < best.score ? candidate : best,
-    );
-    placements.set(feature.id, { x: selected.x, y: selected.y, width });
-    occupied.push(selected.box);
-  });
-
-  return placements;
 }
 
 const EXPANDED_AREA_HIT_IDS = new Set([
@@ -4552,6 +4463,20 @@ const EXPANDED_AREA_HIT_IDS = new Set([
 ]);
 
 function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: AreaFeature) {
+  const clusteredLake = clusteredMicroLake(feature);
+  if (clusteredLake) {
+    return (
+      <rect
+        className="micro-lake-hit-box"
+        x={clusteredLake.center[0] - 9}
+        y={clusteredLake.center[1] - 8}
+        width="18"
+        height="16"
+        rx="5"
+        vectorEffect="non-scaling-stroke"
+      />
+    );
+  }
   if (feature.id.startsWith("parallel-") || feature.id.startsWith("meridian-")) {
     const line = REAL_LINES[feature.id]?.map(project) ?? [];
     if (line.length > 0) {
@@ -4668,6 +4593,18 @@ function featureGraphic(
   const usesRiverOverride = feature.kind === "river"
     && realLine
     && (!riverShape || ["aras", "aras-br", "coruh", "dicle"].includes(feature.id));
+  const clusteredLake = clusteredMicroLake(feature);
+
+  if (clusteredLake) {
+    return (
+      <path
+        d={clusteredLake.path}
+        className={`geo-shape geo-shape--lake geo-shape--exact geo-shape--micro-lake geo-shape--clustered-lake${
+          feature.id === "heybeli-uludag-glacial" ? " geo-shape--seasonal-lake" : ""
+        }`}
+      />
+    );
+  }
 
   if (feature.plates?.length) {
     return (
@@ -4846,7 +4783,7 @@ function featureGraphic(
           {ridgePoints.map(([x, y], index) => (
             <path
               key={`${feature.id}-peak-${index}`}
-              d="M-6,4 L0,-6 L6,4 Z"
+              d="M-4.25,3.5 L0,-5.5 L4.25,3.5 Z"
               transform={`translate(${x} ${y})`}
               className="geo-shape geo-shape--mountain-peak"
             />
@@ -5015,7 +4952,6 @@ function TurkeyMap({
   currentFeatureId,
   correctIds,
   wrongIds,
-  showAllLabels,
   mapView,
   onSelect,
 }: {
@@ -5023,7 +4959,6 @@ function TurkeyMap({
   currentFeatureId: string;
   correctIds: string[];
   wrongIds: string[];
-  showAllLabels: boolean;
   mapView: { scale: number; x: number; y: number };
   onSelect: (feature: Feature) => void;
 }) {
@@ -5065,7 +5000,6 @@ function TurkeyMap({
     () => provinces.map((province) => ({
       province,
       path: provincePath(province),
-      center: provinceCenter(province),
     })),
     [provinces],
   );
@@ -5113,21 +5047,6 @@ function TurkeyMap({
     }),
     [correctIdSet, currentFeatureId, uniqueFeatures, wrongIdSet],
   );
-  const visibleLabelIds = useMemo(
-    () => showAllLabels ? correctIds.slice(-1) : [],
-    [correctIds, showAllLabels],
-  );
-  const visibleLabelIdSet = useMemo(() => new Set(visibleLabelIds), [visibleLabelIds]);
-  const labelPlacements = useMemo(
-    () => collisionAwareLabelPlacements(
-      orderedFeatures,
-      visibleLabelIds,
-      provinces,
-      exactAreas,
-    ),
-    [exactAreas, orderedFeatures, provinces, visibleLabelIds],
-  );
-
   useEffect(() => {
     fetch(publicAsset("/data/turkey-provinces.geojson"))
       .then((response) => response.json())
@@ -5293,7 +5212,7 @@ function TurkeyMap({
         </g>
         {quiz.id === "provinces" && (
           <g className="province-quiz-layer">
-            {provinceRenderData.map(({ province, path, center }) => {
+            {provinceRenderData.map(({ province, path }) => {
               const feature = quiz.features.find((item) => item.plate === province.properties.plate);
               if (!feature) return null;
               const status = correctIdSet.has(feature.id)
@@ -5301,7 +5220,6 @@ function TurkeyMap({
                 : wrongIdSet.has(feature.id)
                   ? "wrong"
                   : "idle";
-              const [cx, cy] = center;
               return (
                 <g
                   key={`quiz-${province.properties.plate}`}
@@ -5320,18 +5238,6 @@ function TurkeyMap({
                   }}
                 >
                   <path d={path} fillRule="evenodd" />
-                  {status === "correct" && visibleLabelIdSet.has(feature.id) && (
-                    <g className="geo-label geo-label--province" transform={`translate(${cx} ${cy})`}>
-                      <rect
-                        x={-Math.min(82, Math.max(36, feature.name.length * 5.2 + 12)) / 2}
-                        y="-14"
-                        width={Math.min(82, Math.max(36, feature.name.length * 5.2 + 12))}
-                        height="17"
-                        rx="4"
-                      />
-                      <text textAnchor="middle" y="-2">{feature.name}</text>
-                    </g>
-                  )}
                 </g>
               );
             })}
@@ -5375,47 +5281,6 @@ function TurkeyMap({
             );
           })}
         </g>}
-        {quiz.id !== "provinces" && (
-          <g className="label-layer" aria-hidden="true">
-            {orderedFeatures
-              .filter((feature) => visibleLabelIdSet.has(feature.id))
-              .map((feature) => {
-                const renderedShape = renderedFeatureShapes.get(feature.id);
-                const exactLake = renderedShape?.lakeShape;
-                const exactAreaShape = renderedShape?.exactAreaShape;
-                const center = feature.plates?.length
-                  ? provinceSetCenter(feature.plates, provinces)
-                  : exactAreaShape
-                    ? exactAreaCenter(exactAreaShape)
-                    : exactLake
-                      ? lakeLayout(feature, exactLake).displayCenter
-                      : featureCenter(feature);
-                const placement = labelPlacements.get(feature.id);
-                if (!placement) return null;
-                return (
-                  <g key={`label-${feature.id}`}>
-                    {Math.hypot(placement.x - center[0], placement.y - center[1]) > 20 && (
-                      <line
-                        className="geo-label-leader"
-                        x1={center[0]}
-                        y1={center[1]}
-                        x2={placement.x}
-                        y2={placement.y - 10}
-                      />
-                    )}
-                    <g
-                      className="geo-label"
-                      data-label-for={feature.id}
-                      transform={`translate(${placement.x} ${placement.y})`}
-                    >
-                      <rect x={-placement.width / 2} y="-19" width={placement.width} height="22" rx="5" />
-                      <text textAnchor="middle" y="-4">{feature.name}</text>
-                    </g>
-                  </g>
-                );
-              })}
-          </g>
-        )}
       </svg>
       <div className="map-province-readout">
         <span>{quiz.id === "neighbors"
@@ -5565,7 +5430,7 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [finished, setFinished] = useState(false);
   const [soundOn, setSoundOn] = useState(true);
-  const [showAllLabels, setShowAllLabels] = useState(true);
+  const [showLastAnswer, setShowLastAnswer] = useState(true);
   const [quizReady, setQuizReady] = useState(false);
   const [mapView, setMapView] = useState<MapView>(DEFAULT_MAP_VIEW);
   const mapStageRef = useRef<HTMLDivElement>(null);
@@ -5585,6 +5450,9 @@ export default function Home() {
     ?? sessionFeatureIds.find((id) => !correctIds.includes(id))
     ?? quiz.features[0].id;
   const current = quiz.features.find((feature) => feature.id === currentId) ?? quiz.features[0];
+  const lastCorrectFeature = quiz.features.find(
+    (feature) => feature.id === correctIds.at(-1),
+  );
   const visibleQuizzes = useMemo(
     () =>
       activeGroup === "Tümü"
@@ -5753,7 +5621,7 @@ export default function Home() {
     setReviewRound(Boolean(reviewIds));
     setAttempts(0);
     setFinished(false);
-    setShowAllLabels(true);
+    setShowLastAnswer(true);
     setMenuOpen(false);
     resetMapView();
     questionHadWrongRef.current = false;
@@ -5808,6 +5676,19 @@ export default function Home() {
       },
     };
     persistMastery(nextMastery);
+  };
+
+  const skipCurrentQuestion = () => {
+    if (!quizReady || finished || questionOrder.length <= 1) return;
+    if (questionHadWrongRef.current) {
+      setMissedFeatureIds((ids) => ids.includes(current.id) ? ids : [...ids, current.id]);
+    }
+    questionHadWrongRef.current = false;
+    setWrongIds([]);
+    setQuestionOrder((order) => [
+      ...order.filter((id) => id !== current.id),
+      current.id,
+    ]);
   };
 
   const handleSelect = (feature: Feature) => {
@@ -6051,16 +5932,6 @@ export default function Home() {
             <b>{QUIZZES.length} harita · {TOTAL_LOCATIONS} konum</b>
           </div>
 
-          <div className="question-card" style={{ "--accent": quiz.color } as React.CSSProperties}>
-            <span className="question-count">
-              {reviewRound ? "TEKRAR" : "SORU"} {Math.min(correctIds.length + 1, quizFeatureCount)} / {quizFeatureCount}
-            </span>
-            <div className="question-icon">{quiz.icon}</div>
-            <p>Haritada nerede?</p>
-            <h2>{finished ? "Tebrikler!" : current.name}</h2>
-            {!finished && <span className="instruction">Doğru şekle dokun</span>}
-          </div>
-
           <div className="score-grid">
             <div><strong>{correctIds.length}</strong><span>Doğru</span></div>
             <div><strong>{attempts - correctIds.length}</strong><span>Yanlış</span></div>
@@ -6087,18 +5958,44 @@ export default function Home() {
 
         <section className="map-panel" aria-label={`${quiz.title} oyun haritası`}>
           <div className="map-topline">
-            <div>
+            <div className="map-heading">
               <span className="map-kicker">AKTİF HARİTA</span>
               <h2>{quiz.title}</h2>
+            </div>
+            <div
+              className="question-card question-card--map"
+              style={{ "--accent": quiz.color } as React.CSSProperties}
+              aria-live="polite"
+            >
+              <span className="question-count">
+                {reviewRound ? "TEKRAR" : "SORU"} {Math.min(correctIds.length + 1, quizFeatureCount)} / {quizFeatureCount}
+              </span>
+              <div className="question-icon">{quiz.icon}</div>
+              <p>Haritada nerede?</p>
+              <h2>{finished ? "Tebrikler!" : current.name}</h2>
+              {!finished && (
+                <div className="question-card-footer">
+                  <span className="instruction">Doğru şekle dokun</span>
+                  <button
+                    className="skip-question"
+                    type="button"
+                    disabled={questionOrder.length <= 1}
+                    onClick={skipCurrentQuestion}
+                  >
+                    Şimdilik geç <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              )}
             </div>
             <div className="map-actions">
               <button
                 className="label-toggle"
                 type="button"
-                aria-pressed={showAllLabels}
-                onClick={() => setShowAllLabels((value) => !value)}
+                aria-pressed={showLastAnswer}
+                onClick={() => setShowLastAnswer((value) => !value)}
               >
-                Son doğru isim: {showAllLabels ? "açık" : "kapalı"}
+                <span>Son doğru</span>
+                <strong>{showLastAnswer ? lastCorrectFeature?.name ?? "Henüz yok" : "Gizli"}</strong>
               </button>
               <button className="mobile-menu" type="button" onClick={() => setMenuOpen(true)}>
                 Konular <span>＋</span>
@@ -6122,7 +6019,6 @@ export default function Home() {
               currentFeatureId={finished ? "" : current.id}
               correctIds={correctIds}
               wrongIds={wrongIds}
-              showAllLabels={showAllLabels}
               mapView={mapView}
               onSelect={(feature) => {
                 if (mapDidDragRef.current) {

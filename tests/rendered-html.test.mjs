@@ -256,7 +256,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /f\("bingol-phosphate", [^\n]+ "region"\)/);
   assert.match(page, /feature\.kind === "landmark"/);
   assert.match(page, /<g className="geo-distribution">/);
-  assert.match(page, /const LABEL_OFFSETS/);
+  assert.doesNotMatch(page, /className="geo-label/);
   assert.match(page, /data-quiz-id=\{item\.id\}/);
   assert.match(page, /geo-hit geo-hit--small-area/);
   assert.match(page, /flushSync/);
@@ -271,8 +271,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /data-quiz-ready=\{quizReady\}/);
   assert.doesNotMatch(page, /const restoreTimer = window\.setTimeout/);
   assert.doesNotMatch(page, /questionIndex/);
-  assert.match(page, /showAllLabels \? correctIds\.slice\(-1\) : \[\]/);
-  assert.match(page, /Son doğru isim: \{showAllLabels \? "açık" : "kapalı"\}/);
+  assert.match(page, /const lastCorrectFeature = quiz\.features\.find/);
+  assert.match(page, /showLastAnswer \? lastCorrectFeature\?\.name \?\? "Henüz yok" : "Gizli"/);
   assert.match(page, /ACTIVE_QUIZ_STORAGE_KEY/);
   assert.match(page, /id: "agricultural-function-cities"/);
   assert.match(page, /id: "tourism-function-cities"/);
