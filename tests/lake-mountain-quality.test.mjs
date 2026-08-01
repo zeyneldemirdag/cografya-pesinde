@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+const [page, styles] = await Promise.all([
+  readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+  readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+]);
 
 test("küçük göller gerçek su poligonu merkezinden, asgari görünür boyutta çizilir", () => {
   assert.match(page, /function lakeProjectedCoordinates\(feature: LakeFeature\)/);
@@ -50,4 +53,11 @@ test("genel dağ oyununda Toros kuşağı ve Allahuekber Dağları eksiksizdir",
     page,
     /allahuekber: \[\s*\[42\.52, 40\.59\][\s\S]*?\[43\.27, 41\.05\]/,
   );
+});
+
+test("Toros ana kuşağı ayrıntılı dağ sıralarını kapatmayan ince bilgi çizgisidir", () => {
+  assert.match(page, /if \(feature\.id === "taurus-belt"\)/);
+  assert.match(page, /mountain-belt--informational/);
+  assert.match(page, /geo-shape--mountain-belt-info/);
+  assert.match(styles, /\.geo-shape--mountain-belt-info\s*\{[\s\S]*stroke-width: 2\.2/);
 });

@@ -4776,6 +4776,18 @@ function featureGraphic(
       ? smoothPath(points)
       : points.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
     if (feature.kind === "mountain") {
+      if (feature.id === "taurus-belt") {
+        return (
+          <g className="mountain-belt mountain-belt--informational">
+            <path d={path} className="geo-line-hit" vectorEffect="non-scaling-stroke" />
+            <path
+              d={path}
+              className="geo-shape geo-shape--line geo-shape--mountain-belt-info"
+              vectorEffect="non-scaling-stroke"
+            />
+          </g>
+        );
+      }
       const ridgePoints = samplePolyline(points);
       return (
         <g className={feature.id.endsWith("-belt") ? "mountain-belt" : undefined}>

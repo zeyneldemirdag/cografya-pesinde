@@ -766,6 +766,16 @@ button { color: inherit; }
 .mountain-belt .geo-shape--mountain-peak {
   fill: #74517b;
 }
+.geo-shape--mountain-belt-info {
+  stroke: #76517b;
+  stroke-width: 2.2;
+  opacity: .82;
+  paint-order: normal;
+}
+.geo-feature:hover .geo-shape--mountain-belt-info,
+.geo-feature:focus .geo-shape--mountain-belt-info {
+  stroke-width: 3;
+}
 
 .geo-shape--volcano { fill: #c45139; stroke: #7b2e20; }
 .volcano-shadow {
