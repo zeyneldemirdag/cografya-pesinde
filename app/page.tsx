@@ -2659,8 +2659,8 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
     url: "https://orgm.meb.gov.tr/ekpssmebozel/content/magazines/pdf/cografya1.pdf",
   },
   gates: {
-    label: "Ticaret Bakanlığı 2026 kara hudut kapıları + MEB",
-    url: "https://ticaret.gov.tr/data/61efa03313b876476cc9f9b0/Kara%20Kapilarina%20ve%20Arac%20Turlerine%20Gore%20Arac%20Sayilari..pdf",
+    label: "Ticaret Bakanlığı 2026 kara hudut kapıları + TCDD ana demiryolu ağı",
+    url: "https://ticaret.gov.tr/gumruk-islemleri/gumruk-idareleri/hudut-kapilari/kara-hudut-kapilari",
   },
   passes: {
     label: "MEB sınav kapsamı + KGM · 11 çekirdek geçit",
@@ -2933,6 +2933,26 @@ type FaultFeature = RiverFeature;
 // Keep the four absolute-location lines inside the interactive SVG, including
 // a small visual/touch margin east of the 45°E meridian.
 const MAP_BOUNDS = { west: 25.55, east: 45.15, north: 42.15, south: 35.75 };
+
+// TCDD/UAB işletmedeki ana hat şemasının sınır kapıları oyununda kullanılan
+// sadeleştirilmiş bilgi katmanı. Hatlar soru değildir; kapıların demiryolu
+// bağlantısını ve ülke içindeki ana koridorları okumayı kolaylaştırır.
+const RAILWAY_NETWORK_LINES: Coordinate[][] = [
+  [[26.36, 41.72], [26.56, 41.68], [27.22, 41.40], [27.80, 41.16], [28.57, 41.03], [29.00, 40.99], [29.92, 40.77], [30.40, 40.75], [30.00, 40.14], [30.52, 39.78], [32.85, 39.92]],
+  [[32.85, 39.92], [33.50, 39.85], [34.80, 39.64], [37.00, 39.75], [39.50, 39.75], [41.27, 39.90], [43.10, 40.60], [43.57, 40.75]],
+  [[34.80, 39.64], [35.49, 38.72], [36.35, 39.20], [37.00, 39.75]],
+  [[30.52, 39.78], [29.98, 39.42], [30.54, 38.76], [31.18, 38.42], [32.48, 37.87], [33.73, 37.18], [34.48, 37.55], [35.32, 37.00], [36.10, 36.93], [37.38, 37.07], [38.00, 36.83]],
+  [[35.32, 37.00], [34.63, 36.80]],
+  [[36.10, 36.93], [36.63, 37.03], [37.10, 37.10], [38.31, 38.35], [39.22, 38.68], [40.23, 37.91], [41.12, 37.93], [41.70, 37.93]],
+  [[38.31, 38.35], [38.47, 39.05], [37.00, 39.75]],
+  [[39.22, 38.68], [40.30, 38.55], [41.00, 38.50], [42.28, 38.50]],
+  [[43.38, 38.50], [44.32, 38.50]],
+  [[36.33, 41.29], [36.06, 40.65], [36.55, 40.31], [37.00, 39.75]],
+  [[31.79, 41.45], [32.62, 41.20], [33.62, 40.60], [33.50, 39.85]],
+  [[27.98, 40.35], [27.89, 39.65], [27.43, 38.62], [27.14, 38.42]],
+  [[27.14, 38.42], [27.84, 37.85], [29.10, 37.77], [30.17, 38.06], [30.54, 38.76]],
+  [[27.89, 39.65], [29.20, 39.42], [29.98, 39.42]],
+];
 const NEIGHBOR_LABEL_COORDINATES: Record<string, Coordinate> = {
   greece: [25.2, 40.45],
   bulgaria: [26.9, 42.55],
@@ -4963,7 +4983,31 @@ function featureGraphic(
       </g>
     );
   }
-  if (feature.kind === "city" || feature.kind === "gate" || feature.kind === "mine" || feature.kind === "energy") {
+  if (feature.kind === "gate") {
+    const gateWidth = Math.max(width * .72, 13);
+    const gateHeight = Math.max(height * .9, 13);
+    return (
+      <g className="gate-glyph">
+        <ellipse
+          cx={cx}
+          cy={cy + gateHeight * .68}
+          rx={gateWidth * .64}
+          ry={gateHeight * .18}
+          className="gate-shadow"
+        />
+        <path
+          d={`M${cx - gateWidth * .58},${cy + gateHeight * .62} V${cy - gateHeight * .12} Q${cx - gateWidth * .5},${cy - gateHeight * .7} ${cx},${cy - gateHeight * .7} Q${cx + gateWidth * .5},${cy - gateHeight * .7} ${cx + gateWidth * .58},${cy - gateHeight * .12} V${cy + gateHeight * .62} H${cx + gateWidth * .28} V${cy - gateHeight * .03} Q${cx + gateWidth * .24},${cy - gateHeight * .34} ${cx},${cy - gateHeight * .34} Q${cx - gateWidth * .24},${cy - gateHeight * .34} ${cx - gateWidth * .28},${cy - gateHeight * .03} V${cy + gateHeight * .62} Z`}
+          className="geo-shape geo-shape--gate"
+          fillRule="evenodd"
+        />
+        <path
+          d={`M${cx - gateWidth * .7},${cy + gateHeight * .63} H${cx + gateWidth * .7}`}
+          className="gate-threshold"
+        />
+      </g>
+    );
+  }
+  if (feature.kind === "city" || feature.kind === "mine" || feature.kind === "energy") {
     return <path d={`M${cx},${cy - height} L${cx + width / 2},${cy} L${cx},${cy + height} L${cx - width / 2},${cy} Z`} className={`geo-shape geo-shape--${feature.kind}`} />;
   }
   return <ellipse cx={cx} cy={cy} rx={width / 2} ry={height / 2} className={`geo-shape geo-shape--${feature.kind}`} transform={`rotate(${feature.r ?? 0} ${cx} ${cy})`} />;
@@ -5246,6 +5290,22 @@ function TurkeyMap({
             </path>
           ))}
         </g>
+        {quiz.id === "gates" && (
+          <g className="railway-context-layer" clipPath="url(#turkey-country-clip)" aria-hidden="true">
+            {RAILWAY_NETWORK_LINES.map((line, index) => {
+              const path = line.map((coordinate, pointIndex) => {
+                const [x, y] = project(coordinate);
+                return `${pointIndex === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`;
+              }).join(" ");
+              return (
+                <g key={`railway-${index}`}>
+                  <path d={path} className="railway-line-casing" vectorEffect="non-scaling-stroke" />
+                  <path d={path} className="railway-line" vectorEffect="non-scaling-stroke" />
+                </g>
+              );
+            })}
+          </g>
+        )}
         {quiz.id === "provinces" && (
           <g className="province-quiz-layer">
             {provinceRenderData.map(({ province, path }) => {
@@ -5317,6 +5377,14 @@ function TurkeyMap({
             );
           })}
         </g>}
+        {quiz.id === "gates" && (
+          <g className="railway-map-legend" aria-hidden="true">
+            <rect x="22" y="390" width="224" height="27" rx="9" />
+            <line x1="36" y1="403.5" x2="76" y2="403.5" className="railway-line-casing" />
+            <line x1="36" y1="403.5" x2="76" y2="403.5" className="railway-line" />
+            <text x="86" y="408">TCDD ANA DEMİRYOLU AĞI</text>
+          </g>
+        )}
       </svg>
       <div className="map-province-readout">
         <span>{quiz.id === "neighbors"

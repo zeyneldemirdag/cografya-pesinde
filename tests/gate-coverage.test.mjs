@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 
-const source = fs.readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
+const [source, styles] = [
+  fs.readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8"),
+  fs.readFileSync(new URL("../app/globals.css", import.meta.url), "utf8"),
+];
 
 const additions = new Map([
   ["akcakale-gate", { name: "Akçakale", coordinate: [38.95757, 36.70772] }],
@@ -39,6 +42,15 @@ test("eklenen dört kapı gerçek sınır koordinatındadır", () => {
 test("oyun güncel resmî Ticaret Bakanlığı tablosunu kaynak gösterir", () => {
   assert.match(
     source,
-    /gates: \{[\s\S]*?Ticaret Bakanlığı 2026 kara hudut kapıları \+ MEB[\s\S]*?Kara%20Kapilarina%20ve%20Arac%20Turlerine%20Gore%20Arac%20Sayilari/,
+    /gates: \{[\s\S]*?Ticaret Bakanlığı 2026 kara hudut kapıları \+ TCDD ana demiryolu ağı[\s\S]*?gumruk-idareleri\/hudut-kapilari\/kara-hudut-kapilari/,
   );
+});
+
+test("sınır kapıları kemerli kapı simgesi ve TCDD ana hat bilgi katmanıyla çizilir", () => {
+  assert.match(source, /const RAILWAY_NETWORK_LINES: Coordinate\[\]\[\] = \[/);
+  assert.match(source, /quiz\.id === "gates"[\s\S]*?railway-context-layer/);
+  assert.match(source, /className="gate-glyph"/);
+  assert.match(source, /TCDD ANA DEMİRYOLU AĞI/);
+  assert.match(styles, /\.geo-shape--gate \{[\s\S]*?fill: #ef8b2c/);
+  assert.match(styles, /\.railway-line \{[\s\S]*?stroke-dasharray: 5 2\.6/);
 });

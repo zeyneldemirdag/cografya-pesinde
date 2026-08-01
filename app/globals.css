@@ -976,7 +976,56 @@ button { color: inherit; }
   vector-effect: non-scaling-stroke;
   pointer-events: none;
 }
-.geo-shape--gate { fill: #f2c94c; stroke: #7f6417; }
+.geo-shape--gate {
+  fill: #ef8b2c;
+  stroke: #8f4015;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.gate-shadow {
+  fill: rgba(9, 25, 28, .3);
+  pointer-events: none;
+}
+.gate-threshold {
+  fill: none;
+  stroke: #6f2f10;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.railway-context-layer {
+  pointer-events: none;
+}
+.railway-line-casing {
+  fill: none;
+  stroke: rgba(250, 245, 218, .9);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.railway-line {
+  fill: none;
+  stroke: #243234;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 5 2.6;
+}
+.railway-map-legend {
+  pointer-events: none;
+}
+.railway-map-legend rect {
+  fill: rgba(7, 28, 34, .9);
+  stroke: rgba(188, 224, 213, .42);
+  stroke-width: 1;
+}
+.railway-map-legend text {
+  fill: #e9f4e7;
+  font: 700 10px/1 var(--font-sans);
+  letter-spacing: .08em;
+}
 .geo-shape--mine { fill: #876c55; stroke: #4d3a2a; }
 .geo-shape--energy { fill: #e7b82f; stroke: #8a6b0a; }
 .geo-shape--port {
