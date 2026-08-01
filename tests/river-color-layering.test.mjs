@@ -9,8 +9,8 @@ const [page, styles] = await Promise.all([
 
 test("doğru akarsu yanlış akarsuyun üstünde, güncel hedef en üstte çizilir", () => {
   assert.match(page, /if \(feature\.id === currentFeatureId\) return 30/);
-  assert.match(page, /if \(correctIds\.includes\(feature\.id\)\) return 20/);
-  assert.match(page, /if \(wrongIds\.includes\(feature\.id\)\) return 10/);
+  assert.match(page, /if \(correctIdSet\.has\(feature\.id\)\) return 20/);
+  assert.match(page, /if \(wrongIdSet\.has\(feature\.id\)\) return 10/);
   assert.match(page, /featureLayerPriority\(left\) - featureLayerPriority\(right\)/);
 });
 

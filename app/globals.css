@@ -1644,6 +1644,21 @@ footer span { color: #aab9b4; }
   .score-grid strong { font-size: 19px; }
 }
 
+@media (hover: none), (pointer: coarse) {
+  .real-map,
+  .geo-shape {
+    filter: none !important;
+  }
+  .province-layer path,
+  .province-option > path,
+  .geo-shape {
+    transition: none;
+  }
+  .geo-feature--wrong .geo-shape {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }

@@ -7,7 +7,8 @@ const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8")
 test("küçük göller gerçek su poligonu merkezinden, asgari görünür boyutta çizilir", () => {
   assert.match(page, /function lakeProjectedCoordinates\(feature: LakeFeature\)/);
   assert.match(page, /const anchor: Coordinate = \[\(minX \+ maxX\) \/ 2, \(minY \+ maxY\) \/ 2\]/);
-  assert.match(page, /const scale = longestSide < 8 \? Math\.min\(8 \/ longestSide, 160\) : 1/);
+  assert.match(page, /const minimumDisplaySize = \["eymir-set", "mogan-set"\]\.includes/);
+  assert.match(page, /Math\.min\(minimumDisplaySize \/ longestSide, 160\)/);
   assert.match(page, /function featureHitArea\(feature: Feature, lakeShape\?: LakeFeature/);
   assert.match(page, /width=\{Math\.max\(layout\.width \+ 6, 18\)\}/);
 });
@@ -20,8 +21,10 @@ test("küçük göller bağlantı çizgisi olmadan kendi gerçek merkezinde büy
 });
 
 test("dağ hedefleri aynı kimlikli göl poligonlarını kullanamaz", () => {
-  const guardedLakeLookups = page.match(/feature\.kind === "lake"\s*\?\s*lakes\.find/g) ?? [];
-  assert.ok(guardedLakeLookups.length >= 3);
+  assert.match(
+    page,
+    /const lakeShape = feature\.kind === "lake"\s*\? lakeById\.get\(lakeShapeId\(feature\)\)\s*: undefined/,
+  );
 });
 
 test("MEB ana kıvrım kuşakları ayrı hedef ve sürekli dağ zinciridir", () => {

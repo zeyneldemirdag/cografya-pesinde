@@ -4226,7 +4226,16 @@ function lakeLayout(feature: Feature, lakeShape: LakeFeature): LakeLayout {
   const exactWidth = Math.max(maxX - minX, 0.05);
   const exactHeight = Math.max(maxY - minY, 0.05);
   const longestSide = Math.max(exactWidth, exactHeight);
-  const scale = longestSide < 8 ? Math.min(8 / longestSide, 160) : 1;
+  // Mogan ile Eymir birbirine yalnızca birkaç kilometre uzaklıkta. İkisini de
+  // standart mikro-göl boyuna büyütmek şekilleri üst üste bindirip yanlış göle
+  // dokunulmasına yol açıyordu; bu komşu çiftte daha küçük ama hâlâ rahatça
+  // seçilebilir bir görsel boyut kullanıyoruz.
+  const minimumDisplaySize = ["eymir-set", "mogan-set"].includes(lakeShapeId(feature))
+    ? 4.5
+    : 8;
+  const scale = longestSide < minimumDisplaySize
+    ? Math.min(minimumDisplaySize / longestSide, 160)
+    : 1;
   return {
     anchor,
     displayCenter: anchor,
@@ -5026,22 +5035,97 @@ function TurkeyMap({
   const [faults, setFaults] = useState<FaultFeature[]>([]);
   const [exactAreas, setExactAreas] = useState<AreaFeature[]>([]);
   const [hoveredProvince, setHoveredProvince] = useState("");
-  const uniqueFeatures = [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()];
+  const uniqueFeatures = useMemo(
+    () => [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()],
+    [quiz],
+  );
+  const correctIdSet = useMemo(() => new Set(correctIds), [correctIds]);
+  const wrongIdSet = useMemo(() => new Set(wrongIds), [wrongIds]);
+  const lakeById = useMemo(
+    () => new Map(lakes.map((lake) => [lake.properties.id, lake])),
+    [lakes],
+  );
+  const riverById = useMemo(
+    () => new Map(rivers.map((river) => [river.properties.id, river])),
+    [rivers],
+  );
+  const basinById = useMemo(
+    () => new Map(basins.map((basin) => [basin.properties.id, basin])),
+    [basins],
+  );
+  const neighborById = useMemo(
+    () => new Map(neighbors.map((neighbor) => [neighbor.properties.id, neighbor])),
+    [neighbors],
+  );
+  const faultById = useMemo(
+    () => new Map(faults.map((fault) => [fault.properties.id, fault])),
+    [faults],
+  );
+  const provinceRenderData = useMemo(
+    () => provinces.map((province) => ({
+      province,
+      path: provincePath(province),
+      center: provinceCenter(province),
+    })),
+    [provinces],
+  );
+  const renderedFeatureShapes = useMemo(() => new Map(
+    uniqueFeatures.map((feature) => {
+      const lakeShape = feature.kind === "lake"
+        ? lakeById.get(lakeShapeId(feature))
+        : undefined;
+      const exactAreaShape = exactAreaFor(feature, exactAreas);
+      return [feature.id, {
+        lakeShape,
+        exactAreaShape,
+        hitArea: featureHitArea(feature, lakeShape, exactAreaShape),
+        graphic: featureGraphic(
+          feature,
+          lakeShape,
+          riverById.get(riverShapeId(feature)),
+          basinById.get(feature.id),
+          provinces,
+          neighborById.get(feature.id),
+          faultById.get(feature.id),
+          exactAreaShape,
+        ),
+      }] as const;
+    }),
+  ), [
+    basinById,
+    exactAreas,
+    faultById,
+    lakeById,
+    neighborById,
+    provinces,
+    riverById,
+    uniqueFeatures,
+  ]);
   const featureLayerPriority = (feature: Feature) => {
     if (feature.id === currentFeatureId) return 30;
-    if (correctIds.includes(feature.id)) return 20;
-    if (wrongIds.includes(feature.id)) return 10;
+    if (correctIdSet.has(feature.id)) return 20;
+    if (wrongIdSet.has(feature.id)) return 10;
     return 0;
   };
-  const orderedFeatures = [...uniqueFeatures].sort((left, right) => {
-    return featureLayerPriority(left) - featureLayerPriority(right);
-  });
-  const visibleLabelIds = showAllLabels ? correctIds.slice(-1) : [];
-  const labelPlacements = collisionAwareLabelPlacements(
-    orderedFeatures,
-    visibleLabelIds,
-    provinces,
-    exactAreas,
+  const orderedFeatures = useMemo(
+    () => [...uniqueFeatures].sort((left, right) => {
+      return featureLayerPriority(left) - featureLayerPriority(right);
+    }),
+    [correctIdSet, currentFeatureId, uniqueFeatures, wrongIdSet],
+  );
+  const visibleLabelIds = useMemo(
+    () => showAllLabels ? correctIds.slice(-1) : [],
+    [correctIds, showAllLabels],
+  );
+  const visibleLabelIdSet = useMemo(() => new Set(visibleLabelIds), [visibleLabelIds]);
+  const labelPlacements = useMemo(
+    () => collisionAwareLabelPlacements(
+      orderedFeatures,
+      visibleLabelIds,
+      provinces,
+      exactAreas,
+    ),
+    [exactAreas, orderedFeatures, provinces, visibleLabelIds],
   );
 
   useEffect(() => {
@@ -5120,8 +5204,8 @@ function TurkeyMap({
       >
         <defs>
           <clipPath id="turkey-country-clip">
-            {provinces.map((province) => (
-              <path key={`clip-${province.properties.plate}`} d={provincePath(province)} />
+            {provinceRenderData.map(({ province, path }) => (
+              <path key={`clip-${province.properties.plate}`} d={path} />
             ))}
           </clipPath>
           <linearGradient id="terrain-atlas-tint" x1="0" y1="0" x2="1" y2=".2">
@@ -5153,15 +5237,13 @@ function TurkeyMap({
         {quiz.id === "neighbors" && (
           <g className="neighbor-quiz-layer">
             {orderedFeatures.map((feature) => {
-              const status = correctIds.includes(feature.id)
+              const status = correctIdSet.has(feature.id)
                 ? "correct"
-                : wrongIds.includes(feature.id)
+                : wrongIdSet.has(feature.id)
                   ? "wrong"
                   : "idle";
-              const neighborShape = neighbors.find(
-                (neighbor) => neighbor.properties.id === feature.id,
-              );
-              if (!neighborShape) return null;
+              const renderedShape = renderedFeatureShapes.get(feature.id);
+              if (!renderedShape?.graphic) return null;
               return (
                 <g
                   key={`neighbor-${feature.id}`}
@@ -5174,28 +5256,36 @@ function TurkeyMap({
                   className={`geo-feature geo-feature--${status} geo-feature--country${
                     feature.id === currentFeatureId ? " geo-feature--current" : ""
                   }`}
-                  onPointerEnter={() => setHoveredProvince(feature.name)}
-                  onPointerLeave={() => setHoveredProvince("")}
+                  onPointerEnter={(event) => {
+                    if (event.pointerType === "mouse") setHoveredProvince(feature.name);
+                  }}
+                  onPointerLeave={(event) => {
+                    if (event.pointerType === "mouse") setHoveredProvince("");
+                  }}
                   onClick={() => onSelect(feature)}
                   onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") onSelect(feature);
                   }}
                 >
-                  {featureGraphic(feature, undefined, undefined, undefined, provinces, neighborShape)}
+                  {renderedShape.graphic}
                 </g>
               );
             })}
           </g>
         )}
         <g className="province-layer">
-          {provinces.map((province) => (
+          {provinceRenderData.map(({ province, path }) => (
             <path
               key={province.properties.plate}
-              d={provincePath(province)}
+              d={path}
               fill={MAP_COLORS[province.properties.plate % MAP_COLORS.length]}
               fillOpacity=".46"
-              onPointerEnter={() => setHoveredProvince(province.properties.name)}
-              onPointerLeave={() => setHoveredProvince("")}
+              onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") setHoveredProvince(province.properties.name);
+              }}
+              onPointerLeave={(event) => {
+                if (event.pointerType === "mouse") setHoveredProvince("");
+              }}
             >
               <title>{province.properties.name}</title>
             </path>
@@ -5203,15 +5293,15 @@ function TurkeyMap({
         </g>
         {quiz.id === "provinces" && (
           <g className="province-quiz-layer">
-            {provinces.map((province) => {
+            {provinceRenderData.map(({ province, path, center }) => {
               const feature = quiz.features.find((item) => item.plate === province.properties.plate);
               if (!feature) return null;
-              const status = correctIds.includes(feature.id)
+              const status = correctIdSet.has(feature.id)
                 ? "correct"
-                : wrongIds.includes(feature.id)
+                : wrongIdSet.has(feature.id)
                   ? "wrong"
                   : "idle";
-              const [cx, cy] = provinceCenter(province);
+              const [cx, cy] = center;
               return (
                 <g
                   key={`quiz-${province.properties.plate}`}
@@ -5229,8 +5319,8 @@ function TurkeyMap({
                     if (event.key === "Enter" || event.key === " ") onSelect(feature);
                   }}
                 >
-                  <path d={provincePath(province)} fillRule="evenodd" />
-                  {status === "correct" && visibleLabelIds.includes(feature.id) && (
+                  <path d={path} fillRule="evenodd" />
+                  {status === "correct" && visibleLabelIdSet.has(feature.id) && (
                     <g className="geo-label geo-label--province" transform={`translate(${cx} ${cy})`}>
                       <rect
                         x={-Math.min(82, Math.max(36, feature.name.length * 5.2 + 12)) / 2}
@@ -5249,11 +5339,12 @@ function TurkeyMap({
         )}
         {quiz.id !== "provinces" && quiz.id !== "neighbors" && <g className="feature-layer">
           {orderedFeatures.map((feature) => {
-            const status = correctIds.includes(feature.id)
+            const status = correctIdSet.has(feature.id)
               ? "correct"
-              : wrongIds.includes(feature.id)
+              : wrongIdSet.has(feature.id)
                 ? "wrong"
                 : "idle";
+            const renderedShape = renderedFeatureShapes.get(feature.id);
             return (
               <g
                 key={feature.id}
@@ -5278,25 +5369,8 @@ function TurkeyMap({
                   if (event.key === "Enter" || event.key === " ") onSelect(feature);
                 }}
               >
-                {featureHitArea(
-                  feature,
-                  feature.kind === "lake"
-                    ? lakes.find((lake) => lake.properties.id === lakeShapeId(feature))
-                    : undefined,
-                  exactAreaFor(feature, exactAreas),
-                )}
-                {featureGraphic(
-                  feature,
-                  feature.kind === "lake"
-                    ? lakes.find((lake) => lake.properties.id === lakeShapeId(feature))
-                    : undefined,
-                  rivers.find((river) => river.properties.id === riverShapeId(feature)),
-                  basins.find((basin) => basin.properties.id === feature.id),
-                  provinces,
-                  undefined,
-                  faults.find((fault) => fault.properties.id === feature.id),
-                  exactAreaFor(feature, exactAreas),
-                )}
+                {renderedShape?.hitArea}
+                {renderedShape?.graphic}
               </g>
             );
           })}
@@ -5304,15 +5378,15 @@ function TurkeyMap({
         {quiz.id !== "provinces" && (
           <g className="label-layer" aria-hidden="true">
             {orderedFeatures
-              .filter((feature) => visibleLabelIds.includes(feature.id))
+              .filter((feature) => visibleLabelIdSet.has(feature.id))
               .map((feature) => {
-                const exactLake = feature.kind === "lake"
-                  ? lakes.find((lake) => lake.properties.id === lakeShapeId(feature))
-                  : undefined;
+                const renderedShape = renderedFeatureShapes.get(feature.id);
+                const exactLake = renderedShape?.lakeShape;
+                const exactAreaShape = renderedShape?.exactAreaShape;
                 const center = feature.plates?.length
                   ? provinceSetCenter(feature.plates, provinces)
-                  : exactAreaFor(feature, exactAreas)
-                    ? exactAreaCenter(exactAreaFor(feature, exactAreas)!)
+                  : exactAreaShape
+                    ? exactAreaCenter(exactAreaShape)
                     : exactLake
                       ? lakeLayout(feature, exactLake).displayCenter
                       : featureCenter(feature);
