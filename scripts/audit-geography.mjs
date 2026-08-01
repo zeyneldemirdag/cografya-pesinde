@@ -844,8 +844,8 @@ const auditFailures = [
   ...(report.quizCount < 104
     ? [`oyun kataloğu 104 oyunun altına düştü (${report.quizCount})`]
     : []),
-  ...(report.quizLocationCount < 1456
-    ? [`oyun hedefleri 1456 konumun altına düştü (${report.quizLocationCount})`]
+  ...(report.quizLocationCount < 1458
+    ? [`oyun hedefleri 1458 konumun altına düştü (${report.quizLocationCount})`]
     : []),
   ...(report.duplicateQuizIds.length > 0
     ? [`${report.duplicateQuizIds.length} yinelenen oyun kimliği`]

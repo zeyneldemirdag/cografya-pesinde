@@ -949,10 +949,12 @@ const QUIZZES: Quiz[] = [
     color: "#e85c4a",
     icon: "▲",
     features: [
+      f("taurus-belt", "Toros Dağları", 54, 68, 51, 8, "mountain"),
       f("yildiz", "Yıldız Dağları", 14, 19, 8, 5, "mountain", 4),
       f("kure", "Küre Dağları", 39, 17, 9, 5, "mountain", 2),
       f("canik", "Canik Dağları", 58, 19, 9, 5, "mountain", 5),
       f("kackar", "Kaçkar Dağları", 78, 18, 9, 5, "mountain", -6),
+      f("allahuekber", "Allahuekber Dağları", 86, 23, 7, 5, "mountain", -28),
       f("bolu-d", "Bolu Dağları", 29, 23, 8, 5, "mountain", -4),
       f("ilgaz", "Ilgaz Dağları", 42, 25, 8, 5, "mountain"),
       f("koroglu", "Köroğlu Dağları", 35, 29, 8, 5, "mountain"),
@@ -4052,6 +4054,10 @@ const REAL_LINES: Record<string, Coordinate[]> = {
     [29.25, 36.75], [30.45, 36.85], [31.75, 36.78], [33.1, 36.92],
     [34.45, 37.12], [35.55, 37.65], [36.7, 38.05], [38.1, 38.45],
     [39.55, 38.35], [41.0, 37.95], [42.35, 37.65], [43.65, 37.35],
+  ],
+  allahuekber: [
+    [42.52, 40.59], [42.68, 40.69], [42.87, 40.81],
+    [43.07, 40.93], [43.27, 41.05],
   ],
   kure: [[32.0, 41.4], [33.1, 41.5], [34.3, 41.3]],
   canik: [[35.3, 41.1], [36.6, 40.9], [38.0, 40.8]],

@@ -24,7 +24,7 @@ test("KPSS harita oyunu sunucuda doğru kimlikle oluşturulur", async () => {
   assert.match(html, /data-active-quiz-id="mountains-all"/);
   assert.match(html, /data-quiz-id="provinces"/);
   assert.match(html, /104(?:<!-- -->)? harita/);
-  assert.match(html, /1456(?:<!-- -->)? konum/);
+  assert.match(html, /1458(?:<!-- -->)? konum/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Starter Project/);
 });
 
