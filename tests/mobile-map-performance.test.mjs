@@ -35,5 +35,5 @@ test("telefonlarda pahalı SVG filtreleri ve renk animasyonları kapatılır", (
 
 test("birbirine çok yakın Eymir ve Mogan gölleri üst üste büyütülmez", () => {
   assert.match(page, /\["eymir-set", "mogan-set"\]\.includes\(lakeShapeId\(feature\)\)/);
-  assert.match(page, /\? 4\.5\s*: 8/);
+  assert.match(page, /\? Math\.min\(requestedMinimumDisplaySize, 4\.5\)/);
 });

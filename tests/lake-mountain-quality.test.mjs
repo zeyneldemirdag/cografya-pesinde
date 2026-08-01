@@ -10,10 +10,18 @@ const [page, styles] = await Promise.all([
 test("küçük göller gerçek su poligonu merkezinden, asgari görünür boyutta çizilir", () => {
   assert.match(page, /function lakeProjectedCoordinates\(feature: LakeFeature\)/);
   assert.match(page, /const anchor: Coordinate = \[\(minX \+ maxX\) \/ 2, \(minY \+ maxY\) \/ 2\]/);
-  assert.match(page, /const minimumDisplaySize = \["eymir-set", "mogan-set"\]\.includes/);
+  assert.match(page, /Math\.min\(requestedMinimumDisplaySize, 4\.5\)/);
   assert.match(page, /Math\.min\(minimumDisplaySize \/ longestSide, 160\)/);
-  assert.match(page, /function featureHitArea\(feature: Feature, lakeShape\?: LakeFeature/);
-  assert.match(page, /width=\{Math\.max\(layout\.width \+ 6, 18\)\}/);
+  assert.match(page, /function featureHitArea\([\s\S]*?lakeShape\?: LakeFeature/);
+  assert.match(page, /width=\{Math\.max\(layout\.width \+ 4, denseLakeMap \? 14 : 18\)\}/);
+});
+
+test("kalabalık göl haritası göl şekillerini ve dokunma alanlarını sıkıştırır", () => {
+  assert.match(page, /const denseLakeMap = useMemo\(/);
+  assert.match(page, /feature\.kind === "lake"\)\.length >= 40/);
+  assert.match(page, /lakeLayout\(feature, lakeShape, denseLakeMap \? 5 : 8\)/);
+  assert.match(page, /clusteredMicroLake\(feature, denseLakeMap \? 0\.68 : 1\)/);
+  assert.match(page, /width=\{denseLakeMap \? 14 : 18\}/);
 });
 
 test("küçük göller bağlantı çizgisi olmadan kendi gerçek merkezinde büyütülür", () => {

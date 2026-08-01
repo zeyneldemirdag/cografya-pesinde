@@ -4203,7 +4203,11 @@ function lakeProjectedCoordinates(feature: LakeFeature) {
   return coordinates.map(project);
 }
 
-function lakeLayout(feature: Feature, lakeShape: LakeFeature): LakeLayout {
+function lakeLayout(
+  feature: Feature,
+  lakeShape: LakeFeature,
+  requestedMinimumDisplaySize = 8,
+): LakeLayout {
   const projected = lakeProjectedCoordinates(lakeShape);
   const xs = projected.map(([x]) => x);
   const ys = projected.map(([, y]) => y);
@@ -4220,8 +4224,8 @@ function lakeLayout(feature: Feature, lakeShape: LakeFeature): LakeLayout {
   // dokunulmasına yol açıyordu; bu komşu çiftte daha küçük ama hâlâ rahatça
   // seçilebilir bir görsel boyut kullanıyoruz.
   const minimumDisplaySize = ["eymir-set", "mogan-set"].includes(lakeShapeId(feature))
-    ? 4.5
-    : 8;
+    ? Math.min(requestedMinimumDisplaySize, 4.5)
+    : requestedMinimumDisplaySize;
   const scale = longestSide < minimumDisplaySize
     ? Math.min(minimumDisplaySize / longestSide, 160)
     : 1;
@@ -4372,13 +4376,13 @@ const CLUSTERED_MICRO_LAKES: Record<string, ClusteredLakeLayout> = {
   },
 };
 
-function clusteredMicroLake(feature: Feature) {
+function clusteredMicroLake(feature: Feature, shapeScale = 1) {
   const layout = CLUSTERED_MICRO_LAKES[feature.id];
   if (!layout) return undefined;
   const [anchorX, anchorY] = featureCenter(feature);
   const center: Coordinate = [anchorX + layout.offset[0], anchorY + layout.offset[1]];
   const path = `${layout.outline.map(([x, y], index) =>
-    `${index === 0 ? "M" : "L"}${center[0] + x},${center[1] + y}`,
+    `${index === 0 ? "M" : "L"}${center[0] + x * shapeScale},${center[1] + y * shapeScale}`,
   ).join(" ")} Z`;
   return { center, path };
 }
@@ -4462,16 +4466,21 @@ const EXPANDED_AREA_HIT_IDS = new Set([
   "kizoren-r",
 ]);
 
-function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: AreaFeature) {
-  const clusteredLake = clusteredMicroLake(feature);
+function featureHitArea(
+  feature: Feature,
+  lakeShape?: LakeFeature,
+  exactArea?: AreaFeature,
+  denseLakeMap = false,
+) {
+  const clusteredLake = clusteredMicroLake(feature, denseLakeMap ? 0.68 : 1);
   if (clusteredLake) {
     return (
       <rect
         className="micro-lake-hit-box"
-        x={clusteredLake.center[0] - 9}
-        y={clusteredLake.center[1] - 8}
-        width="18"
-        height="16"
+        x={clusteredLake.center[0] - (denseLakeMap ? 7 : 9)}
+        y={clusteredLake.center[1] - (denseLakeMap ? 6.5 : 8)}
+        width={denseLakeMap ? 14 : 18}
+        height={denseLakeMap ? 13 : 16}
         rx="5"
         vectorEffect="non-scaling-stroke"
       />
@@ -4510,16 +4519,16 @@ function featureHitArea(feature: Feature, lakeShape?: LakeFeature, exactArea?: A
     );
   }
   if (lakeShape) {
-    const layout = lakeLayout(feature, lakeShape);
+    const layout = lakeLayout(feature, lakeShape, denseLakeMap ? 5 : 8);
     if (layout.scale > 1) {
       const [displayX, displayY] = layout.displayCenter;
       return (
         <rect
           className="micro-lake-hit-box"
-          x={displayX - Math.max(layout.width / 2 + 3, 9)}
-          y={displayY - Math.max(layout.height / 2 + 3, 8)}
-          width={Math.max(layout.width + 6, 18)}
-          height={Math.max(layout.height + 6, 16)}
+          x={displayX - Math.max(layout.width / 2 + 2, denseLakeMap ? 7 : 9)}
+          y={displayY - Math.max(layout.height / 2 + 2, denseLakeMap ? 6.5 : 8)}
+          width={Math.max(layout.width + 4, denseLakeMap ? 14 : 18)}
+          height={Math.max(layout.height + 4, denseLakeMap ? 13 : 16)}
           rx="5"
           vectorEffect="non-scaling-stroke"
         />
@@ -4581,6 +4590,7 @@ function featureGraphic(
   neighborShape?: NeighborFeature,
   faultShape?: FaultFeature,
   exactAreaShape?: AreaFeature,
+  denseLakeMap = false,
 ) {
   const realLine = realLineFor(feature);
   const straitPolygon = STRAIT_POLYGONS[feature.id];
@@ -4593,7 +4603,7 @@ function featureGraphic(
   const usesRiverOverride = feature.kind === "river"
     && realLine
     && (!riverShape || ["aras", "aras-br", "coruh", "dicle"].includes(feature.id));
-  const clusteredLake = clusteredMicroLake(feature);
+  const clusteredLake = clusteredMicroLake(feature, denseLakeMap ? 0.68 : 1);
 
   if (clusteredLake) {
     return (
@@ -4635,7 +4645,7 @@ function featureGraphic(
 
   if (lakeShape) {
     const path = lakePath(lakeShape);
-    const layout = lakeLayout(feature, lakeShape);
+    const layout = lakeLayout(feature, lakeShape, denseLakeMap ? 5 : 8);
     if (layout.scale > 1) {
       const [anchorX, anchorY] = layout.anchor;
       return (
@@ -4986,6 +4996,14 @@ function TurkeyMap({
     () => [...new Map(quiz.features.map((feature) => [feature.id, feature])).values()],
     [quiz],
   );
+  // Kalabalık genel göl haritasında bütün mikro gölleri sekiz piksele zorlamak,
+  // gerçek merkezler doğru olsa bile Uludağ, Konya ve Van kümelerini olduğundan
+  // iri ve üst üste görünür kılıyordu. Dokunma alanı görünmez biçimde geniş kalır;
+  // yalnızca çizilen su yüzeyi yoğun haritalarda daha ölçülü gösterilir.
+  const denseLakeMap = useMemo(
+    () => uniqueFeatures.filter((feature) => feature.kind === "lake").length >= 40,
+    [uniqueFeatures],
+  );
   const correctIdSet = useMemo(() => new Set(correctIds), [correctIds]);
   const wrongIdSet = useMemo(() => new Set(wrongIds), [wrongIds]);
   const lakeById = useMemo(
@@ -5024,7 +5042,7 @@ function TurkeyMap({
       return [feature.id, {
         lakeShape,
         exactAreaShape,
-        hitArea: featureHitArea(feature, lakeShape, exactAreaShape),
+        hitArea: featureHitArea(feature, lakeShape, exactAreaShape, denseLakeMap),
         graphic: featureGraphic(
           feature,
           lakeShape,
@@ -5034,11 +5052,13 @@ function TurkeyMap({
           neighborById.get(feature.id),
           faultById.get(feature.id),
           exactAreaShape,
+          denseLakeMap,
         ),
       }] as const;
     }),
   ), [
     basinById,
+    denseLakeMap,
     exactAreas,
     faultById,
     lakeById,
