@@ -5004,6 +5004,8 @@ function TurkeyMap({
     () => uniqueFeatures.filter((feature) => feature.kind === "lake").length >= 40,
     [uniqueFeatures],
   );
+  const isPlainQuiz = ["plains", "delta-plains", "tectonic-plains", "karstic-plains"]
+    .includes(quiz.id);
   const correctIdSet = useMemo(() => new Set(correctIds), [correctIds]);
   const wrongIdSet = useMemo(() => new Set(wrongIds), [wrongIds]);
   const lakeById = useMemo(
@@ -5142,7 +5144,9 @@ function TurkeyMap({
       }}
     >
       <svg
-        className={`real-map${quiz.id === "neighbors" ? " real-map--neighbors" : ""}`}
+        className={`real-map${quiz.id === "neighbors" ? " real-map--neighbors" : ""}${
+          isPlainQuiz ? " real-map--plains" : ""
+        }`}
         viewBox={quiz.id === "neighbors"
           ? "-100 -80 1200 590"
           : quiz.id === "absolute-location"

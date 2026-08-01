@@ -7,6 +7,12 @@ const [page, styles] = await Promise.all([
   readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
 ]);
 
+test("ova oyunları opak dolgu ve sade koyu sınırla birbirinden ayrılır", () => {
+  assert.match(page, /const isPlainQuiz = \["plains", "delta-plains", "tectonic-plains", "karstic-plains"\]/);
+  assert.match(page, /isPlainQuiz \? " real-map--plains" : ""/);
+  assert.match(styles, /\.real-map--plains \.geo-feature--idle \.geo-shape--plain \{[\s\S]*?fill-opacity: 1;[\s\S]*?stroke: #647447;[\s\S]*?stroke-width: 1\.05;/);
+});
+
 test("doğru cevap ismi haritadaki hedeflerin üstüne etiket olarak çizilmez", () => {
   assert.doesNotMatch(page, /className="geo-label/);
   assert.doesNotMatch(page, /className="label-layer/);
