@@ -251,8 +251,11 @@ function featureNamesInArray(marker, offset = 0, normalize = true) {
   ].map((name) => normalize ? name.split(" · ")[0] : name);
   const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
     .flatMap((match) => featureNamesInArray(`const ${match[1]}`, 0, normalize));
+  const subsetIds = source.slice(arrayStart, open).includes("plainFeatureSubset")
+    ? [...body.matchAll(/"([^"]+)"/g)].map((match) => match[1])
+    : [];
   const referenced = direct.length === 0
-    ? [...body.matchAll(/"([^"]+-industry)"/g)]
+    ? [...body.matchAll(/"([^"]+-industry)"/g), ...subsetIds.map((id) => ["", id])]
       .map((match) => features.find((feature) => feature.id === match[1])?.name)
       .filter(Boolean)
       .map((name) => normalize ? name.split(" · ")[0] : name)
@@ -286,8 +289,11 @@ function featureIdsInArray(marker, offset = 0) {
   ];
   const spread = [...body.matchAll(/\.\.\.([A-Z][A-Z0-9_]+)/g)]
     .flatMap((match) => featureIdsInArray(`const ${match[1]}`));
+  const subsetIds = source.slice(arrayStart, open).includes("plainFeatureSubset")
+    ? [...body.matchAll(/"([^"]+)"/g)].map((match) => match[1])
+    : [];
   const referenced = direct.length === 0
-    ? [...body.matchAll(/"([^"]+-industry)"/g)].map((match) => match[1])
+    ? [...body.matchAll(/"([^"]+-industry)"/g)].map((match) => match[1]).concat(subsetIds)
     : [];
   return [...direct, ...spread, ...referenced];
 }
@@ -331,7 +337,7 @@ const coverageComparisons = [
   ["mountains-all", ["fold-mountains", "fault-mountains", "volcanic-mountains", "north-fold-mountains", "south-fold-mountains", "glacial-mountains"]],
   ["lakes-all", ["tectonic-lakes", "volcanic-set-lakes", "landslide-set-lakes", "alluvial-set-lakes", "coastal-set-lakes", "mixed-origin-lakes", "glacial-lakes", "karstic-lakes", "volcanic-lakes"]],
   ["rivers", ["river-tributaries", "black-sea-rivers", "aegean-rivers", "mediterranean-rivers", "outbound-rivers", "inbound-rivers", "border-rivers"]],
-  ["plains", ["delta-plains", "tectonic-plains", "karstic-plains"]],
+  ["plains", ["delta-plains", "tectonic-plains", "karstic-plains", "low-plains", "high-plains"]],
   ["plateaus", ["tabular-plateaus", "karstic-plateaus", "volcanic-plateaus", "erosion-plateaus"]],
   ["tourism", ["natural-tourism", "cultural-tourism"]],
   ["industry", ["food-industry", "textile-industry", "chemical-industry", "machine-industry"]],
@@ -576,6 +582,8 @@ const officialExpectations = {
     "Kocaova", "Acıpayam Ovası", "Muğla Ovası", "Tefenni Ovası",
     "Gölhisar Ovası", "Bozova Ovası",
   ],
+  "low-plains": ["Çukurova", "Gediz Ovası", "Bursa Ovası", "Çarşamba Deltası"],
+  "high-plains": ["Konya Ovası", "Iğdır Ovası", "Yüksekova", "Erzincan Ovası", "Muş Ovası"],
   "tabular-plateaus": [
     "Bozok Platosu", "Obruk Platosu", "Gaziantep Platosu",
     "Haymana Platosu", "Cihanbeyli Platosu", "Uzunyayla Platosu",
@@ -841,11 +849,11 @@ const report = {
 console.log(JSON.stringify(report, null, 2));
 
 const auditFailures = [
-  ...(report.quizCount < 104
-    ? [`oyun kataloğu 104 oyunun altına düştü (${report.quizCount})`]
+  ...(report.quizCount < 106
+    ? [`oyun kataloğu 106 oyunun altına düştü (${report.quizCount})`]
     : []),
-  ...(report.quizLocationCount < 1458
-    ? [`oyun hedefleri 1458 konumun altına düştü (${report.quizLocationCount})`]
+  ...(report.quizLocationCount < 1467
+    ? [`oyun hedefleri 1467 konumun altına düştü (${report.quizLocationCount})`]
     : []),
   ...(report.duplicateQuizIds.length > 0
     ? [`${report.duplicateQuizIds.length} yinelenen oyun kimliği`]

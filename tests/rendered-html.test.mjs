@@ -23,8 +23,8 @@ test("KPSS harita oyunu sunucuda doğru kimlikle oluşturulur", async () => {
   assert.match(html, /Türkiye Dağları/);
   assert.match(html, /data-active-quiz-id="mountains-all"/);
   assert.match(html, /data-quiz-id="provinces"/);
-  assert.match(html, /104(?:<!-- -->)? harita/);
-  assert.match(html, /1458(?:<!-- -->)? konum/);
+  assert.match(html, /106(?:<!-- -->)? harita/);
+  assert.match(html, /1467(?:<!-- -->)? konum/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Starter Project/);
 });
 
@@ -66,6 +66,8 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /id: "delta-plains"/);
   assert.match(page, /id: "tectonic-plains"/);
   assert.match(page, /id: "karstic-plains"/);
+  assert.match(page, /id: "low-plains"/);
+  assert.match(page, /id: "high-plains"/);
   assert.match(page, /id: "tabular-plateaus"/);
   assert.match(page, /id: "karstic-plateaus"/);
   assert.match(page, /id: "volcanic-plateaus"/);

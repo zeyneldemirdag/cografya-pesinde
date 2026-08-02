@@ -905,6 +905,23 @@ const ALL_PLAIN_FEATURES: Feature[] = [
   ...OTHER_PLAIN_FEATURES,
 ];
 
+function plainFeatureSubset(ids: string[]): Feature[] {
+  return ids.map((id) => {
+    const feature = ALL_PLAIN_FEATURES.find((item) => item.id === id);
+    if (!feature) throw new Error(`Ova çalışma hedefi bulunamadı: ${id}`);
+    return feature;
+  });
+}
+
+// MEB TYT konu özetindeki yükselti sınıflandırmasının doğrudan örnekleri.
+// Bunlar oluşum sınıflarının alternatifi değil, ikinci bir öğrenme eksenidir.
+const LOW_PLAIN_FEATURES = plainFeatureSubset([
+  "cukur-d", "gediz-o", "bursa-o", "carsamba-d",
+]);
+const HIGH_PLAIN_FEATURES = plainFeatureSubset([
+  "konya", "igdir-o", "yuksekova-o", "erzincan-o", "mus-o",
+]);
+
 const TABULAR_PLATEAU_FEATURES: Feature[] = [
   f("bozok", "Bozok Platosu", 57, 43, 14, 9, "plateau"),
   f("obruk", "Obruk Platosu", 49, 59, 13, 8, "plateau"),
@@ -2249,6 +2266,26 @@ const QUIZZES: Quiz[] = [
     features: [...KARSTIC_PLAIN_FEATURES],
   },
   {
+    id: "low-plains",
+    group: "Yer şekilleri",
+    title: "Alçak Ovalar",
+    eyebrow: "Yer şekilleri · Ovalar · Yükselti",
+    description: "MEB'in deniz seviyesine yakın alçak ova örneklerini bul.",
+    color: "#9a754e",
+    icon: "⇣",
+    features: [...LOW_PLAIN_FEATURES],
+  },
+  {
+    id: "high-plains",
+    group: "Yer şekilleri",
+    title: "Yüksek Ovalar",
+    eyebrow: "Yer şekilleri · Ovalar · Yükselti",
+    description: "İç kesimlerde dağlar arasındaki yüksek ova örneklerini bul.",
+    color: "#865f42",
+    icon: "⇡",
+    features: [...HIGH_PLAIN_FEATURES],
+  },
+  {
     id: "tabular-plateaus",
     group: "Yer şekilleri",
     title: "Tabaka Düzlüğü Platoları",
@@ -2496,6 +2533,17 @@ const QUIZZES: Quiz[] = [
 const GROUPS = ["Tümü", ...Array.from(new Set(QUIZZES.map((quiz) => quiz.group)))];
 const TOTAL_LOCATIONS = QUIZZES.reduce((sum, quiz) => sum + quiz.features.length, 0);
 
+const QUIZ_FAMILIES = [
+  {
+    label: "Ova çalışma setleri",
+    ids: ["plains", "delta-plains", "tectonic-plains", "karstic-plains", "low-plains", "high-plains"],
+  },
+  {
+    label: "Plato çalışma setleri",
+    ids: ["plateaus", "tabular-plateaus", "karstic-plateaus", "volcanic-plateaus", "erosion-plateaus"],
+  },
+] as const;
+
 type SourceRef = { label: string; url: string };
 
 const SOURCE_BY_GROUP: Record<string, SourceRef> = {
@@ -2629,6 +2677,14 @@ const SOURCE_BY_QUIZ: Record<string, SourceRef> = {
   "karstic-plains": {
     label: "MEB Türkiye'nin başlıca polye ovaları",
     url: "https://ogmmateryal.eba.gov.tr/panel/upload/etkilesimli/kitap/cografya/10/unite1/files/basic-html/page46.html",
+  },
+  "low-plains": {
+    label: "MEB alçak ova örnekleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page76.html",
+  },
+  "high-plains": {
+    label: "MEB yüksek ova örnekleri",
+    url: "https://ogmmateryal.eba.gov.tr/kitap/mebi-konu-ozetleri/tyt-cografya/files/basic-html/page76.html",
   },
   plateaus: {
     label: "MEB Türkiye'nin platoları",
@@ -2962,6 +3018,16 @@ const NEIGHBOR_LABEL_COORDINATES: Record<string, Coordinate> = {
   iran: [45.45, 38.35],
   iraq: [43.45, 36.45],
   syria: [38.1, 35.55],
+};
+const GATE_NEIGHBOR_LABELS: Record<string, string> = {
+  greece: "Yunanistan",
+  bulgaria: "Bulgaristan",
+  georgia: "Gürcistan",
+  armenia: "Ermenistan",
+  azerbaijan: "Nahçıvan",
+  iran: "İran",
+  iraq: "Irak",
+  syria: "Suriye",
 };
 const MAP_COLORS = ["#ead9a2", "#c4d89b", "#e9bd7b", "#c7d8ca", "#d4c1dc", "#f1cf9f", "#b8d6c7"];
 
@@ -5087,7 +5153,7 @@ function TurkeyMap({
     () => uniqueFeatures.filter((feature) => feature.kind === "lake").length >= 40,
     [uniqueFeatures],
   );
-  const isPlainQuiz = ["plains", "delta-plains", "tectonic-plains", "karstic-plains"]
+  const isPlainQuiz = ["plains", "delta-plains", "tectonic-plains", "karstic-plains", "low-plains", "high-plains"]
     .includes(quiz.id);
   const correctIdSet = useMemo(() => new Set(correctIds), [correctIds]);
   const wrongIdSet = useMemo(() => new Set(wrongIds), [wrongIds]);
@@ -5265,11 +5331,6 @@ function TurkeyMap({
                 fillRule="evenodd"
               />
             ))}
-            {Object.entries(NEIGHBOR_LABEL_COORDINATES).map(([id, coordinate]) => {
-              const [x, y] = project(coordinate);
-              const label = NEIGHBOR_COUNTRY_FEATURES.find((feature) => feature.id === id)?.name ?? id;
-              return <text key={`gate-neighbor-label-${id}`} x={x} y={y} className="gate-neighbor-label">{label}</text>;
-            })}
           </g>
         )}
         <image
@@ -5405,6 +5466,8 @@ function TurkeyMap({
                 ? "wrong"
                 : "idle";
             const renderedShape = renderedFeatureShapes.get(feature.id);
+            const generalPlainScale = quiz.id === "plains" && feature.kind === "plain" ? .72 : 1;
+            const [featureX, featureY] = featureCenter(feature);
             return (
               <g
                 key={feature.id}
@@ -5430,11 +5493,33 @@ function TurkeyMap({
                 }}
               >
                 {renderedShape?.hitArea}
-                {renderedShape?.graphic}
+                {generalPlainScale < 1 ? (
+                  <g
+                    className="general-plain-graphic"
+                    transform={`translate(${featureX} ${featureY}) scale(${generalPlainScale}) translate(${-featureX} ${-featureY})`}
+                  >
+                    {renderedShape?.graphic}
+                  </g>
+                ) : renderedShape?.graphic}
               </g>
             );
           })}
         </g>}
+        {quiz.id === "gates" && (
+          <g className="gate-neighbor-label-layer" aria-hidden="true">
+            {Object.entries(NEIGHBOR_LABEL_COORDINATES).map(([id, coordinate]) => {
+              const [x, y] = project(coordinate);
+              const label = GATE_NEIGHBOR_LABELS[id] ?? id;
+              const width = Math.max(52, label.length * 8.2 + 22);
+              return (
+                <g key={`gate-neighbor-label-${id}`} transform={`translate(${x} ${y})`}>
+                  <rect className="gate-neighbor-label-bg" x={-width / 2} y="-16" width={width} height="26" rx="8" />
+                  <text x="0" y="2" className="gate-neighbor-label">{label}</text>
+                </g>
+              );
+            })}
+          </g>
+        )}
         {quiz.id === "gates" && (
           <g className="railway-map-legend" aria-hidden="true">
             <rect x="-72" y="465" width="224" height="27" rx="9" />
@@ -5629,6 +5714,7 @@ export default function Home() {
   const studyRoute = useMemo(() => buildStudyRoute(masteryByQuiz), [masteryByQuiz]);
   const savedWeakFeatureIds = (masteryByQuiz[quiz.id]?.weakFeatureIds ?? [])
     .filter((id) => quiz.features.some((feature) => feature.id === id));
+  const activeQuizFamily = QUIZ_FAMILIES.find((family) => family.ids.some((id) => id === quiz.id));
 
   const accuracy =
     attempts === 0 ? 100 : Math.round((correctIds.length / attempts) * 100);
@@ -6093,6 +6179,30 @@ export default function Home() {
             </a>
             <b>{QUIZZES.length} harita · {TOTAL_LOCATIONS} konum</b>
           </div>
+
+          {activeQuizFamily && (
+            <nav className="quiz-family-nav" aria-label={activeQuizFamily.label}>
+              <span>{activeQuizFamily.label}</span>
+              <div>
+                {activeQuizFamily.ids.map((quizId) => {
+                  const familyQuiz = QUIZZES.find((item) => item.id === quizId);
+                  if (!familyQuiz) return null;
+                  return (
+                    <button
+                      type="button"
+                      key={quizId}
+                      className={quizId === quiz.id ? "active" : ""}
+                      aria-current={quizId === quiz.id ? "page" : undefined}
+                      onClick={() => resetQuiz(quizId)}
+                    >
+                      {familyQuiz.title}
+                      <small>{familyQuiz.features.length}</small>
+                    </button>
+                  );
+                })}
+              </div>
+            </nav>
+          )}
 
           <div className="score-grid">
             <div><strong>{correctIds.length}</strong><span>Doğru</span></div>

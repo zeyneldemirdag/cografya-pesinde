@@ -8,11 +8,25 @@ const [page, styles] = await Promise.all([
 ]);
 
 test("ova oyunları opak dolgu ve sade koyu sınırla birbirinden ayrılır", () => {
-  assert.match(page, /const isPlainQuiz = \["plains", "delta-plains", "tectonic-plains", "karstic-plains"\]/);
+  assert.match(page, /const isPlainQuiz = \["plains", "delta-plains", "tectonic-plains", "karstic-plains", "low-plains", "high-plains"\]/);
   assert.match(page, /isPlainQuiz \? " real-map--plains" : ""/);
   assert.match(styles, /\.real-map--plains \.geo-feature--idle \.geo-shape--plain \{[\s\S]*?fill: #9f6b43;[\s\S]*?fill-opacity: 1;[\s\S]*?stroke: #593821;[\s\S]*?stroke-width: 1\.15;/);
   assert.match(styles, /\.real-map--plains \.geo-feature--correct \.geo-shape--plain \{[\s\S]*?fill: #2fa66f/);
   assert.match(styles, /\.real-map--plains \.geo-feature--wrong \.geo-shape--plain \{[\s\S]*?fill: #eb5148/);
+});
+
+test("genel ova haritası kalabalığı azaltır, hedef koordinatını ve geniş tıklama alanını korur", () => {
+  assert.match(page, /quiz\.id === "plains" && feature\.kind === "plain" \? \.72 : 1/);
+  assert.match(page, /className="general-plain-graphic"/);
+  assert.match(page, /\{renderedShape\?\.hitArea\}[\s\S]*generalPlainScale < 1/);
+  assert.match(styles, /\.general-plain-graphic \{ transform-box: fill-box; transform-origin: center; \}/);
+});
+
+test("ova ve plato alt oyunları aktif konunun yanında çalışma paketi olarak görünür", () => {
+  assert.match(page, /label: "Ova çalışma setleri"[\s\S]*"low-plains", "high-plains"/);
+  assert.match(page, /label: "Plato çalışma setleri"[\s\S]*"volcanic-plateaus"/);
+  assert.match(page, /className="quiz-family-nav"/);
+  assert.match(styles, /\.quiz-family-nav\s*\{/);
 });
 
 test("doğru cevap ismi haritadaki hedeflerin üstüne etiket olarak çizilmez", () => {

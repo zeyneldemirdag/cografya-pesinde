@@ -64,4 +64,7 @@ test("kapı haritası sekiz komşuyu gösterir ve yakın kapıları çağrı çi
   assert.match(source, /feature\.kind === "gate"[\s\S]*?GATE_CALLOUT_OFFSETS\[feature\.id\]/);
   assert.match(styles, /\.gate-neighbor-country \{[\s\S]*?fill: #566466/);
   assert.match(styles, /\.gate-neighbor-label \{[\s\S]*?text-transform: uppercase/);
+  assert.match(source, /const GATE_NEIGHBOR_LABELS:[\s\S]*azerbaijan: "Nahçıvan"/);
+  assert.match(source, /className="gate-neighbor-label-layer"[\s\S]*className="gate-neighbor-label-bg"/);
+  assert.match(styles, /\.gate-neighbor-label-bg \{[\s\S]*fill: rgba\(7, 26, 31, \.9\)/);
 });
