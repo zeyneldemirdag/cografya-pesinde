@@ -48,6 +48,7 @@ export default function RootLayout({
       <head>
         <meta name="color-scheme" content="only light" />
         <meta name="supported-color-schemes" content="light" />
+        <meta name="darkreader-lock" />
       </head>
       <body>{children}</body>
     </html>

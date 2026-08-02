@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   color-scheme: only light;
   --ink: #162925;
   --muted: #66736e;
@@ -15,6 +16,7 @@
 * { box-sizing: border-box; }
 html {
   scroll-behavior: auto;
+  color-scheme: light;
   color-scheme: only light;
   background-color: #f5f2e9;
 }
@@ -32,15 +34,24 @@ body {
 
 button, a { font: inherit; }
 button, input, select, textarea {
+  color-scheme: light;
   color-scheme: only light;
 }
 button { color: inherit; }
 .app-shell { min-height: 100vh; overflow-x: clip; }
+.app-shell,
+.real-map,
+.map-stage {
+  forced-color-adjust: none;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
 
 @media (prefers-color-scheme: dark) {
   :root,
   html,
   body {
+    color-scheme: light !important;
     color-scheme: only light !important;
   }
 

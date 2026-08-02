@@ -12,11 +12,13 @@ test("telefonun koyu teması sitenin ve haritanın renklerini değiştiremez", (
   assert.match(layout, /colorScheme: "only light"/);
   assert.match(layout, /<meta name="color-scheme" content="only light" \/>/);
   assert.match(layout, /<meta name="supported-color-schemes" content="light" \/>/);
+  assert.match(layout, /<meta name="darkreader-lock" \/>/);
   assert.match(layout, /style=\{\{ colorScheme: "only light" \}\}/);
-  assert.match(styles, /:root \{\s*color-scheme: only light;/);
-  assert.match(styles, /html \{[\s\S]*color-scheme: only light;/);
-  assert.match(styles, /@media \(prefers-color-scheme: dark\)[\s\S]*color-scheme: only light !important;/);
-  assert.match(styles, /button, input, select, textarea \{[\s\S]*color-scheme: only light;/);
+  assert.match(styles, /:root \{\s*color-scheme: light;\s*color-scheme: only light;/);
+  assert.match(styles, /html \{[\s\S]*color-scheme: light;\s*color-scheme: only light;/);
+  assert.match(styles, /@media \(prefers-color-scheme: dark\)[\s\S]*color-scheme: light !important;\s*color-scheme: only light !important;/);
+  assert.match(styles, /button, input, select, textarea \{[\s\S]*color-scheme: light;\s*color-scheme: only light;/);
+  assert.match(styles, /\.app-shell,[\s\S]*\.real-map,[\s\S]*\.map-stage \{[\s\S]*forced-color-adjust: none;[\s\S]*-webkit-print-color-adjust: exact;/);
 });
 
 test("yakınlaştırma yalnızca harita çerçevesinin içindeki katmanı dönüştürür", () => {
