@@ -44,3 +44,9 @@ test("Menderes Masifi tek dev leke yerine üç alt kütleyle gösterilir", () =>
   )?.[1] ?? "";
   assert.equal((block.match(/\[\[/g) ?? []).length, 3);
 });
+
+test("masif sorusu MEB jeolojik zaman bilgisini parantez içinde öğretir", () => {
+  assert.match(source, /quiz\.id === "massifs"[\s\S]*\$\{current\.name\} \(Paleozoyik · I\. Jeolojik Zaman\)/);
+  assert.match(source, /Türkiye’nin I\. Jeolojik Zaman'da oluşmuş/);
+  assert.match(source, /finished \? "Tebrikler!" : currentQuestionLabel/);
+});

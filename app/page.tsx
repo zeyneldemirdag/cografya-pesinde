@@ -1474,8 +1474,8 @@ const QUIZZES: Quiz[] = [
     id: "massifs",
     group: "Jeoloji",
     title: "Masif Alanları",
-    eyebrow: "Jeoloji · Eski kütleler",
-    description: "Türkiye’nin eski ve dirençli kara kütlelerini bul.",
+    eyebrow: "Jeoloji · Paleozoyik eski kütleler",
+    description: "Türkiye’nin I. Jeolojik Zaman'da oluşmuş eski ve dirençli kara kütlelerini bul.",
     color: "#8d6e63",
     icon: "⬢",
     features: [
@@ -5697,6 +5697,9 @@ export default function Home() {
     ?? sessionFeatureIds.find((id) => !correctIds.includes(id))
     ?? quiz.features[0].id;
   const current = quiz.features.find((feature) => feature.id === currentId) ?? quiz.features[0];
+  const currentQuestionLabel = quiz.id === "massifs"
+    ? `${current.name} (Paleozoyik · I. Jeolojik Zaman)`
+    : current.name;
   const lastCorrectFeature = quiz.features.find(
     (feature) => feature.id === correctIds.at(-1),
   );
@@ -6244,7 +6247,7 @@ export default function Home() {
               </span>
               <div className="question-icon">{quiz.icon}</div>
               <p>Haritada nerede?</p>
-              <h2>{finished ? "Tebrikler!" : current.name}</h2>
+              <h2>{finished ? "Tebrikler!" : currentQuestionLabel}</h2>
               {!finished && (
                 <div className="question-card-footer">
                   <span className="instruction">Doğru şekle dokun</span>
