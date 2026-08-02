@@ -10,7 +10,9 @@ const [page, styles] = await Promise.all([
 test("ova oyunları opak dolgu ve sade koyu sınırla birbirinden ayrılır", () => {
   assert.match(page, /const isPlainQuiz = \["plains", "delta-plains", "tectonic-plains", "karstic-plains"\]/);
   assert.match(page, /isPlainQuiz \? " real-map--plains" : ""/);
-  assert.match(styles, /\.real-map--plains \.geo-feature--idle \.geo-shape--plain \{[\s\S]*?fill-opacity: 1;[\s\S]*?stroke: #647447;[\s\S]*?stroke-width: 1\.05;/);
+  assert.match(styles, /\.real-map--plains \.geo-feature--idle \.geo-shape--plain \{[\s\S]*?fill: #9f6b43;[\s\S]*?fill-opacity: 1;[\s\S]*?stroke: #593821;[\s\S]*?stroke-width: 1\.15;/);
+  assert.match(styles, /\.real-map--plains \.geo-feature--correct \.geo-shape--plain \{[\s\S]*?fill: #2fa66f/);
+  assert.match(styles, /\.real-map--plains \.geo-feature--wrong \.geo-shape--plain \{[\s\S]*?fill: #eb5148/);
 });
 
 test("doğru cevap ismi haritadaki hedeflerin üstüne etiket olarak çizilmez", () => {

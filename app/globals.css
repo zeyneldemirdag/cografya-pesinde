@@ -904,20 +904,31 @@ button { color: inherit; }
    okunaksızlaşıyordu. Opak, tek yüzey rengi alttaki konturları doğal olarak
    örter; ince koyu sınır ise komşu ovaları parlamadan ayırır. */
 .real-map--plains .geo-feature--idle .geo-shape--plain {
-  fill: #b8c879;
+  fill: #9f6b43;
   fill-opacity: 1;
-  stroke: #647447;
-  stroke-width: 1.05;
+  stroke: #593821;
+  stroke-width: 1.15;
   stroke-dasharray: none;
   filter: none;
 }
 .real-map--plains .geo-feature--idle:hover .geo-shape--plain,
 .real-map--plains .geo-feature--idle:focus .geo-shape--plain {
-  fill: #cad88c;
+  fill: #bd8657;
   fill-opacity: 1;
-  stroke: #40552e;
-  stroke-width: 1.7;
+  stroke: #3f2818;
+  stroke-width: 1.85;
   filter: none;
+}
+
+/* Boş ovaların kahverengisi doğru cevabın yeşilinden ve yanlış cevabın
+   kırmızısından kesin biçimde ayrılır. */
+.real-map--plains .geo-feature--correct .geo-shape--plain {
+  fill: #2fa66f;
+  stroke: #12583a;
+}
+.real-map--plains .geo-feature--wrong .geo-shape--plain {
+  fill: #eb5148;
+  stroke: #80251f;
 }
 .geo-shape--distribution {
   fill: rgba(225, 122, 45, .52);
