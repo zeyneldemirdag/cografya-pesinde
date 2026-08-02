@@ -50,13 +50,15 @@ test("MEB ana kıvrım kuşakları ayrı hedef ve sürekli dağ zinciridir", () 
   assert.match(page, /className=\{feature\.id\.endsWith\("-belt"\) \? "mountain-belt"/);
 });
 
-test("genel dağ oyununda Toros kuşağı ve Allahuekber Dağları eksiksizdir", () => {
+test("genel dağ oyununda Toros, Allahuekber ve Palandöken eksiksizdir", () => {
   const generalMountains = page.slice(
     page.indexOf('id: "mountains-all"'),
     page.indexOf('id: "fold-mountains"'),
   );
   assert.match(generalMountains, /f\("taurus-belt", "Toros Dağları"/);
   assert.match(generalMountains, /f\("allahuekber", "Allahuekber Dağları"/);
+  assert.match(generalMountains, /f\("palandoken-d", "Palandöken Dağları"/);
+  assert.match(page, /"palandoken-d": \[41\.2753321, 39\.8597575\]/);
   assert.match(
     page,
     /allahuekber: \[\s*\[42\.52, 40\.59\][\s\S]*?\[43\.27, 41\.05\]/,

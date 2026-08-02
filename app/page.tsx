@@ -73,6 +73,90 @@ const f = (
   r = 0,
 ): Feature => ({ id, name, x, y, w, h, kind, r });
 
+const LOCATION_HIDDEN_QUIZ_IDS = new Set([
+  "mines",
+  "metallic-mines",
+  "industrial-minerals",
+  "energy-raw-materials",
+  "industry",
+  "food-industry",
+  "textile-industry",
+  "chemical-industry",
+  "machine-industry",
+]);
+
+const MINERAL_QUIZ_IDS = new Set([
+  "mines",
+  "metallic-mines",
+  "industrial-minerals",
+  "energy-raw-materials",
+]);
+
+function activityOnlyQuestionLabel(quizId: string, feature: Feature) {
+  if (!LOCATION_HIDDEN_QUIZ_IDS.has(quizId)) return feature.name;
+  const activity = feature.name.split(" · ").slice(1).join(" · ").trim();
+  return activity || feature.name;
+}
+
+const QUESTION_HINTS: Record<string, string> = {
+  "akdeniz-cl": "Yazları sıcak-kurak, kışları ılık-yağışlıdır; doğal bitki örtüsü makidir.",
+  "akdeniz-karasal-gecis-cl": "Kıyı etkisi zayıflarken yaz kuraklığı sürer; sıcaklık farkı iç kesimlere doğru artar.",
+  "karadeniz-cl": "Her mevsim yağışlıdır; yıllık sıcaklık farkı az, doğal bitki örtüsü ormandır.",
+  "akdeniz-karadeniz-gecis-cl": "Marmara çevresinde Akdeniz ve Karadeniz yağış rejimlerinin özelliklerini birlikte gösterir.",
+  "karasal-karadeniz-gecis-cl": "Kuzey kıyı kuşağı ile iç kesimler arasında yağış ve sıcaklık bakımından geçiş oluşturur.",
+  "karasal-cl": "Yazlar sıcak-kurak, kışlar soğuk ve kar yağışlıdır; doğal bitki örtüsü bozkırdır.",
+  "karasal-sert-gecis-cl": "Yükselti fazladır; kışlar uzun ve çok soğuk, yazlar kısa ve serindir.",
+  "terra-rossa": "Kalker üzerinde gelişen, demir oksit nedeniyle kırmızı renkli Akdeniz toprağıdır.",
+  "brown-forest": "Nemli orman kuşağında, yıkanmanın belirgin olduğu zonal topraktır.",
+  "podzol-soil": "Soğuk-nemli ortamda iğne yapraklı orman altında gelişir; aşırı yıkanmıştır.",
+  "cherno": "Çayır örtüsü altında humusça zengin, koyu renkli ve verimli zonal topraktır.",
+  "brown-chestnut-step-soil": "Yarı kurak karasal iklimde bozkır örtüsü altında gelişir.",
+  "hydromorphic-soil": "Taban suyunun yüzeye yakın olduğu, drenajı kötü alanlarda oluşur.",
+  "halomorphic-soil": "Kurak ve kapalı havzalarda tuzların yüzeyde birikmesiyle oluşur.",
+  "rendzina-soil": "Kireçli ana kaya üzerinde gelişen koyu renkli kalsimorfik topraktır.",
+  "vertisol-soil": "Killi arazide kuruyunca çatlayan, halk arasında dönen toprak denilen topraktır.",
+  "alluvial-soil": "Akarsuların taşıyıp eğimin azaldığı yerlerde biriktirdiği genç ve verimli topraktır.",
+  "colluvial-soil": "Dağ yamaçlarından kopan malzemenin yamaç eteklerinde birikmesiyle oluşur.",
+  "lithosol-soil": "Eğimli yamaçlarda ince malzemenin taşınması sonucu taşlı ve sığ kalır.",
+  "regosol-soil": "Volkanik kumlar veya gevşek malzeme üzerinde gelişen genç topraktır.",
+  "loess-soil": "Rüzgârın taşıyıp biriktirdiği ince taneli malzemeden oluşur.",
+  "moraine-soil": "Buzulların taşıyıp biriktirdiği malzeme üzerinde gelişen genç topraktır.",
+  "brown-forest-map": "Nemli orman kuşağında, yıkanmanın belirgin olduğu zonal topraktır.",
+  "calcareous-forest-map": "Kireçli ana materyal üzerinde orman örtüsü altında gelişir.",
+  "brown-chestnut-step-map": "Yarı kurak karasal iklimde bozkır örtüsü altında gelişir.",
+  "terra-rossa-map": "Kalker üzerinde gelişen, demir oksit nedeniyle kırmızı renkli Akdeniz toprağıdır.",
+  "red-calcareous-step-map": "Kurak iç kesimlerde kireçli ana materyal üzerinde gelişen step toprağıdır.",
+  "rendzina-map": "Kireçli ana kaya üzerinde gelişen koyu renkli kalsimorfik topraktır.",
+  "mountain-stony-soil-map": "Eğim ve volkanik malzeme nedeniyle taşlı, sığ ve genç karakterlidir.",
+  "chernozem-map": "Çayır örtüsü altında humusça zengin, koyu renkli ve verimli topraktır.",
+  "vertisol-map": "Killi arazide kuruyunca çatlayan, halk arasında dönen toprak denilen topraktır.",
+  "saline-alkaline-map": "Kapalı havzalarda şiddetli buharlaşma ile tuz ve alkali birikir.",
+  "alluvial-map": "Akarsuların taşıyıp biriktirdiği genç ve verimli topraktır.",
+  "coastal-dune-map": "Dalgaların ve rüzgârın kıyıda biriktirdiği kumlardan oluşur.",
+  "podzolized-map": "Soğuk-nemli ortamda güçlü yıkanmayla açık renkli horizon gelişir.",
+};
+
+type MineralVisual = { code: string; tone: string; label: string };
+
+function mineralVisualFor(feature: Feature): MineralVisual {
+  const name = feature.name.toLocaleLowerCase("tr-TR");
+  if (name.includes("demir")) return { code: "Fe", tone: "iron", label: "Demir" };
+  if (name.includes("krom")) return { code: "Cr", tone: "chrome", label: "Krom" };
+  if (name.includes("bakır")) return { code: "Cu", tone: "copper", label: "Bakır" };
+  if (name.includes("boksit") || name.includes("alüminyum")) return { code: "Al", tone: "bauxite", label: "Boksit" };
+  if (name.includes("manganez")) return { code: "Mn", tone: "manganese", label: "Manganez" };
+  if (name.includes("kurşun") || name.includes("çinko")) return { code: "Pb", tone: "lead", label: "Kurşun-Çinko" };
+  if (name.includes("bor")) return { code: "B", tone: "boron", label: "Bor" };
+  if (name.includes("fosfat")) return { code: "P", tone: "phosphate", label: "Fosfat" };
+  if (name.includes("tuz")) return { code: "Na", tone: "salt", label: "Tuz" };
+  if (name.includes("mermer") || name.includes("traverten") || name.includes("doğal taş")) return { code: "M", tone: "marble", label: "Mermer" };
+  if (name.includes("oltu")) return { code: "Ot", tone: "oltu", label: "Oltu taşı" };
+  if (name.includes("lüle")) return { code: "Lt", tone: "meerschaum", label: "Lüle taşı" };
+  if (name.includes("taş kömürü")) return { code: "Tk", tone: "hard-coal", label: "Taş kömürü" };
+  if (name.includes("linyit")) return { code: "L", tone: "lignite", label: "Linyit" };
+  return { code: "●", tone: "other", label: "Maden" };
+}
+
 const NEIGHBOR_COUNTRY_FEATURES: Feature[] = [
   f("greece", "Yunanistan", 0, 0, 8, 8, "country"),
   f("bulgaria", "Bulgaristan", 0, 0, 8, 8, "country"),
@@ -987,6 +1071,7 @@ const QUIZZES: Quiz[] = [
       f("elmadag", "Elmadağ", 45, 42, 7, 5, "mountain"),
       f("munzur", "Munzur Dağları", 69, 46, 8, 5, "mountain", -4),
       f("mercan", "Mercan Dağları", 71, 41, 8, 5, "mountain"),
+      f("palandoken-d", "Palandöken Dağları", 82, 38, 8, 5, "mountain", -18),
       f("hakkari", "Hakkâri Dağları", 84, 69, 8, 6, "mountain", -8),
       f("madra", "Madra Dağları", 14, 43, 6, 5, "mountain", 18),
       f("yunt", "Yunt Dağları", 19, 49, 6, 5, "mountain", 18),
@@ -1034,6 +1119,7 @@ const QUIZZES: Quiz[] = [
       f("elmadag-f", "Elmadağ", 45, 42, 8, 5, "mountain"),
       f("munzur-f", "Munzur Dağları", 69, 46, 9, 5, "mountain"),
       f("mercan-f", "Mercan Dağları", 71, 41, 9, 5, "mountain"),
+      f("palandoken-d", "Palandöken Dağları", 82, 38, 9, 5, "mountain", -18),
       f("hakkari", "Hakkâri Dağları", 82, 69, 13, 6, "mountain", -8),
     ],
   },
@@ -2530,6 +2616,69 @@ const QUIZZES: Quiz[] = [
   },
 ];
 
+const GENERAL_FORMATION_GROUPS: Record<string, { quizId: string; label: string }[]> = {
+  "mountains-all": [
+    { quizId: "fold-mountains", label: "Kıvrım dağı" },
+    { quizId: "fault-mountains", label: "Kırık (horst) dağı" },
+    { quizId: "volcanic-mountains", label: "Volkanik dağ" },
+  ],
+  "lakes-all": [
+    { quizId: "tectonic-lakes", label: "Tektonik göl" },
+    { quizId: "volcanic-set-lakes", label: "Volkanik set gölü" },
+    { quizId: "landslide-set-lakes", label: "Heyelan set gölü" },
+    { quizId: "alluvial-set-lakes", label: "Alüvyal set gölü" },
+    { quizId: "coastal-set-lakes", label: "Kıyı set gölü" },
+    { quizId: "mixed-origin-lakes", label: "Karma oluşumlu göl" },
+    { quizId: "glacial-lakes", label: "Sirk (buzul) gölü" },
+    { quizId: "karstic-lakes", label: "Karstik göl" },
+    { quizId: "volcanic-lakes", label: "Volkanik göl" },
+  ],
+  plains: [
+    { quizId: "delta-plains", label: "Delta ovası" },
+    { quizId: "tectonic-plains", label: "Tektonik ova" },
+    { quizId: "karstic-plains", label: "Karstik (polye) ova" },
+  ],
+  plateaus: [
+    { quizId: "tabular-plateaus", label: "Tabaka düzlüğü platosu" },
+    { quizId: "karstic-plateaus", label: "Karstik plato" },
+    { quizId: "volcanic-plateaus", label: "Volkanik (lav) platosu" },
+    { quizId: "erosion-plateaus", label: "Aşınım düzlüğü platosu" },
+  ],
+};
+
+const GENERAL_FORMATION_OVERRIDES: Record<string, string> = {
+  "antalya-o": "Kıyı (alüvyal) ovası",
+  "ergene-o": "Tektonik ova",
+  "merzifon-o": "Tektonik ova",
+  "ceyhan-o": "Alüvyal ova",
+};
+
+function formationLabelFor(generalQuizId: string, featureId: string) {
+  if (generalQuizId === "plains" && GENERAL_FORMATION_OVERRIDES[featureId]) {
+    return GENERAL_FORMATION_OVERRIDES[featureId];
+  }
+  const groups = GENERAL_FORMATION_GROUPS[generalQuizId];
+  if (!groups) return undefined;
+  const generalFeature = QUIZZES.find((quiz) => quiz.id === generalQuizId)
+    ?.features.find((feature) => feature.id === featureId);
+  const normalizedName = generalFeature?.name
+    .split(" · ")[0]
+    .replace(/\s*\([^)]*\)\s*/g, " ")
+    .trim()
+    .toLocaleLowerCase("tr-TR");
+  return groups.find(({ quizId }) =>
+    QUIZZES.find((quiz) => quiz.id === quizId)?.features.some((feature) => {
+      if (feature.id === featureId) return true;
+      const candidateName = feature.name
+        .split(" · ")[0]
+        .replace(/\s*\([^)]*\)\s*/g, " ")
+        .trim()
+        .toLocaleLowerCase("tr-TR");
+      return Boolean(normalizedName && candidateName === normalizedName);
+    }),
+  )?.label;
+}
+
 const GROUPS = ["Tümü", ...Array.from(new Set(QUIZZES.map((quiz) => quiz.group)))];
 const TOTAL_LOCATIONS = QUIZZES.reduce((sum, quiz) => sum + quiz.features.length, 0);
 
@@ -4005,6 +4154,7 @@ const POINT_COORDINATES: Record<string, Coordinate> = {
   "kartalkaya-tour": [31.809, 40.59],
   "erciyes-tour": [35.4502248, 38.5327397],
   "palandoken-tour": [41.2753321, 39.8597575],
+  "palandoken-d": [41.2753321, 39.8597575],
   "kackar-tour": [40.84, 40.84],
   "beydaglari-tour": [30.2, 36.62],
   "nemrut-bitlis-tour": [42.2554405, 38.6546955],
@@ -4141,6 +4291,7 @@ const REAL_LINES: Record<string, Coordinate[]> = {
   "uludag-tour": [[28.8, 40.1], [28.98, 40.08], [29.1, 40.0], [29.25, 39.96], [29.4, 39.9]],
   "kartalkaya-tour": [[31.55, 40.68], [31.72, 40.63], [31.809, 40.59], [31.98, 40.54], [32.12, 40.5]],
   "palandoken-tour": [[40.95, 40.02], [41.15, 39.94], [41.275, 39.86], [41.47, 39.72], [41.62, 39.58]],
+  "palandoken-d": [[40.95, 40.02], [41.15, 39.94], [41.275, 39.86], [41.47, 39.72], [41.62, 39.58]],
   "kackar-tour": [[40.42, 40.91], [40.68, 40.86], [40.84, 40.84], [41.08, 40.78], [41.3, 40.72]],
   "beydaglari-tour": [[29.62, 36.76], [29.9, 36.72], [30.2, 36.72], [30.43, 36.8], [30.62, 36.94]],
   yildiz: [[26.7, 41.6], [27.5, 41.7], [28.7, 41.6]],
@@ -4523,6 +4674,31 @@ function areaPolygonsFor(feature: Feature) {
   return polygon ? [polygon] : undefined;
 }
 
+function scaleAreaPolygons(polygons: Coordinate[][], scale: number): Coordinate[][] {
+  if (scale === 1) return polygons;
+  return polygons.map((polygon) => {
+    const center = polygon.reduce(
+      ([longitudeSum, latitudeSum], [longitude, latitude]) => [
+        longitudeSum + longitude,
+        latitudeSum + latitude,
+      ],
+      [0, 0] as Coordinate,
+    ).map((sum) => sum / polygon.length) as Coordinate;
+    return polygon.map(([longitude, latitude]) => [
+      center[0] + (longitude - center[0]) * scale,
+      center[1] + (latitude - center[1]) * scale,
+    ]);
+  });
+}
+
+function plainAreaScaleForQuiz(quizId: string) {
+  if (quizId === "plains") return .42;
+  if (quizId === "tectonic-plains") return .5;
+  if (quizId === "karstic-plains") return .64;
+  if (["delta-plains", "low-plains", "high-plains"].includes(quizId)) return .78;
+  return 1;
+}
+
 function distributionPolygonsFor(feature: Feature) {
   return DISTRIBUTION_POLYGONS[feature.id];
 }
@@ -4707,6 +4883,8 @@ function featureGraphic(
   faultShape?: FaultFeature,
   exactAreaShape?: AreaFeature,
   denseLakeMap = false,
+  plainAreaScale = 1,
+  mineralMap = false,
 ) {
   const realLine = realLineFor(feature);
   const straitPolygon = STRAIT_POLYGONS[feature.id];
@@ -4720,6 +4898,17 @@ function featureGraphic(
     && realLine
     && (!riverShape || ["aras", "aras-br", "coruh", "dicle"].includes(feature.id));
   const clusteredLake = clusteredMicroLake(feature, denseLakeMap ? 0.68 : 1);
+
+  if (mineralMap) {
+    const mineral = mineralVisualFor(feature);
+    return (
+      <g className={`mine-marker mine-marker--${mineral.tone}`} aria-label={mineral.label}>
+        <circle cx={cx} cy={cy} r="15" className="mine-marker-hit" />
+        <circle cx={cx} cy={cy} r="9.5" className="geo-shape geo-shape--mine mine-marker-disc" />
+        <text x={cx} y={cy + .4} className="mine-marker-code">{mineral.code}</text>
+      </g>
+    );
+  }
 
   if (clusteredLake) {
     return (
@@ -4833,7 +5022,10 @@ function featureGraphic(
     );
   }
 
-  const areaPolygons = areaPolygonsFor(feature);
+  const sourceAreaPolygons = areaPolygonsFor(feature);
+  const areaPolygons = sourceAreaPolygons && feature.kind === "plain"
+    ? scaleAreaPolygons(sourceAreaPolygons, plainAreaScale)
+    : sourceAreaPolygons;
   if (areaPolygons) {
     const isIntermittentPolye = feature.id === "kestel-l";
     return (
@@ -5204,6 +5396,8 @@ function TurkeyMap({
           faultById.get(feature.id),
           exactAreaShape,
           denseLakeMap,
+          feature.kind === "plain" ? plainAreaScaleForQuiz(quiz.id) : 1,
+          MINERAL_QUIZ_IDS.has(quiz.id),
         ),
       }] as const;
     }),
@@ -5215,6 +5409,7 @@ function TurkeyMap({
     lakeById,
     neighborById,
     provinces,
+    quiz.id,
     riverById,
     uniqueFeatures,
   ]);
@@ -5466,8 +5661,6 @@ function TurkeyMap({
                 ? "wrong"
                 : "idle";
             const renderedShape = renderedFeatureShapes.get(feature.id);
-            const generalPlainScale = quiz.id === "plains" && feature.kind === "plain" ? .72 : 1;
-            const [featureX, featureY] = featureCenter(feature);
             return (
               <g
                 key={feature.id}
@@ -5493,14 +5686,7 @@ function TurkeyMap({
                 }}
               >
                 {renderedShape?.hitArea}
-                {generalPlainScale < 1 ? (
-                  <g
-                    className="general-plain-graphic"
-                    transform={`translate(${featureX} ${featureY}) scale(${generalPlainScale}) translate(${-featureX} ${-featureY})`}
-                  >
-                    {renderedShape?.graphic}
-                  </g>
-                ) : renderedShape?.graphic}
+                {renderedShape?.graphic}
               </g>
             );
           })}
@@ -5697,9 +5883,18 @@ export default function Home() {
     ?? sessionFeatureIds.find((id) => !correctIds.includes(id))
     ?? quiz.features[0].id;
   const current = quiz.features.find((feature) => feature.id === currentId) ?? quiz.features[0];
+  const baseQuestionLabel = activityOnlyQuestionLabel(quiz.id, current);
   const currentQuestionLabel = quiz.id === "massifs"
-    ? `${current.name} (Paleozoyik · I. Jeolojik Zaman)`
-    : current.name;
+    ? `${baseQuestionLabel} (Paleozoyik · I. Jeolojik Zaman)`
+    : baseQuestionLabel;
+  const currentQuestionHint = QUESTION_HINTS[current.id];
+  const currentFormationLabel = formationLabelFor(quiz.id, current.id);
+  const mineralLegend = MINERAL_QUIZ_IDS.has(quiz.id)
+    ? [...new Map(quiz.features.map((feature) => {
+      const visual = mineralVisualFor(feature);
+      return [visual.label, visual] as const;
+    })).values()]
+    : [];
   const lastCorrectFeature = quiz.features.find(
     (feature) => feature.id === correctIds.at(-1),
   );
@@ -6246,8 +6441,14 @@ export default function Home() {
                 {reviewRound ? "TEKRAR" : "SORU"} {Math.min(correctIds.length + 1, quizFeatureCount)} / {quizFeatureCount}
               </span>
               <div className="question-icon">{quiz.icon}</div>
+              {!finished && currentFormationLabel && (
+                <span className="question-formation">{currentFormationLabel}</span>
+              )}
               <p>Haritada nerede?</p>
               <h2>{finished ? "Tebrikler!" : currentQuestionLabel}</h2>
+              {!finished && currentQuestionHint && (
+                <p className="question-clue">İpucu: {currentQuestionHint}</p>
+              )}
               {!finished && (
                 <div className="question-card-footer">
                   <span className="instruction">Doğru şekle dokun</span>
@@ -6341,6 +6542,16 @@ export default function Home() {
               </div>
             )}
           </div>
+
+          {mineralLegend.length > 0 && (
+            <div className="mineral-key" aria-label="Maden sembolleri">
+              {mineralLegend.map((mineral) => (
+                <span key={mineral.label} className={`mine-marker mine-marker--${mineral.tone}`}>
+                  <b>{mineral.code}</b>{mineral.label}
+                </span>
+              ))}
+            </div>
+          )}
 
           <div className="behavior-note">
             <span className="behavior-number">01</span>

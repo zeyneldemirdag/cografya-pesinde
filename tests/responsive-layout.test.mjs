@@ -35,3 +35,9 @@ test("uygulama yatay taşmayı sayfanın tamamına yaymaz", () => {
     /@media \(max-width: 1100px\)[\s\S]*?minmax\(320px, 360px\) minmax\(0, 1fr\)/,
   );
 });
+
+test("yatay telefonda soru ve harita görünür ekran yüksekliğine sığar", () => {
+  assert.match(styles, /@media \(orientation: landscape\) and \(max-height: 520px\) and \(max-width: 1000px\)/);
+  assert.match(styles, /height: max\(190px, calc\(100dvh - 184px\)\)/);
+  assert.match(styles, /grid-template-columns: minmax\(145px, \.7fr\) minmax\(290px, 1\.5fr\) auto/);
+});

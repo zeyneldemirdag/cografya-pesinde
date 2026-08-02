@@ -16,10 +16,14 @@ test("ova oyunları opak dolgu ve sade koyu sınırla birbirinden ayrılır", ()
 });
 
 test("genel ova haritası kalabalığı azaltır, hedef koordinatını ve geniş tıklama alanını korur", () => {
-  assert.match(page, /quiz\.id === "plains" && feature\.kind === "plain" \? \.72 : 1/);
-  assert.match(page, /className="general-plain-graphic"/);
-  assert.match(page, /\{renderedShape\?\.hitArea\}[\s\S]*generalPlainScale < 1/);
-  assert.match(styles, /\.general-plain-graphic \{ transform-box: fill-box; transform-origin: center; \}/);
+  assert.match(page, /function scaleAreaPolygons\(polygons: Coordinate\[\]\[\], scale: number\)/);
+  assert.match(page, /if \(quizId === "plains"\) return \.42/);
+  assert.match(page, /if \(quizId === "tectonic-plains"\) return \.5/);
+  assert.match(page, /if \(quizId === "karstic-plains"\) return \.64/);
+  assert.match(page, /feature\.kind === "plain" \? plainAreaScaleForQuiz\(quiz\.id\) : 1/);
+  assert.match(page, /scaleAreaPolygons\(sourceAreaPolygons, plainAreaScale\)/);
+  assert.doesNotMatch(page, /className="general-plain-graphic"/);
+  assert.match(page, /\{renderedShape\?\.hitArea\}\s*\{renderedShape\?\.graphic\}/);
 });
 
 test("ova ve plato alt oyunları aktif konunun yanında çalışma paketi olarak görünür", () => {
