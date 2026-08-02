@@ -4012,6 +4012,34 @@ const PORT_CALLOUT_OFFSETS: Record<string, Coordinate> = {
   "haydarpasa-port": [30, -30],
 };
 
+// Sınırdaki yakın kapılar gerçek koordinatlarından koparılmaz; simge dışarı
+// alınır ve ince bağlantı çizgisi tam sınır noktasını gösterir.
+const GATE_CALLOUT_OFFSETS: Record<string, Coordinate> = {
+  kapikule: [-7, -13],
+  pazarkule: [-18, 6],
+  hamzabeyli: [9, -16],
+  derekoy: [17, -4],
+  ipsala: [-15, 8],
+  sarp: [14, -4],
+  turkgozu: [-4, -16],
+  aktas: [12, 10],
+  gurbu: [13, -4],
+  dilucu: [16, 2],
+  kapikoy: [16, -3],
+  esendere: [16, 1],
+  uzumlu: [13, 10],
+  "yayladagi-gate": [-12, 11],
+  cilvegozu: [-8, -16],
+  zeytidali: [-17, 8],
+  oncupinar: [-5, -16],
+  cobanbey: [-2, 14],
+  karkamis: [3, -16],
+  "akcakale-gate": [0, 14],
+  "ceylanpinar-gate": [0, -15],
+  "nusaybin-gate": [0, 14],
+  habur: [13, 12],
+};
+
 const STRAIT_POLYGONS: Record<string, Coordinate[]> = {
   "istanbul-strait": [[28.9744713, 41.0218102], [28.9750682, 41.0176228], [28.9865039, 41.0174645], [28.9880682, 41.0130039], [28.9775963, 41.0014639], [29.0230084, 40.99212], [29.0066612, 41.0073035], [29.0111505, 41.0129903], [29.006788, 41.0230991], [29.0521167, 41.0482385], [29.0553974, 41.0734638], [29.0662404, 41.0811042], [29.066174, 41.1027446], [29.0816962, 41.1072331], [29.0972646, 41.1205819], [29.0915494, 41.1342807], [29.0711649, 41.1431569], [29.0779089, 41.1544962], [29.0734935, 41.1645956], [29.0866851, 41.1700517], [29.0871223, 41.1786616], [29.1125844, 41.1829603], [29.1186179, 41.1877689], [29.1180584, 41.2002838], [29.131043, 41.2031409], [29.1297348, 41.207401], [29.1253889, 41.2048244], [29.1300433, 41.2084203], [29.149902, 41.2130388], [29.1507315, 41.2180763], [29.116173, 41.2338127], [29.1145766, 41.2288], [29.1133322, 41.234073], [29.1061365, 41.220145], [29.1115042, 41.2141658], [29.106311, 41.2051582], [29.091431, 41.2003617], [29.0727073, 41.1750224], [29.036446, 41.1568587], [29.0524003, 41.1469566], [29.0579745, 41.1396613], [29.0542289, 41.1385837], [29.0716977, 41.1245372], [29.0617587, 41.1131254], [29.0543508, 41.1137722], [29.0593579, 41.1093226], [29.053534, 41.0989294], [29.0568428, 41.0829469], [29.0444714, 41.0778666], [29.046376, 41.0678914], [29.0327995, 41.0497522], [28.9967829, 41.0374971], [28.9744713, 41.0218102]],
   "canakkale-strait": [[26.1752383, 40.0430167], [26.198135, 40.008678], [26.238141, 39.9989345], [26.2716547, 40.0008574], [26.286669, 40.004249], [26.2992063, 40.013732], [26.3211055, 40.017296], [26.3343189, 40.0284291], [26.3382413, 40.0428737], [26.3485796, 40.0465013], [26.3561113, 40.0567656], [26.3582361, 40.074916], [26.3657924, 40.0827132], [26.3618603, 40.0924943], [26.3647936, 40.0982501], [26.3711071, 40.1045374], [26.3773678, 40.1016775], [26.3780077, 40.1058657], [26.3863599, 40.1019745], [26.3967817, 40.1043025], [26.4096053, 40.1178834], [26.4074904, 40.1293873], [26.3975227, 40.1432861], [26.4001773, 40.1508466], [26.4094147, 40.1560798], [26.4033906, 40.1631308], [26.4020307, 40.1759571], [26.4064738, 40.1787124], [26.4084157, 40.1929075], [26.4012274, 40.1963301], [26.4147967, 40.200197], [26.442057, 40.193573], [26.4545668, 40.1990488], [26.465807, 40.196509], [26.524594, 40.217179], [26.5416311, 40.2341275], [26.5502835, 40.2536043], [26.5586369, 40.2567918], [26.5565441, 40.2630293], [26.5687777, 40.2769486], [26.5866649, 40.2838169], [26.607107, 40.2813991], [26.6516632, 40.3279567], [26.6890222, 40.349355], [26.690033, 40.3546326], [26.69087, 40.3506563], [26.6900238, 40.3653594], [26.7365271, 40.3904405], [26.7151616, 40.3887654], [26.7120364, 40.3861516], [26.7156055, 40.3818707], [26.7063233, 40.3849217], [26.7443694, 40.3987303], [26.7001126, 40.4198562], [26.6810529, 40.4175403], [26.6826694, 40.4097562], [26.6751634, 40.4036534], [26.6570072, 40.4096416], [26.6585385, 40.4060119], [26.6424347, 40.4038027], [26.6385545, 40.3904003], [26.6260315, 40.3841548], [26.6328183, 40.3643401], [26.593663, 40.3290318], [26.5914355, 40.322153], [26.5740929, 40.3199665], [26.5673628, 40.3078631], [26.5487574, 40.2998873], [26.5125863, 40.2903851], [26.4929431, 40.2776537], [26.4938612, 40.2700674], [26.479423, 40.2549432], [26.4508742, 40.2364314], [26.427866, 40.2296292], [26.4236325, 40.2211503], [26.3989899, 40.2167364], [26.3750389, 40.2037327], [26.3594368, 40.204305], [26.3604719, 40.1826802], [26.3727589, 40.1664533], [26.3811666, 40.1439935], [26.3470717, 40.1265367], [26.3324812, 40.1095839], [26.3125681, 40.1004598], [26.309312, 40.093102], [26.2973084, 40.0857442], [26.231977, 40.060226], [26.2217738, 40.0494674], [26.2053837, 40.0533726], [26.1911179, 40.0414531], [26.1752383, 40.0430167]],
@@ -4587,7 +4615,9 @@ function featureHitArea(
   const [cx, cy] = featureCenter(feature);
   const [offsetX, offsetY] = feature.kind === "port"
     ? PORT_CALLOUT_OFFSETS[feature.id] ?? [0, 0]
-    : [0, 0];
+    : feature.kind === "gate"
+      ? GATE_CALLOUT_OFFSETS[feature.id] ?? [0, 0]
+      : [0, 0];
   return (
     <rect
       className="geo-hit geo-hit--point"
@@ -4984,24 +5014,33 @@ function featureGraphic(
     );
   }
   if (feature.kind === "gate") {
+    const [offsetX, offsetY] = GATE_CALLOUT_OFFSETS[feature.id] ?? [0, 0];
+    const markerX = cx + offsetX;
+    const markerY = cy + offsetY;
     const gateWidth = Math.max(width * .72, 13);
     const gateHeight = Math.max(height * .9, 13);
     return (
       <g className="gate-glyph">
+        {(offsetX !== 0 || offsetY !== 0) && (
+          <>
+            <line x1={cx} y1={cy} x2={markerX} y2={markerY} className="gate-callout-leader" />
+            <circle cx={cx} cy={cy} r="2.8" className="gate-callout-anchor" />
+          </>
+        )}
         <ellipse
-          cx={cx}
-          cy={cy + gateHeight * .68}
+          cx={markerX}
+          cy={markerY + gateHeight * .68}
           rx={gateWidth * .64}
           ry={gateHeight * .18}
           className="gate-shadow"
         />
         <path
-          d={`M${cx - gateWidth * .58},${cy + gateHeight * .62} V${cy - gateHeight * .12} Q${cx - gateWidth * .5},${cy - gateHeight * .7} ${cx},${cy - gateHeight * .7} Q${cx + gateWidth * .5},${cy - gateHeight * .7} ${cx + gateWidth * .58},${cy - gateHeight * .12} V${cy + gateHeight * .62} H${cx + gateWidth * .28} V${cy - gateHeight * .03} Q${cx + gateWidth * .24},${cy - gateHeight * .34} ${cx},${cy - gateHeight * .34} Q${cx - gateWidth * .24},${cy - gateHeight * .34} ${cx - gateWidth * .28},${cy - gateHeight * .03} V${cy + gateHeight * .62} Z`}
+          d={`M${markerX - gateWidth * .58},${markerY + gateHeight * .62} V${markerY - gateHeight * .12} Q${markerX - gateWidth * .5},${markerY - gateHeight * .7} ${markerX},${markerY - gateHeight * .7} Q${markerX + gateWidth * .5},${markerY - gateHeight * .7} ${markerX + gateWidth * .58},${markerY - gateHeight * .12} V${markerY + gateHeight * .62} H${markerX + gateWidth * .28} V${markerY - gateHeight * .03} Q${markerX + gateWidth * .24},${markerY - gateHeight * .34} ${markerX},${markerY - gateHeight * .34} Q${markerX - gateWidth * .24},${markerY - gateHeight * .34} ${markerX - gateWidth * .28},${markerY - gateHeight * .03} V${markerY + gateHeight * .62} Z`}
           className="geo-shape geo-shape--gate"
           fillRule="evenodd"
         />
         <path
-          d={`M${cx - gateWidth * .7},${cy + gateHeight * .63} H${cx + gateWidth * .7}`}
+          d={`M${markerX - gateWidth * .7},${markerY + gateHeight * .63} H${markerX + gateWidth * .7}`}
           className="gate-threshold"
         />
       </g>
@@ -5189,15 +5228,17 @@ function TurkeyMap({
     >
       <svg
         className={`real-map${quiz.id === "neighbors" ? " real-map--neighbors" : ""}${
+          quiz.id === "gates" ? " real-map--gates" : ""
+        }${
           isPlainQuiz ? " real-map--plains" : ""
         }`}
-        viewBox={quiz.id === "neighbors"
+        viewBox={quiz.id === "neighbors" || quiz.id === "gates"
           ? "-100 -80 1200 590"
           : quiz.id === "absolute-location"
             ? "-25 -15 1050 460"
             : "0 0 1000 430"}
         role="img"
-        aria-label={quiz.id === "neighbors"
+        aria-label={quiz.id === "neighbors" || quiz.id === "gates"
           ? `Türkiye ve sekiz kara komşusu üzerinde ${quiz.title}`
           : `81 il sınırları üzerinde ${quiz.title}`}
       >
@@ -5214,6 +5255,23 @@ function TurkeyMap({
             <stop offset="100%" stopColor="#dc8538" />
           </linearGradient>
         </defs>
+        {quiz.id === "gates" && (
+          <g className="gate-neighbor-layer" aria-hidden="true">
+            {neighbors.map((neighbor) => (
+              <path
+                key={`gate-neighbor-${neighbor.properties.id}`}
+                d={lakePath(neighbor)}
+                className="gate-neighbor-country"
+                fillRule="evenodd"
+              />
+            ))}
+            {Object.entries(NEIGHBOR_LABEL_COORDINATES).map(([id, coordinate]) => {
+              const [x, y] = project(coordinate);
+              const label = NEIGHBOR_COUNTRY_FEATURES.find((feature) => feature.id === id)?.name ?? id;
+              return <text key={`gate-neighbor-label-${id}`} x={x} y={y} className="gate-neighbor-label">{label}</text>;
+            })}
+          </g>
+        )}
         <image
           className="relief-layer"
           href={publicAsset("/data/turkey-terrain.png")}
@@ -5379,10 +5437,10 @@ function TurkeyMap({
         </g>}
         {quiz.id === "gates" && (
           <g className="railway-map-legend" aria-hidden="true">
-            <rect x="22" y="390" width="224" height="27" rx="9" />
-            <line x1="36" y1="403.5" x2="76" y2="403.5" className="railway-line-casing" />
-            <line x1="36" y1="403.5" x2="76" y2="403.5" className="railway-line" />
-            <text x="86" y="408">TCDD ANA DEMİRYOLU AĞI</text>
+            <rect x="-72" y="465" width="224" height="27" rx="9" />
+            <line x1="-58" y1="478.5" x2="-18" y2="478.5" className="railway-line-casing" />
+            <line x1="-58" y1="478.5" x2="-18" y2="478.5" className="railway-line" />
+            <text x="-8" y="483">TCDD ANA DEMİRYOLU AĞI</text>
           </g>
         )}
       </svg>

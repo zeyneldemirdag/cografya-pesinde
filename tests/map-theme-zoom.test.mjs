@@ -9,11 +9,14 @@ const [layout, page, styles] = await Promise.all([
 ]);
 
 test("telefonun koyu teması sitenin ve haritanın renklerini değiştiremez", () => {
-  assert.match(layout, /colorScheme: "light"/);
+  assert.match(layout, /colorScheme: "only light"/);
   assert.match(layout, /<meta name="color-scheme" content="only light" \/>/);
+  assert.match(layout, /<meta name="supported-color-schemes" content="light" \/>/);
   assert.match(layout, /style=\{\{ colorScheme: "only light" \}\}/);
   assert.match(styles, /:root \{\s*color-scheme: only light;/);
   assert.match(styles, /html \{[\s\S]*color-scheme: only light;/);
+  assert.match(styles, /@media \(prefers-color-scheme: dark\)[\s\S]*color-scheme: only light !important;/);
+  assert.match(styles, /button, input, select, textarea \{[\s\S]*color-scheme: only light;/);
 });
 
 test("yakınlaştırma yalnızca harita çerçevesinin içindeki katmanı dönüştürür", () => {

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light",
+  colorScheme: "only light",
   themeColor: "#f5f2e9",
 };
 
@@ -47,6 +47,7 @@ export default function RootLayout({
     <html lang="tr" style={{ colorScheme: "only light" }}>
       <head>
         <meta name="color-scheme" content="only light" />
+        <meta name="supported-color-schemes" content="light" />
       </head>
       <body>{children}</body>
     </html>

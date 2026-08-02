@@ -31,8 +31,27 @@ body {
 }
 
 button, a { font: inherit; }
+button, input, select, textarea {
+  color-scheme: only light;
+}
 button { color: inherit; }
 .app-shell { min-height: 100vh; overflow-x: clip; }
+
+@media (prefers-color-scheme: dark) {
+  :root,
+  html,
+  body {
+    color-scheme: only light !important;
+  }
+
+  body {
+    background:
+      linear-gradient(rgba(22, 41, 37, .025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(22, 41, 37, .025) 1px, transparent 1px),
+      #f5f2e9 !important;
+    color: #162925 !important;
+  }
+}
 
 .topbar {
   height: 84px;
@@ -1005,6 +1024,40 @@ button { color: inherit; }
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
+}
+.gate-callout-leader {
+  stroke: rgba(255, 236, 202, .92);
+  stroke-width: 1.35;
+  stroke-dasharray: 3 2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.gate-callout-anchor {
+  fill: #ffb15e;
+  stroke: #71340f;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.gate-neighbor-layer {
+  pointer-events: none;
+}
+.gate-neighbor-country {
+  fill: #566466;
+  stroke: #a9b7b5;
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+.gate-neighbor-label {
+  fill: #eef4ec;
+  font: 800 13px/1 var(--font-sans);
+  letter-spacing: .12em;
+  text-anchor: middle;
+  text-transform: uppercase;
+  paint-order: stroke;
+  stroke: rgba(7, 26, 31, .88);
+  stroke-width: 3px;
+  stroke-linejoin: round;
 }
 .railway-context-layer {
   pointer-events: none;

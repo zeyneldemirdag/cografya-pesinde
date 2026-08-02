@@ -54,3 +54,14 @@ test("sınır kapıları kemerli kapı simgesi ve TCDD ana hat bilgi katmanıyla
   assert.match(styles, /\.geo-shape--gate \{[\s\S]*?fill: #ef8b2c/);
   assert.match(styles, /\.railway-line \{[\s\S]*?stroke-dasharray: 5 2\.6/);
 });
+
+test("kapı haritası sekiz komşuyu gösterir ve yakın kapıları çağrı çizgileriyle ayırır", () => {
+  assert.match(source, /quiz\.id === "neighbors" \|\| quiz\.id === "gates"[\s\S]*?"-100 -80 1200 590"/);
+  assert.match(source, /quiz\.id === "gates"[\s\S]*?className="gate-neighbor-layer"/);
+  assert.match(source, /Object\.entries\(NEIGHBOR_LABEL_COORDINATES\)/);
+  assert.match(source, /const GATE_CALLOUT_OFFSETS: Record<string, Coordinate> = \{/);
+  assert.match(source, /className="gate-callout-leader"/);
+  assert.match(source, /feature\.kind === "gate"[\s\S]*?GATE_CALLOUT_OFFSETS\[feature\.id\]/);
+  assert.match(styles, /\.gate-neighbor-country \{[\s\S]*?fill: #566466/);
+  assert.match(styles, /\.gate-neighbor-label \{[\s\S]*?text-transform: uppercase/);
+});

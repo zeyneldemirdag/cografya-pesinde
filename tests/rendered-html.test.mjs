@@ -100,7 +100,7 @@ test("gerçek göl ve akarsu şekilleri ile oyun davranışı kaynakta bulunur",
   assert.match(page, /"parallel-42n": \[\[25\.55, 42\], \[44\.85, 42\]\]/);
   assert.match(page, /"meridian-26e": \[\[26, 35\.75\], \[26, 42\.15\]\]/);
   assert.match(page, /"meridian-45e": \[\[45, 35\.75\], \[45, 42\.15\]\]/);
-  assert.match(page, /quiz\.id === "neighbors"\s*\?\s*"-100 -80 1200 590"/);
+  assert.match(page, /quiz\.id === "neighbors" \|\| quiz\.id === "gates"\s*\?\s*"-100 -80 1200 590"/);
   assert.match(page, /quiz\.id === "absolute-location"\s*\?\s*"-25 -15 1050 460"/);
   assert.match(page, /geo-shape--exact-basin/);
   assert.match(page, /agri: \[44\.2983964, 39\.7019346\]/);
