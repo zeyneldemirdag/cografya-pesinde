@@ -303,7 +303,7 @@ function quizFeatureNames(id) {
 }
 
 const quizzesStart = source.indexOf("const QUIZZES");
-const quizzesEnd = source.indexOf("const GROUPS", quizzesStart);
+const quizzesEnd = source.indexOf("type KpssCategory", quizzesStart);
 const quizIds = [...source.slice(quizzesStart, quizzesEnd).matchAll(/^\s{4}id: "([^"]+)",/gm)]
   .map((match) => match[1]);
 const quizFeatureCounts = quizIds.map((quiz) => ({

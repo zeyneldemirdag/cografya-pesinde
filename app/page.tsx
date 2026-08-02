@@ -2679,7 +2679,122 @@ function formationLabelFor(generalQuizId: string, featureId: string) {
   )?.label;
 }
 
-const GROUPS = ["Tümü", ...Array.from(new Set(QUIZZES.map((quiz) => quiz.group)))];
+type KpssCategory = {
+  id: string;
+  order: string;
+  title: string;
+  shortTitle: string;
+  description: string;
+  icon: string;
+  matches: (quiz: Quiz) => boolean;
+};
+
+const LOCATION_QUIZ_IDS = new Set([
+  "absolute-location",
+  "neighbors",
+  "regions",
+  "provinces",
+]);
+
+const HUMAN_GEOGRAPHY_QUIZ_IDS = new Set([
+  "cities",
+  "agricultural-function-cities",
+  "industrial-function-cities",
+  "mining-function-cities",
+  "port-function-cities",
+  "transport-trade-function-cities",
+  "culture-admin-military-function-cities",
+  "tourism-function-cities",
+]);
+
+const PHYSICAL_TRANSPORT_QUIZ_IDS = new Set(["straits", "passes", "gulfs"]);
+
+const KPSS_CATEGORIES: KpssCategory[] = [
+  {
+    id: "konum",
+    order: "01",
+    title: "Türkiye'nin Konumu ve Harita Bilgisi",
+    shortTitle: "Konum",
+    description: "Matematik ve özel konum, komşular, bölgeler ve Türkiye'nin idari bölünüşü.",
+    icon: "⌖",
+    matches: (quiz) => LOCATION_QUIZ_IDS.has(quiz.id),
+  },
+  {
+    id: "yer-sekilleri",
+    order: "02",
+    title: "Jeolojik Yapı ve Yer Şekilleri",
+    shortTitle: "Yer Şekilleri",
+    description: "Dağlar, ovalar, platolar, kıyılar, masifler, faylar ve geçitler.",
+    icon: "▲",
+    matches: (quiz) =>
+      ["Dağlar", "Yer şekilleri", "Jeoloji"].includes(quiz.group)
+      || PHYSICAL_TRANSPORT_QUIZ_IDS.has(quiz.id),
+  },
+  {
+    id: "iklim",
+    order: "03",
+    title: "İklim, Bitki Örtüsü ve Toprak",
+    shortTitle: "İklim ve Toprak",
+    description: "Türkiye'nin iklim tipleri, doğal bitki toplulukları ve toprak sınıfları.",
+    icon: "☼",
+    matches: (quiz) => quiz.group === "Doğal",
+  },
+  {
+    id: "sular",
+    order: "04",
+    title: "Türkiye'nin Su Varlıkları",
+    shortTitle: "Sular",
+    description: "Akarsular, göller, havzalar, barajlar ve korunan sulak alanlar.",
+    icon: "≈",
+    matches: (quiz) => ["Göller", "Sular", "Çevre"].includes(quiz.group),
+  },
+  {
+    id: "nufus-yerlesme",
+    order: "05",
+    title: "Nüfus, Yerleşme ve Şehirler",
+    shortTitle: "Nüfus ve Yerleşme",
+    description: "Nüfusun dağılışı ile şehirlerin ekonomik ve yönetsel fonksiyonları.",
+    icon: "●",
+    matches: (quiz) => quiz.group === "Beşerî" || HUMAN_GEOGRAPHY_QUIZ_IDS.has(quiz.id),
+  },
+  {
+    id: "ekonomik-cografya",
+    order: "06",
+    title: "Türkiye'nin Ekonomik Coğrafyası",
+    shortTitle: "Ekonomik Coğrafya",
+    description: "Tarım, hayvancılık, maden, enerji, sanayi, turizm ve kalkınma projeleri.",
+    icon: "◆",
+    matches: (quiz) => quiz.group === "Ekonomi",
+  },
+  {
+    id: "ulasim",
+    order: "07",
+    title: "Ulaşım ve Bağlantılar",
+    shortTitle: "Ulaşım",
+    description: "Limanlar, sınır kapıları, köprüler, tüneller ve ulaşım ağının önemli noktaları.",
+    icon: "↗",
+    matches: (quiz) => quiz.group === "Ulaşım" && !PHYSICAL_TRANSPORT_QUIZ_IDS.has(quiz.id),
+  },
+];
+
+const KPSS_CATALOGUE_SECTIONS = KPSS_CATEGORIES.map((category) => ({
+  ...category,
+  quizzes: QUIZZES.filter(category.matches),
+}));
+
+const CATEGORIZED_QUIZ_IDS = new Set(
+  KPSS_CATALOGUE_SECTIONS.flatMap((category) => category.quizzes.map((quiz) => quiz.id)),
+);
+
+const CATEGORIZED_QUIZ_COUNT = KPSS_CATALOGUE_SECTIONS.reduce(
+  (total, category) => total + category.quizzes.length,
+  0,
+);
+
+if (CATEGORIZED_QUIZ_IDS.size !== QUIZZES.length || CATEGORIZED_QUIZ_COUNT !== QUIZZES.length) {
+  throw new Error("KPSS konu sınıflandırmasında eksik veya birden fazla kategoriye giren harita var.");
+}
+
 const TOTAL_LOCATIONS = QUIZZES.reduce((sum, quiz) => sum + quiz.features.length, 0);
 
 const QUIZ_FAMILIES = [
@@ -5853,7 +5968,7 @@ export default function Home() {
   const [activeQuizId, setActiveQuizId] = useState(QUIZZES[0].id);
   const [questionOrder, setQuestionOrder] = useState(initialFeatureIds);
   const [sessionFeatureIds, setSessionFeatureIds] = useState(initialFeatureIds);
-  const [activeGroup, setActiveGroup] = useState("Tümü");
+  const [activeKpssCategory, setActiveKpssCategory] = useState("Tümü");
   const [correctIds, setCorrectIds] = useState<string[]>([]);
   const [wrongIds, setWrongIds] = useState<string[]>([]);
   const [missedFeatureIds, setMissedFeatureIds] = useState<string[]>([]);
@@ -5898,12 +6013,11 @@ export default function Home() {
   const lastCorrectFeature = quiz.features.find(
     (feature) => feature.id === correctIds.at(-1),
   );
-  const visibleQuizzes = useMemo(
-    () =>
-      activeGroup === "Tümü"
-        ? QUIZZES
-        : QUIZZES.filter((item) => item.group === activeGroup),
-    [activeGroup],
+  const visibleKpssSections = useMemo(
+    () => activeKpssCategory === "Tümü"
+      ? KPSS_CATALOGUE_SECTIONS
+      : KPSS_CATALOGUE_SECTIONS.filter((category) => category.id === activeKpssCategory),
+    [activeKpssCategory],
   );
   const completedQuizCount = Object.values(masteryByQuiz)
     .filter((mastery) => mastery.completedRuns > 0).length;
@@ -6565,11 +6679,12 @@ export default function Home() {
       <section className="catalogue" id="konular">
         <div className="catalogue-heading">
           <div>
-            <span className="eyebrow">KONU KÜTÜPHANESİ</span>
-            <h2>Bir sonraki haritanı seç</h2>
+            <span className="eyebrow">KPSS COĞRAFYA KONU KÜTÜPHANESİ</span>
+            <h2>Konu konu çalış</h2>
           </div>
           <p>
-            Ana konular ve sınavda sık ayrılan alt başlıklar ayrı ayrı çalışılabilir.
+            Haritalar KPSS Genel Kültür Coğrafya konu sırasına göre gruplandı.
+            Önce ana başlığı seç, ardından genel haritayı veya istediğin alt konuyu çalış.
             <strong className="mastery-summary">
               {completedQuizCount} / {QUIZZES.length} haritada en az bir tam tur
             </strong>
@@ -6634,47 +6749,72 @@ export default function Home() {
             </ol>
           </section>
         )}
-        <div className="filter-row" role="tablist" aria-label="Konu grupları">
-          {GROUPS.map((group) => (
+        <div className="filter-row" role="tablist" aria-label="KPSS coğrafya konu başlıkları">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeKpssCategory === "Tümü"}
+            className={activeKpssCategory === "Tümü" ? "active" : ""}
+            onClick={() => setActiveKpssCategory("Tümü")}
+          >
+            Tümü <small>{QUIZZES.length}</small>
+          </button>
+          {KPSS_CATALOGUE_SECTIONS.map((category) => (
             <button
               type="button"
-              key={group}
+              key={category.id}
               role="tab"
-              aria-selected={activeGroup === group}
-              className={activeGroup === group ? "active" : ""}
-              onClick={() => setActiveGroup(group)}
+              aria-selected={activeKpssCategory === category.id}
+              className={activeKpssCategory === category.id ? "active" : ""}
+              onClick={() => setActiveKpssCategory(category.id)}
             >
-              {group}
+              {category.shortTitle} <small>{category.quizzes.length}</small>
             </button>
           ))}
         </div>
-        <div className="quiz-grid">
-          {visibleQuizzes.map((item, index) => {
-            const mastery = masteryByQuiz[item.id];
-            return (
-              <button
-              className={`quiz-tile ${item.id === activeQuizId ? "quiz-tile--active" : ""}`}
-              type="button"
-              key={item.id}
-              data-quiz-id={item.id}
-              onClick={() => resetQuiz(item.id)}
-              style={{ "--tile-color": item.color } as React.CSSProperties}
-            >
-              <span className="tile-index">{String(index + 1).padStart(2, "0")}</span>
-              <span className="tile-icon">{item.icon}</span>
-              <span className="tile-group">{item.eyebrow}</span>
-              <strong>{item.title}</strong>
-              <small>{item.features.length} konum · Tıklamalı</small>
-              {mastery && (
-                <span className="tile-mastery">
-                  En iyi %{mastery.bestAccuracy} · {mastery.completedRuns} tur
-                  {mastery.weakFeatureIds.length > 0 && ` · ${mastery.weakFeatureIds.length} zayıf`}
-                </span>
-              )}
-              <span className="tile-arrow">↗</span>
-              </button>
-            );
-          })}
+        <div className="kpss-topic-list">
+          {visibleKpssSections.map((category) => (
+            <section className="kpss-topic-section" key={category.id} aria-labelledby={`kpss-${category.id}`}>
+              <header className="kpss-topic-heading">
+                <span className="kpss-topic-order">{category.order}</span>
+                <span className="kpss-topic-icon" aria-hidden="true">{category.icon}</span>
+                <div>
+                  <h3 id={`kpss-${category.id}`}>{category.title}</h3>
+                  <p>{category.description}</p>
+                </div>
+                <strong>{category.quizzes.length} harita</strong>
+              </header>
+              <div className="quiz-grid">
+                {category.quizzes.map((item) => {
+                  const mastery = masteryByQuiz[item.id];
+                  const catalogueIndex = QUIZZES.findIndex((quizItem) => quizItem.id === item.id);
+                  return (
+                    <button
+                      className={`quiz-tile ${item.id === activeQuizId ? "quiz-tile--active" : ""}`}
+                      type="button"
+                      key={item.id}
+                      data-quiz-id={item.id}
+                      onClick={() => resetQuiz(item.id)}
+                      style={{ "--tile-color": item.color } as React.CSSProperties}
+                    >
+                      <span className="tile-index">{String(catalogueIndex + 1).padStart(2, "0")}</span>
+                      <span className="tile-icon">{item.icon}</span>
+                      <span className="tile-group">{item.eyebrow}</span>
+                      <strong>{item.title}</strong>
+                      <small>{item.features.length} konum · Tıklamalı</small>
+                      {mastery && (
+                        <span className="tile-mastery">
+                          En iyi %{mastery.bestAccuracy} · {mastery.completedRuns} tur
+                          {mastery.weakFeatureIds.length > 0 && ` · ${mastery.weakFeatureIds.length} zayıf`}
+                        </span>
+                      )}
+                      <span className="tile-arrow">↗</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
         </div>
       </section>
 
@@ -6730,17 +6870,22 @@ export default function Home() {
               <button type="button" aria-label="Kapat" onClick={() => setMenuOpen(false)}>×</button>
             </div>
             <div className="drawer-list">
-              {QUIZZES.map((item) => (
-                <button
-                  type="button"
-                  key={item.id}
-                  className={item.id === activeQuizId ? "active" : ""}
-                  onClick={() => resetQuiz(item.id)}
-                >
-                  <i style={{ background: item.color }}>{item.icon}</i>
-                  <span><strong>{item.title}</strong><small>{item.eyebrow}</small></span>
-                  <b>{item.features.length}</b>
-                </button>
+              {KPSS_CATALOGUE_SECTIONS.map((category) => (
+                <section className="drawer-topic-group" key={category.id}>
+                  <h3><span>{category.order}</span>{category.title}</h3>
+                  {category.quizzes.map((item) => (
+                    <button
+                      type="button"
+                      key={item.id}
+                      className={item.id === activeQuizId ? "active" : ""}
+                      onClick={() => resetQuiz(item.id)}
+                    >
+                      <i style={{ background: item.color }}>{item.icon}</i>
+                      <span><strong>{item.title}</strong><small>{item.eyebrow}</small></span>
+                      <b>{item.features.length}</b>
+                    </button>
+                  ))}
+                </section>
               ))}
             </div>
           </section>
